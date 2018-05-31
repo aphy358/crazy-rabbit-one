@@ -1,48 +1,139 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
+*{margin: 0;padding: 0;list-style: none;outline: none;}
+
+/* 兼容IE8，IE8下，点击之后周围有一圈虚线，加上这个属性可以去掉,但貌似对IE7没用 */
+*:focus{outline: none;}
+
+/* 去掉IE7页面默认的页面滚动条 */
+html{*overflow: auto;}
+
+/*
+KISSY CSS Reset
+理念：1. reset 的目的不是清除浏览器的默认样式，这仅是部分工作。清除和重置是紧密不可分的。
+2. reset 的目的不是让默认样式在所有浏览器下一致，而是减少默认样式有可能带来的问题。
+3. reset 期望提供一套普适通用的基础样式。但没有银弹，推荐根据具体需求，裁剪和修改后再使用。
+特色：1. 适应中文；2. 基于最新主流浏览器。
+维护：玉伯<lifesinger@gmail.com>, 正淳<ragecarrier@gmail.com>
+ */
+
+/** 清除内外边距 **/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, /* structural elements 结构元素 */
+dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+pre, /* text formatting elements 文本格式元素 */
+form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+th, td /* table elements 表格元素 */ {
+    margin: 0;
 	padding: 0;
 	border: 0;
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
+
+/** 设置默认字体 **/
+body,
+button, input, select, textarea /* for ie */ {
+  font: 12px/1.5 "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  background: white;  /* 火狐、IE浏览器默认的背景色有点绿... */
 }
-body {
-	line-height: 1;
+h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+address, cite, dfn, em, var { font-style: normal; } /* 将斜体扶正 */
+code, kbd, pre, samp { font-family: courier new, courier, monospace; } /* 统一等宽字体 */
+small { font-size: 12px; } /* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+ul, ol { list-style: none; }
+
+/** 重置文本格式元素 **/
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+/** 重置表单元素 **/
+legend { color: #000; } /* for ie6 */
+fieldset, img { border: 0; } /* img 搭车：让链接里的 img 无边框 */
+button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie 下能继承字体大小 */
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+table { border-collapse: collapse; border-spacing: 0; }
+
+body{ min-width: 1400px; }
+.hidden{ display: none; }
+.placeholder { color: #aaa; }
+.too-width{ min-width: 100%; height: 100%; }   /* 针对于图片相对于容器太宽的处理 */
+.too-height{ width: 100%; min-height: 100%; }  /* 针对于图片相对于容器太高的处理 */
+
+/* 修改chrome记住密码后自动填充表单的黄色背景 */
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;  
 }
-ol, ul {
-	list-style: none;
+
+/* 隐藏底部 "反馈建议"  */
+.hm-t-container{
+  display: none;
 }
-blockquote, q {
-	quotes: none;
+
+/* 一些全局的样式 */
+.drag-down-wrap{
+  position: relative;
+  display: inline-block;
 }
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
+
+.drag-down-wrap input,
+.drag-down-wrap div,
+my-select{
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  background: white;
+  border: none;
+  border-radius: 3px;
+  color: #333;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 15px;
+  cursor: context-menu;
 }
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+
+.drag-down,
+.drag-up{
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  margin-top: -3px;
+  background:url(https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1512790886478.png) no-repeat;
+  height:6px;
+  width:6px;
+  background-position: -18px 0;
+}
+
+.drag-up{
+  background-position: 0 0;
+}
+
+.sidebar-erweima-outer,
+.i-t-n-drop,
+.ac-select-wrap,
+.key-word-city-wrap,
+.key-word-hotel-wrap,
+.calendar-wrap,
+.i-s-star-select-wrap,
+.my-select-list{
+  border: solid 1px #dcddde;
+  box-sizing: border-box;
+}
+
+@media only screen and (min-width: 0px){
+  .sidebar-erweima-outer,
+  .i-t-n-drop,
+  .ac-select-wrap,
+  .key-word-city-wrap,
+  .key-word-hotel-wrap,
+  .calendar-wrap,
+  .i-s-star-select-wrap,
+  .my-select-list{
+    border: none;
+  }
 }
