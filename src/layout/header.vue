@@ -1,28 +1,28 @@
 <template>
-	<!-- 顶部导航栏 -->
-	<section class="index-top-nav">
-		<div class="i-t-n-bg"></div>
-		<div class="i-t-n-wrap">
-			<a href="/user/bookHotel.do"><i class="jl-logo"></i></a>
+  <!-- 顶部导航栏 -->
+  <section class="index-top-nav">
+    <div class="i-t-n-bg"></div>
+    <div class="i-t-n-wrap">
+      <a href="/user/bookHotel.do"><i class="jl-logo"></i></a>
 
-			<div class="i-t-n-hotline">
-				<div class="i-t-n-user-wrap">
-					<div class="i-t-n-triangle"></div>
-					<div class="i-t-n-user">请登录</div>
-					<div>您好，</div>
-					<ul class="i-t-n-drop">
-						<li><a href="#">个人中心</a></li>
-						<li><a href="#">酒店订单</a></li>
-						<li><a href="#">门票订单</a></li>
-						<li><a href="#">发票索取</a></li>
-						<li><a href="#" id="logout">退出</a></li>
-					</ul>
-				</div>
-				<div>0755-33397777</div>
-				<i class="i-t-n-phone"></i>
-			</div>
-		</div>
-	</section>
+      <div class="i-t-n-hotline">
+        <div class="i-t-n-user-wrap">
+          <div class="i-t-n-triangle"></div>
+          <div class="i-t-n-user">请登录</div>
+          <div>您好，</div>
+          <ul class="i-t-n-drop">
+            <li><a href="#">个人中心</a></li>
+            <li><a href="#">酒店订单</a></li>
+            <li><a href="#">门票订单</a></li>
+            <li><a href="#">发票索取</a></li>
+            <li><a href="#" id="logout">退出</a></li>
+          </ul>
+        </div>
+        <div>0755-33397777</div>
+        <i class="i-t-n-phone"></i>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
