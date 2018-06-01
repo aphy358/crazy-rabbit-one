@@ -1,13 +1,24 @@
 <template>
   <div class="hotelList">
-    <h1>hotelList</h1>
+    <Breadcrumb :cityType="cityType" />
   </div>
 </template>
 
 <script>
+import Breadcrumb from '../components/Breadcrumb'
+
 export default {
   name: 'hotelList',
+  data: function() {
+    return {
+      cityType: '3'
+    }
+  },
+  props: {
+    
+  },
   components: {
+    Breadcrumb,
   }
 }
 </script>

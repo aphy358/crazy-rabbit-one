@@ -1,13 +1,25 @@
 <template>
   <div class="hotelDetail">
-    <h1>This is an about page!</h1>
+    <Breadcrumb :cityType="cityType" :hotelName="hotelName" />
   </div>
 </template>
 
 <script>
+import Breadcrumb from '../components/Breadcrumb'
+
 export default {
   name: 'hotelDetail',
+  data: function() {
+    return {
+      cityType: '3',
+      hotelName: '阳光酒店'
+    }
+  },
+  props: {
+    
+  },
   components: {
+    Breadcrumb,
   }
 }
 </script>
