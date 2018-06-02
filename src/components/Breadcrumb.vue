@@ -2,7 +2,7 @@
 <template>
   <div class="top-nav-wrap">
     <div class="top-nav-inner">
-        {{getCityType}}酒店
+        {{getCityTypeText}}酒店
         <template v-if="hotelName">
            > <span class="hotel-name">{{hotelName}}</span>
         </template>
@@ -14,17 +14,17 @@
 export default {
   name: 'breadcrumb',
   props: {
+    cityType: {
+      default: 0,
+    },
     hotelName: {},
   },
   computed: {
-    getCityType: function(){
-      let cityType = this.$store.state.hotelList.cityType
-      return cityType == '2' ? '港澳台' :
-             cityType == '3' ? '国外' : '国内'
+    getCityTypeText: function(){
+      return this.$props.cityType == '2' ? '港澳台' :
+             this.$props.cityType == '3' ? '国外'   : '国内'
     }
   },
-  components: {
-  }
 }
 </script>
 

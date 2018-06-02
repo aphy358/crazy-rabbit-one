@@ -31,7 +31,7 @@ export default {
         value: '3',
         label: '国外'
       }],
-      value: this.$store.state.hotelList.cityType   // this.$props.cityType
+      value: this.$props.cityType
     }
   },
   props: {
@@ -46,11 +46,9 @@ export default {
   },
   methods: {
     changeCity(){
-      var _this = this.$children[0]
-
       // setTimeout 之前获取到的值是改变之前的值，在 setTimeout 里获取到的值才是改变之后的值，and I don't know why...
-      setTimeout(function(){
-        _this.$store.commit('changeCityType', _this.value)
+      setTimeout(() => {
+        this.$store.commit('hotelList/changeCityType', this.$children[0].value)
       }, 0)
     }
   }
