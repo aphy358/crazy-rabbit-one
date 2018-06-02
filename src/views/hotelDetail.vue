@@ -1,6 +1,6 @@
 <template>
   <div class="hotelDetail">
-    <Breadcrumb :cityType="cityType" :hotelName="hotelName" />
+    <Breadcrumb :hotelName="hotelName" />
   </div>
 </template>
 

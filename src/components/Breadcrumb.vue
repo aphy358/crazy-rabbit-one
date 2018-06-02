@@ -14,15 +14,13 @@
 export default {
   name: 'breadcrumb',
   props: {
-    cityType: {
-      default: 0,
-    },
     hotelName: {},
   },
   computed: {
     getCityType: function(){
-      return this.$props.cityType == '2' ? '港澳台' :
-             this.$props.cityType == '3' ? '国外' : '国内'
+      let cityType = this.$store.state.hotelList.cityType
+      return cityType == '2' ? '港澳台' :
+             cityType == '3' ? '国外' : '国内'
     }
   },
   components: {
