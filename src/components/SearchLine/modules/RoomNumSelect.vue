@@ -1,12 +1,12 @@
 
-<!-- 城市类型选择框 -->
+<!-- 预订间数选择框 -->
 <template>
     <el-select 
-      class="city-type-select"
+      class="room-num-select"
       v-model="value" 
       size="small" 
       placeholder="请选择城市类型"
-      @change="changeCityType" >
+      @change="changeRoomNum" >
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -18,37 +18,44 @@
 
 <script>
 export default {
-  name: '',
+  name: 'RoomNumSelect',
   data(){
     return {
       options: [{
-        value: '0',
-        label: '国内'
+        value: '1',
+        label: '1间'
       }, {
         value: '2',
-        label: '港澳台'
+        label: '2间'
       }, {
         value: '3',
-        label: '国外'
+        label: '3间'
+      }, {
+        value: '4',
+        label: '4间'
+      }, {
+        value: '5',
+        label: '5间'
+      }, {
+        value: '6',
+        label: '6间'
+      }, {
+        value: '7',
+        label: '7间'
       }],
-      value: this.$props.cityType
+      value: this.$props.roomNum
     }
   },
   props: {
-    cityType: {
-      default: 0,
+    roomNum: {
+      default: '1',
     },
   },
-  computed: {
-    
-  },
-  components: {
-  },
   methods: {
-    changeCityType(){
+    changeRoomNum(){
       // setTimeout 之前获取到的值是改变之前的值，在 setTimeout 里获取到的值才是改变之后的值，and I don't know why...
       setTimeout(() => {
-        this.$store.commit('hotelList/changeCityType', this.$children[0].value)
+        this.$store.commit('hotelList/changeRoomNum', this.$children[0].value)
       }, 0)
     }
   }
@@ -57,7 +64,7 @@ export default {
 
 
 <style lang="scss">
-.city-type-select{
-  width: 78px;
+.room-num-select{
+  width: 60px;
 }
 </style>

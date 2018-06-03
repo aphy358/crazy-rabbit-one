@@ -1,7 +1,7 @@
 <template>
   <div class="hotelList">
     <Breadcrumb :cityType="getCityType" />
-    <SearchLine :cityType="getCityType" />
+    <SearchLine :cityType="getCityType" :roomNum="getRoomNum" />
   </div>
 </template>
 
@@ -18,13 +18,20 @@ export default {
   computed: {
     getCityType(){
       return this.$store.state.hotelList.cityType
+    },
+    getRoomNum(){
+      return this.$store.state.hotelList.roomNum
     }
   },
   props: {
   },
+  methods: {
+  },
   components: {
     Breadcrumb,
     SearchLine,
+  },
+  created(){
   }
 }
 </script>

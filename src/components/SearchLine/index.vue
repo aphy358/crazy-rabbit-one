@@ -2,7 +2,9 @@
 <template>
     <div class="search-line-outer">
         <div class="search-line-wrap">
-						<CityTypeSelect :cityType="cityType" />
+            <CityTypeSelect :cityType="cityType" />
+            <RoomNumSelect :roomNum="roomNum" />
+            <DateRange />
 
             <!-- <div class="search-item-wrap siw-hotel-list">
                 <label class="s-i-label" for="s-i-keyword-input">城市/酒店</label>
@@ -30,7 +32,9 @@
 </template>
 
 <script>
-import CityTypeSelect from './modules/CityTypeSelect';
+import CityTypeSelect from './modules/CityTypeSelect'
+import RoomNumSelect from './modules/RoomNumSelect'
+import DateRange from './modules/DateRange'
 
 export default {
   name: 'SearchLine',
@@ -42,20 +46,47 @@ export default {
     cityType: {
       default: 0,
     },
+    roomNum: {
+      default: 1,
+    },
   },
   computed: {
     
   },
   components: {
-		CityTypeSelect,
+    CityTypeSelect,
+    RoomNumSelect,
+    DateRange,
   }
 }
 </script>
 
+<!-- 覆盖 element 原有样式，注意这里不能用 scoped 限定作用域 -->
+<style lang="scss">
+.search-line-wrap{
+  .el-input__inner{
+    font-size: 14px;
+    padding: 0 10px;
+    border-radius: 0;
+  }
+  
+  .el-input--suffix .el-input__inner {
+    padding-right: 25px;
+    text-align: center;
+  }
+  
+  .el-input__suffix{
+    right: 0;
+  }
+}
+
+.el-select-dropdown__item{
+  padding: 0 10px!important;
+}
+</style>
+
 <style scoped lang="scss">
-
 .search-line-outer{
-
     &.fix-top{
         position: fixed;
         top: 0;
@@ -79,6 +110,10 @@ export default {
         box-shadow: 0 0 5px #dadada;
         box-sizing: border-box;
         background: white;
+
+        > * {
+          margin-right: 15px;
+        }
     
         &:after{
             content: '';
