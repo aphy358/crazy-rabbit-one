@@ -53,10 +53,10 @@ export default {
   },
   methods: {
     changeRoomNum(){
-      // setTimeout 之前获取到的值是改变之前的值，在 setTimeout 里获取到的值才是改变之后的值，and I don't know why...
-      setTimeout(() => {
+      // Vue 异步执行 DOM 更新，组件不会立即重新渲染。当刷新队列时，组件会在事件循环队列清空时的下一个“tick”更新。
+      this.$nextTick(function () {
         this.$store.commit('hotelList/changeRoomNum', this.$children[0].value)
-      }, 0)
+      })
     }
   }
 }
