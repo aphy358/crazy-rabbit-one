@@ -69,7 +69,7 @@ export default {
   methods: {
     // 矫正手动输入日期超出范围的情形
     changeDate(){
-      if( (+this.value[1] - (+this.value[0])) > 15 * 24 * 60 * 60 * 1000 ){
+      if( this.value && (+this.value[1] - (+this.value[0])) > 15 * 24 * 60 * 60 * 1000 ){
         this.value = this.lastValue
       }
     }
