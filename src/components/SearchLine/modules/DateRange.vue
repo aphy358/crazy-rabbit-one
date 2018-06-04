@@ -30,6 +30,9 @@ export default {
     }
   },
   props: {
+    cityType: {
+      default: 0,
+    },
   },
   computed: {
     pickerOptions(){

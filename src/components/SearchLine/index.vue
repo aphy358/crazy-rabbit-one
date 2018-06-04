@@ -4,7 +4,8 @@
         <div class="search-line-wrap">
             <CityTypeSelect :cityType="cityType" />
             <RoomNumSelect :roomNum="roomNum" />
-            <DateRange />
+            <DateRange :cityType="cityType" />
+            <KerywordSuggest :cityType="cityType" />
 
             <!-- <div class="search-item-wrap siw-hotel-list">
                 <label class="s-i-label" for="s-i-keyword-input">城市/酒店</label>
@@ -35,6 +36,7 @@
 import CityTypeSelect from './modules/CityTypeSelect'
 import RoomNumSelect from './modules/RoomNumSelect'
 import DateRange from './modules/DateRange'
+import KerywordSuggest from './modules/KerywordSuggest'
 
 export default {
   name: 'SearchLine',
@@ -57,6 +59,7 @@ export default {
     CityTypeSelect,
     RoomNumSelect,
     DateRange,
+    KerywordSuggest,
   }
 }
 </script>
@@ -119,104 +122,6 @@ export default {
             content: '';
             display: block;
             clear: both;
-        }
-    
-        @at-root .search-item-wrap{
-            height: 35px;
-            line-height: 35px;
-            float: left;
-            margin-right: 20px;
-            border: solid 1px #a9c2da;
-            box-sizing: border-box;
-            background: white;
-            transition: all 0.2s linear 0s;
-    
-            &:hover,
-            &:active,
-            &:focus{
-                border-color: rgb(100, 191, 224);
-                box-shadow: 0 0 5px rgb(100, 191, 224);
-            }
-    
-            @at-root .s-i-label{
-                float: left;
-                color: #999;
-                line-height: 35px;
-                padding-left: 10px;
-                padding-right: 10px;
-            }
-    
-            input{
-                float: left;
-                height: 33px;
-                line-height: 35px;
-                border: none;
-                padding-left: 10px;
-            }
-    
-            @at-root .s-i-keyword-input{
-    
-            }
-    
-            @at-root .s-i-dates-input{
-                min-width: 190px;
-            }
-    
-            &.error{
-                border: 1px solid #f16f6f;
-                box-shadow: 0 0 5px #f16f6f;
-            }
-        }
-    
-        .drag-down-wrap{
-            float: left;
-            margin-right: 20px;
-    
-            @at-root .s-i-room-num,
-            input.s-i-adult-children,
-            .s-i-city-type{
-                width: 60px;
-                height: 35px;
-                line-height: 35px;
-                font-size: 15px;
-                border: solid 1px #a9c2da;
-                border-radius: 0;
-                transition: all 0.2s linear 0s;
-    
-                &:hover,
-                &:active,
-                &:focus{
-                    border-color: rgb(100, 191, 224);
-                    box-shadow: 0 0 5px rgb(100, 191, 224);
-                }
-            }
-    
-            @at-root .s-i-city-type{
-                width: 75px;
-            }
-    
-            @at-root input.s-i-adult-children{
-                width: 130px;
-            }
-        }
-    
-        @at-root .search-line-btn{
-            float: right;
-            width: 80px;
-            height: 35px;
-            font-size: 16px;
-            color: white;
-            background: #339afc;
-            border: none;
-            border-radius: 5px;
-            letter-spacing: 2px;
-            margin-right: 10px;
-            padding-left: 2px;
-            transition: all 0.2s linear 0s;
-    
-            &:hover{
-                background: #216baf;
-            }
         }
     }
 }
