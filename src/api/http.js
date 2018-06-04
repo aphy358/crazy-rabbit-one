@@ -20,11 +20,7 @@ NProgress.configure({ showSpinner: false });
 // https://github.com/mzabriskie/axios
 const http = axios.create({
   timeout: 1000 * 20,
-  headers: { 
-    "X-Requested-With": "XMLHttpRequest",
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Accept': 'application/json'
-  }
+  headers: { "X-Requested-With": "XMLHttpRequest" }
 });
 
 function _h(verb) {
