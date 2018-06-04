@@ -7,17 +7,14 @@
     placeholder="城市/酒店"
     :remote-method="remoteMethod"
     :loading="loading" >
-    <el-option-group
-      v-for="group in options3"
-      :key="group.label"
-      :label="group.label">
-      <el-option
-        v-for="item in group.options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-option-group>
+
+    <el-option
+      v-for="item in cityList"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+
   </el-select>
 </template>
 
@@ -27,30 +24,9 @@ export default {
   data() {
     return {
       loading: false,
-      options3: [{
-        label: '热门城市',
-        options: [{
+      cityList: [{
           value: 'Shanghai',
           label: '上海'
-        }, {
-          value: 'Beijing',
-          label: '北京'
-        }]
-      }, {
-        label: '城市名',
-        options: [{
-          value: 'Chengdu',
-          label: '成都'
-        }, {
-          value: 'Shenzhen',
-          label: '深圳'
-        }, {
-          value: 'Guangzhou',
-          label: '广州'
-        }, {
-          value: 'Dalian',
-          label: '大连'
-        }]
       }],
       value7: ''
     }
@@ -78,8 +54,16 @@ export default {
         let result = await this.$api.hotelList.syncGetCity(param)
         this.loading = false;
 
-        console.log(result)
-
+        if(result.returnCode === 1 && result.dataList){
+          return result.dataList.map(n => {
+            return {
+              value: n.cityid,
+              label: n.aname
+            }
+          })
+        }else{
+          return []
+        }
       }
     }
   }
