@@ -1,5 +1,5 @@
 <template>
-  <CityListTmpl :cityList="cityList" :blockKey="blockKey" />
+  <CityListTmpl :cityList="cityList" :blockKey="blockKey" @pickvalue="pickvalue($event)" />
 </template>
 
 <script>
@@ -22,6 +22,11 @@ export default {
   },
   components: {
     CityListTmpl
+  },
+  methods: {
+    pickvalue(event){
+      this.$emit('pickvalue', event)
+    }
   }
 }
 </script>

@@ -49,7 +49,7 @@ export default {
       this.$data._blockKey = key1
     },
     checkOneCity(t, i, n){
-      console.log(t + '  , ' + i + '  ,  ' + n)
+      this.$emit('pickvalue', {t, i, n})
     }
   }
 }

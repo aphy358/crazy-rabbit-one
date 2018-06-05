@@ -1,6 +1,6 @@
 <template>
   <!-- 顶部导航栏 -->
-  <section class="index-top-nav">
+  <header class="index-top-nav">
     <div class="i-t-n-bg"></div>
     <div class="i-t-n-wrap">
       <a href="/user/bookHotel.do"><i class="jl-logo"></i></a>
@@ -22,7 +22,7 @@
         <i class="i-t-n-phone"></i>
       </div>
     </div>
-  </section>
+  </header>
 </template>
 
 <script>

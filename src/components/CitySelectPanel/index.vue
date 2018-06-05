@@ -12,13 +12,13 @@
             </div>
 
             <!-- 港澳台城市 -->
-            <div v-if="cityType == 2" class="kwc-block-outer"><GATCity /></div>
+            <div v-if="cityType == 2" class="kwc-block-outer"><GATCity @pickvalue="pickvalue($event)" /></div>
             
             <!-- 国外城市 -->
-            <div v-else-if="cityType == 3" class="kwc-block-outer"><ExternalCity /></div>
+            <div v-else-if="cityType == 3" class="kwc-block-outer"><ExternalCity @pickvalue="pickvalue($event)" /></div>
 
             <!-- 国内城市 -->
-            <div v-else class="kwc-block-outer"><InternalCity /></div>
+            <div v-else class="kwc-block-outer"><InternalCity @pickvalue="pickvalue($event)" /></div>
         </div>
     </section>
 </template>
@@ -46,6 +46,11 @@ export default {
     InternalCity,
     ExternalCity,
     GATCity
+  },
+  methods: {
+    pickvalue(event){
+      this.$emit('pickvalue', event)
+    }
   }
 }
 </script>

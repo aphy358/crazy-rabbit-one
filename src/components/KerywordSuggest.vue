@@ -4,10 +4,10 @@
     style="width:260px;display: inline-block;"
     trigger="focus"
     placement="bottom-start"
-    v-model="visible2">
+    v-model="visible">
 
-    <CitySelectPanel v-if="showPanel === 1" :cityType="cityType" />
-    <HotelSelectPanel v-if="showPanel === 2" :hotelList="hotelList" :cityList="cityList" />
+    <CitySelectPanel v-if="showPanel === 1" :cityType="cityType" @pickvalue="pickvalue($event)" />
+    <HotelSelectPanel v-if="showPanel === 2" :hotelList="hotelList" :cityList="cityList" @pickvalue="pickvalue($event)" />
 
     <el-input
       size="small"
@@ -15,6 +15,7 @@
       placeholder="城市/酒店"
       class="hotel-key-word-select"
       prefix-icon="el-icon-search"
+      v-model="selectedValue"
       @input="remoteMethod"
       @keyup="remoteMethod"
       @paste="remoteMethod"
@@ -32,9 +33,9 @@ export default {
   name: '',
   data() {
     return {
+      selectedValue: '',
       keyword: '',
-      visible2: false,
-      loading: false,
+      visible: false,
 
       // 1：显示默认的城市选择面板、2：显示查询到的酒店列表面板
       showPanel: 1,
@@ -124,6 +125,12 @@ export default {
     trim(str){
       return str.replace(/[A-Za-z-]/g, '')
     },
+
+    // 接收子组件发送过来的事件（当选中某个城市或者点击了某个酒店时）
+    pickvalue(event){
+      this.visible = false
+      this.selectedValue = event.n
+    }
   }
 }
 </script>

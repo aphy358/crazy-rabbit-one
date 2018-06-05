@@ -6,6 +6,7 @@
             <div class="kwh-block-title">城市</div>
             <ul class="kwh-block-content-list city">
                 <li v-for="city of cityList" :key="city.cityid" 
+                  @click="checkOneCity(city.type, city.cityid, city.aname)"
                   class="kwh-block-content-item city" 
                   :cityname="city.aname" 
                   :citytype="city.type" 
@@ -22,6 +23,7 @@
             <div class="kwh-block-title">酒店</div>
             <ul class="kwh-block-content-list hotel">
                 <li v-for="hotel of hotelList" :key="hotel.id"
+                  @click="checkOneCity(hotel.cityId, hotel.id, hotel.name)"
                   class="kwh-block-content-item hotel">
                     <a href="#" target="_blank" :hotelid="hotel.id">
                         <span class="kwh-hotel-name" v-html="hotel.hotelStr"></span>
@@ -51,7 +53,11 @@ export default {
     cityList: {}
   },
   computed: {},
-  components: {}
+  methods: {
+    checkOneCity(t, i, n){
+      this.$emit('pickvalue', {t, i, n})
+    }
+  }
 };
 </script>
 

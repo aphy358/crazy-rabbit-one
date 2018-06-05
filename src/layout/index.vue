@@ -1,7 +1,18 @@
 <template>
+
   <div>
+
+    <!-- 页首 -->
     <router-view name="header" />
-    <router-view />
+
+    <main>
+      <!-- 页面主体 -->
+      <router-view />
+    </main>
+
+    <!-- 页尾 -->
     <router-view name="footer" />
+
   </div>
+
 </template>
