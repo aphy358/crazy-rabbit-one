@@ -55,7 +55,7 @@ export default {
 
 </style>
 
-<style scoped lang="scss">
+<style lang="scss">
 .key-word-city-wrap{
     position: absolute;
     font-size: 14px;
@@ -106,9 +106,7 @@ export default {
             }
         }
 
-        // 国内城市样式
         @at-root .kwc-block-outer{
-            display: none;
 
             &[checked]{
                 display: block;
@@ -145,6 +143,11 @@ export default {
             @at-root .kwc-city-block-list{
 
                 @at-root .kwc-city-block-item{
+                    display: none;
+
+                    &[checked]{
+                        display: block;
+                    }
 
                     @at-root .kwc-city-block-label{
                         position: relative;

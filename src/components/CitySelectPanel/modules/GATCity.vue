@@ -1,5 +1,5 @@
 <template>
-  <CityListTmpl :cityList="cityList" />
+  <CityListTmpl :cityList="cityList" :blockKey="blockKey" />
 </template>
 
 <script>
@@ -10,7 +10,8 @@ export default {
   name: 'GATCity',
   data(){
     return {
-      cityList: cityList
+      cityList: cityList,
+      blockKey: '港澳台'
     }
   },
   props: {

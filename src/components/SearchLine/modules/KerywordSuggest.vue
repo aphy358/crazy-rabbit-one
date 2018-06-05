@@ -1,27 +1,25 @@
 <template>
-  <el-select class="hotel-key-word-select" size="small" 
-    v-model="value7"
-    filterable
-    remote
-    reserve-keyword
-    placeholder="城市/酒店"
-    :remote-method="remoteMethod" >
+  <el-popover
+    width="550"
+    style="width:260px;display: inline-block;"
+    trigger="focus"
+    placement="bottom-start"
+    v-model="visible2">
 
-    <template v-if="showPanel === 1">
-      <el-option>
-        <CitySelectPanel :cityType="cityType" />
-      </el-option>
-    </template>
-    <template v-else>
-      <el-option
-        v-for="item in hotelList"
-        :key="item.id"
-        :label="item.name"
-        :value="item.id">
-      </el-option>
-    </template>
+    <CitySelectPanel :cityType="cityType" />
 
-  </el-select>
+    <el-input
+      size="small"
+      slot="reference"
+      placeholder="城市/酒店"
+      class="hotel-key-word-select"
+      @input="remoteMethod"
+      @keyup="remoteMethod"
+      @paste="remoteMethod"
+      clearable >
+    </el-input>
+
+  </el-popover>
 </template>
 
 <script>
@@ -31,6 +29,7 @@ export default {
   name: '',
   data() {
     return {
+      visible2: false,
       loading: false,
 
       // 1：显示默认的城市选择面板、2：显示查询到的酒店列表面板
@@ -96,8 +95,12 @@ export default {
 <style lang="scss">
 .hotel-key-word-select{
   
-  .el-input--suffix .el-input__inner {
+  &.el-input--suffix .el-input__inner {
     text-align: left!important;
   }
+}
+
+.el-popper[x-placement^=bottom]{
+  padding: 0;
 }
 </style>
