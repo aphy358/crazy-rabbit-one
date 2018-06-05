@@ -3,9 +3,9 @@
     <div class="search-line-outer">
         <div class="search-line-wrap">
             <CityTypeSelect :cityType="cityType" />
-            <RoomNumSelect :roomNum="roomNum" />
-            <DateRange :cityType="cityType" />
             <KerywordSuggest :cityType="cityType" />
+            <DateRange :cityType="cityType" />
+            <RoomNumSelect :roomNum="roomNum" />
 
             <!-- <div class="search-item-wrap siw-hotel-list">
                 <label class="s-i-label" for="s-i-keyword-input">城市/酒店</label>

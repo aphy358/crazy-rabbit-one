@@ -111,65 +111,6 @@ export default {
             &[checked]{
                 display: block;
             }
-            
-            @at-root .kwc-block-title-list{
-                border-bottom: solid 1px #339afc;
-                margin-bottom: 10px;
-                overflow: hidden;
-
-                @at-root .kwc-block-title-item{
-                    float: left;
-                    color: #999;
-                    font-size: 14px;
-                    height: 25px;
-                    line-height: 25px;
-                    padding: 0 10px;
-                    margin-right: 5px;
-                    border-top-left-radius: 3px;
-                    border-top-right-radius: 3px;
-                    cursor: context-menu;
-
-                    &:hover{
-                        color: #339afc;
-                    }
-
-                    &[checked]{
-                        color: white;
-                        background: #339afc;
-                    }
-                }
-            }
-
-            @at-root .kwc-city-block-list{
-
-                @at-root .kwc-city-block-item{
-                    display: none;
-
-                    &[checked]{
-                        display: block;
-                    }
-
-                    @at-root .kwc-city-block-label{
-                        position: relative;
-                        top: 2px;
-                        float: left;
-                        color: #999;
-                    }
-
-                    @at-root .kwc-city-list{
-                        margin-left: 20px;
-                        overflow: hidden;
-
-                        @at-root .kwc-city-item{
-
-                            &:hover{
-                                color: #339afc;
-                            }
-                        }
-                    }
-                }
-            }
-                   
         }
     }
 }

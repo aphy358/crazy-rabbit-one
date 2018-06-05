@@ -14,6 +14,7 @@
       slot="reference"
       placeholder="城市/酒店"
       class="hotel-key-word-select"
+      prefix-icon="el-icon-search"
       @input="remoteMethod"
       @keyup="remoteMethod"
       @paste="remoteMethod"
