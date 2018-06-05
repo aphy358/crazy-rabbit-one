@@ -7,20 +7,22 @@
     placeholder="城市/酒店"
     :remote-method="remoteMethod" >
 
-    <el-option
-      v-if="showPanel === 1"
-      v-for="item in cityList"
-      :key="item.cityid"
-      :label="item.aname"
-      :value="item.cityid">
-    </el-option>
-    <el-option
-      v-else
-      v-for="item in hotelList"
-      :key="item.id"
-      :label="item.name"
-      :value="item.id">
-    </el-option>
+    <template v-if="showPanel === 1">
+      <el-option
+        v-for="item in cityList"
+        :key="item.cityid"
+        :label="item.aname"
+        :value="item.cityid">
+      </el-option>
+    </template>
+    <template v-else>
+      <el-option
+        v-for="item in hotelList"
+        :key="item.id"
+        :label="item.name"
+        :value="item.id">
+      </el-option>
+    </template>
 
   </el-select>
 </template>
@@ -67,12 +69,14 @@ export default {
 
         if(res_city.returnCode === 1 && res_city.dataList){
           this.cityList = res_city.dataList
+          console.log(this.cityList)
         }
 
         let res_hotel = await this.$api.hotelList.syncGetHotels(param)
 
         if(res_hotel.returnCode === 1 && res_hotel.dataList){
           this.hotelList = res_hotel.dataList
+          console.log(this.hotelList)
         }
       }else{
         this.showPanel = 1
