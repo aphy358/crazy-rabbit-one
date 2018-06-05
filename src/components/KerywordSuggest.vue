@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import CitySelectPanel from '../../CitySelectPanel'
-import HotelSelectPanel from '../../HotelSelectPanel'
+import CitySelectPanel from './CitySelectPanel'
+import HotelSelectPanel from './HotelSelectPanel'
 
 export default {
   name: '',

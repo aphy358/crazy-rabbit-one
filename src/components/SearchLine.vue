@@ -33,10 +33,10 @@
 </template>
 
 <script>
-import CityTypeSelect from './modules/CityTypeSelect'
-import RoomNumSelect from './modules/RoomNumSelect'
-import DateRange from './modules/DateRange'
-import KerywordSuggest from './modules/KerywordSuggest'
+import CityTypeSelect from './CityTypeSelect'
+import RoomNumSelect from './RoomNumSelect'
+import DateRange from './DateRange'
+import KerywordSuggest from './KerywordSuggest'
 
 export default {
   name: 'SearchLine',

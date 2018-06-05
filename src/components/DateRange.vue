@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { addDays } from "../../../util.js";
+import { addDays } from "../util.js"
 
 export default {
   name: 'DateRange',
