@@ -8,11 +8,8 @@
     :remote-method="remoteMethod" >
 
     <template v-if="showPanel === 1">
-      <el-option
-        v-for="item in cityList"
-        :key="item.cityid"
-        :label="item.aname"
-        :value="item.cityid">
+      <el-option>
+        <CitySelectPanel :cityType="cityType" />
       </el-option>
     </template>
     <template v-else>
@@ -28,6 +25,8 @@
 </template>
 
 <script>
+import CitySelectPanel from '../../CitySelectPanel'
+
 export default {
   name: '',
   data() {
@@ -53,9 +52,10 @@ export default {
     
   },
   components: {
+    CitySelectPanel
   },
   methods: {
-    async remoteMethod(keyword) {
+    remoteMethod(keyword) {
       if (keyword !== '') {
         this.showPanel = 2
 
@@ -65,23 +65,30 @@ export default {
           keys: keyword
         };
 
-        let res_city = await this.$api.hotelList.syncGetCity(param)
-
-        if(res_city.returnCode === 1 && res_city.dataList){
-          this.cityList = res_city.dataList
-          console.log(this.cityList)
-        }
-
-        let res_hotel = await this.$api.hotelList.syncGetHotels(param)
-
-        if(res_hotel.returnCode === 1 && res_hotel.dataList){
-          this.hotelList = res_hotel.dataList
-          console.log(this.hotelList)
-        }
+        this.getCityList(param)
+        this.getHotelList(param)
       }else{
         this.showPanel = 1
       }
-    }
+    },
+
+    // 查城市
+    async getCityList(param){
+      let res_city = await this.$api.hotelList.syncGetCity(param)
+
+      if(res_city.returnCode === 1 && res_city.dataList){
+        this.cityList = res_city.dataList
+      }
+    },
+
+    // 查酒店列表
+    async getHotelList(param){
+      let res_hotel = await this.$api.hotelList.syncGetHotels(param)
+
+      if(res_hotel.returnCode === 1 && res_hotel.dataList){
+        this.hotelList = res_hotel.dataList
+      }
+    },
   }
 }
 </script>
