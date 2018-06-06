@@ -3,10 +3,9 @@
 <template>
     <el-select 
       class="room-num-select"
-      v-model="value" 
+      v-model="getRoomNum" 
       size="small" 
-      placeholder="请选择城市类型"
-      @change="setRoomNum($event)" >
+      placeholder="请选择城市类型" >
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -43,15 +42,21 @@ export default {
         value: '7',
         label: '7间'
       }],
-      value: this.$props.roomNum
     }
   },
   props: ['roomNum'],
-  methods: {
-    setRoomNum($event){
-      this.$store.commit('hotelList/setRoomNum', $event)
-    }
-  }
+
+  computed: {
+    // 获取关键字
+    getRoomNum: {
+      get: function () {
+        return this.$store.state.hotelList.roomNum
+      },
+      set: function (newValue) {
+        this.$store.commit('hotelList/setRoomNum', newValue)
+      }
+    },
+  },
 }
 </script>
 

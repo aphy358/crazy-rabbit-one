@@ -5,8 +5,9 @@ export default {
   state: {
     cityType: '0',
     keyword: '',
-    roomNum: '1',
     cityId: '',
+    showPanel: '1',
+    roomNum: '1',
     adultNum: '2',
     childrenNum: '0',
     childrenStr: '',
@@ -18,6 +19,9 @@ export default {
     setCityType(state, cityType){
       state.cityType = cityType
 
+      state.keyword = ''
+      state.cityId = ''
+      state.showPanel = '1'
       state.roomNum = '1'
       state.adultNum = '2'
       state.childrenNum = '0'
@@ -60,6 +64,13 @@ export default {
     // 设置城市 id
     setCityId(state, cityId){
       state.cityId = cityId
+    },
+
+    // 设置 showPanel
+    setShowPanel(state, keyword){
+      keyword === ''
+        ? state.showPanel = '1'
+        : state.showPanel = '2'
     },
     
   },

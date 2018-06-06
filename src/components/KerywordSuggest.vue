@@ -2,14 +2,14 @@
 <!-- 关键字搜索（城市/酒店名） -->
 <template>
   <el-popover
-    :width="keyword === '' ? 550 : 390"
+    :width="getShowPanel === 1 ? 550 : 390"
     style="width:260px;display: inline-block;"
     trigger="focus"
     placement="bottom-start"
     v-model="visible">
 
-    <CitySelectPanel v-if="showPanel === 1" :cityType="cityType" @pickvalue="pickvalue($event)" />
-    <HotelSelectPanel v-if="showPanel === 2" :hotelList="hotelList" :cityList="cityList" @pickvalue="pickvalue($event)" />
+    <CitySelectPanel v-if="getShowPanel == 1" :cityType="cityType" @pickvalue="pickvalue($event)" />
+    <HotelSelectPanel v-if="getShowPanel == 2" :hotelList="hotelList" :cityList="cityList" @pickvalue="pickvalue($event)" />
 
     <el-input
       size="small"
@@ -32,25 +32,22 @@ import HotelSelectPanel from './HotelSelectPanel'
 
 export default {
   name: '',
+
   data() {
     return {
-      selectedValue: '',
-      keyword: '',
       visible: false,
-
-      // 1：显示默认的城市选择面板、2：显示查询到的酒店列表面板
-      showPanel: 1,
-
       cityList: [],
-
       hotelList: [],
     }
   },
+
   props: ['cityType'],
+
   components: {
     CitySelectPanel,
     HotelSelectPanel
   },
+
   computed: {
     // 获取关键字
     getKeyword: {
@@ -61,14 +58,15 @@ export default {
         this.$store.commit('hotelList/setKeyword', newValue)
       }
     },
+
+    getShowPanel(){
+      return this.$store.state.hotelList.showPanel
+    }
   },
+
   methods: {
     remoteMethod(keyword) {
-      this.keyword = keyword
-
       if (keyword !== '') {
-        this.showPanel = 2
-
         let param = {
           type: this.$props.cityType,
           key: keyword,
@@ -77,9 +75,9 @@ export default {
 
         this.getCityList(param)
         this.getHotelList(param)
-      }else{
-        this.showPanel = 1
       }
+
+      this.$store.commit('hotelList/setShowPanel', keyword)
     },
 
     // 查城市
