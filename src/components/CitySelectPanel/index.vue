@@ -12,26 +12,36 @@
             </div>
 
             <!-- 港澳台城市 -->
-            <div v-if="cityType == 2" class="kwc-block-outer"><GATCity @pickvalue="pickvalue($event)" /></div>
+            <div v-show="cityType == 2" class="kwc-block-outer">
+              <CityListTmpl :cityList="cityList_gat" :blockKey="getKey" @pickvalue="pickvalue($event)" />
+            </div>
             
             <!-- 国外城市 -->
-            <div v-else-if="cityType == 3" class="kwc-block-outer"><ExternalCity @pickvalue="pickvalue($event)" /></div>
+            <div v-show="cityType == 3" class="kwc-block-outer">
+              <CityListTmpl :cityList="cityList_external" :blockKey="getKey" @pickvalue="pickvalue($event)" />
+            </div>
 
             <!-- 国内城市 -->
-            <div v-else class="kwc-block-outer"><InternalCity @pickvalue="pickvalue($event)" /></div>
+            <div v-show="cityType == 0" class="kwc-block-outer">
+              <CityListTmpl :cityList="cityList_internal" :blockKey="getKey" @pickvalue="pickvalue($event)" />
+            </div>
         </div>
     </section>
 </template>
 
 <script>
-import InternalCity from './modules/InternalCity'
-import ExternalCity from './modules/ExternalCity'
-import GATCity from './modules/GATCity'
+import CityListTmpl from './CityListTmpl'
+import cityList_internal from './data/internalCity.js'
+import cityList_gat from './data/gatCity.js'
+import cityList_external from './data/externalCity.js'
 
 export default {
   name: 'CitySelectPanel',
   data(){
     return {
+      cityList_internal: cityList_internal,
+      cityList_gat: cityList_gat,
+      cityList_external: cityList_external,
     }
   },
   props: {
@@ -40,12 +50,12 @@ export default {
     },
   },
   computed: {
-    
+    getKey(){
+      return this.$props.cityType == 2 ? '港澳台' : '热门'
+    },
   },
   components: {
-    InternalCity,
-    ExternalCity,
-    GATCity
+    CityListTmpl
   },
   methods: {
     pickvalue(event){

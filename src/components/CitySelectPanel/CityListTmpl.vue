@@ -32,7 +32,7 @@ export default {
   name: 'CityListTmpl',
   data(){
     return {
-      _blockKey: this.$props.blockKey
+      _blockKey: ''
     }
   },
   props: {
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     getBlockKey(){
-      return this.$data._blockKey
+      return this.$data._blockKey || this.$props.blockKey
     }
   },
   methods: {

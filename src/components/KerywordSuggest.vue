@@ -17,7 +17,6 @@
       prefix-icon="el-icon-search"
       v-model="selectedValue"
       @input="remoteMethod"
-      @keyup="remoteMethod"
       @paste="remoteMethod"
       clearable >
     </el-input>
