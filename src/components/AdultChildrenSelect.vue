@@ -5,7 +5,6 @@
     :width="356"
     style="width: 130px;display: inline-block;"
     placement="bottom-start"
-    trigger="focus"
     v-model="visible" >
 
     <!-- 成人小孩选择组件模板 -->
@@ -206,6 +205,9 @@ export default {
       this.$store.commit('hotelList/setChildrenStr', ageArr.join(','))
     },
     
+    test(){
+      console.log('test')
+    }
   }
 }
 </script>
