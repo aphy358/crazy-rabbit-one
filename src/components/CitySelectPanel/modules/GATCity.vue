@@ -14,12 +14,6 @@ export default {
       blockKey: '港澳台'
     }
   },
-  props: {
-    
-  },
-  computed: {
-    
-  },
   components: {
     CityListTmpl
   },
@@ -30,6 +24,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-</style>
