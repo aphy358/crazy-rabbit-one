@@ -24,7 +24,7 @@ export default {
     return {
       value: '',
       checkedFirstDate: '',
-      minDate: new Date( new Date().Format('yyyy-MM-dd') + ' 00:00:00' ),
+      minDate: '',
       maxDate: '',
       lastValue: [],
     }
@@ -33,15 +33,15 @@ export default {
   computed: {
     pickerOptions(){
       let _this = this
-      let _today = new Date( new Date().Format('yyyy-MM-dd') + ' 00:00:00' )
-
+      let baseMinDate = new Date( addDays(new Date, this.$props.cityType == 3 ? 1 : 0) + ' 00:00:00' )
+      
       return {
         disabledDate(time) {
-          if(_this.minDate && _this.maxDate){
+          if(_this.maxDate){
             let timeStr = time.Format('yyyy-MM-dd')
             return _this.minDate > +time || +time > _this.maxDate || timeStr === _this.checkedFirstDate;
           }else{
-            return +time < _this.minDate;
+            return +time < baseMinDate;
           }
         },
         // 动态的根据选定的第一个日期，重新设置第二个日期的可选范围，最终将两个日期的日期间隔控制在 15 天之内
@@ -54,11 +54,11 @@ export default {
             let _minDate = new Date( addDays(minDate, -15) + ' 23:59:59' )
             let _maxDate = new Date( addDays(minDate, 15) + ' 00:00:00' )
 
-            _this.minDate = Math.max(_minDate, _today)
+            _this.minDate = Math.max(_minDate, baseMinDate)
             _this.maxDate = _maxDate
           }else{
             // 当第一个日期和第二个日期都选定了，则将之前的限制放开，这样又可以随意选择日期了
-            _this.minDate = _today
+            _this.minDate = baseMinDate
             _this.maxDate = null
           }
         }

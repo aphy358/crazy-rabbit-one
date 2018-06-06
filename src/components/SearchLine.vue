@@ -6,9 +6,7 @@
             <KerywordSuggest :cityType="cityType" />
             <DateRange :cityType="cityType" />
             <RoomNumSelect :roomNum="roomNum" />
-            <AdultChildrenSelect />
-
-            
+            <AdultChildrenSelect v-if="cityType != 0" />
         </div>
     </div>
 </template>

@@ -13,10 +13,9 @@
             <div class="ac-select-item-wrap">
                 <label class="ac-select-item-label">成人</label>
                 <el-select 
-                  v-model="adultNum" 
+                  v-model="getAdultNum" 
                   size="mini" 
-                  style="width: 60px;"
-                  @change="setAdultNum($event)" >
+                  style="width: 60px;" >
                     <el-option
                       v-for="item in adultOptions"
                       :key="item.value"
@@ -30,10 +29,9 @@
             <div class="ac-select-item-wrap m-l">
                 <label class="ac-select-item-label">小孩</label>
                 <el-select 
-                  v-model="childrenNum" 
+                  v-model="getChildrenNum" 
                   size="mini" 
-                  style="width: 60px;"
-                  @change="setChildrenNum($event)" >
+                  style="width: 60px;" >
                     <el-option
                       v-for="item in ChildrenOptions"
                       :key="item.value"
@@ -156,24 +154,35 @@ export default {
         { value: '16', label: '16岁' },
         { value: '17', label: '17岁' },
       ],
-      adultNum: this.$store.state.hotelList.adultNum,
-      childrenNum: this.$store.state.hotelList.childrenNum,
       childAge1: '0',
       childAge2: '0',
       childAge3: '0',
     }
   },
-  props: {
-    
-  },
-  components: {
-
-  },
   computed: {
+    // 获取成人数
+    getAdultNum: {
+      get: function () {
+        return +this.$store.state.hotelList.adultNum
+      },
+      set: function (newValue) {
+        this.$store.commit('hotelList/setAdultNum', newValue)
+      }
+    },
 
     // 获取小孩数
-    getChildrenNum(){
-      return +this.$store.state.hotelList.childrenNum
+    getChildrenNum: {
+      get: function () {
+        return +this.$store.state.hotelList.childrenNum
+      },
+      set: function (newValue) {
+        this.childAge1 = '0'
+        this.childAge2 = '0'
+        this.childAge3 = '0'
+
+        this.$store.commit('hotelList/setChildrenNum', newValue)
+        this.setChildrenStr()
+      }
     },
 
     // 根据成人数和小孩数，计算出 input 框该显示的文字，如：'2成人，1小孩'
@@ -182,19 +191,6 @@ export default {
     }
   },
   methods: {
-    // 设置成人数
-    setAdultNum($event){
-      this.$store.commit('hotelList/setAdultNum', $event)
-    },
-
-    // 设置小孩数
-    setChildrenNum($event){
-      this.$store.commit('hotelList/setChildrenNum', $event)
-      this.$nextTick(() => {
-        this.setChildrenStr()
-      })
-    },
-
     // 设置小孩年龄字符串，如：'1,0,1'
     setChildrenStr(){
       let ageArr = [this.childAge1, this.childAge2, this.childAge3]
@@ -205,9 +201,6 @@ export default {
       this.$store.commit('hotelList/setChildrenStr', ageArr.join(','))
     },
     
-    test(){
-      console.log('test')
-    }
   }
 }
 </script>
@@ -244,8 +237,12 @@ export default {
     background: #7ea5f4;
   }
 
-  &.el-tooltip__popper .popper__arrow, &.el-tooltip__popper .popper__arrow::after{
+  &.el-tooltip__popper[x-placement^=right] .popper__arrow, &.el-tooltip__popper[x-placement^=right] .popper__arrow::after{
     border-right-color: #7ea5f4!important;
+  }
+
+  &.el-tooltip__popper[x-placement^=left] .popper__arrow, &.el-tooltip__popper[x-placement^=left] .popper__arrow::after{
+    border-left-color: #7ea5f4!important;
   }
 }
 </style>

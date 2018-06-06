@@ -17,7 +17,7 @@
       placeholder="城市/酒店"
       class="hotel-key-word-select"
       prefix-icon="el-icon-search"
-      v-model="selectedValue"
+      v-model="getKeyword"
       @input="remoteMethod"
       @paste="remoteMethod"
       clearable >
@@ -50,6 +50,17 @@ export default {
   components: {
     CitySelectPanel,
     HotelSelectPanel
+  },
+  computed: {
+    // 获取关键字
+    getKeyword: {
+      get: function () {
+        return this.$store.state.hotelList.keyword
+      },
+      set: function (newValue) {
+        this.$store.commit('hotelList/setKeyword', newValue)
+      }
+    },
   },
   methods: {
     remoteMethod(keyword) {
@@ -121,7 +132,8 @@ export default {
     // 接收子组件发送过来的事件（当选中某个城市或者点击了某个酒店时）
     pickvalue(event){
       this.visible = false
-      this.selectedValue = event.n
+      this.$store.commit('hotelList/setKeyword', event.n)
+      this.$store.commit('hotelList/setCityId', event.i)
     }
   }
 }

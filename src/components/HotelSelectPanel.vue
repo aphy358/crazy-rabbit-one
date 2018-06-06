@@ -23,7 +23,6 @@
             <div class="kwh-block-title">酒店</div>
             <ul class="kwh-block-content-list hotel">
                 <li v-for="hotel of hotelList" :key="hotel.id"
-                  @click="checkOneCity(hotel.cityId, hotel.id, hotel.name)"
                   class="kwh-block-content-item hotel">
                     <a href="#" target="_blank" :hotelid="hotel.id">
                         <span class="kwh-hotel-name" v-html="hotel.hotelStr"></span>
