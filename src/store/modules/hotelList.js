@@ -72,6 +72,12 @@ export default {
         ? state.showPanel = '1'
         : state.showPanel = '2'
     },
+
+    // 设置入离日期
+    setDate(state, dateRange){
+      state.checkin = addDays(dateRange[0])
+      state.checkout = addDays(dateRange[1])
+    },
     
   },
   actions: {

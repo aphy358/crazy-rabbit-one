@@ -2,15 +2,15 @@
 <!-- 入住离店日期选择组件 -->
 <template>
     <el-date-picker
-      v-model="value"
+      v-model="getDateRange"
       class="date-range-picker"
-      style="width:260px;padding-right:5px;"
+      style="width:260px;padding-right:0;"
       size="small" 
+      :clearable=false
       type="daterange"
       range-separator="至"
       start-placeholder="入住日期"
       end-placeholder="离店日期"
-      @change="changeDate"
       :picker-options="pickerOptions" >
     </el-date-picker>
 </template>
@@ -20,17 +20,34 @@ import { addDays } from "../util.js"
 
 export default {
   name: 'DateRange',
+
   data(){
     return {
-      value: '',
       checkedFirstDate: '',
       minDate: '',
       maxDate: '',
       lastValue: [],
     }
   },
+
   props: ['cityType'],
+
   computed: {
+    // 获取入离日期
+    getDateRange: {
+      get: function () {
+        return [this.$store.state.hotelList.checkin, this.$store.state.hotelList.checkout]
+      },
+      set: function (newValue) {
+        // 矫正手动输入日期超出范围的情形
+        if(newValue){
+          (+newValue[1] - (+newValue[0])) > 15 * 24 * 60 * 60 * 1000
+            ? this.$store.commit('hotelList/setDate', this.lastValue)
+            : this.$store.commit('hotelList/setDate', newValue)
+        }
+      }
+    },
+
     pickerOptions(){
       let _this = this
       let baseMinDate = new Date( addDays(new Date, this.$props.cityType == 3 ? 1 : 0) + ' 00:00:00' )
@@ -65,14 +82,6 @@ export default {
       }
     }
   },
-  methods: {
-    // 矫正手动输入日期超出范围的情形
-    changeDate(){
-      if( this.value && (+this.value[1] - (+this.value[0])) > 15 * 24 * 60 * 60 * 1000 ){
-        this.value = this.lastValue
-      }
-    }
-  }
 }
 </script>
 
@@ -82,5 +91,9 @@ export default {
 }
 .el-range-editor--small .el-range-separator{
   font-size: 14px!important;
+}
+
+.el-date-editor .el-range__close-icon{
+  display: none!important;
 }
 </style>
