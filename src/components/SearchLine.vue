@@ -6,28 +6,9 @@
             <KerywordSuggest :cityType="cityType" />
             <DateRange :cityType="cityType" />
             <RoomNumSelect :roomNum="roomNum" />
+            <AdultChildrenSelect />
 
-            <!-- <div class="search-item-wrap siw-hotel-list">
-                <label class="s-i-label" for="s-i-keyword-input">城市/酒店</label>
-                <input type="text" class="s-i-keyword-input" id="s-i-keyword-input" placeholder="" >
-            </div>
-        
-            <div class="search-item-wrap">
-                <label class="s-i-label" for="s-i-dates-input">入离日期</label>
-                <input type="text" class="s-i-dates-input my-calendar-input" id="s-i-dates-input" placeholder="入住离店日期" title="入住离店日期" unselectable="on" readonly="readonly">            
-            </div>
-        
-            <div class="drag-down-wrap">
-                <div class="s-i-room-num" unselectable="on" data-value="1">1间</div>
-                <i class="drag-down"></i>
-            </div>
-        
-            <div class="drag-down-wrap s-i-adult-children-wrap">
-                <input type="text" class="s-i-adult-children" value="2成人，0小孩" unselectable="on" readonly="readonly">
-                <i class="drag-down"></i>
-            </div>
-        
-            <button class="search-line-btn" >搜索</button> -->
+            
         </div>
     </div>
 </template>
@@ -37,6 +18,7 @@ import CityTypeSelect from './CityTypeSelect'
 import RoomNumSelect from './RoomNumSelect'
 import DateRange from './DateRange'
 import KerywordSuggest from './KerywordSuggest'
+import AdultChildrenSelect from './AdultChildrenSelect'
 
 export default {
   name: 'SearchLine',
@@ -44,22 +26,13 @@ export default {
     return {
     }
   },
-  props: {
-    cityType: {
-      default: 0,
-    },
-    roomNum: {
-      default: 1,
-    },
-  },
-  computed: {
-    
-  },
+  props: ['cityType', 'roomNum'],
   components: {
     CityTypeSelect,
     RoomNumSelect,
     DateRange,
     KerywordSuggest,
+    AdultChildrenSelect,
   }
 }
 </script>
@@ -75,7 +48,6 @@ export default {
   
   .el-input--suffix .el-input__inner {
     padding-right: 25px;
-    text-align: center;
   }
   
   .el-input__suffix{

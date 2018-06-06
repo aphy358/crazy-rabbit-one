@@ -35,10 +35,7 @@ export default {
       _blockKey: ''
     }
   },
-  props: {
-    cityList: {},
-    blockKey: ''
-  },
+  props: ['cityList', 'blockKey'],
   computed: {
     getBlockKey(){
       return this.$data._blockKey || this.$props.blockKey

@@ -1,3 +1,5 @@
+
+<!-- 关键字搜索（城市/酒店名） -->
 <template>
   <el-popover
     :width="keyword === '' ? 550 : 390"
@@ -42,18 +44,9 @@ export default {
       cityList: [],
 
       hotelList: [],
-
-      value7: ''
     }
   },
-  props: {
-    cityType: {
-      default: 0,
-    },
-  },
-  computed: {
-    
-  },
+  props: ['cityType'],
   components: {
     CitySelectPanel,
     HotelSelectPanel
@@ -135,13 +128,6 @@ export default {
 </script>
 
 <style lang="scss">
-.hotel-key-word-select{
-  
-  &.el-input--suffix .el-input__inner {
-    text-align: left!important;
-  }
-}
-
 .el-popper[x-placement^=bottom]{
   padding: 0;
 }

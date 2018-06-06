@@ -6,7 +6,7 @@
       v-model="value" 
       size="small" 
       placeholder="请选择城市类型"
-      @change="changeRoomNum" >
+      @change="setRoomNum($event)" >
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -46,17 +46,10 @@ export default {
       value: this.$props.roomNum
     }
   },
-  props: {
-    roomNum: {
-      default: '1',
-    },
-  },
+  props: ['roomNum'],
   methods: {
-    changeRoomNum(){
-      // Vue 异步执行 DOM 更新，组件不会立即重新渲染。当刷新队列时，组件会在事件循环队列清空时的下一个“tick”更新。
-      this.$nextTick(function () {
-        this.$store.commit('hotelList/changeRoomNum', this.$children[0].value)
-      })
+    setRoomNum($event){
+      this.$store.commit('hotelList/setRoomNum', $event)
     }
   }
 }

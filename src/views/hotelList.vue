@@ -15,6 +15,12 @@ export default {
     return {
     }
   },
+  props: {
+  },
+  components: {
+    Breadcrumb,
+    SearchLine,
+  },
   computed: {
     getCityType(){
       return this.$store.state.hotelList.cityType
@@ -23,13 +29,7 @@ export default {
       return this.$store.state.hotelList.roomNum
     }
   },
-  props: {
-  },
   methods: {
-  },
-  components: {
-    Breadcrumb,
-    SearchLine,
   },
   created(){
   }

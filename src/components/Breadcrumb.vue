@@ -13,12 +13,7 @@
 <script>
 export default {
   name: 'breadcrumb',
-  props: {
-    cityType: {
-      default: 0,
-    },
-    hotelName: {},
-  },
+  props: ['cityType', 'hotelName'],
   computed: {
     getCityTypeText: function(){
       return this.$props.cityType == '2' ? '港澳台' :

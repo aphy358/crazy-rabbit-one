@@ -48,10 +48,7 @@ export default {
   data() {
     return {};
   },
-  props: {
-    hotelList: {},
-    cityList: {}
-  },
+  props: ['hotelList', 'cityList'],
   computed: {},
   methods: {
     checkOneCity(t, i, n){

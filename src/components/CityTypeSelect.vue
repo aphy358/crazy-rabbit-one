@@ -6,7 +6,7 @@
       v-model="value" 
       size="small" 
       placeholder="请选择城市类型"
-      @change="changeCityType" >
+      @change="setCityType($event)" >
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -34,22 +34,10 @@ export default {
       value: this.$props.cityType
     }
   },
-  props: {
-    cityType: {
-      default: 0,
-    },
-  },
-  computed: {
-    
-  },
-  components: {
-  },
+  props: ['cityType'],
   methods: {
-    changeCityType(){
-      // Vue 异步执行 DOM 更新，组件不会立即重新渲染。当刷新队列时，组件会在事件循环队列清空时的下一个“tick”更新。
-      this.$nextTick(function () {
-        this.$store.commit('hotelList/changeCityType', this.$children[0].value)
-      })
+    setCityType($event){
+      this.$store.commit('hotelList/setCityType', $event)
     }
   }
 }
@@ -60,4 +48,13 @@ export default {
 .city-type-select{
   width: 78px;
 }
+
+.city-type-select{
+  .el-input--suffix{
+    .el-input__inner{
+      text-align: center;
+    }
+  }
+}
 </style>
+

@@ -44,11 +44,7 @@ export default {
       cityList_external: cityList_external,
     }
   },
-  props: {
-    cityType: {
-      default: 0,
-    },
-  },
+  props: ['cityType'],
   computed: {
     getKey(){
       return this.$props.cityType == 2 ? '港澳台' : '热门'

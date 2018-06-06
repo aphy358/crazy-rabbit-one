@@ -29,11 +29,7 @@ export default {
       lastValue: [],
     }
   },
-  props: {
-    cityType: {
-      default: 0,
-    },
-  },
+  props: ['cityType'],
   computed: {
     pickerOptions(){
       let _this = this

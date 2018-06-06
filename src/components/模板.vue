@@ -6,15 +6,20 @@
 export default {
   name: '',
   data(){
-
+    return {
+    }
   },
   props: {
     
   },
+  components: {
+
+  },
   computed: {
     
   },
-  components: {
+  methods: {
+
   }
 }
 </script>
