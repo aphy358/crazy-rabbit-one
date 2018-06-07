@@ -56,6 +56,9 @@ export default {
       },
       set: function (newValue) {
         this.$store.commit('hotelList/setKeyword', newValue)
+
+        // 当关键字是通过输入获取的，则只将其当做关键字（所以这里把城市 ID 设置为 null），除非是通过点击某个城市才当做是城市
+        this.$store.commit('hotelList/setCityId', null)
       }
     },
 
@@ -132,7 +135,7 @@ export default {
       this.visible = false
       this.$store.commit('hotelList/setKeyword', event.n)
       this.$store.commit('hotelList/setCityId', event.i)
-    }
+    },
   }
 }
 </script>

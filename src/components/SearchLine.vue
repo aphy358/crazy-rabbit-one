@@ -7,6 +7,7 @@
             <DateRange :cityType="cityType" />
             <RoomNumSelect :roomNum="roomNum" />
             <AdultChildrenSelect v-if="cityType != 0" />
+            <el-button type="primary" size="small">搜索</el-button>
         </div>
     </div>
 </template>
@@ -50,6 +51,14 @@ export default {
   
   .el-input__suffix{
     right: 0;
+  }
+
+  .el-button.el-button--primary.el-button--small{
+    float: right;
+    letter-spacing: 5px;
+    font-size: 14px;
+    height: 32px;
+    line-height: 12px;
   }
 }
 
