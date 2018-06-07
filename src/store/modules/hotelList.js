@@ -15,6 +15,13 @@ export default {
     checkout: addDays(new Date, 1),
   },
   mutations: {
+    // 页面跳转初始化 state
+    initState(state, newState){
+      for (const key in newState.hotelList) {
+        state[key] = newState.hotelList[key]
+      }
+    },
+
     // 设置城市类型，如：'国内'、'港澳台'、'国外'
     setCityType(state, cityType){
       state.cityType = cityType

@@ -7,7 +7,7 @@
             <DateRange />
             <RoomNumSelect />
             <AdultChildrenSelect v-if="getCityType != 0" />
-            <el-button type="primary" size="small">搜索</el-button>
+            <el-button type="primary" size="small" @click="toOtherPage"><a href="#" target="_blank">搜索</a></el-button>
         </div>
     </div>
 </template>
@@ -42,6 +42,13 @@ export default {
     DateRange,
     KerywordSuggest,
     AdultChildrenSelect,
+  },
+
+  methods: {
+    toOtherPage(){
+      let state = window.JSON.stringify(this.$store.state)
+      sessionStorage.setItem('jlfzg__state', state)
+    }
   }
 }
 </script>

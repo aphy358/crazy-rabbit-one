@@ -190,7 +190,7 @@ export default {
     // 根据成人数和小孩数，计算出 input 框该显示的文字，如：'2成人，1小孩'
     getAdultChildrenText(){
       return `${this.$store.state.hotelList.adultNum}成人，${this.$store.state.hotelList.childrenNum}小孩`
-    }
+    },
   },
   
   methods: {
@@ -203,8 +203,7 @@ export default {
 
       this.$store.commit('hotelList/setChildrenStr', ageArr.join(','))
     },
-    
-  }
+  },
 }
 </script>
 
