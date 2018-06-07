@@ -7,7 +7,7 @@
             <DateRange />
             <RoomNumSelect />
             <AdultChildrenSelect v-if="getCityType != 0" />
-            <el-button type="primary" size="small" @click="toOtherPage"><a href="#" target="_blank">搜索</a></el-button>
+            <el-button type="primary" size="small" @click="toOtherPage">搜索</el-button>
         </div>
     </div>
 </template>
@@ -76,6 +76,7 @@ export default {
     font-size: 14px;
     height: 32px;
     line-height: 12px;
+    margin-right: 0;
   }
 }
 
