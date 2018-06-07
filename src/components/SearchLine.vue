@@ -2,11 +2,11 @@
 <template>
     <div class="search-line-outer">
         <div class="search-line-wrap">
-            <CityTypeSelect :cityType="cityType" />
-            <KerywordSuggest :cityType="cityType" />
-            <DateRange :cityType="cityType" />
-            <RoomNumSelect :roomNum="roomNum" />
-            <AdultChildrenSelect v-if="cityType != 0" />
+            <CityTypeSelect />
+            <KerywordSuggest />
+            <DateRange />
+            <RoomNumSelect />
+            <AdultChildrenSelect v-if="getCityType != 0" />
             <el-button type="primary" size="small">搜索</el-button>
         </div>
     </div>
@@ -21,11 +21,21 @@ import AdultChildrenSelect from './AdultChildrenSelect'
 
 export default {
   name: 'SearchLine',
+
   data(){
     return {
     }
   },
-  props: ['cityType', 'roomNum'],
+
+  props: {},
+
+  computed: {
+    // 获取城市类型，如：'国内'、'港澳台'、'国外'
+    getCityType(){
+      return this.$store.state.hotelList.cityType
+    },
+  },
+
   components: {
     CityTypeSelect,
     RoomNumSelect,

@@ -30,17 +30,21 @@
 <script>
 export default {
   name: 'CityListTmpl',
+
   data(){
     return {
       _blockKey: ''
     }
   },
+
   props: ['cityList', 'blockKey'],
+
   computed: {
     getBlockKey(){
       return this.$data._blockKey || this.$props.blockKey
     }
   },
+  
   methods: {
     switchBlock(key1){
       this.$data._blockKey = key1

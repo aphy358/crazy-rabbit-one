@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  props: ['cityType'],
+  props: [],
 
   computed: {
     // 获取入离日期
@@ -50,7 +50,8 @@ export default {
 
     pickerOptions(){
       let _this = this
-      let baseMinDate = new Date( addDays(new Date, this.$props.cityType == 3 ? 1 : 0) + ' 00:00:00' )
+      let cityType = this.$store.state.hotelList.cityType
+      let baseMinDate = new Date( addDays(new Date, cityType == 3 ? 1 : 0) + ' 00:00:00' )
       
       return {
         disabledDate(time) {

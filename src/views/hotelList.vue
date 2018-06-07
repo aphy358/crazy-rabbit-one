@@ -1,7 +1,7 @@
 <template>
   <div class="hotelList">
-    <Breadcrumb :cityType="getCityType" />
-    <SearchLine :cityType="getCityType" :roomNum="getRoomNum" />
+    <Breadcrumb />
+    <SearchLine />
   </div>
 </template>
 
@@ -11,26 +11,26 @@ import SearchLine from '../components/SearchLine'
 
 export default {
   name: 'hotelList',
+  
   data: function() {
     return {
     }
   },
+
   props: {
   },
+
   components: {
     Breadcrumb,
     SearchLine,
   },
+
   computed: {
-    getCityType(){
-      return this.$store.state.hotelList.cityType
-    },
-    getRoomNum(){
-      return this.$store.state.hotelList.roomNum
-    }
   },
+
   methods: {
   },
+
   created(){
   }
 }

@@ -8,7 +8,7 @@
     placement="bottom-start"
     v-model="visible">
 
-    <CitySelectPanel v-if="getShowPanel == 1" :cityType="cityType" @pickvalue="pickvalue($event)" />
+    <CitySelectPanel v-if="getShowPanel == 1" @pickvalue="pickvalue($event)" />
     <HotelSelectPanel v-if="getShowPanel == 2" :hotelList="hotelList" :cityList="cityList" @pickvalue="pickvalue($event)" />
 
     <el-input
@@ -41,7 +41,7 @@ export default {
     }
   },
 
-  props: ['cityType'],
+  props: [],
 
   components: {
     CitySelectPanel,
@@ -71,7 +71,7 @@ export default {
     remoteMethod(keyword) {
       if (keyword !== '') {
         let param = {
-          type: this.$props.cityType,
+          type: this.$store.state.hotelList.cityType,
           key: keyword,
           keys: keyword
         };

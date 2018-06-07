@@ -12,17 +12,17 @@
             </div>
 
             <!-- 港澳台城市 -->
-            <div v-show="cityType == 2" class="kwc-block-outer">
+            <div v-show="getCityType == 2" class="kwc-block-outer">
               <CityListTmpl :cityList="cityList_gat" :blockKey="getKey" @pickvalue="pickvalue($event)" />
             </div>
             
             <!-- 国外城市 -->
-            <div v-show="cityType == 3" class="kwc-block-outer">
+            <div v-show="getCityType == 3" class="kwc-block-outer">
               <CityListTmpl :cityList="cityList_external" :blockKey="getKey" @pickvalue="pickvalue($event)" />
             </div>
 
             <!-- 国内城市 -->
-            <div v-show="cityType == 0" class="kwc-block-outer">
+            <div v-show="getCityType == 0" class="kwc-block-outer">
               <CityListTmpl :cityList="cityList_internal" :blockKey="getKey" @pickvalue="pickvalue($event)" />
             </div>
         </div>
@@ -37,6 +37,7 @@ import cityList_external from './data/externalCity.js'
 
 export default {
   name: 'CitySelectPanel',
+
   data(){
     return {
       cityList_internal: cityList_internal,
@@ -44,15 +45,23 @@ export default {
       cityList_external: cityList_external,
     }
   },
-  props: ['cityType'],
+
+  props: [],
+
   computed: {
     getKey(){
-      return this.$props.cityType == 2 ? '港澳台' : '热门'
+      return this.$store.state.hotelList.cityType == 2 ? '港澳台' : '热门'
     },
+
+    getCityType(){
+      return this.$store.state.hotelList.cityType
+    }
   },
+
   components: {
     CityListTmpl
   },
+
   methods: {
     pickvalue(event){
       this.$emit('pickvalue', event)
@@ -63,7 +72,6 @@ export default {
 
 <!-- 覆盖 element 原有样式，注意这里不能用 scoped 限定作用域 -->
 <style lang="scss">
-
 </style>
 
 <style lang="scss">

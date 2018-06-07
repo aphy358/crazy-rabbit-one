@@ -115,6 +115,7 @@
 <script>
 export default {
   name: '',
+
   data(){
     return {
       visible: false,
@@ -159,6 +160,7 @@ export default {
       childAge3: '0',
     }
   },
+
   computed: {
     // 获取成人数
     getAdultNum: {
@@ -190,6 +192,7 @@ export default {
       return `${this.$store.state.hotelList.adultNum}成人，${this.$store.state.hotelList.childrenNum}小孩`
     }
   },
+  
   methods: {
     // 设置小孩年龄字符串，如：'1,0,1'
     setChildrenStr(){

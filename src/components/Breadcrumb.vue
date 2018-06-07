@@ -13,11 +13,12 @@
 <script>
 export default {
   name: 'breadcrumb',
-  props: ['cityType', 'hotelName'],
+  props: ['hotelName'],
   computed: {
     getCityTypeText: function(){
-      return this.$props.cityType == '2' ? '港澳台' :
-             this.$props.cityType == '3' ? '国外'   : '国内'
+      let cityType = this.$store.state.hotelList.cityType
+      return cityType == '2' ? '港澳台' :
+             cityType == '3' ? '国外'   : '国内'
     }
   },
 }

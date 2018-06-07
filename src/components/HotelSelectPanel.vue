@@ -44,11 +44,15 @@
 <script>
 export default {
   name: "HotelSelectPanel",
+
   data() {
     return {};
   },
+
   props: ['hotelList', 'cityList'],
+
   computed: {},
+  
   methods: {
     checkOneCity(t, i, n){
       this.$emit('pickvalue', {t, i, n})

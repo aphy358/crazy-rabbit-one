@@ -18,6 +18,7 @@
 <script>
 export default {
   name: 'RoomNumSelect',
+
   data(){
     return {
       options: [{
@@ -44,7 +45,8 @@ export default {
       }],
     }
   },
-  props: ['roomNum'],
+  
+  props: {},
 
   computed: {
     // 获取关键字
