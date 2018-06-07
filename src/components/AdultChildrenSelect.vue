@@ -204,6 +204,14 @@ export default {
       this.$store.commit('hotelList/setChildrenStr', ageArr.join(','))
     },
   },
+
+  created(){
+    // 初始化每个小孩的年龄
+    let ageArr = this.$store.state.hotelList.childrenStr.split(',')
+    this.childAge1 = ageArr[0] || '0'
+    this.childAge2 = ageArr[1] || '0'
+    this.childAge3 = ageArr[2] || '0'
+  }
 }
 </script>
 
