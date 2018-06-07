@@ -6,7 +6,6 @@ export default {
     cityType: '0',
     keyword: '',
     cityId: '',
-    showPanel: '1',
     roomNum: '1',
     adultNum: '2',
     childrenNum: '0',
@@ -28,7 +27,6 @@ export default {
 
       state.keyword = ''
       state.cityId = ''
-      state.showPanel = '1'
       state.roomNum = '1'
       state.adultNum = '2'
       state.childrenNum = '0'
@@ -71,13 +69,6 @@ export default {
     // 设置城市 id
     setCityId(state, cityId){
       state.cityId = cityId
-    },
-
-    // 设置 showPanel
-    setShowPanel(state, keyword){
-      keyword === ''
-        ? state.showPanel = '1'
-        : state.showPanel = '2'
     },
 
     // 设置入离日期

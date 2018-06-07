@@ -2,7 +2,7 @@
 <!-- 关键字搜索（城市/酒店名） -->
 <template>
   <el-popover
-    :width="getShowPanel === 1 ? 550 : 390"
+    :width="getShowPanel == 1 ? 550 : 390"
     style="width:260px;display: inline-block;"
     trigger="focus"
     placement="bottom-start"
@@ -20,6 +20,7 @@
       v-model="getKeyword"
       @input="remoteMethod"
       @paste="remoteMethod"
+      @focus="remoteMethod"
       clearable >
     </el-input>
 
@@ -63,13 +64,17 @@ export default {
     },
 
     getShowPanel(){
-      return this.$store.state.hotelList.showPanel
+      return this.$store.state.hotelList.keyword === '' ? '1' : '2'
     }
   },
 
   methods: {
     remoteMethod(keyword) {
-      if (keyword !== '') {
+      keyword = typeof keyword === 'object'
+        ? keyword.srcElement.value
+        : keyword
+      
+      if (keyword && keyword !== '') {
         let param = {
           type: this.$store.state.hotelList.cityType,
           key: keyword,
@@ -79,8 +84,6 @@ export default {
         this.getCityList(param)
         this.getHotelList(param)
       }
-
-      this.$store.commit('hotelList/setShowPanel', keyword)
     },
 
     // 查城市
