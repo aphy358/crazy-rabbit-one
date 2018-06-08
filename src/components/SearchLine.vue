@@ -73,7 +73,7 @@ export default {
   .el-button.el-button--primary.el-button--small{
     float: right;
     letter-spacing: 5px;
-    font-size: 14px;
+    font-size: 15px;
     height: 32px;
     line-height: 12px;
     margin-right: 0;

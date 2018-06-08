@@ -2,12 +2,14 @@
   <div class="hotelList">
     <Breadcrumb />
     <SearchLine />
+    <AdvancedSearch />
   </div>
 </template>
 
 <script>
 import Breadcrumb from '../components/Breadcrumb'
 import SearchLine from '../components/SearchLine'
+import AdvancedSearch from '../components/AdvancedSearch'
 
 export default {
   name: 'hotelList',
@@ -23,6 +25,7 @@ export default {
   components: {
     Breadcrumb,
     SearchLine,
+    AdvancedSearch,
   },
 
   computed: {
