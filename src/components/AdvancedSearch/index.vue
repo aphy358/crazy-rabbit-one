@@ -54,7 +54,7 @@
 													@input="priceRangeEdit('priceRange1', priceRange1)">
 
                         <i class="search-line-seperator"></i>
-												
+
                         <input class="search-line-price" placeholder="最高价" type="number"
 													v-model.number="priceRange2"
 													@focus="addClassMoveLeft" 
