@@ -46,13 +46,23 @@
                         <el-radio label="3000-29999_3000元以上">3000元以上</el-radio>
                     </el-radio-group>
 
-                    <div class="search-item-price-wrap">
-                        <input class="search-line-price" id="slp_1" value="" placeholder="最低价" title="最低价">
+                    <div class="search-item-price-wrap" :class="moveLeft ? 'move-left' : ''">
+                        <input class="search-line-price" placeholder="最低价" type="number"
+													v-model.number="priceRange1"
+													@focus="addClassMoveLeft" 
+													@blur="removeClassMoveLeft"
+													@input="priceRangeEdit('priceRange1', priceRange1)">
                         <i class="search-line-seperator"></i>
-                        <input class="search-line-price" id="slp_2" value="" placeholder="最高价" title="最高价">
+                        <input class="search-line-price" placeholder="最高价" type="number"
+													v-model.number="priceRange2"
+													@focus="addClassMoveLeft" 
+													@blur="removeClassMoveLeft"
+													@input="priceRangeEdit('priceRange2', priceRange2)">
                     </div>
 
-                    <span class="search-line-price-btn">确定</span>
+										<el-button type="primary" size="mini" class="no-limit" 
+											style="float:right;margin: 9px 0 0 0;"
+											@click="customizedPriceRange">确定</el-button>
                 </div>
             
                 <div class="a-s-row">
@@ -183,6 +193,9 @@ export default {
     return {
 			bigCollapseIcon: "down",
 
+			priceRange1: "",
+			priceRange2: "",
+
       checkedPriceRange: '',
       checkedStar: [],
       checkedConfirmType: [],
@@ -204,7 +217,9 @@ export default {
 			
       facilities: facilities,
       hotelGroup1: hotelGroup.filter((n, i) => i < 20),
-      hotelGroup2: hotelGroup.filter((n, i) => i >= 20),
+			hotelGroup2: hotelGroup.filter((n, i) => i >= 20),
+			
+			moveLeft: false,
     };
   },
 
@@ -329,6 +344,32 @@ export default {
 					? this[n] = ''
 					: this[n] = []
 			})
+		},
+
+		addClassMoveLeft(){
+			this.moveLeft = true
+		},
+
+		removeClassMoveLeft(){
+			this.moveLeft = false
+		},
+
+		// 编辑价格区间
+		priceRangeEdit(type, value){
+			this[type] = value
+		},
+
+		// 自定义价格区间
+		customizedPriceRange(){
+			if(!this.priceRange1 && !this.priceRange2)	return;
+			
+			this.checkedPriceRange =
+				!this.priceRange1 ? `0-${this.priceRange2}_${this.priceRange2}元以下` :
+				!this.priceRange2 ? `${this.priceRange1}-29999_${this.priceRange1}元以上` 
+													: `${this.priceRange1}-${this.priceRange2}_${this.priceRange1}-${this.priceRange2}元`
+
+			this.priceRange1 = ''
+			this.priceRange2 = ''
 		}
   }
 };
@@ -530,24 +571,18 @@ export default {
       @at-root .search-item-price-wrap {
 				position: absolute;
 				top: 8px;
-				right: 20px;
+				right: 0;
 				height: 30px;
 				line-height: 30px;
-				border: solid 1px #cae0f5;
+				border: 1px solid #dcdfe6;
 				-webkit-box-sizing: border-box;
 				box-sizing: border-box;
 				background: white;
 				transition: all 0.2s linear 0s;
 
         &.move-left {
-          right: 65px;
-        }
-
-        &:hover,
-        &:active,
-        &:focus {
-          border-color: rgb(100, 191, 224);
-          box-shadow: 0 0 5px rgb(100, 191, 224);
+					right: 65px;
+					border: 1px solid #409EFF;
         }
 
         @at-root input.search-line-price {
@@ -565,24 +600,6 @@ export default {
 					height: 20px;
 					border-right: solid 1px #ccc;
 					margin-top: 4px;
-        }
-      }
-
-      @at-root .search-line-price-btn {
-        display: none;
-        float: right;
-        border: none;
-        padding: 0 10px;
-        border-radius: 5px;
-        cursor: context-menu;
-        background: #339afc;
-        color: white;
-        line-height: 26px;
-        margin-top: 10px;
-        transition: all 0.2s linear;
-
-        &:hover {
-          background: #216baf;
         }
       }
     }

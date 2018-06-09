@@ -19,7 +19,6 @@
       prefix-icon="el-icon-search"
       v-model="getKeyword"
       @input="remoteMethod"
-      @paste="remoteMethod"
       @focus="remoteMethod"
       clearable >
     </el-input>
