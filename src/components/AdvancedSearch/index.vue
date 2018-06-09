@@ -52,7 +52,9 @@
 													@focus="addClassMoveLeft" 
 													@blur="removeClassMoveLeft"
 													@input="priceRangeEdit('priceRange1', priceRange1)">
+
                         <i class="search-line-seperator"></i>
+												
                         <input class="search-line-price" placeholder="最高价" type="number"
 													v-model.number="priceRange2"
 													@focus="addClassMoveLeft" 
@@ -288,6 +290,7 @@ export default {
 		// 点击 tag 的删除按钮
 		closeTag(value, type){
 			let index = this[type].indexOf(value)
+
 			if(index != -1){
 				type === 'checkedPriceRange'
 					? this.checkedPriceRange = ''
@@ -350,6 +353,11 @@ export default {
 			this.moveLeft = true
 		},
 
+		clearPriceRangeInput(){
+			this.priceRange1 = ''
+			this.priceRange2 = ''
+		},
+
 		removeClassMoveLeft(){
 			this.moveLeft = false
 		},
@@ -368,8 +376,7 @@ export default {
 				!this.priceRange2 ? `${this.priceRange1}-29999_${this.priceRange1}元以上` 
 													: `${this.priceRange1}-${this.priceRange2}_${this.priceRange1}-${this.priceRange2}元`
 
-			this.priceRange1 = ''
-			this.priceRange2 = ''
+			this.clearPriceRangeInput()
 		}
   }
 };
