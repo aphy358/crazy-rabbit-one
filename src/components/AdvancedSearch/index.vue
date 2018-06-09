@@ -6,7 +6,10 @@
             <div class="a-s-inner">
                 <div class="a-s-row">
                     <label class="a-s-label">位置区域</label>
-                    <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                    <el-button type="primary" size="mini" class="no-limit" 
+											:class="checkedZone.length < 1 && checkedBizzone.length < 1 ? 'disabled' : ''"
+											@click="noLimitClick(['checkedZone', 'checkedBizzone'], 'collapseValue1')">不限</el-button>
+
                     <el-collapse accordion :value="collapseValue1" @change="collapseChange($event, 'collapseValue1')">
                         <el-collapse-item>
                             <template slot="title">
@@ -29,7 +32,10 @@
             
                 <div class="a-s-row">
                     <label class="a-s-label">价格区间</label>
-                    <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                    <el-button type="primary" size="mini" class="no-limit" 
+											:class="checkedPriceRange === '' ? 'disabled' : ''"
+											@click="noLimitClick(['checkedPriceRange'])">不限</el-button>
+
                     <el-radio-group v-model="checkedPriceRange">
                         <el-radio label="0-199_200元以下">200元以下</el-radio>
                         <el-radio label="200-299_200-300元">200-300元</el-radio>
@@ -51,7 +57,10 @@
             
                 <div class="a-s-row">
                     <label class="a-s-label">酒店等级</label>
-                    <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                    <el-button type="primary" size="mini" class="no-limit" 
+											:class="checkedStar.length < 1 ? 'disabled' : ''"
+											@click="noLimitClick(['checkedStar'])">不限</el-button>
+
                     <el-checkbox-group v-model="checkedStar" :max="3">
                         <el-checkbox label="10,15,20,25_二星级及以下/经济" key="10,15,20,25">二星级及以下/经济</el-checkbox>
                         <el-checkbox label="30,35_三星级/舒适" key="30,35">三星级/舒适</el-checkbox>
@@ -72,7 +81,10 @@
 
                         <div class="a-s-row">
                             <label class="a-s-label">确认时间</label>
-                            <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                            <el-button type="primary" size="mini" class="no-limit" 
+															:class="checkedConfirmType.length < 1 ? 'disabled' : ''"
+															@click="noLimitClick(['checkedConfirmType'])">不限</el-button>
+
                             <!-- 该条件不用传到后台，是用作在前端筛选数据用的 -->
                             <el-checkbox-group v-model="checkedConfirmType" :max="2">
                                 <el-checkbox label="XS-1_立即确认" key="XS-1">立即确认</el-checkbox>
@@ -83,7 +95,10 @@
 
                         <div class="a-s-row">
                             <label class="a-s-label">可否取消</label>
-                            <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                            <el-button type="primary" size="mini" class="no-limit" 
+															:class="checkedCancelType.length < 1 ? 'disabled' : ''"
+															@click="noLimitClick(['checkedCancelType'])">不限</el-button>
+
                             <!-- 该条件不用传到后台，是用作在前端筛选数据用的 -->
                             <el-checkbox-group v-model="checkedCancelType">
                                 <el-checkbox label="canceltype-0_可取消" key="canceltype-0">可取消</el-checkbox>
@@ -93,7 +108,10 @@
                         
                         <div class="a-s-row">
                             <label class="a-s-label">酒店集团</label>
-                            <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                            <el-button type="primary" size="mini" class="no-limit" 
+															:class="checkedHotelGroup1.length < 1 && checkedHotelGroup2.length < 1 ? 'disabled' : ''"
+															@click="noLimitClick(['checkedHotelGroup1', 'checkedHotelGroup2'], 'collapseValue3')">不限</el-button>
+
                             <el-collapse :value="collapseValue3" @change="collapseChange($event, 'collapseValue3')">
                                 <el-collapse-item>
                                     <template slot="title">
@@ -117,7 +135,10 @@
                         
                         <div class="a-s-row">
                             <label class="a-s-label">特殊要求</label>
-                            <el-button type="primary" size="mini" class="no-limit">不限</el-button>
+                            <el-button type="primary" size="mini" class="no-limit" 
+															:class="checkedFacilities.length < 1 ? 'disabled' : ''"
+															@click="noLimitClick(['checkedFacilities'], 'collapseValue5')">不限</el-button>
+
                             <el-collapse :value="collapseValue5" @change="collapseChange($event, 'collapseValue5')">
                                 <el-collapse-item>
                                     <template slot="title">
@@ -136,7 +157,7 @@
             </div>
         </div>
 
-        <div class="advanced-search-selected-wrap">
+        <div class="advanced-search-selected-wrap" v-if="!isNoFilter">
             <ul class="a-s-s-list">
 							<el-tag size="mini" v-if="checkedPriceRange !== ''" :key="checkedPriceRange" @close="closeTag(checkedPriceRange, 'checkedPriceRange')" closable>{{checkedPriceRange.split('_')[1]}}</el-tag>
 							<el-tag size="mini" v-for="n of checkedStar" :key="n" @close="closeTag(n, 'checkedStar')" closable>{{n.split('_')[1]}}</el-tag>
@@ -146,7 +167,7 @@
 							<el-tag size="mini" v-for="n of checkedHotelGroup2" :key="n" @close="closeTag(n, 'checkedHotelGroup2')" closable>{{n.split('_')[1]}}</el-tag>
 							<el-tag size="mini" v-for="n of checkedFacilities" :key="n" @close="closeTag(n, 'checkedFacilities')" closable>{{n.split('_')[1]}}</el-tag>
 						</ul>
-            <button class="a-s-s-btn">清空条件</button>
+            <button class="a-s-s-btn" @click="clearFilters">清空条件</button>
         </div>
     </div>
 </template>
@@ -198,24 +219,7 @@ export default {
 		},
 		
 		getCityType(newValue){
-
-			this.bigCollapseIcon = 'down'
-
-      this.checkedPriceRange = ''
-      this.checkedStar = []
-      this.checkedConfirmType = []
-      this.checkedCancelType = []
-      this.checkedZone = []
-      this.checkedBizzone = []
-      this.checkedHotelGroup1 = []
-      this.checkedHotelGroup2 = []
-			this.checkedFacilities = []
-			
-			this.collapseValue1 = ''
-			this.collapseValue2 = ''
-			this.collapseValue3 = ''
-			this.collapseValue4 = ''
-			this.collapseValue5 = ''
+			this.clearFilters()
 
 			this.bizzoneList = []
 			this.zoneList = []
@@ -233,6 +237,19 @@ export default {
 		
 		getCityType(){
       return this.$store.state.hotelList.cityType
+		},
+
+		// 判断是否当前一个过滤条件都没有
+		isNoFilter(){
+			return this.checkedPriceRange === '' &&
+				this.checkedStar.length < 1 &&
+				this.checkedConfirmType.length < 1 &&
+				this.checkedCancelType.length < 1 &&
+				this.checkedZone.length < 1 &&
+				this.checkedBizzone.length < 1 &&
+				this.checkedHotelGroup1.length < 1 &&
+				this.checkedHotelGroup2.length < 1 &&
+				this.checkedFacilities.length < 1
 		}
   },
 
@@ -263,14 +280,55 @@ export default {
 			}
 		},
 
+		// 删除所有勾选的过滤条件
+		clearFilters(){
+			this.bigCollapseIcon = 'down'
+
+      this.checkedPriceRange = ''
+      this.checkedStar = []
+      this.checkedConfirmType = []
+      this.checkedCancelType = []
+      this.checkedZone = []
+      this.checkedBizzone = []
+      this.checkedHotelGroup1 = []
+      this.checkedHotelGroup2 = []
+			this.checkedFacilities = []
+			
+			this.collapseValue1 = ''
+			this.collapseValue2 = ''
+			this.collapseValue3 = ''
+			this.collapseValue4 = ''
+			this.collapseValue5 = ''
+		},
+
 		// 切换折叠面板的收缩状态
 		collapseChange(value, type){
+			let tmpArr = ['collapseValue1', 'collapseValue3', 'collapseValue4', 'collapseValue5']
 			this[type] = value
-
-			// 切换 '高级搜索条件' 后面上下三角的状态
+			
 			if(type === 'collapseValue2'){
+				// 切换 '高级搜索条件' 后面上下三角的状态，并且将其他所有折叠板收缩起来
 				this.bigCollapseIcon = this.bigCollapseIcon === "down" ? "up" : "down"
+				tmpArr.forEach(n => this[n] = '')
+			}else{
+				// 除了最外层和本身，将其他的其他所有折叠板收缩起来
+				tmpArr.forEach(n => {
+					if(n != type)	this[n] = ''
+				})
 			}
+		},
+
+		// 点击 '不限' 按钮
+		noLimitClick(arr, collapse){
+			if(collapse){
+				this[collapse] = ''
+			}
+
+			arr.forEach(n => {
+				n === 'checkedPriceRange'
+					? this[n] = ''
+					: this[n] = []
+			})
 		}
   }
 };
@@ -285,6 +343,13 @@ export default {
       padding: 6px 10px;
       font-size: 14px;
       margin-right: 30px;
+
+			&.disabled{
+				background: transparent;
+				border-color: transparent;
+				color: #999;
+				cursor: context-menu;
+			}
     }
   }
 
@@ -428,6 +493,7 @@ export default {
         float: left;
         color: #999;
         margin-right: 30px;
+				font-size: 14px;
       }
 
       @at-root .a-s-item {
@@ -462,15 +528,16 @@ export default {
       }
 
       @at-root .search-item-price-wrap {
-        position: absolute;
-        top: 5px;
-        right: 20px;
-        height: 35px;
-        line-height: 35px;
-        border: solid 1px #cae0f5;
-        box-sizing: border-box;
-        background: white;
-        transition: all 0.2s linear 0s;
+				position: absolute;
+				top: 8px;
+				right: 20px;
+				height: 30px;
+				line-height: 30px;
+				border: solid 1px #cae0f5;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+				background: white;
+				transition: all 0.2s linear 0s;
 
         &.move-left {
           right: 65px;
@@ -484,20 +551,20 @@ export default {
         }
 
         @at-root input.search-line-price {
-          float: left;
-          padding: 0 10px;
-          width: 45px;
-          height: 33px;
-          line-height: 35px;
-          border: none;
+					float: left;
+					padding: 0 10px;
+					width: 45px;
+					height: 28px;
+					line-height: 30px;
+					border: none;
         }
 
         @at-root .search-line-seperator {
-          float: left;
-          display: inline-block;
-          height: 20px;
-          border-right: solid 1px #ccc;
-          margin-top: 7px;
+					float: left;
+					display: inline-block;
+					height: 20px;
+					border-right: solid 1px #ccc;
+					margin-top: 4px;
         }
       }
 
@@ -582,42 +649,20 @@ export default {
   }
 
   @at-root .a-s-s-list {
-    @at-root .a-s-s-item {
-      float: left;
-      margin-right: 10px;
-      height: 20px;
-      line-height: 19px;
-      border: solid 1px #ccc;
-      background: white;
-      box-sizing: border-box;
-
-      span {
-        margin: 0 10px;
-      }
-
-      .delete-icon {
-        @include jl_sprites;
-        @include delete_r1;
-        float: right;
-        margin-right: 5px;
-        margin-top: 2px;
-      }
-
-      &:hover {
-        border: solid 1px #fea925;
-
-        .delete-icon {
-          @include delete_r2;
-        }
-      }
-    }
+		margin-right: 50px;
+		
+		.el-tag{
+			float: left;
+			margin-right: 10px;
+			margin-bottom: 5px;
+		}
   }
 
   @at-root .a-s-s-btn {
     border: none;
     line-height: 20px;
     background: none;
-    color: #339afc;
+    color: orangered;
     transition: all 0.2s linear 0s;
 
     &:hover {
