@@ -51,6 +51,7 @@
 													v-model.number="priceRange1"
 													@focus="addClassMoveLeft" 
 													@blur="removeClassMoveLeft"
+													@keyup.enter="customizedPriceRange"
 													@input="priceRangeEdit('priceRange1', priceRange1)">
 
                         <i class="search-line-seperator"></i>
@@ -59,6 +60,7 @@
 													v-model.number="priceRange2"
 													@focus="addClassMoveLeft" 
 													@blur="removeClassMoveLeft"
+													@keyup.enter="customizedPriceRange"
 													@input="priceRangeEdit('priceRange2', priceRange2)">
                     </div>
 
@@ -369,12 +371,15 @@ export default {
 
 		// 自定义价格区间
 		customizedPriceRange(){
-			if(!this.priceRange1 && !this.priceRange2)	return;
+			let p1 = this.priceRange1
+			let p2 = this.priceRange2
+
+			if(!p1 && !p2)	return;
 			
 			this.checkedPriceRange =
-				!this.priceRange1 ? `0-${this.priceRange2}_${this.priceRange2}元以下` :
-				!this.priceRange2 ? `${this.priceRange1}-29999_${this.priceRange1}元以上` 
-													: `${this.priceRange1}-${this.priceRange2}_${this.priceRange1}-${this.priceRange2}元`
+				!p1 ? `0-${p2}_${p2}元以下` :
+				!p2 ? `${p1}-29999_${p1}元以上` 
+						: `${p1}-${p2}_${p1}-${p2}元`
 
 			this.clearPriceRangeInput()
 		}
@@ -387,14 +392,15 @@ export default {
   .no-limit {
     &.el-button--mini,
     &.el-button--mini.is-round {
+			border: none;
       letter-spacing: 2px;
       padding: 6px 10px;
       font-size: 14px;
-      margin-right: 30px;
+			margin-right: 30px;
+			transition: all 0.2s linear;
 
 			&.disabled{
 				background: transparent;
-				border-color: transparent;
 				color: #999;
 				cursor: context-menu;
 			}

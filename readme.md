@@ -8,7 +8,7 @@
 
 3、如果是用 windows 自带的 git bash 面板安装 cnpm i，则所有命令：npm run dev/npm run test 都要用 windows 自带的 git bash 面板，否则会报错，反之如果是用 GIT BASH 面板安装 cnpm i，则所有命令都要用 GIT BASH 面板运行。
 
-4、如果要修改 element.ui 的源码，步骤
+4、
 
 
 
@@ -22,4 +22,4 @@
 
 4、然后就是打包：npm run dist，这一步如果报错，可以先把那两个字体文件移除，等打包完之后，再将这两个文件放到 dist 目录的相应位置
 
-5、将打包好的这个 dist 文件夹整个替换掉我们原有项目下的 ./node_modules/element-ui/lib 文件夹，这样就可以了，生不生效全凭运气了老铁。
+5、将打包好的这个 dist 文件夹整个替换掉我们原有项目下的 ./node_modules/element-ui/lib 文件夹，这样就可以了，生不生效全凭运气了。

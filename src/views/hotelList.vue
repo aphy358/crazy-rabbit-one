@@ -1,15 +1,21 @@
 <template>
-  <div class="hotelList">
-    <Breadcrumb />
-    <SearchLine />
-    <AdvancedSearch />
-  </div>
+    <div class="hotelList">
+        <Breadcrumb />
+        <SearchLine />
+        <AdvancedSearch />
+        <SubSearchLine />
+        <NoHotels />
+        <Pagination />
+    </div>
 </template>
 
 <script>
 import Breadcrumb from '../components/Breadcrumb'
 import SearchLine from '../components/SearchLine'
 import AdvancedSearch from '../components/AdvancedSearch'
+import SubSearchLine from '../components/SubSearchLine'
+import NoHotels from '../components/NoHotels'
+import Pagination from '../components/Pagination'
 
 export default {
   name: 'hotelList',
@@ -26,6 +32,9 @@ export default {
     Breadcrumb,
     SearchLine,
     AdvancedSearch,
+    SubSearchLine,
+    NoHotels,
+    Pagination,
   },
 
   computed: {
