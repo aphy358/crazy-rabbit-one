@@ -93,23 +93,6 @@ const
 	login = function (){
 		location.href = '/user/home.do';
 	},
-	
-	// 定义 tip 的显示和隐藏事件
-	tipShowAndHide = function(_this, msg, options){
-		var tip = layer.tips(
-			msg,
-			_this,
-			$.extend(true, {
-				time: 0, //0表示不自动关闭
-	            tips: [1, '#FFFFF3']
-			}, options)
-		);
-	
-        _this.one('mouseleave', function(){
-			//***
-			layer.close(tip);
-        });
-	},
 
 	// 将字符串中所有 '/' 换成 '-'
 	formatOne = function(str){
@@ -150,7 +133,6 @@ module.exports = {
 	loadAsync,
 	queryString,
 	throttle,
-	tipShowAndHide,
 	formatOne,
 	CloseWebPage
 }

@@ -2,6 +2,7 @@ import { addDays } from "../../util.js"
 
 export default {
   namespaced: true,
+
   state: {
     cityType: '0',
     keyword: '',
@@ -12,7 +13,34 @@ export default {
     childrenStr: '',
     checkin: addDays(new Date),
     checkout: addDays(new Date, 1),
+    pageNow: '1',
+
+    checkedPriceRange: '',
+    checkedStar: [],
+    checkedConfirmType: [],
+    checkedCancelType: [],
+    checkedZone: [],
+    checkedBizzone: [],
+    checkedHotelGroup1: [],
+    checkedHotelGroup2: [],
+    checkedFacilities: [],
   },
+
+  getters: {
+    // 判断是否当前一个过滤条件都没有
+    isNoFilter(state){
+			return state.checkedPriceRange === '' &&
+        state.checkedStar.length < 1 &&
+        state.checkedConfirmType.length < 1 &&
+        state.checkedCancelType.length < 1 &&
+        state.checkedZone.length < 1 &&
+        state.checkedBizzone.length < 1 &&
+        state.checkedHotelGroup1.length < 1 &&
+        state.checkedHotelGroup2.length < 1 &&
+        state.checkedFacilities.length < 1
+		}
+  },
+
   mutations: {
     // 页面跳转初始化 state
     initState(state, newState){
@@ -31,6 +59,16 @@ export default {
       state.adultNum = '2'
       state.childrenNum = '0'
       state.childrenStr = ''
+
+      state.checkedPriceRange = ''
+      state.checkedStar = []
+      state.checkedConfirmType = []
+      state.checkedCancelType = []
+      state.checkedZone = []
+      state.checkedBizzone = []
+      state.checkedHotelGroup1 = []
+      state.checkedHotelGroup2 = []
+			state.checkedFacilities = []
 
       state.checkin = cityType == 3 
         ? addDays(new Date, 1) 
@@ -76,9 +114,81 @@ export default {
       state.checkin = addDays(dateRange[0])
       state.checkout = addDays(dateRange[1])
     },
-    
-  },
-  actions: {
 
+    setZone(state, checkedZone){
+      state.checkedZone = checkedZone
+    },
+
+    setBizzone(state, checkedBizzone){
+      state.checkedBizzone = checkedBizzone
+    },
+
+    setPriceRange(state, checkedPriceRange){
+      state.checkedPriceRange = checkedPriceRange
+    },
+
+    setStar(state, checkedStar){
+      state.checkedStar = checkedStar
+    },
+
+    setHotelGroup1(state, checkedHotelGroup1){
+      state.checkedHotelGroup1 = checkedHotelGroup1
+    },
+
+    setHotelGroup2(state, checkedHotelGroup2){
+      state.checkedHotelGroup2 = checkedHotelGroup2
+    },
+
+    setFacilities(state, checkedFacilities){
+      state.checkedFacilities = checkedFacilities
+    },
+
+    setConfirmType(state, checkedConfirmType){
+      state.checkedConfirmType = checkedConfirmType
+    },
+
+    setCancelType(state, checkedCancelType){
+      state.checkedCancelType = checkedCancelType
+    },
+
+  },
+
+  actions: {
+    setZone({ commit, state }, checkedZone){
+      commit('setZone', checkedZone)
+    },
+
+    setBizzone({ commit, state }, checkedBizzone){
+      commit('setBizzone', checkedBizzone)
+    },
+
+    setPriceRange({ commit, state }, checkedPriceRange){
+      commit('setPriceRange', checkedPriceRange)
+    },
+
+    setStar({ commit, state }, checkedStar){
+      commit('setStar', checkedStar)
+    },
+
+    setHotelGroup1({ commit, state }, checkedHotelGroup1){
+      commit('setHotelGroup1', checkedHotelGroup1)
+    },
+
+    setHotelGroup2({ commit, state }, checkedHotelGroup2){
+      commit('setHotelGroup2', checkedHotelGroup2)
+    },
+
+    setFacilities({ commit, state }, checkedFacilities){
+      commit('setFacilities', checkedFacilities)
+    },
+
+    setConfirmType({ commit, state }, checkedConfirmType){
+      commit('setConfirmType', checkedConfirmType)
+    },
+
+    setCancelType({ commit, state }, checkedCancelType){
+      commit('setCancelType', checkedCancelType)
+    },
+    
   },
 }

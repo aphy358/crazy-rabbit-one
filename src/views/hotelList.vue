@@ -6,6 +6,16 @@
         <SubSearchLine />
         <NoHotels />
         <Pagination />
+
+        <input 
+          v-model="checkcode"
+          style="position: absolute;top: 180px;left: 50px;height: 30px;border: 1px solid;padding-left: 10px;"/>
+
+        <img class="yzm-img" 
+          @click="login"
+          style="position: absolute;top: 100px;left: 50px;"
+          src="/user/getCheckcodeImg.do?time=" alt="">
+          
     </div>
 </template>
 
@@ -22,6 +32,7 @@ export default {
   
   data: function() {
     return {
+      checkcode: '',
     }
   },
 
@@ -41,6 +52,18 @@ export default {
   },
 
   methods: {
+    async login(){
+      let params = {
+          accountCode : 'sz2747',
+          username    : 'ch',
+          password    : '1',
+          checkcode   : this.checkcode,
+          rememberMe  : false
+      }
+
+      let res_login = await this.$api.hotelList.syncLogin(params)
+      console.log(res_login);
+    },
   },
 
   created(){
@@ -50,7 +73,8 @@ export default {
       this.$store.commit('hotelList/initState', window.JSON.parse(state))
       sessionStorage.removeItem('jlfzg__state')
     }
-  }
+  },
+  
 }
 </script>
 

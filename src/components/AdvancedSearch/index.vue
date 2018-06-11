@@ -16,7 +16,7 @@
                                 <span class="a-s-item-wrap">行政区</span>
                             </template>
                             <el-checkbox-group class="a-s-zone-biz-list" v-model="checkedZone">
-                                <el-checkbox v-for="zone in zoneList" :label="zone.zoneid" :key="zone.zoneid" class="a-s-item">{{zone.name}}</el-checkbox>
+                                <el-checkbox v-for="zone in zoneList" :label="zone.zoneid + '_' + zone.name" :key="zone.zoneid" class="a-s-item">{{zone.name}}</el-checkbox>
                             </el-checkbox-group>
                         </el-collapse-item>
                         <el-collapse-item>
@@ -24,7 +24,7 @@
                                 <span class="a-s-item-wrap">商业圈</span>
                             </template>
                             <el-checkbox-group class="a-s-zone-biz-list" v-model="checkedBizzone">
-                                <el-checkbox v-for="bizzone in bizzoneList" :label="bizzone.bizzoneid" :key="bizzone.bizzoneid" class="a-s-item">{{bizzone.description}}</el-checkbox>
+                                <el-checkbox v-for="bizzone in bizzoneList" :label="bizzone.bizzoneid + '_' + bizzone.description" :key="bizzone.bizzoneid" class="a-s-item">{{bizzone.description}}</el-checkbox>
                             </el-checkbox-group>
                         </el-collapse-item>
                     </el-collapse>
@@ -174,6 +174,8 @@
         <div class="advanced-search-selected-wrap" v-if="!isNoFilter">
             <ul class="a-s-s-list">
 							<el-tag size="mini" v-if="checkedPriceRange !== ''" :key="checkedPriceRange" @close="closeTag(checkedPriceRange, 'checkedPriceRange')" closable>{{checkedPriceRange.split('_')[1]}}</el-tag>
+							<el-tag size="mini" v-for="n of checkedZone" :key="n" @close="closeTag(n, 'checkedZone')" closable>{{n.split('_')[1]}}</el-tag>
+							<el-tag size="mini" v-for="n of checkedBizzone" :key="n" @close="closeTag(n, 'checkedBizzone')" closable>{{n.split('_')[1]}}</el-tag>
 							<el-tag size="mini" v-for="n of checkedStar" :key="n" @close="closeTag(n, 'checkedStar')" closable>{{n.split('_')[1]}}</el-tag>
 							<el-tag size="mini" v-for="n of checkedConfirmType" :key="n" @close="closeTag(n, 'checkedConfirmType')" closable>{{n.split('_')[1]}}</el-tag>
 							<el-tag size="mini" v-for="n of checkedCancelType" :key="n" @close="closeTag(n, 'checkedCancelType')" closable>{{n.split('_')[1]}}</el-tag>
@@ -199,16 +201,6 @@ export default {
 
 			priceRange1: "",
 			priceRange2: "",
-
-      checkedPriceRange: '',
-      checkedStar: [],
-      checkedConfirmType: [],
-      checkedCancelType: [],
-      checkedZone: [],
-      checkedBizzone: [],
-      checkedHotelGroup1: [],
-      checkedHotelGroup2: [],
-      checkedFacilities: [],
 
 			bizzoneList: [],
 			zoneList: [],
@@ -250,6 +242,43 @@ export default {
   components: {},
 
   computed: {
+    checkedPriceRange: { 
+      get(){ return this.$store.state.hotelList.checkedPriceRange },
+      set(checkedPriceRange){ this.$store.dispatch('hotelList/setPriceRange', checkedPriceRange) }
+    },
+    checkedStar: { 
+      get(){ return this.$store.state.hotelList.checkedStar },
+      set(checkedStar){ this.$store.dispatch('hotelList/setStar', checkedStar) }
+    },
+    checkedConfirmType: { 
+      get(){ return this.$store.state.hotelList.checkedConfirmType },
+      set(checkedConfirmType){ this.$store.dispatch('hotelList/setConfirmType', checkedConfirmType) }
+    },
+    checkedCancelType: { 
+      get(){ return this.$store.state.hotelList.checkedCancelType },
+      set(checkedCancelType){ this.$store.dispatch('hotelList/setCancelType', checkedCancelType) }
+    },
+    checkedZone: { 
+      get(){ return this.$store.state.hotelList.checkedZone },
+      set(checkedZone){ this.$store.dispatch('hotelList/setZone', checkedZone) }
+    },
+    checkedBizzone: { 
+      get(){ return this.$store.state.hotelList.checkedBizzone },
+      set(checkedBizzone){ this.$store.dispatch('hotelList/setBizzone', checkedBizzone) }
+    },
+    checkedHotelGroup1: { 
+      get(){ return this.$store.state.hotelList.checkedHotelGroup1 },
+      set(checkedHotelGroup1){ this.$store.dispatch('hotelList/setHotelGroup1', checkedHotelGroup1) }
+    },
+    checkedHotelGroup2: { 
+      get(){ return this.$store.state.hotelList.checkedHotelGroup2 },
+      set(checkedHotelGroup2){ this.$store.dispatch('hotelList/setHotelGroup2', checkedHotelGroup2) }
+    },
+    checkedFacilities: { 
+      get(){ return this.$store.state.hotelList.checkedFacilities },
+      set(checkedFacilities){ this.$store.dispatch('hotelList/setFacilities', checkedFacilities) }
+    },
+
     getCityId() {
       return this.$store.state.hotelList.cityId
 		},
@@ -260,25 +289,11 @@ export default {
 
 		// 判断是否当前一个过滤条件都没有
 		isNoFilter(){
-			return this.checkedPriceRange === '' &&
-				this.checkedStar.length < 1 &&
-				this.checkedConfirmType.length < 1 &&
-				this.checkedCancelType.length < 1 &&
-				this.checkedZone.length < 1 &&
-				this.checkedBizzone.length < 1 &&
-				this.checkedHotelGroup1.length < 1 &&
-				this.checkedHotelGroup2.length < 1 &&
-				this.checkedFacilities.length < 1
+      return this.$store.getters['hotelList/isNoFilter']
 		}
   },
 
   methods: {
-    handleStarChange() {},
-
-    handleConfirmTypeChange() {},
-
-    handleCancelTypeChange() {},
-
     // 查酒店列表
     async getZoneData(param) {
       let res_ZoneData = await this.$api.hotelList.syncGetZone(param);
@@ -295,24 +310,14 @@ export default {
 
 			if(index != -1){
 				type === 'checkedPriceRange'
-					? this.checkedPriceRange = ''
-					: this[type].splice(index, 1)
+					? this.$store.dispatch(`hotelList/set${type.substring(7)}`, '')
+          : ( this[type].splice(index, 1), this.$store.dispatch(`hotelList/set${type.substring(7)}`, this[type]) )
 			}
 		},
 
 		// 删除所有勾选的过滤条件
 		clearFilters(){
 			this.bigCollapseIcon = 'down'
-
-      this.checkedPriceRange = ''
-      this.checkedStar = []
-      this.checkedConfirmType = []
-      this.checkedCancelType = []
-      this.checkedZone = []
-      this.checkedBizzone = []
-      this.checkedHotelGroup1 = []
-      this.checkedHotelGroup2 = []
-			this.checkedFacilities = []
 			
 			this.collapseValue1 = ''
 			this.collapseValue2 = ''
@@ -344,11 +349,19 @@ export default {
 				this[collapse] = ''
 			}
 
-			arr.forEach(n => {
+			// arr.forEach(n => {
+			// 	n === 'checkedPriceRange'
+			// 		? this[n] = ''
+			// 		: this[n] = []
+      // })
+
+      arr.forEach(n => {
 				n === 'checkedPriceRange'
-					? this[n] = ''
-					: this[n] = []
-			})
+					? this.$store.dispatch(`hotelList/set${n.substring(7)}`, '')
+					: this.$store.dispatch(`hotelList/set${n.substring(7)}`, [])
+      })
+      
+      
 		},
 
 		addClassMoveLeft(){
@@ -375,11 +388,13 @@ export default {
 			let p2 = this.priceRange2
 
 			if(!p1 && !p2)	return;
-			
-			this.checkedPriceRange =
+      
+			let checkedPriceRange =
 				!p1 ? `0-${p2}_${p2}元以下` :
 				!p2 ? `${p1}-29999_${p1}元以上` 
 						: `${p1}-${p2}_${p1}-${p2}元`
+
+      this.$store.dispatch('hotelList/setPriceRange', checkedPriceRange)
 
 			this.clearPriceRangeInput()
 		}

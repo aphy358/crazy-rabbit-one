@@ -4,7 +4,8 @@
     <div class="sub-search-line-wrap">
         <span>共搜索到<span class="ssl-hotel-num">0</span>家酒店符合条件</span>
         <div class="ssl-search-wrap">
-            <el-input placeholder="请输入关键词" v-model="input5" size="small" clearable style="width:350px">
+            <el-input placeholder="请输入关键词" v-model="input5" size="small" clearable style="width:350px"
+              @input="queryHotels">
               <el-button slot="append" icon="el-icon-search"></el-button>
             </el-input>
         </div>
@@ -17,7 +18,8 @@ export default {
 
   data(){
     return {
-      input5: ''
+      input5: '',
+      hotelList: [],
     }
   },
 
@@ -34,7 +36,26 @@ export default {
   },
   
   methods: {
+    async queryHotels(){
+      let params = {
+        cityId: this.$store.state.hotelList.cityId,
+        type: this.$store.state.hotelList.cityType,
+        keyWords: this.$store.state.hotelList.keyword,
+        startDate: this.$store.state.hotelList.checkin,
+        endDate: this.$store.state.hotelList.checkout,
+        selRoomNum: this.$store.state.hotelList.roomNum,
+        adultNum: this.$store.state.hotelList.adultNum,
+        childrenNum: this.$store.state.hotelList.childrenNum,
+        childrenAgesStr: this.$store.state.hotelList.childrenStr,
+        pageNow: this.$store.state.hotelList.pageNow,
+      }
 
+      let res_HotelList = await this.$api.hotelList.syncGetHotelList(params);
+
+      console.log(res_HotelList);
+      
+
+    }
   }
 }
 </script>

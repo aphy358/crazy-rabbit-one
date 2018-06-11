@@ -18,8 +18,8 @@
       class="hotel-key-word-select"
       prefix-icon="el-icon-search"
       v-model="getKeyword"
-      @input="remoteMethod"
-      @focus="remoteMethod"
+      @input="queryCityAndHotels"
+      @focus="queryCityAndHotels"
       clearable >
     </el-input>
 
@@ -68,7 +68,7 @@ export default {
   },
 
   methods: {
-    remoteMethod(keyword) {
+    queryCityAndHotels(keyword) {
       keyword = typeof keyword === 'object'
         ? keyword.srcElement.value
         : keyword
