@@ -355,18 +355,11 @@ export default {
 				this[collapse] = ''
 			}
 
-			// arr.forEach(n => {
-			// 	n === 'checkedPriceRange'
-			// 		? this[n] = ''
-			// 		: this[n] = []
-      // })
-
       arr.forEach(n => {
 				n === 'checkedPriceRange'
-					? this.$store.dispatch(`hotelList/set${n.substring(7)}`, '')
-					: this.$store.dispatch(`hotelList/set${n.substring(7)}`, [])
+					? this._dispatch({t: n, v: ''})
+					: this._dispatch({t: n, v: []})
       })
-      
       
 		},
 
