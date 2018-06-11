@@ -82,31 +82,6 @@ export default {
         : addDays(new Date, 1)
     },
 
-    // 设置预订间数
-    setRoomNum(state, roomNum){
-      state.roomNum = roomNum
-    },
-
-    // 设置成人数
-    setAdultNum(state, adultNum){
-      state.adultNum = adultNum
-    },
-
-    // 设置小孩数
-    setChildrenNum(state, childrenNum){
-      state.childrenNum = childrenNum
-    },
-
-    // 设置小孩年龄字符串，如：'1,0,1'
-    setChildrenStr(state, childrenStr){
-      state.childrenStr = childrenStr
-    },
-
-    // 设置关键字
-    // setKeyword(state, keyword){
-    //   state.keyword = keyword
-    // },
-
     // 设置入离日期
     setDate(state, dateRange){
       state.checkin = addDays(dateRange[0])

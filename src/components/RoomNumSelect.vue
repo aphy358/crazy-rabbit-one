@@ -55,7 +55,7 @@ export default {
         return this.$store.state.hotelList.roomNum
       },
       set: function (newValue) {
-        this.$store.commit('hotelList/setRoomNum', newValue)
+        this.$store.commit('hotelList/setHotelListState', {t: 'roomNum', v: newValue})
       }
     },
   },

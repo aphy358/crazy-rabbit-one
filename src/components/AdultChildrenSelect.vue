@@ -168,7 +168,7 @@ export default {
         return +this.$store.state.hotelList.adultNum
       },
       set: function (newValue) {
-        this.$store.commit('hotelList/setAdultNum', newValue)
+        this.$store.commit('hotelList/setHotelListState', {t: 'adultNum', v: newValue})
       }
     },
 
@@ -182,7 +182,7 @@ export default {
         this.childAge2 = '0'
         this.childAge3 = '0'
 
-        this.$store.commit('hotelList/setChildrenNum', newValue)
+        this.$store.commit('hotelList/setHotelListState', {t: 'childrenNum', v: newValue})
         this.setChildrenStr()
       }
     },
@@ -201,7 +201,7 @@ export default {
       // 这里要根据小孩数改变小孩年龄数组的长短
       ageArr.length = this.getChildrenNum
 
-      this.$store.commit('hotelList/setChildrenStr', ageArr.join(','))
+      this.$store.commit('hotelList/setHotelListState', {t: 'childrenStr', v: ageArr.join(',')})
     },
   },
 
