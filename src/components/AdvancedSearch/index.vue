@@ -393,7 +393,7 @@ export default {
 				!p2 ? `${p1}-29999_${p1}元以上` 
 						: `${p1}-${p2}_${p1}-${p2}元`
 
-      this.$store.dispatch({type: 'hotelList/actionHotelList', t: 'checkedPriceRange', v: checkedPriceRange})
+      this._dispatch({t: 'checkedPriceRange', v: checkedPriceRange})
 
 			this.clearPriceRangeInput()
 		}
