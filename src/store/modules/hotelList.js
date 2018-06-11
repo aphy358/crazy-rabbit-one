@@ -49,6 +49,19 @@ export default {
       }
     },
 
+    // 重置所有高级搜索的过滤条件
+    resetFilters(state){
+      state.checkedPriceRange = ''
+      state.checkedStar = []
+      state.checkedConfirmType = []
+      state.checkedCancelType = []
+      state.checkedZone = []
+      state.checkedBizzone = []
+      state.checkedHotelGroup1 = []
+      state.checkedHotelGroup2 = []
+			state.checkedFacilities = []
+    },
+
     // 设置城市类型，如：'国内'、'港澳台'、'国外'
     setCityType(state, cityType){
       state.cityType = cityType
@@ -59,16 +72,6 @@ export default {
       state.adultNum = '2'
       state.childrenNum = '0'
       state.childrenStr = ''
-
-      state.checkedPriceRange = ''
-      state.checkedStar = []
-      state.checkedConfirmType = []
-      state.checkedCancelType = []
-      state.checkedZone = []
-      state.checkedBizzone = []
-      state.checkedHotelGroup1 = []
-      state.checkedHotelGroup2 = []
-			state.checkedFacilities = []
 
       state.checkin = cityType == 3 
         ? addDays(new Date, 1) 
@@ -100,14 +103,9 @@ export default {
     },
 
     // 设置关键字
-    setKeyword(state, keyword){
-      state.keyword = keyword
-    },
-    
-    // 设置城市 id
-    setCityId(state, cityId){
-      state.cityId = cityId
-    },
+    // setKeyword(state, keyword){
+    //   state.keyword = keyword
+    // },
 
     // 设置入离日期
     setDate(state, dateRange){
@@ -115,80 +113,21 @@ export default {
       state.checkout = addDays(dateRange[1])
     },
 
-    setZone(state, checkedZone){
-      state.checkedZone = checkedZone
-    },
-
-    setBizzone(state, checkedBizzone){
-      state.checkedBizzone = checkedBizzone
-    },
-
-    setPriceRange(state, checkedPriceRange){
-      state.checkedPriceRange = checkedPriceRange
-    },
-
-    setStar(state, checkedStar){
-      state.checkedStar = checkedStar
-    },
-
-    setHotelGroup1(state, checkedHotelGroup1){
-      state.checkedHotelGroup1 = checkedHotelGroup1
-    },
-
-    setHotelGroup2(state, checkedHotelGroup2){
-      state.checkedHotelGroup2 = checkedHotelGroup2
-    },
-
-    setFacilities(state, checkedFacilities){
-      state.checkedFacilities = checkedFacilities
-    },
-
-    setConfirmType(state, checkedConfirmType){
-      state.checkedConfirmType = checkedConfirmType
-    },
-
-    setCancelType(state, checkedCancelType){
-      state.checkedCancelType = checkedCancelType
-    },
+    setHotelListState(state, payload){
+      state[payload.t] = payload.v
+    }
 
   },
 
   actions: {
-    setZone({ commit, state }, checkedZone){
-      commit('setZone', checkedZone)
+    actionHotelList({ commit, state }, payload){
+      commit('setHotelListState', payload)
     },
 
-    setBizzone({ commit, state }, checkedBizzone){
-      commit('setBizzone', checkedBizzone)
+    setCityType({ commit, state }, cityType){
+      commit('setCityType', cityType)
+      commit('resetFilters')
     },
-
-    setPriceRange({ commit, state }, checkedPriceRange){
-      commit('setPriceRange', checkedPriceRange)
-    },
-
-    setStar({ commit, state }, checkedStar){
-      commit('setStar', checkedStar)
-    },
-
-    setHotelGroup1({ commit, state }, checkedHotelGroup1){
-      commit('setHotelGroup1', checkedHotelGroup1)
-    },
-
-    setHotelGroup2({ commit, state }, checkedHotelGroup2){
-      commit('setHotelGroup2', checkedHotelGroup2)
-    },
-
-    setFacilities({ commit, state }, checkedFacilities){
-      commit('setFacilities', checkedFacilities)
-    },
-
-    setConfirmType({ commit, state }, checkedConfirmType){
-      commit('setConfirmType', checkedConfirmType)
-    },
-
-    setCancelType({ commit, state }, checkedCancelType){
-      commit('setCancelType', checkedCancelType)
-    },
-    
   },
+  
 }

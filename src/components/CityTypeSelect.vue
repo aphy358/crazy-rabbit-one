@@ -43,7 +43,7 @@ export default {
         return this.$store.state.hotelList.cityType
       },
       set: function (newValue) {
-        this.$store.commit('hotelList/setCityType', newValue)
+        this.$store.dispatch('hotelList/setCityType', newValue)
       }
     },
   },

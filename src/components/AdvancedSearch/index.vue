@@ -244,39 +244,39 @@ export default {
   computed: {
     checkedPriceRange: { 
       get(){ return this.$store.state.hotelList.checkedPriceRange },
-      set(checkedPriceRange){ this.$store.dispatch('hotelList/setPriceRange', checkedPriceRange) }
+      set(checkedPriceRange){ this._dispatch({t: 'checkedPriceRange', v: checkedPriceRange}) }
     },
     checkedStar: { 
       get(){ return this.$store.state.hotelList.checkedStar },
-      set(checkedStar){ this.$store.dispatch('hotelList/setStar', checkedStar) }
+      set(checkedStar){ this._dispatch({t: 'checkedStar', v: checkedStar}) }
     },
     checkedConfirmType: { 
       get(){ return this.$store.state.hotelList.checkedConfirmType },
-      set(checkedConfirmType){ this.$store.dispatch('hotelList/setConfirmType', checkedConfirmType) }
+      set(checkedConfirmType){ this._dispatch({t: 'checkedConfirmType', v: checkedConfirmType}) }
     },
     checkedCancelType: { 
       get(){ return this.$store.state.hotelList.checkedCancelType },
-      set(checkedCancelType){ this.$store.dispatch('hotelList/setCancelType', checkedCancelType) }
+      set(checkedCancelType){ this._dispatch({t: 'checkedCancelType', v: checkedCancelType}) }
     },
     checkedZone: { 
       get(){ return this.$store.state.hotelList.checkedZone },
-      set(checkedZone){ this.$store.dispatch('hotelList/setZone', checkedZone) }
+      set(checkedZone){ this._dispatch({t: 'checkedZone', v: checkedZone}) }
     },
     checkedBizzone: { 
       get(){ return this.$store.state.hotelList.checkedBizzone },
-      set(checkedBizzone){ this.$store.dispatch('hotelList/setBizzone', checkedBizzone) }
+      set(checkedBizzone){ this._dispatch({t: 'checkedBizzone', v: checkedBizzone}) }
     },
     checkedHotelGroup1: { 
       get(){ return this.$store.state.hotelList.checkedHotelGroup1 },
-      set(checkedHotelGroup1){ this.$store.dispatch('hotelList/setHotelGroup1', checkedHotelGroup1) }
+      set(checkedHotelGroup1){ this._dispatch({t: 'checkedHotelGroup1', v: checkedHotelGroup1}) }
     },
     checkedHotelGroup2: { 
       get(){ return this.$store.state.hotelList.checkedHotelGroup2 },
-      set(checkedHotelGroup2){ this.$store.dispatch('hotelList/setHotelGroup2', checkedHotelGroup2) }
+      set(checkedHotelGroup2){ this._dispatch({t: 'checkedHotelGroup2', v: checkedHotelGroup2}) }
     },
     checkedFacilities: { 
       get(){ return this.$store.state.hotelList.checkedFacilities },
-      set(checkedFacilities){ this.$store.dispatch('hotelList/setFacilities', checkedFacilities) }
+      set(checkedFacilities){ this._dispatch({t: 'checkedFacilities', v: checkedFacilities}) }
     },
 
     getCityId() {
@@ -306,14 +306,18 @@ export default {
 
 		// 点击 tag 的删除按钮
 		closeTag(value, type){
-			let index = this[type].indexOf(value)
-
+      let index = this[type].indexOf(value)
+      
 			if(index != -1){
 				type === 'checkedPriceRange'
-					? this.$store.dispatch(`hotelList/set${type.substring(7)}`, '')
-          : ( this[type].splice(index, 1), this.$store.dispatch(`hotelList/set${type.substring(7)}`, this[type]) )
+					? this._dispatch({t: 'checkedPriceRange', v: ''})
+          : ( this[type].splice(index, 1), this._dispatch({t: type, v: this[type]}) )
 			}
-		},
+    },
+    
+    _dispatch(payload){
+      this.$store.dispatch('hotelList/actionHotelList', payload)
+    },
 
 		// 删除所有勾选的过滤条件
 		clearFilters(){
@@ -323,7 +327,9 @@ export default {
 			this.collapseValue2 = ''
 			this.collapseValue3 = ''
 			this.collapseValue4 = ''
-			this.collapseValue5 = ''
+      this.collapseValue5 = ''
+      
+      this.$store.commit('hotelList/resetFilters')
 		},
 
 		// 切换折叠面板的收缩状态
@@ -394,7 +400,7 @@ export default {
 				!p2 ? `${p1}-29999_${p1}元以上` 
 						: `${p1}-${p2}_${p1}-${p2}元`
 
-      this.$store.dispatch('hotelList/setPriceRange', checkedPriceRange)
+      this.$store.dispatch({type: 'hotelList/actionHotelList', t: 'checkedPriceRange', v: checkedPriceRange})
 
 			this.clearPriceRangeInput()
 		}
