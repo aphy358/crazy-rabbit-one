@@ -58,7 +58,12 @@
         </div>
         
         <div class="hli-price-list-outer">
-          <!-- <div class="progress-outer"></div> -->
+          <div class="progress-outer" >
+            <el-progress :text-inside="true" :stroke-width="18" 
+              :percentage="pricePercentageArr[o.infoId]" 
+              :color=""
+              ></el-progress>
+          </div>
       
           <div class="hli-price-list-wrap">
             <div class="fzg-loading-wrap" v-if="!hotelPriceArr[o.infoId]">
@@ -85,6 +90,7 @@ export default {
   data(){
     return {
       hotelPriceArr: {},
+      pricePercentageArr: {},
     }
   },
 
@@ -116,13 +122,67 @@ export default {
           isSearchSurcharge: 0
         }
 
+        this.queryPriceListInStock(params)
         this.queryPriceList(params)
       }
     },
 
-    async queryPriceList(params){
+    // 查缓存内的价格
+    async queryPriceListInStock(params){
       let res = await this.$api.hotelList.syncGetHotelPriceListInStock(params)
+
+      // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
+      if(!this.hotelPriceArr[params.hotelId]){
+          this.$set(this.hotelPriceArr, params.hotelId, res)
+      }
+    },
+
+    // 查价，实查
+    async queryPriceList(params){
+      let timer1, timer2, timer3
+      let _this = this
+
+      this.$set(this.pricePercentageArr, params.hotelId, 1)
+
+      // 前面 80% 的部分，每一个百分比耗时 35 毫秒
+      timer1 = setInterval(() => {
+        _this.$set(_this.pricePercentageArr, params.hotelId, _this.pricePercentageArr[params.hotelId] + 1)
+
+        if(_this.pricePercentageArr[params.hotelId] >= 80){
+          clearInterval(timer1)
+
+          // 80% ~ 95% 的部分，每一个百分比耗时 333 毫秒
+          timer2 = setInterval(() => {
+            _this.$set(_this.pricePercentageArr, params.hotelId, _this.pricePercentageArr[params.hotelId] + 1)
+            
+            if(_this.pricePercentageArr[params.hotelId] >= 95){
+              clearInterval(timer2)
+
+              // 95% ~ 99% 的部分，每一个百分比耗时 1250 毫秒
+              timer3 = setInterval(() => {
+                _this.$set(_this.pricePercentageArr, params.hotelId, _this.pricePercentageArr[params.hotelId] + 1)
+
+                if(_this.pricePercentageArr[params.hotelId] >= 99){
+                  clearInterval(timer3)
+                }
+              }, 1250)
+            }
+          }, 333)
+        }
+      }, 35)
+    
+      let res = await this.$api.hotelList.syncGetHotelPriceList(params)
       this.$set(this.hotelPriceArr, params.hotelId, res)
+
+      clearInterval(timer1)
+      clearInterval(timer2)
+      clearInterval(timer3)
+
+      this.$set(this.pricePercentageArr, params.hotelId, 100)
+
+      setTimeout(() => {
+        _this.$set(_this.pricePercentageArr, params.hotelId, 0)
+      }, 100)
     }
   },
 }
@@ -142,7 +202,7 @@ export default {
             background: white;
             margin: 20px 0;
             box-sizing: border-box;
-            box-shadow: 0 0 5px #dadada;
+            box-shadow: 0 0 5px #e8e8e8;
             
             @at-root .hli-info-wrap{
                 font-size: 15px;
@@ -301,8 +361,8 @@ export default {
             
             @at-root .progress-outer{
                 position: relative;
-                box-shadow: 0 0 5px #dadada;
-                border: solid 1px #d0d0d0;
+                box-shadow: 0 0 5px #e8e8e8;
+                border: solid 1px #e8e8e8;
                 margin: 0 20px 10px;
                 border-radius: 10px;
                 overflow: hidden;
@@ -351,7 +411,7 @@ export default {
                     position: fixed;
                     bottom: 0;
                     width: 1200px;
-                    box-shadow: 0 0 5px #dadada;
+                    box-shadow: 0 0 5px #e8e8e8;
                     z-index: 9999;
                 }
             }

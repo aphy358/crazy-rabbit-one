@@ -26,6 +26,12 @@
 
 
 
-setState(state, payload){
-    state[payload.t] = payload.newValue
-}
+#ff4500
+#35b735
+
+255-35=-220
+45-183=138
+00-35=35
+
+
+`rgba(${parseInt(255 - hotelPriceArr[o.infoId] * 2.2)}, ${parseInt(45 + hotelPriceArr[o.infoId] * 1.38)}, ${parseInt(hotelPriceArr[o.infoId] * 0.35)}, 0.7)`
