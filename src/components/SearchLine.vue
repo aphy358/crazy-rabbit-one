@@ -48,6 +48,10 @@ export default {
     queryHotelList(){
       this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
     }
+  },
+
+  created(){
+    this.queryHotelList()
   }
 }
 </script>

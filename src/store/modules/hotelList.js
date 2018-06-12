@@ -45,7 +45,7 @@ export default {
         state.checkedFacilities.length < 1
     },
     
-    // 经过前端过滤条件筛选的数据
+    // 将酒店数据进行初步加工
     getHotelList(state){
       state.hotelList.forEach((o, i) => {
         if(o.picSrc.indexOf('nopic.png') != -1){
@@ -121,7 +121,7 @@ export default {
         let params = {
           cityId: state.cityId,
           type: state.cityType,
-          keyWords: state.cityType ? '' : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
+          keyWords: state.cityType ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
           startDate: state.checkin,
           endDate: state.checkout,
           selRoomNum: state.roomNum,
@@ -136,6 +136,8 @@ export default {
           hotelFacility: state.checkedFacilities.map(n => n.split('_')[0]).join(','),
           hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
         }
+        console.log(params);
+        
 
         let res_HotelList = await payload.api.hotelList.syncGetHotelList(params);
 
@@ -148,9 +150,10 @@ export default {
       }
     },
 
-    setCityType({ commit, state }, cityType){
-      commit('setCityType', cityType)
+    setCityType({ commit, state, dispatch }, payload){
+      commit('setCityType', payload.cityType)
       commit('resetFilters')
+      dispatch('actionHotelList', { api: payload.api })
     },
   },
   

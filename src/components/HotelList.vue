@@ -100,8 +100,6 @@ export default {
     hotelList(){
       return this.$store.getters['hotelList/getHotelList']
     },
-
-    
   },
   
   methods: {
@@ -125,10 +123,8 @@ export default {
     async queryPriceList(params){
       let res = await this.$api.hotelList.syncGetHotelPriceListInStock(params)
       this.$set(this.hotelPriceArr, params.hotelId, res)
-      
-      // this.hotelPriceArr[params.hotelId] = res
     }
-  }
+  },
 }
 </script>
 
@@ -289,6 +285,16 @@ export default {
                             border-color: darken($color: #339afc, $amount: 10%);
                             box-shadow: 0 0 5px #339afc;
                         }
+                    }
+
+                    .icon-gz-off{
+                        @include jl_sprites;
+                        @include gz4;
+                    }
+
+                    .icon-gz-on{
+                        @include jl_sprites;
+                        @include gz3;
                     }
                 }
             }

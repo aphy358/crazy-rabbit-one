@@ -255,7 +255,7 @@ export default {
         return this.$store.state.hotelList.checkedStar;
       },
       set(checkedStar) {
-        this._dispatch({ t: "checkedStar", v: checkedStar });
+        this._dispatch({ t: "checkedStar", v: checkedStar, api: this.$api });
       }
     },
     checkedConfirmType: {
@@ -279,7 +279,7 @@ export default {
         return this.$store.state.hotelList.checkedZone;
       },
       set(checkedZone) {
-        this._dispatch({ t: "checkedZone", v: checkedZone });
+        this._dispatch({ t: "checkedZone", v: checkedZone, api: this.$api });
       }
     },
     checkedBizzone: {
@@ -287,7 +287,7 @@ export default {
         return this.$store.state.hotelList.checkedBizzone;
       },
       set(checkedBizzone) {
-        this._dispatch({ t: "checkedBizzone", v: checkedBizzone });
+        this._dispatch({ t: "checkedBizzone", v: checkedBizzone, api: this.$api });
       }
     },
     checkedHotelGroup1: {
@@ -295,7 +295,7 @@ export default {
         return this.$store.state.hotelList.checkedHotelGroup1;
       },
       set(checkedHotelGroup1) {
-        this._dispatch({ t: "checkedHotelGroup1", v: checkedHotelGroup1 });
+        this._dispatch({ t: "checkedHotelGroup1", v: checkedHotelGroup1, api: this.$api });
       }
     },
     checkedHotelGroup2: {
@@ -303,7 +303,7 @@ export default {
         return this.$store.state.hotelList.checkedHotelGroup2;
       },
       set(checkedHotelGroup2) {
-        this._dispatch({ t: "checkedHotelGroup2", v: checkedHotelGroup2 });
+        this._dispatch({ t: "checkedHotelGroup2", v: checkedHotelGroup2, api: this.$api });
       }
     },
     checkedFacilities: {
@@ -311,7 +311,7 @@ export default {
         return this.$store.state.hotelList.checkedFacilities;
       },
       set(checkedFacilities) {
-        this._dispatch({ t: "checkedFacilities", v: checkedFacilities });
+        this._dispatch({ t: "checkedFacilities", v: checkedFacilities, api: this.$api });
       }
     },
 
@@ -345,28 +345,37 @@ export default {
       let index = this[type].indexOf(value);
 
       if (index != -1) {
-        type === "checkedPriceRange"
-          ? this._dispatch({ t: "checkedPriceRange", v: "" })
-          : (this[type].splice(index, 1),
-            this._dispatch({ t: type, v: this[type] }));
+        if(type === "checkedPriceRange"){
+          this._dispatch({ t: "checkedPriceRange", v: "", api: this.$api })
+        }else{
+          this[type].splice(index, 1)
+
+          if(type === "checkedConfirmType" || type === "checkedCancelType"){
+            this._dispatch({ t: type, v: this[type] })
+          }else{
+            this._dispatch({ t: type, v: this[type], api: this.$api })
+          }
+        }
       }
     },
 
+    // 抽离出的 dispatch 公共部分
     _dispatch(payload) {
       this.$store.dispatch("hotelList/actionHotelList", payload);
     },
 
     // 删除所有勾选的过滤条件
     clearFilters() {
-      this.bigCollapseIcon = "down";
+      this.bigCollapseIcon = "down"
 
-      this.collapseValue1 = "";
-      this.collapseValue2 = "";
-      this.collapseValue3 = "";
-      this.collapseValue4 = "";
-      this.collapseValue5 = "";
+      this.collapseValue1 = ""
+      this.collapseValue2 = ""
+      this.collapseValue3 = ""
+      this.collapseValue4 = ""
+      this.collapseValue5 = ""
 
-      this.$store.commit("hotelList/resetFilters");
+      this.$store.commit("hotelList/resetFilters")
+      this._dispatch({ api: this.$api })
     },
 
     // 切换折叠面板的收缩状态
@@ -398,9 +407,15 @@ export default {
       }
 
       arr.forEach(n => {
-        n === "checkedPriceRange"
-          ? this._dispatch({ t: n, v: "" })
-          : this._dispatch({ t: n, v: [] });
+        if(n === "checkedPriceRange"){
+          this._dispatch({ t: n, v: "", api: this.$api })
+        }else{
+          if(n === "checkedConfirmType" || n === "checkedCancelType"){
+            this._dispatch({ t: n, v: [] })
+          }else{
+            this._dispatch({ t: n, v: [], api: this.$api })
+          }
+        }
       });
     },
 
@@ -433,7 +448,7 @@ export default {
         ? `0-${p2}_${p2}元以下`
         : !p2 ? `${p1}-29999_${p1}元以上` : `${p1}-${p2}_${p1}-${p2}元`;
 
-      this._dispatch({ t: "checkedPriceRange", v: checkedPriceRange });
+      this._dispatch({ t: "checkedPriceRange", v: checkedPriceRange, api: this.$api });
 
       this.clearPriceRangeInput();
     }
