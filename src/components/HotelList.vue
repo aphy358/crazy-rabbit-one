@@ -59,10 +59,11 @@
         
         <div class="hli-price-list-outer">
           <div class="progress-outer" >
-            <el-progress :text-inside="true" :stroke-width="18" 
+            <el-progress :text-inside="true" :stroke-width="18" :show-text=false
               :percentage="pricePercentageArr[o.infoId]" 
-              :color=""
+              :color="progressArr[o.infoId]"
               ></el-progress>
+            <div style="position: absolute;top: 0;width: 100%;text-align: center;color: rgb(21, 169, 94);">正在查询最低价，请稍候...</div>
           </div>
       
           <div class="hli-price-list-wrap">
@@ -91,6 +92,7 @@ export default {
     return {
       hotelPriceArr: {},
       pricePercentageArr: {},
+      progressArr: {},
     }
   },
 
@@ -140,27 +142,48 @@ export default {
     // 查价，实查
     async queryPriceList(params){
       let timer1, timer2, timer3
+      let percentage = 1
+      let c1 = 255, c2 = 45, c3 = 0
       let _this = this
 
-      this.$set(this.pricePercentageArr, params.hotelId, 1)
+      _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
+      _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
 
       // 前面 80% 的部分，每一个百分比耗时 35 毫秒
       timer1 = setInterval(() => {
-        _this.$set(_this.pricePercentageArr, params.hotelId, _this.pricePercentageArr[params.hotelId] + 1)
+        percentage = _this.pricePercentageArr[params.hotelId] + 1
+        c1 = parseInt(255 - percentage * 2.2)
+        c2 = parseInt(45 + percentage * 1.38)
+        c3 = parseInt(percentage * 0.35)
+
+        _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
+        _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
 
         if(_this.pricePercentageArr[params.hotelId] >= 80){
           clearInterval(timer1)
 
           // 80% ~ 95% 的部分，每一个百分比耗时 333 毫秒
           timer2 = setInterval(() => {
-            _this.$set(_this.pricePercentageArr, params.hotelId, _this.pricePercentageArr[params.hotelId] + 1)
+            percentage = _this.pricePercentageArr[params.hotelId] + 1
+            c1 = parseInt(255 - percentage * 2.2)
+            c2 = parseInt(45 + percentage * 1.38)
+            c3 = parseInt(percentage * 0.35)
+
+            _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
+            _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
             
             if(_this.pricePercentageArr[params.hotelId] >= 95){
               clearInterval(timer2)
 
               // 95% ~ 99% 的部分，每一个百分比耗时 1250 毫秒
               timer3 = setInterval(() => {
-                _this.$set(_this.pricePercentageArr, params.hotelId, _this.pricePercentageArr[params.hotelId] + 1)
+                percentage = _this.pricePercentageArr[params.hotelId] + 1
+                c1 = parseInt(255 - percentage * 2.2)
+                c2 = parseInt(45 + percentage * 1.38)
+                c3 = parseInt(percentage * 0.35)
+
+                _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
+                _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
 
                 if(_this.pricePercentageArr[params.hotelId] >= 99){
                   clearInterval(timer3)
@@ -182,7 +205,7 @@ export default {
 
       setTimeout(() => {
         _this.$set(_this.pricePercentageArr, params.hotelId, 0)
-      }, 100)
+      }, 300)
     }
   },
 }
