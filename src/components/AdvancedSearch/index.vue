@@ -7,8 +7,8 @@
                 <div class="a-s-row">
                     <label class="a-s-label">位置区域</label>
                     <el-button type="primary" size="mini" class="no-limit" 
-											:class="checkedZone.length < 1 && checkedBizzone.length < 1 ? 'disabled' : ''"
-											@click="noLimitClick(['checkedZone', 'checkedBizzone'], 'collapseValue1')">不限</el-button>
+                      :class="checkedZone.length < 1 && checkedBizzone.length < 1 ? 'disabled' : ''"
+                      @click="noLimitClick(['checkedZone', 'checkedBizzone'], 'collapseValue1')">不限</el-button>
 
                     <el-collapse accordion :value="collapseValue1" @change="collapseChange($event, 'collapseValue1')">
                         <el-collapse-item>
@@ -33,8 +33,8 @@
                 <div class="a-s-row">
                     <label class="a-s-label">价格区间</label>
                     <el-button type="primary" size="mini" class="no-limit" 
-											:class="checkedPriceRange === '' ? 'disabled' : ''"
-											@click="noLimitClick(['checkedPriceRange'])">不限</el-button>
+                      :class="checkedPriceRange === '' ? 'disabled' : ''"
+                      @click="noLimitClick(['checkedPriceRange'])">不限</el-button>
 
                     <el-radio-group v-model="checkedPriceRange">
                         <el-radio label="0-199_200元以下">200元以下</el-radio>
@@ -48,32 +48,32 @@
 
                     <div class="search-item-price-wrap" :class="moveLeft ? 'move-left' : ''">
                         <input class="search-line-price" placeholder="最低价" type="number"
-													v-model.number="priceRange1"
-													@focus="addClassMoveLeft" 
-													@blur="removeClassMoveLeft"
-													@keyup.enter="customizedPriceRange"
-													@input="priceRangeEdit('priceRange1', priceRange1)">
+                          v-model.number="priceRange1"
+                          @focus="addClassMoveLeft" 
+                          @blur="removeClassMoveLeft"
+                          @keyup.enter="customizedPriceRange"
+                          @input="priceRangeEdit('priceRange1', priceRange1)">
 
                         <i class="search-line-seperator"></i>
 
                         <input class="search-line-price" placeholder="最高价" type="number"
-													v-model.number="priceRange2"
-													@focus="addClassMoveLeft" 
-													@blur="removeClassMoveLeft"
-													@keyup.enter="customizedPriceRange"
-													@input="priceRangeEdit('priceRange2', priceRange2)">
+                          v-model.number="priceRange2"
+                          @focus="addClassMoveLeft" 
+                          @blur="removeClassMoveLeft"
+                          @keyup.enter="customizedPriceRange"
+                          @input="priceRangeEdit('priceRange2', priceRange2)">
                     </div>
 
-										<el-button type="primary" size="mini" class="no-limit" 
-											style="float:right;margin: 9px 0 0 0;"
-											@click="customizedPriceRange">确定</el-button>
+                    <el-button type="primary" size="mini" class="no-limit" 
+                      style="float:right;margin: 9px 0 0 0;"
+                      @click="customizedPriceRange">确定</el-button>
                 </div>
             
                 <div class="a-s-row">
                     <label class="a-s-label">酒店等级</label>
                     <el-button type="primary" size="mini" class="no-limit" 
-											:class="checkedStar.length < 1 ? 'disabled' : ''"
-											@click="noLimitClick(['checkedStar'])">不限</el-button>
+                      :class="checkedStar.length < 1 ? 'disabled' : ''"
+                      @click="noLimitClick(['checkedStar'])">不限</el-button>
 
                     <el-checkbox-group v-model="checkedStar" :max="3">
                         <el-checkbox label="10,15,20,25_二星级及以下/经济" key="10,15,20,25">二星级及以下/经济</el-checkbox>
@@ -96,8 +96,8 @@
                         <div class="a-s-row">
                             <label class="a-s-label">确认时间</label>
                             <el-button type="primary" size="mini" class="no-limit" 
-															:class="checkedConfirmType.length < 1 ? 'disabled' : ''"
-															@click="noLimitClick(['checkedConfirmType'])">不限</el-button>
+                              :class="checkedConfirmType.length < 1 ? 'disabled' : ''"
+                              @click="noLimitClick(['checkedConfirmType'])">不限</el-button>
 
                             <!-- 该条件不用传到后台，是用作在前端筛选数据用的 -->
                             <el-checkbox-group v-model="checkedConfirmType" :max="2">
@@ -110,8 +110,8 @@
                         <div class="a-s-row">
                             <label class="a-s-label">可否取消</label>
                             <el-button type="primary" size="mini" class="no-limit" 
-															:class="checkedCancelType.length < 1 ? 'disabled' : ''"
-															@click="noLimitClick(['checkedCancelType'])">不限</el-button>
+                              :class="checkedCancelType.length < 1 ? 'disabled' : ''"
+                              @click="noLimitClick(['checkedCancelType'])">不限</el-button>
 
                             <!-- 该条件不用传到后台，是用作在前端筛选数据用的 -->
                             <el-checkbox-group v-model="checkedCancelType">
@@ -123,8 +123,8 @@
                         <div class="a-s-row">
                             <label class="a-s-label">酒店集团</label>
                             <el-button type="primary" size="mini" class="no-limit" 
-															:class="checkedHotelGroup1.length < 1 && checkedHotelGroup2.length < 1 ? 'disabled' : ''"
-															@click="noLimitClick(['checkedHotelGroup1', 'checkedHotelGroup2'], 'collapseValue3')">不限</el-button>
+                              :class="checkedHotelGroup1.length < 1 && checkedHotelGroup2.length < 1 ? 'disabled' : ''"
+                              @click="noLimitClick(['checkedHotelGroup1', 'checkedHotelGroup2'], 'collapseValue3')">不限</el-button>
 
                             <el-collapse :value="collapseValue3" @change="collapseChange($event, 'collapseValue3')">
                                 <el-collapse-item>
@@ -150,8 +150,8 @@
                         <div class="a-s-row">
                             <label class="a-s-label">特殊要求</label>
                             <el-button type="primary" size="mini" class="no-limit" 
-															:class="checkedFacilities.length < 1 ? 'disabled' : ''"
-															@click="noLimitClick(['checkedFacilities'], 'collapseValue5')">不限</el-button>
+                              :class="checkedFacilities.length < 1 ? 'disabled' : ''"
+                              @click="noLimitClick(['checkedFacilities'], 'collapseValue5')">不限</el-button>
 
                             <el-collapse :value="collapseValue5" @change="collapseChange($event, 'collapseValue5')">
                                 <el-collapse-item>
@@ -173,16 +173,16 @@
 
         <div class="advanced-search-selected-wrap" v-if="!isNoFilter">
             <ul class="a-s-s-list">
-							<el-tag size="mini" v-if="checkedPriceRange !== ''" :key="checkedPriceRange" @close="closeTag(checkedPriceRange, 'checkedPriceRange')" closable>{{checkedPriceRange.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedZone" :key="n" @close="closeTag(n, 'checkedZone')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedBizzone" :key="n" @close="closeTag(n, 'checkedBizzone')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedStar" :key="n" @close="closeTag(n, 'checkedStar')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedConfirmType" :key="n" @close="closeTag(n, 'checkedConfirmType')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedCancelType" :key="n" @close="closeTag(n, 'checkedCancelType')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedHotelGroup1" :key="n" @close="closeTag(n, 'checkedHotelGroup1')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedHotelGroup2" :key="n" @close="closeTag(n, 'checkedHotelGroup2')" closable>{{n.split('_')[1]}}</el-tag>
-							<el-tag size="mini" v-for="n of checkedFacilities" :key="n" @close="closeTag(n, 'checkedFacilities')" closable>{{n.split('_')[1]}}</el-tag>
-						</ul>
+              <el-tag size="mini" v-if="checkedPriceRange !== ''" :key="checkedPriceRange" @close="closeTag(checkedPriceRange, 'checkedPriceRange')" closable>{{checkedPriceRange.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedZone" :key="n" @close="closeTag(n, 'checkedZone')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedBizzone" :key="n" @close="closeTag(n, 'checkedBizzone')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedStar" :key="n" @close="closeTag(n, 'checkedStar')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedConfirmType" :key="n" @close="closeTag(n, 'checkedConfirmType')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedCancelType" :key="n" @close="closeTag(n, 'checkedCancelType')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedHotelGroup1" :key="n" @close="closeTag(n, 'checkedHotelGroup1')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedHotelGroup2" :key="n" @close="closeTag(n, 'checkedHotelGroup2')" closable>{{n.split('_')[1]}}</el-tag>
+              <el-tag size="mini" v-for="n of checkedFacilities" :key="n" @close="closeTag(n, 'checkedFacilities')" closable>{{n.split('_')[1]}}</el-tag>
+            </ul>
             <button class="a-s-s-btn" @click="clearFilters">清空条件</button>
         </div>
     </div>
