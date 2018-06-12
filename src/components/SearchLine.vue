@@ -7,7 +7,7 @@
             <DateRange />
             <RoomNumSelect />
             <AdultChildrenSelect v-if="getCityType != 0" />
-            <el-button type="primary" size="small" @click="toOtherPage">搜索</el-button>
+            <el-button type="primary" size="small" @click="queryHotelList">搜索</el-button>
         </div>
     </div>
 </template>
@@ -45,9 +45,8 @@ export default {
   },
 
   methods: {
-    toOtherPage(){
-      let state = window.JSON.stringify(this.$store.state)
-      sessionStorage.setItem('jlfzg__state', state)
+    queryHotelList(){
+      this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
     }
   }
 }

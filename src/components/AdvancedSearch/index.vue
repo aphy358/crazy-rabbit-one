@@ -244,10 +244,10 @@ export default {
   computed: {
     checkedPriceRange: {
       get() {
-        return this.$store.state.hotelList.checkedPriceRange;
+        return this.$store.state.hotelList.checkedPriceRange
       },
       set(checkedPriceRange) {
-        this._dispatch({ t: "checkedPriceRange", v: checkedPriceRange });
+        this._dispatch({ t: "checkedPriceRange", v: checkedPriceRange, api: this.$api });
       }
     },
     checkedStar: {

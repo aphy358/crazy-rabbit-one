@@ -4,7 +4,8 @@
         <SearchLine />
         <AdvancedSearch />
         <SubSearchLine />
-        <NoHotels />
+        <NoHotels v-if="pageRecordCount == 0" />
+        <HotelList />
         <Pagination />
 
         <input 
@@ -15,7 +16,7 @@
           @click="login"
           style="position: absolute;top: 100px;left: 50px;"
           src="/user/getCheckcodeImg.do?time=" alt="">
-          
+
     </div>
 </template>
 
@@ -25,6 +26,7 @@ import SearchLine from '../components/SearchLine'
 import AdvancedSearch from '../components/AdvancedSearch'
 import SubSearchLine from '../components/SubSearchLine'
 import NoHotels from '../components/NoHotels'
+import HotelList from '../components/HotelList'
 import Pagination from '../components/Pagination'
 
 export default {
@@ -45,10 +47,14 @@ export default {
     AdvancedSearch,
     SubSearchLine,
     NoHotels,
+    HotelList,
     Pagination,
   },
 
   computed: {
+    pageRecordCount(){
+      return this.$store.state.hotelList.pageRecordCount
+    }
   },
 
   methods: {

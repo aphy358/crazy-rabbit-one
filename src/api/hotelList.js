@@ -22,6 +22,17 @@ export const syncGetZone = (args, loading = false) => http.post("/hotel/getZone.
 export const syncGetHotelList = (args, loading = true) => http.post("/hotel/queryHotelListNew.do", args, loading)
 
 
+// 查询酒店价格，(缓存价格)
+export const syncGetHotelPriceListInStock = (args, loading = true) => http.post("/hotel/getHotelPriceListInStock.do", args, loading)
+
+
+// 查询酒店价格，(实查)
+export const syncGetHotelPriceList = (args, loading = true) => http.post("/hotel/getHotelPriceList.do", args, loading)
+
+
 // 登录
 export const syncLogin = (args, loading = false) => http.post("/user/loginfzg.do", args, loading)
+
+
+
 

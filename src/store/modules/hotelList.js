@@ -6,6 +6,7 @@ export default {
   state: {
     cityType: '0',
     keyword: '',
+    keywords: '',
     cityId: '',
     roomNum: '1',
     adultNum: '2',
@@ -13,7 +14,11 @@ export default {
     childrenStr: '',
     checkin: addDays(new Date),
     checkout: addDays(new Date, 1),
+
     pageNow: '1',
+    pageTotal: '1',
+    pageRecordCount: '0',
+    hotelList: [],
 
     checkedPriceRange: '',
     checkedStar: [],
@@ -38,7 +43,19 @@ export default {
         state.checkedHotelGroup1.length < 1 &&
         state.checkedHotelGroup2.length < 1 &&
         state.checkedFacilities.length < 1
-		}
+    },
+    
+    // 经过前端过滤条件筛选的数据
+    getHotelList(state){
+      state.hotelList.forEach((o, i) => {
+        if(o.picSrc.indexOf('nopic.png') != -1){
+          o.picSrc = o.picSrc.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
+          o.extraStyle = 'height: 100%;width: auto;margin-left: 60px;'
+        }
+      })
+
+      return state.hotelList
+    }
   },
 
   mutations: {
@@ -89,14 +106,46 @@ export default {
     },
 
     setHotelListState(state, payload){
-      state[payload.t] = payload.v
+      if(payload.t){
+        state[payload.t] = payload.v
+      }
     }
 
   },
 
   actions: {
-    actionHotelList({ commit, state }, payload){
+    async actionHotelList({ commit, state }, payload){
       commit('setHotelListState', payload)
+
+      if(payload.api){
+        let params = {
+          cityId: state.cityId,
+          type: state.cityType,
+          keyWords: state.cityType ? '' : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
+          startDate: state.checkin,
+          endDate: state.checkout,
+          selRoomNum: state.roomNum,
+          adultNum: state.adultNum,
+          childrenNum: state.childrenNum,
+          childrenAgesStr: state.childrenStr,
+          pageNow: state.pageNow,
+          star: state.checkedStar.map(n => n.split('_')[0]).join(','),
+          priceRange: state.checkedPriceRange.split('_')[0],
+          bizCircleId: state.checkedBizzone.map(n => n.split('_')[0]).join(','),
+          zoneId: state.checkedZone.map(n => n.split('_')[0]).join(','),
+          hotelFacility: state.checkedFacilities.map(n => n.split('_')[0]).join(','),
+          hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
+        }
+
+        let res_HotelList = await payload.api.hotelList.syncGetHotelList(params);
+
+        if(res_HotelList.returnCode === 1){
+          commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
+          commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
+          commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
+        }
+
+      }
     },
 
     setCityType({ commit, state }, cityType){
