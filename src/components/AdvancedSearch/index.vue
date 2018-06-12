@@ -197,44 +197,44 @@ export default {
 
   data() {
     return {
-			bigCollapseIcon: "down",
+      bigCollapseIcon: "down",
 
-			priceRange1: "",
-			priceRange2: "",
+      priceRange1: "",
+      priceRange2: "",
 
-			bizzoneList: [],
-			zoneList: [],
+      bizzoneList: [],
+      zoneList: [],
 
-			collapseValue1: '',
-			collapseValue2: '',
-			collapseValue3: '',
-			collapseValue4: '',
-			collapseValue5: '',
-			
+      collapseValue1: "",
+      collapseValue2: "",
+      collapseValue3: "",
+      collapseValue4: "",
+      collapseValue5: "",
+
       facilities: facilities,
       hotelGroup1: hotelGroup.filter((n, i) => i < 20),
-			hotelGroup2: hotelGroup.filter((n, i) => i >= 20),
-			
-			moveLeft: false,
+      hotelGroup2: hotelGroup.filter((n, i) => i >= 20),
+
+      moveLeft: false
     };
   },
 
   watch: {
     getCityId(newId) {
       if (newId) {
-        this.getZoneData({ cityid: newId })
+        this.getZoneData({ cityid: newId });
       } else {
-        this.bizzoneList = []
-        this.zoneList = []
+        this.bizzoneList = [];
+        this.zoneList = [];
       }
-		},
-		
-		getCityType(newValue){
-			this.clearFilters()
+    },
 
-			this.bizzoneList = []
-			this.zoneList = []
-		}
+    getCityType(newValue) {
+      this.clearFilters();
+
+      this.bizzoneList = [];
+      this.zoneList = [];
+    }
   },
 
   props: {},
@@ -242,55 +242,91 @@ export default {
   components: {},
 
   computed: {
-    checkedPriceRange: { 
-      get(){ return this.$store.state.hotelList.checkedPriceRange },
-      set(checkedPriceRange){ this._dispatch({t: 'checkedPriceRange', v: checkedPriceRange}) }
+    checkedPriceRange: {
+      get() {
+        return this.$store.state.hotelList.checkedPriceRange;
+      },
+      set(checkedPriceRange) {
+        this._dispatch({ t: "checkedPriceRange", v: checkedPriceRange });
+      }
     },
-    checkedStar: { 
-      get(){ return this.$store.state.hotelList.checkedStar },
-      set(checkedStar){ this._dispatch({t: 'checkedStar', v: checkedStar}) }
+    checkedStar: {
+      get() {
+        return this.$store.state.hotelList.checkedStar;
+      },
+      set(checkedStar) {
+        this._dispatch({ t: "checkedStar", v: checkedStar });
+      }
     },
-    checkedConfirmType: { 
-      get(){ return this.$store.state.hotelList.checkedConfirmType },
-      set(checkedConfirmType){ this._dispatch({t: 'checkedConfirmType', v: checkedConfirmType}) }
+    checkedConfirmType: {
+      get() {
+        return this.$store.state.hotelList.checkedConfirmType;
+      },
+      set(checkedConfirmType) {
+        this._dispatch({ t: "checkedConfirmType", v: checkedConfirmType });
+      }
     },
-    checkedCancelType: { 
-      get(){ return this.$store.state.hotelList.checkedCancelType },
-      set(checkedCancelType){ this._dispatch({t: 'checkedCancelType', v: checkedCancelType}) }
+    checkedCancelType: {
+      get() {
+        return this.$store.state.hotelList.checkedCancelType;
+      },
+      set(checkedCancelType) {
+        this._dispatch({ t: "checkedCancelType", v: checkedCancelType });
+      }
     },
-    checkedZone: { 
-      get(){ return this.$store.state.hotelList.checkedZone },
-      set(checkedZone){ this._dispatch({t: 'checkedZone', v: checkedZone}) }
+    checkedZone: {
+      get() {
+        return this.$store.state.hotelList.checkedZone;
+      },
+      set(checkedZone) {
+        this._dispatch({ t: "checkedZone", v: checkedZone });
+      }
     },
-    checkedBizzone: { 
-      get(){ return this.$store.state.hotelList.checkedBizzone },
-      set(checkedBizzone){ this._dispatch({t: 'checkedBizzone', v: checkedBizzone}) }
+    checkedBizzone: {
+      get() {
+        return this.$store.state.hotelList.checkedBizzone;
+      },
+      set(checkedBizzone) {
+        this._dispatch({ t: "checkedBizzone", v: checkedBizzone });
+      }
     },
-    checkedHotelGroup1: { 
-      get(){ return this.$store.state.hotelList.checkedHotelGroup1 },
-      set(checkedHotelGroup1){ this._dispatch({t: 'checkedHotelGroup1', v: checkedHotelGroup1}) }
+    checkedHotelGroup1: {
+      get() {
+        return this.$store.state.hotelList.checkedHotelGroup1;
+      },
+      set(checkedHotelGroup1) {
+        this._dispatch({ t: "checkedHotelGroup1", v: checkedHotelGroup1 });
+      }
     },
-    checkedHotelGroup2: { 
-      get(){ return this.$store.state.hotelList.checkedHotelGroup2 },
-      set(checkedHotelGroup2){ this._dispatch({t: 'checkedHotelGroup2', v: checkedHotelGroup2}) }
+    checkedHotelGroup2: {
+      get() {
+        return this.$store.state.hotelList.checkedHotelGroup2;
+      },
+      set(checkedHotelGroup2) {
+        this._dispatch({ t: "checkedHotelGroup2", v: checkedHotelGroup2 });
+      }
     },
-    checkedFacilities: { 
-      get(){ return this.$store.state.hotelList.checkedFacilities },
-      set(checkedFacilities){ this._dispatch({t: 'checkedFacilities', v: checkedFacilities}) }
+    checkedFacilities: {
+      get() {
+        return this.$store.state.hotelList.checkedFacilities;
+      },
+      set(checkedFacilities) {
+        this._dispatch({ t: "checkedFacilities", v: checkedFacilities });
+      }
     },
 
     getCityId() {
-      return this.$store.state.hotelList.cityId
-		},
-		
-		getCityType(){
-      return this.$store.state.hotelList.cityType
-		},
+      return this.$store.state.hotelList.cityId;
+    },
 
-		// 判断是否当前一个过滤条件都没有
-		isNoFilter(){
-      return this.$store.getters['hotelList/isNoFilter']
-		}
+    getCityType() {
+      return this.$store.state.hotelList.cityType;
+    },
+
+    // 判断是否当前一个过滤条件都没有
+    isNoFilter() {
+      return this.$store.getters["hotelList/isNoFilter"];
+    }
   },
 
   methods: {
@@ -299,104 +335,108 @@ export default {
       let res_ZoneData = await this.$api.hotelList.syncGetZone(param);
 
       if (res_ZoneData.returnCode === 1 && res_ZoneData.data) {
-        this.bizzoneList = res_ZoneData.data.bizzoneList
-        this.zoneList = res_ZoneData.data.zoneList
+        this.bizzoneList = res_ZoneData.data.bizzoneList;
+        this.zoneList = res_ZoneData.data.zoneList;
       }
     },
 
-		// 点击 tag 的删除按钮
-		closeTag(value, type){
-      let index = this[type].indexOf(value)
-      
-			if(index != -1){
-				type === 'checkedPriceRange'
-					? this._dispatch({t: 'checkedPriceRange', v: ''})
-          : ( this[type].splice(index, 1), this._dispatch({t: type, v: this[type]}) )
-			}
-    },
-    
-    _dispatch(payload){
-      this.$store.dispatch('hotelList/actionHotelList', payload)
+    // 点击 tag 的删除按钮
+    closeTag(value, type) {
+      let index = this[type].indexOf(value);
+
+      if (index != -1) {
+        type === "checkedPriceRange"
+          ? this._dispatch({ t: "checkedPriceRange", v: "" })
+          : (this[type].splice(index, 1),
+            this._dispatch({ t: type, v: this[type] }));
+      }
     },
 
-		// 删除所有勾选的过滤条件
-		clearFilters(){
-			this.bigCollapseIcon = 'down'
-			
-			this.collapseValue1 = ''
-			this.collapseValue2 = ''
-			this.collapseValue3 = ''
-			this.collapseValue4 = ''
-      this.collapseValue5 = ''
-      
-      this.$store.commit('hotelList/resetFilters')
-		},
+    _dispatch(payload) {
+      this.$store.dispatch("hotelList/actionHotelList", payload);
+    },
 
-		// 切换折叠面板的收缩状态
-		collapseChange(value, type){
-			let tmpArr = ['collapseValue1', 'collapseValue3', 'collapseValue4', 'collapseValue5']
-			this[type] = value
-			
-			if(type === 'collapseValue2'){
-				// 切换 '高级搜索条件' 后面上下三角的状态，并且将其他所有折叠板收缩起来
-				this.bigCollapseIcon = this.bigCollapseIcon === "down" ? "up" : "down"
-				tmpArr.forEach(n => this[n] = '')
-			}else{
-				// 除了最外层和本身，将其他的其他所有折叠板收缩起来
-				tmpArr.forEach(n => {
-					if(n != type)	this[n] = ''
-				})
-			}
-		},
+    // 删除所有勾选的过滤条件
+    clearFilters() {
+      this.bigCollapseIcon = "down";
 
-		// 点击 '不限' 按钮
-		noLimitClick(arr, collapse){
-			if(collapse){
-				this[collapse] = ''
-			}
+      this.collapseValue1 = "";
+      this.collapseValue2 = "";
+      this.collapseValue3 = "";
+      this.collapseValue4 = "";
+      this.collapseValue5 = "";
+
+      this.$store.commit("hotelList/resetFilters");
+    },
+
+    // 切换折叠面板的收缩状态
+    collapseChange(value, type) {
+      let tmpArr = [
+        "collapseValue1",
+        "collapseValue3",
+        "collapseValue4",
+        "collapseValue5"
+      ];
+      this[type] = value;
+
+      if (type === "collapseValue2") {
+        // 切换 '高级搜索条件' 后面上下三角的状态，并且将其他所有折叠板收缩起来
+        this.bigCollapseIcon = this.bigCollapseIcon === "down" ? "up" : "down";
+        tmpArr.forEach(n => (this[n] = ""));
+      } else {
+        // 除了最外层和本身，将其他的其他所有折叠板收缩起来
+        tmpArr.forEach(n => {
+          if (n != type) this[n] = "";
+        });
+      }
+    },
+
+    // 点击 '不限' 按钮
+    noLimitClick(arr, collapse) {
+      if (collapse) {
+        this[collapse] = "";
+      }
 
       arr.forEach(n => {
-				n === 'checkedPriceRange'
-					? this._dispatch({t: n, v: ''})
-					: this._dispatch({t: n, v: []})
-      })
-      
-		},
+        n === "checkedPriceRange"
+          ? this._dispatch({ t: n, v: "" })
+          : this._dispatch({ t: n, v: [] });
+      });
+    },
 
-		addClassMoveLeft(){
-			this.moveLeft = true
-		},
+    addClassMoveLeft() {
+      this.moveLeft = true;
+    },
 
-		clearPriceRangeInput(){
-			this.priceRange1 = ''
-			this.priceRange2 = ''
-		},
+    clearPriceRangeInput() {
+      this.priceRange1 = "";
+      this.priceRange2 = "";
+    },
 
-		removeClassMoveLeft(){
-			this.moveLeft = false
-		},
+    removeClassMoveLeft() {
+      this.moveLeft = false;
+    },
 
-		// 编辑价格区间
-		priceRangeEdit(type, value){
-			this[type] = value
-		},
+    // 编辑价格区间
+    priceRangeEdit(type, value) {
+      this[type] = value;
+    },
 
-		// 自定义价格区间
-		customizedPriceRange(){
-			let p1 = this.priceRange1
-			let p2 = this.priceRange2
+    // 自定义价格区间
+    customizedPriceRange() {
+      let p1 = this.priceRange1;
+      let p2 = this.priceRange2;
 
-			if(!p1 && !p2)	return;
-      
-			let checkedPriceRange =
-				!p1 ? `0-${p2}_${p2}元以下` :
-				!p2 ? `${p1}-29999_${p1}元以上` 
-						: `${p1}-${p2}_${p1}-${p2}元`
+      if (!p1 && !p2) return;
 
-      this._dispatch({t: 'checkedPriceRange', v: checkedPriceRange})
+      let checkedPriceRange = !p1
+        ? `0-${p2}_${p2}元以下`
+        : !p2 ? `${p1}-29999_${p1}元以上` : `${p1}-${p2}_${p1}-${p2}元`;
 
-			this.clearPriceRangeInput()
-		}
+      this._dispatch({ t: "checkedPriceRange", v: checkedPriceRange });
+
+      this.clearPriceRangeInput();
+    }
   }
 };
 </script>
@@ -406,18 +446,18 @@ export default {
   .no-limit {
     &.el-button--mini,
     &.el-button--mini.is-round {
-			border: none;
+      border: none;
       letter-spacing: 2px;
       padding: 6px 10px;
       font-size: 14px;
-			margin-right: 30px;
-			transition: all 0.2s linear;
+      margin-right: 30px;
+      transition: all 0.2s linear;
 
-			&.disabled{
-				background: transparent;
-				color: #999;
-				cursor: context-menu;
-			}
+      &.disabled {
+        background: transparent;
+        color: #999;
+        cursor: context-menu;
+      }
     }
   }
 
@@ -561,7 +601,7 @@ export default {
         float: left;
         color: #999;
         margin-right: 30px;
-				font-size: 14px;
+        font-size: 14px;
       }
 
       @at-root .a-s-item {
@@ -596,37 +636,37 @@ export default {
       }
 
       @at-root .search-item-price-wrap {
-				position: absolute;
-				top: 8px;
-				right: 0;
-				height: 30px;
-				line-height: 30px;
-				border: 1px solid #dcdfe6;
-				-webkit-box-sizing: border-box;
-				box-sizing: border-box;
-				background: white;
-				transition: all 0.2s linear 0s;
+        position: absolute;
+        top: 8px;
+        right: 0;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #dcdfe6;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        background: white;
+        transition: all 0.2s linear 0s;
 
         &.move-left {
-					right: 65px;
-					border: 1px solid #409EFF;
+          right: 65px;
+          border: 1px solid #409eff;
         }
 
         @at-root input.search-line-price {
-					float: left;
-					padding: 0 10px;
-					width: 45px;
-					height: 28px;
-					line-height: 30px;
-					border: none;
+          float: left;
+          padding: 0 10px;
+          width: 45px;
+          height: 28px;
+          line-height: 30px;
+          border: none;
         }
 
         @at-root .search-line-seperator {
-					float: left;
-					display: inline-block;
-					height: 20px;
-					border-right: solid 1px #ccc;
-					margin-top: 4px;
+          float: left;
+          display: inline-block;
+          height: 20px;
+          border-right: solid 1px #ccc;
+          margin-top: 4px;
         }
       }
     }
@@ -693,13 +733,13 @@ export default {
   }
 
   @at-root .a-s-s-list {
-		margin-right: 50px;
-		
-		.el-tag{
-			float: left;
-			margin-right: 10px;
-			margin-bottom: 5px;
-		}
+    margin-right: 50px;
+
+    .el-tag {
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
   }
 
   @at-root .a-s-s-btn {
