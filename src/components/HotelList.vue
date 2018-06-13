@@ -58,7 +58,7 @@
         </div>
         
         <div class="hli-price-list-outer">
-          <div class="progress-outer" >
+          <div class="progress-outer" v-if="pricePercentageArr[o.infoId]">
             <el-progress :text-inside="true" :stroke-width="18" :show-text=false
               :percentage="pricePercentageArr[o.infoId]" 
               :color="progressArr[o.infoId]"
@@ -201,7 +201,8 @@ export default {
       clearInterval(timer2)
       clearInterval(timer3)
 
-      this.$set(this.pricePercentageArr, params.hotelId, 100)
+      _this.$set(_this.pricePercentageArr, params.hotelId, 100)
+      _this.$set(_this.progressArr, params.hotelId, `rgba(35, 183, 35, 0.7)`)
 
       setTimeout(() => {
         _this.$set(_this.pricePercentageArr, params.hotelId, 0)
