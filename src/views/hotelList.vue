@@ -10,12 +10,10 @@
 
         <!-- <input 
           v-model="checkcode"
-          v-if="!user"
           style="position: absolute;top: 180px;left: 50px;height: 30px;border: 1px solid;padding-left: 10px;"/>
 
         <img class="yzm-img" 
           @click="login"
-          v-if="!user"
           style="position: absolute;top: 100px;left: 50px;"
           src="/user/getCheckcodeImg.do?time=" alt=""> -->
 

@@ -50,35 +50,38 @@
           <div class="hli-check-detail">
             <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'"></i>
             <span class="hli-lowest-price-wrap">￥<span class="hli-lowest-price">{{parseInt( (o.minPrice || 0) )}}</span>起</span>
-            <a 
-              target="_blank" class="hli-check-detail-btn">
-              查看详情
+            <a target="_blank" href="#" style="position: absolute;right: 0;top: 75px;">
+              <el-button type="primary" class="hli-check-detail-btn" size="small" plain style="font-size: 16px;padding: 9px;" icon="el-icon-document">
+                查看详情
+              </el-button>
             </a>
           </div>
         </div>
-        
-        <div class="hli-price-list-outer">
-          <div class="progress-outer" v-if="pricePercentageArr[o.infoId]">
-            <el-progress :text-inside="true" :stroke-width="18" :show-text=false
-              :percentage="pricePercentageArr[o.infoId]" 
-              :color="progressArr[o.infoId]"
-              ></el-progress>
-            <div style="position: absolute;top: 0;width: 100%;text-align: center;color: rgb(21, 169, 94);">正在查询最低价，请稍候...</div>
-          </div>
-      
-          <div class="hli-price-list-wrap">
-            <div class="fzg-loading-wrap" v-if="!hotelPriceArr[o.infoId]">
-              <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif"/>
-            </div>
-          </div>
-        </div>
-        
-        <div class="hli-expand-wrap">
-          <div class="hli-expand-inner" @click="expandPrice(o.infoId)">
-            <span>展开全部房型</span>
-            <i class="hli-icon icon-down" style="margin-left:3px"></i>
-          </div>
-        </div>
+
+        <el-collapse >
+            <el-collapse-item>
+                <template slot="title">
+                  <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" @click="expandPrice(o.infoId)">
+                    展开全部房型
+                  </el-button>
+                </template>
+                <div class="hli-price-list-outer">
+                  <div class="progress-outer" >
+                    <el-progress :text-inside="true" :stroke-width="18" :show-text=false
+                      :percentage="pricePercentageArr[o.infoId]" 
+                      :color="progressArr[o.infoId]"
+                      ></el-progress>
+                    <div style="position: absolute;top: 0;width: 100%;text-align: center;color: rgb(21, 169, 94);line-height: 18px;">正在查询最低价，请稍候...</div>
+                  </div>
+              
+                  <div class="hli-price-list-wrap">
+                    <div class="fzg-loading-wrap" v-if="!hotelPriceArr[o.infoId]">
+                      <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif"/>
+                    </div>
+                  </div>
+                </div>
+            </el-collapse-item>
+        </el-collapse>
       </li>
     </ul>
   </div>
@@ -212,6 +215,44 @@ export default {
 }
 </script>
 
+
+<style lang="scss">
+.hotel-list-outer{
+
+    .el-collapse {
+        position: relative;
+        border-top: none;
+        border-bottom: none;
+    }
+
+    .el-collapse-item__header{
+        height: 35px;
+        line-height: 35px;
+        position: absolute;
+        right: 18px;
+        top: -58px;
+        border-bottom: none;
+    }
+
+    .el-collapse-item__arrow{
+        position: relative;
+        line-height: 35px;
+        margin-right: 0;
+        margin-left: -8px;
+        color: #409EFF;
+    }
+
+    .el-button [class*=el-icon-]+span{
+      margin-left: 0;
+    }
+
+    .el-collapse-item:last-child {
+        margin-bottom: 0px;
+    }
+}
+</style>
+
+
 <style scoped lang="scss">
 @import "../assets/jl_sprites.scss";
 
@@ -330,7 +371,7 @@ export default {
                     @at-root .hli-check-gz-icon{
                         position: absolute;
                         top: 0;
-                        right: 20px;
+                        right: 0;
                     }
                     
                     @at-root .hli-lowest-price-wrap{
@@ -349,26 +390,7 @@ export default {
                     }
                     
                     @at-root .hli-check-detail-btn{
-                        position: absolute;
-                        bottom: 25px;
-                        left: 0;
-                        width: 130px;
-                        height: 50px;
-                        line-height: 50px;
-                        text-align: center;
-                        font-size: 18px;
-                        color: #339afc;
-                        border: solid 1px #339afc;
-                        border-radius: 5px;
-                        letter-spacing: 1px;
-                        text-decoration: none!important;
-                        transition: all 0.2s linear;
-
-                        &:hover{
-                            color: darken($color: #339afc, $amount: 10%);
-                            border-color: darken($color: #339afc, $amount: 10%);
-                            box-shadow: 0 0 5px #339afc;
-                        }
+                        
                     }
 
                     .icon-gz-off{
@@ -422,22 +444,7 @@ export default {
             }
 
             @at-root .hli-expand-wrap{
-                height: 30px;
-                line-height: 30px;
-                text-align: center;
-                color: #339afc;
-                background: #f4fbfe;
-                border-top: solid 1px #ddd;
-                box-sizing: border-box;
-                cursor: context-menu;
                 
-                &.fix-bottom{
-                    position: fixed;
-                    bottom: 0;
-                    width: 1200px;
-                    box-shadow: 0 0 5px #e8e8e8;
-                    z-index: 9999;
-                }
             }
         }
     }
@@ -484,24 +491,6 @@ export default {
         &.icon-notice{
             @include specialNotice;
             top: 1px;
-        }
-        
-        &.icon-down{
-            @include triangle_blue_down;
-            top: -1px;
-
-            &:before{
-                content: none;
-            }
-        }
-        
-        &.icon-up{
-            @include triangle_blue_up;
-            top: -1px;
-
-            &:before{
-                content: none;
-            }
         }
     }
 }
