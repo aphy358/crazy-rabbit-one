@@ -31,7 +31,7 @@ export const syncGetHotelPriceList = (args, loading = true) => http.post("/hotel
 
 
 // 登录
-export const syncLogin = (args, loading = false) => http.post("/user/loginfzg.do", args, loading)
+export const syncLogin = (args, loading = true) => http.post("/user/loginfzg.do", args, loading)
 
 
 
