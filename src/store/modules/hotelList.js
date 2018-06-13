@@ -139,10 +139,12 @@ export default {
 
     // 查酒店列表
     async queryHotelList({ commit, state, dispatch }, payload){
+      console.log(state);
+      
       let params = {
         cityId: state.cityId,
         type: state.cityType,
-        keyWords: state.cityType ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
+        keyWords: state.cityId ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
         startDate: state.checkin,
         endDate: state.checkout,
         selRoomNum: state.roomNum,
