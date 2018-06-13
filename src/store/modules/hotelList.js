@@ -105,49 +105,164 @@ export default {
       state.checkout = addDays(dateRange[1])
     },
 
+    // 设置状态的公共函数
     setHotelListState(state, payload){
       if(payload.t){
         state[payload.t] = payload.v
       }
+    },
+
+    // 设置酒店的价格列表
+    setHotelPriceList(state, payload){
+      payload.hotel.priceList = payload.data
+      payload.hotel.percentage = 0    //*** */
+    },
+
+    // 设置酒店的价格列表
+    setHotelPriceListProgress(state, payload){
+      payload.hotel.percentage = payload.percentage
+      payload.hotel.color = payload.color
     }
 
   },
 
   actions: {
-    async actionHotelList({ commit, state }, payload){
+    actionHotelList({ commit, state, dispatch }, payload){
       commit('setHotelListState', payload)
 
       if(payload.api){
-        let params = {
-          cityId: state.cityId,
-          type: state.cityType,
-          keyWords: state.cityType ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
-          startDate: state.checkin,
-          endDate: state.checkout,
-          selRoomNum: state.roomNum,
-          adultNum: state.adultNum,
-          childrenNum: state.childrenNum,
-          childrenAgesStr: state.childrenStr,
-          pageNow: state.pageNow,
-          star: state.checkedStar.map(n => n.split('_')[0]).join(','),
-          priceRange: state.checkedPriceRange.split('_')[0],
-          bizCircleId: state.checkedBizzone.map(n => n.split('_')[0]).join(','),
-          zoneId: state.checkedZone.map(n => n.split('_')[0]).join(','),
-          hotelFacility: state.checkedFacilities.map(n => n.split('_')[0]).join(','),
-          hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
-        }
-        console.log(params);
-        
-
-        let res_HotelList = await payload.api.hotelList.syncGetHotelList(params);
-
-        if(res_HotelList.returnCode === 1){
-          commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
-          commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
-          commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
-        }
-
+        // 查酒店列表
+        dispatch('queryHotelList', payload)
       }
+    },
+
+    // 查酒店列表
+    async queryHotelList({ commit, state, dispatch }, payload){
+      let params = {
+        cityId: state.cityId,
+        type: state.cityType,
+        keyWords: state.cityType ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
+        startDate: state.checkin,
+        endDate: state.checkout,
+        selRoomNum: state.roomNum,
+        adultNum: state.adultNum,
+        childrenNum: state.childrenNum,
+        childrenAgesStr: state.childrenStr,
+        pageNow: state.pageNow,
+        star: state.checkedStar.map(n => n.split('_')[0]).join(','),
+        priceRange: state.checkedPriceRange.split('_')[0],
+        bizCircleId: state.checkedBizzone.map(n => n.split('_')[0]).join(','),
+        zoneId: state.checkedZone.map(n => n.split('_')[0]).join(','),
+        hotelFacility: state.checkedFacilities.map(n => n.split('_')[0]).join(','),
+        hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
+      }
+
+      let res_HotelList = await payload.api.hotelList.syncGetHotelList(params)
+
+      if(res_HotelList.returnCode === 1){
+        commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
+        commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
+        commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
+      }
+
+      params.api = payload.api
+
+      // 查价格列表
+      dispatch('queryHotelPriceList', params)
+    },
+
+    // 查价格列表
+    queryHotelPriceList({ commit, state, dispatch }, payload){
+      state.hotelList.forEach(hotel => {
+        let params = {
+          hotelId: hotel.infoId,
+          checkInDate: payload.startDate,
+          checkOutDate: payload.endDate,
+          roomNum: payload.selRoomNum,
+          adultNum: payload.adultNum,
+          childrenNum: payload.childrenNum,
+          childrenAgesStr: payload.childrenAgesStr,
+          isSearchSurcharge: 0
+        }
+
+        dispatch('queryPriceListInStock', {params: params, hotel: hotel, api: payload.api})
+        dispatch('queryPriceList', {params: params, hotel: hotel, api: payload.api})
+      })
+    },
+
+    // 查缓存内的价格
+    async queryPriceListInStock({ commit, state, dispatch }, payload){
+      let res = await payload.api.hotelList.syncGetHotelPriceListInStock(payload.params)
+
+      // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
+      if(res.returnCode === 1 && !payload.hotel.priceList){
+        commit('setHotelPriceList', {hotel: payload.hotel, data: res.data})
+      }
+    },
+
+    // 查价，实查
+    async queryPriceList({ commit, state, dispatch }, payload){
+      let hotel = payload.hotel
+      let timer1, timer2, timer3
+      let percentage = 1
+      let c1 = 255, c2 = 45, c3 = 0
+
+      commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+
+      // 前面 80% 的部分，每一个百分比耗时 35 毫秒
+      timer1 = setInterval(() => {
+        percentage = hotel.percentage + 1
+        c1 = parseInt(255 - percentage * 2.2)
+        c2 = parseInt(45 + percentage * 1.38)
+        c3 = parseInt(percentage * 0.35)
+
+        commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+
+        if(percentage >= 80){
+          clearInterval(timer1)
+
+          // 80% ~ 95% 的部分，每一个百分比耗时 333 毫秒
+          timer2 = setInterval(() => {
+            percentage = hotel.percentage + 1
+            c1 = parseInt(255 - percentage * 2.2)
+            c2 = parseInt(45 + percentage * 1.38)
+            c3 = parseInt(percentage * 0.35)
+
+            commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+            
+            if(percentage >= 95){
+              clearInterval(timer2)
+
+              // 95% ~ 99% 的部分，每一个百分比耗时 1250 毫秒
+              timer3 = setInterval(() => {
+                percentage = hotel.percentage + 1
+                c1 = parseInt(255 - percentage * 2.2)
+                c2 = parseInt(45 + percentage * 1.38)
+                c3 = parseInt(percentage * 0.35)
+
+                commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+
+                if(percentage >= 99){
+                  clearInterval(timer3)
+                }
+              }, 1250)
+            }
+          }, 333)
+        }
+      }, 35)
+    
+      let res = await payload.api.hotelList.syncGetHotelPriceList(payload.params)
+      commit('setHotelPriceList', {hotel: payload.hotel, data: res.data})
+
+      clearInterval(timer1)
+      clearInterval(timer2)
+      clearInterval(timer3)
+
+      commit('setHotelPriceListProgress', {hotel: hotel, percentage: 100, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+
+      setTimeout(() => {
+        commit('setHotelPriceListProgress', {hotel: hotel, percentage: 0, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+      }, 300)
     },
 
     setCityType({ commit, state, dispatch }, payload){
