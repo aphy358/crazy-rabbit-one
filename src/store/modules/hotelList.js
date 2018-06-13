@@ -120,17 +120,17 @@ export default {
 
     // 设置酒店的价格列表
     setHotelPriceList(state, payload){
-      // payload.hotel.priceList = payload.data
+      payload.hotel.priceList = payload.data
     },
 
     // 设置酒店的价格列表
     setHotelPriceListProgress(state, payload){
-      // payload.hotel.percentage = payload.percentage
-      // payload.hotel.color = payload.color
-
       let hotelId = payload.hotel.infoId
-      // state.percentageArr[hotelId] = payload.percentage
-      // state.colorArr[hotelId] = payload.color
+      state.percentageArr[hotelId] = payload.percentage
+      state.colorArr[hotelId] = payload.color
+
+      state.percentageArr = Object.assign({}, state.percentageArr)
+      state.colorArr = Object.assign({}, state.colorArr)
     }
 
   },
@@ -212,6 +212,7 @@ export default {
     // 查价，实查
     async queryPriceList({ commit, state, dispatch }, payload){
       let hotel = payload.hotel
+      let infoId = hotel.infoId
       let timer1, timer2, timer3
       let percentage = 1
       let c1 = 255, c2 = 45, c3 = 0
@@ -220,7 +221,7 @@ export default {
 
       // 前面 80% 的部分，每一个百分比耗时 35 毫秒
       timer1 = setInterval(() => {
-        percentage = hotel.percentage + 1
+        percentage = state.percentageArr[infoId] + 1
         c1 = parseInt(255 - percentage * 2.2)
         c2 = parseInt(45 + percentage * 1.38)
         c3 = parseInt(percentage * 0.35)
@@ -232,7 +233,7 @@ export default {
 
           // 80% ~ 95% 的部分，每一个百分比耗时 333 毫秒
           timer2 = setInterval(() => {
-            percentage = hotel.percentage + 1
+            percentage = state.percentageArr[infoId] + 1
             c1 = parseInt(255 - percentage * 2.2)
             c2 = parseInt(45 + percentage * 1.38)
             c3 = parseInt(percentage * 0.35)
@@ -244,7 +245,7 @@ export default {
 
               // 95% ~ 99% 的部分，每一个百分比耗时 1250 毫秒
               timer3 = setInterval(() => {
-                percentage = hotel.percentage + 1
+                percentage = state.percentageArr[infoId] + 1
                 c1 = parseInt(255 - percentage * 2.2)
                 c2 = parseInt(45 + percentage * 1.38)
                 c3 = parseInt(percentage * 0.35)
