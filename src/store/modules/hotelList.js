@@ -121,6 +121,9 @@ export default {
     // 设置酒店的价格列表
     setHotelPriceList(state, payload){
       payload.hotel.priceList = payload.data
+
+      // 对于对象的修改，要用 Object.assign 进行覆盖赋值
+      state.hotelList = Object.assign([], state.hotelList)
     },
 
     // 设置酒店的价格列表
@@ -129,6 +132,7 @@ export default {
       state.percentageArr[hotelId] = payload.percentage
       state.colorArr[hotelId] = payload.color
 
+      // 对于对象的修改，要用 Object.assign 进行覆盖赋值
       state.percentageArr = Object.assign({}, state.percentageArr)
       state.colorArr = Object.assign({}, state.colorArr)
     }
@@ -268,10 +272,10 @@ export default {
       clearInterval(timer2)
       clearInterval(timer3)
 
-      commit('setHotelPriceListProgress', {hotel: hotel, percentage: 100, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+      commit('setHotelPriceListProgress', {hotel: hotel, percentage: 100, color: `rgba(35, 183, 35, 0.7)`})
 
       setTimeout(() => {
-        commit('setHotelPriceListProgress', {hotel: hotel, percentage: 0, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+        commit('setHotelPriceListProgress', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
       }, 300)
     },
 

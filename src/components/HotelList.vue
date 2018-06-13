@@ -75,7 +75,7 @@
                   </div>
               
                   <div class="hli-price-list-wrap">
-                    <div class="fzg-loading-wrap" v-if="!hotelPriceArr[o.infoId]">
+                    <div class="fzg-loading-wrap" v-if="!o.priceList">
                       <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif"/>
                     </div>
                   </div>
@@ -93,9 +93,6 @@ export default {
 
   data(){
     return {
-      hotelPriceArr: {},
-      pricePercentageArr: {},
-      progressArr: {},
     }
   },
 
@@ -123,103 +120,6 @@ export default {
   },
   
   methods: {
-    expandPrice(infoId){
-      if(!this.hotelPriceArr[infoId]){
-        let params = {
-          hotelId: infoId,
-          checkInDate: this.$store.state.hotelList.checkin,
-          checkOutDate: this.$store.state.hotelList.checkout,
-          roomNum: this.$store.state.hotelList.roomNum,
-          adultNum: this.$store.state.hotelList.adultNum,
-          childrenNum: this.$store.state.hotelList.childrenNum,
-          childrenAgesStr: this.$store.state.hotelList.childrenStr,
-          isSearchSurcharge: 0
-        }
-
-        this.queryPriceListInStock(params)
-        this.queryPriceList(params)
-      }
-    },
-
-    // 查缓存内的价格
-    async queryPriceListInStock(params){
-      let res = await this.$api.hotelList.syncGetHotelPriceListInStock(params)
-
-      // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
-      if(!this.hotelPriceArr[params.hotelId]){
-          this.$set(this.hotelPriceArr, params.hotelId, res)
-      }
-    },
-
-    // 查价，实查
-    async queryPriceList(params){
-      let timer1, timer2, timer3
-      let percentage = 1
-      let c1 = 255, c2 = 45, c3 = 0
-      let _this = this
-
-      _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
-      _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
-
-      // 前面 80% 的部分，每一个百分比耗时 35 毫秒
-      timer1 = setInterval(() => {
-        percentage = _this.pricePercentageArr[params.hotelId] + 1
-        c1 = parseInt(255 - percentage * 2.2)
-        c2 = parseInt(45 + percentage * 1.38)
-        c3 = parseInt(percentage * 0.35)
-
-        _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
-        _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
-
-        if(_this.pricePercentageArr[params.hotelId] >= 80){
-          clearInterval(timer1)
-
-          // 80% ~ 95% 的部分，每一个百分比耗时 333 毫秒
-          timer2 = setInterval(() => {
-            percentage = _this.pricePercentageArr[params.hotelId] + 1
-            c1 = parseInt(255 - percentage * 2.2)
-            c2 = parseInt(45 + percentage * 1.38)
-            c3 = parseInt(percentage * 0.35)
-
-            _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
-            _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
-            
-            if(_this.pricePercentageArr[params.hotelId] >= 95){
-              clearInterval(timer2)
-
-              // 95% ~ 99% 的部分，每一个百分比耗时 1250 毫秒
-              timer3 = setInterval(() => {
-                percentage = _this.pricePercentageArr[params.hotelId] + 1
-                c1 = parseInt(255 - percentage * 2.2)
-                c2 = parseInt(45 + percentage * 1.38)
-                c3 = parseInt(percentage * 0.35)
-
-                _this.$set(_this.pricePercentageArr, params.hotelId, percentage)
-                _this.$set(_this.progressArr, params.hotelId, `rgba(${c1}, ${c2}, ${c3}, 0.7)`)
-
-                if(_this.pricePercentageArr[params.hotelId] >= 99){
-                  clearInterval(timer3)
-                }
-              }, 1250)
-            }
-          }, 333)
-        }
-      }, 35)
-    
-      let res = await this.$api.hotelList.syncGetHotelPriceList(params)
-      this.$set(this.hotelPriceArr, params.hotelId, res)
-
-      clearInterval(timer1)
-      clearInterval(timer2)
-      clearInterval(timer3)
-
-      _this.$set(_this.pricePercentageArr, params.hotelId, 100)
-      _this.$set(_this.progressArr, params.hotelId, `rgba(35, 183, 35, 0.7)`)
-
-      setTimeout(() => {
-        _this.$set(_this.pricePercentageArr, params.hotelId, 0)
-      }, 300)
-    }
   },
 }
 </script>
