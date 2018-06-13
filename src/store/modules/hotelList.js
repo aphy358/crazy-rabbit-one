@@ -112,22 +112,18 @@ export default {
       }
     },
 
-    // 设置酒店的价格列表
-    setHotelPriceList(state, payload){
-      payload.hotel.priceList = payload.data
+    // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
+    setHotelExtraAttr(state, payload){
+      if(payload.data){
+        payload.hotel.priceList = payload.data
+      }else{
+        payload.hotel.percentage = payload.percentage
+        payload.hotel.color = payload.color
+      }
 
       // 对于对象的修改，要用 Object.assign 进行覆盖赋值
       state.hotelList = Object.assign([], state.hotelList)
     },
-
-    // 设置酒店的价格列表
-    setHotelPriceListProgress(state, payload){
-      payload.hotel.percentage = payload.percentage
-      payload.hotel.color = payload.color
-
-      // 对于对象的修改，要用 Object.assign 进行覆盖赋值
-      state.hotelList = Object.assign([], state.hotelList)
-    }
 
   },
 
@@ -201,7 +197,7 @@ export default {
 
       // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
       if(res.returnCode === 1 && !payload.hotel.priceList){
-        commit('setHotelPriceList', {hotel: payload.hotel, data: res.data})
+        commit('setHotelExtraAttr', {hotel: payload.hotel, data: res.data})
       }
     },
 
@@ -212,7 +208,7 @@ export default {
       let percentage = 1
       let c1 = 255, c2 = 45, c3 = 0
 
-      commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+      commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
 
       // 前面 80% 的部分，每一个百分比耗时 35 毫秒
       timer1 = setInterval(() => {
@@ -221,7 +217,7 @@ export default {
         c2 = parseInt(45 + percentage * 1.38)
         c3 = parseInt(percentage * 0.35)
 
-        commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+        commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
 
         if(percentage >= 80){
           clearInterval(timer1)
@@ -233,7 +229,7 @@ export default {
             c2 = parseInt(45 + percentage * 1.38)
             c3 = parseInt(percentage * 0.35)
 
-            commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+            commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
             
             if(percentage >= 95){
               clearInterval(timer2)
@@ -245,7 +241,7 @@ export default {
                 c2 = parseInt(45 + percentage * 1.38)
                 c3 = parseInt(percentage * 0.35)
 
-                commit('setHotelPriceListProgress', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
+                commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
 
                 if(percentage >= 99){
                   clearInterval(timer3)
@@ -257,16 +253,16 @@ export default {
       }, 35)
     
       let res = await payload.api.hotelList.syncGetHotelPriceList(payload.params)
-      commit('setHotelPriceList', {hotel: hotel, data: res.data})
+      commit('setHotelExtraAttr', {hotel: hotel, data: res.data})
 
       clearInterval(timer1)
       clearInterval(timer2)
       clearInterval(timer3)
 
-      commit('setHotelPriceListProgress', {hotel: hotel, percentage: 100, color: `rgba(35, 183, 35, 0.7)`})
+      commit('setHotelExtraAttr', {hotel: hotel, percentage: 100, color: `rgba(35, 183, 35, 0.7)`})
 
       setTimeout(() => {
-        commit('setHotelPriceListProgress', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
+        commit('setHotelExtraAttr', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
       }, 300)
     },
 
