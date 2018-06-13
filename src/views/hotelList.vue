@@ -9,17 +9,29 @@
         <Pagination />
 
 
-        <div v-if="!user">
+        <div v-if="!user" style="    position: absolute;
+    overflow: hidden;
+    background: white;
+    top: 100px;
+    left: 50%;
+    width: 400px;
+    height: 260px;
+    z-index: 9999;
+    border: 1px solid;
+    margin-left: -150px;
+    padding-top: 100px;
+    padding-left: 100px;">
+          
+          <img class="yzm-img" 
+            style=""
+            src="/user/getCheckcodeImg.do?time=" alt="">
+
           <input 
             v-model="checkcode"
             placeholder="输入验证码"
-            style="position: absolute;top: 150px;left: 10px;height: 30px;border: 1px solid;padding-left: 10px;width:70px;"/>
+            style="height: 30px;border: 1px solid;padding-left: 10px;width:70px;margin: 20px;"/>
 
-          <img class="yzm-img" 
-            style="position: absolute;top: 100px;left: 10px;"
-            src="/user/getCheckcodeImg.do?time=" alt="">
-
-          <el-button type="primary" size="small" style="position: absolute;top: 200px;left: 10px;" @click="login" >
+          <el-button type="primary" size="small" style="" @click="login" >
             登录
           </el-button>
         </div>
