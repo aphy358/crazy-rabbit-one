@@ -61,16 +61,16 @@
         <el-collapse >
             <el-collapse-item>
                 <template slot="title">
-                  <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" @click="expandPrice(o.infoId)">
+                  <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" >
                     展开全部房型
                   </el-button>
                 </template>
                 <div class="hli-price-list-outer">
                   <div class="progress-outer" >
-                    <el-progress :text-inside="true" :stroke-width="18" :show-text=false
-                      :percentage="pricePercentageArr[o.infoId]" 
-                      :color="progressArr[o.infoId]"
-                      ></el-progress>
+                    <!-- <el-progress :text-inside="true" :stroke-width="18" :show-text=false
+                      :percentage="o.percentage" 
+                      :color="o.color"
+                      ></el-progress> -->
                     <div style="position: absolute;top: 0;width: 100%;text-align: center;color: rgb(21, 169, 94);line-height: 18px;">正在查询最低价，请稍候...</div>
                   </div>
               
@@ -109,6 +109,8 @@ export default {
 
   computed: {
     hotelList(){
+      console.log(this.$store.getters['hotelList/getHotelList']);
+      
       return this.$store.getters['hotelList/getHotelList']
     },
   },

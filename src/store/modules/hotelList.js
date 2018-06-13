@@ -20,6 +20,9 @@ export default {
     pageRecordCount: '0',
     hotelList: [],
 
+    percentageArr: {},
+    colorArr: {},
+
     checkedPriceRange: '',
     checkedStar: [],
     checkedConfirmType: [],
@@ -81,6 +84,9 @@ export default {
 
     // 设置城市类型，如：'国内'、'港澳台'、'国外'
     setCityType(state, cityType){
+      state.percentageArr = {}
+      state.colorArr = {}
+
       state.cityType = cityType
 
       state.keyword = ''
@@ -114,14 +120,17 @@ export default {
 
     // 设置酒店的价格列表
     setHotelPriceList(state, payload){
-      payload.hotel.priceList = payload.data
-      payload.hotel.percentage = 0    //*** */
+      // payload.hotel.priceList = payload.data
     },
 
     // 设置酒店的价格列表
     setHotelPriceListProgress(state, payload){
-      payload.hotel.percentage = payload.percentage
-      payload.hotel.color = payload.color
+      // payload.hotel.percentage = payload.percentage
+      // payload.hotel.color = payload.color
+
+      let hotelId = payload.hotel.infoId
+      // state.percentageArr[hotelId] = payload.percentage
+      // state.colorArr[hotelId] = payload.color
     }
 
   },
