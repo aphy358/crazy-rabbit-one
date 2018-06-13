@@ -68,8 +68,8 @@
                 <div class="hli-price-list-outer">
                   <div class="progress-outer" >
                     <el-progress :text-inside="true" :stroke-width="18" :show-text=false
-                      :percentage="percentageArr[o.infoId]" 
-                      :color="colorArr[o.infoId]"
+                      :percentage="o.percentage" 
+                      :color="o.color"
                       ></el-progress>
                     <div style="position: absolute;top: 0;width: 100%;text-align: center;color: rgb(21, 169, 94);line-height: 18px;">正在查询最低价，请稍候...</div>
                   </div>
@@ -107,14 +107,6 @@ export default {
   computed: {
     hotelList(){
       return this.$store.getters['hotelList/getHotelList']
-    },
-
-    percentageArr(){
-      return this.$store.state.hotelList.percentageArr
-    },
-
-    colorArr(){
-      return this.$store.state.hotelList.colorArr
     },
     
   },
