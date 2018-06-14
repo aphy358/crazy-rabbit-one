@@ -196,7 +196,7 @@ export default {
       let res = await payload.api.hotelList.syncGetHotelPriceListInStock(payload.params)
 
       // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
-      if(res.returnCode === 1 && !payload.hotel.priceList){
+      if(!payload.hotel.priceList){
         commit('setHotelExtraAttr', {hotel: payload.hotel, data: res.data})
       }
     },
@@ -253,6 +253,7 @@ export default {
       }, 35)
     
       let res = await payload.api.hotelList.syncGetHotelPriceList(payload.params)
+      
       commit('setHotelExtraAttr', {hotel: hotel, data: res.data})
 
       clearInterval(timer1)

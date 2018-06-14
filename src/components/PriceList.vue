@@ -1,55 +1,60 @@
 
 <!-- 价格列表组件 -->
 <template>
-    <table class="hotel-price-table" v-if="newPriceList.combinedRows">
-      <thead class="hotel-price-thead">
-        <tr>
-          <th width="65"></th>
-          <th width="260"><span>房型</span></th>
-          <th><span>价格类型</span></th>
-          <th width="110" class="align-center"><span>床型/早餐</span></th>
-          <th><span>预订规则</span></th>
-          <th><span>取消规则</span></th>
-          <th><span>剩余数量</span></th>
-          <th width="150"><span>均价/总价</span></th>
-          <th width="100"></th>
-        </tr>
-      </thead>
+    <div>
+        <table class="hotel-price-table" v-if="newPriceList.combinedRows">
+          <thead class="hotel-price-thead">
+            <tr>
+              <th width="65"></th>
+              <th width="260"><span>房型</span></th>
+              <th><span>价格类型</span></th>
+              <th width="110" class="align-center"><span>床型/早餐</span></th>
+              <th><span>预订规则</span></th>
+              <th><span>取消规则</span></th>
+              <th><span>剩余数量</span></th>
+              <th width="150"><span>均价/总价</span></th>
+              <th width="100"></th>
+            </tr>
+          </thead>
 
-      <tbody class="hotel-price-tbody">
-        <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
-          <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
-          <td :class="priceRow.tdBindClass">
-            <span class="hp-roomName" :class="priceRow.roomNameHide">
-              {{priceRow.roomName}}
-            </span>
-          </td>
-          <td>
-            <span>{{priceRow.rateTypeName || ''}}</span>
-            <i v-if="priceRow.isHasMarketing" class="marketing-icon"></i>
-            <i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
-          </td>
-          <td class="align-center">
-            <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
-            <p><span>{{ priceRow.breakFastName || '' }}</span></p>
-          </td>
-          <td><span class="hp-order-clause">预定条款</span></td>
-          <td><span class="hp-cancel-clause">{{ priceRow.cancellationText }}</span></td>
-          <td><span class="hp-store-status" v-html="priceRow.roomStatusText"></span></td>
-          <td>
-            <span class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
-            <br>
-            <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
-          </td>
-          <td >
-              <a v-if="priceRow.isBook" href="javascript:;" class="hp-order-btn" target="_blank">
-                预订
-              </a>
-              <a v-if="!priceRow.isBook" href="javascript:;" class="hp-order-btn disabled"><span class="hidden hotelPriceStrs">{{ priceRow.hotelPriceStrs }}</span>不可订</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <tbody class="hotel-price-tbody">
+            <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
+              <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
+              <td :class="priceRow.tdBindClass">
+                <span class="hp-roomName" :class="priceRow.roomNameHide">
+                  {{priceRow.roomName}}
+                </span>
+                  <i v-if="priceRow.rowsDropDown" class="room-type-icon drag-up"></i>
+              </td>
+              <td>
+                <span>{{priceRow.rateTypeName || ''}}</span>
+                <i v-if="priceRow.isHasMarketing" class="marketing-icon"></i>
+                <i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
+              </td>
+              <td class="align-center">
+                <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                <p><span>{{ priceRow.breakFastName || '' }}</span></p>
+              </td>
+              <td><span class="hp-order-clause">预定条款</span></td>
+              <td><span class="hp-cancel-clause">{{ priceRow.cancellationText }}</span></td>
+              <td><span class="hp-store-status" v-html="priceRow.roomStatusText"></span></td>
+              <td>
+                <span class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
+                <br>
+                <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
+              </td>
+              <td >
+                  <a v-if="priceRow.isBook" href="javascript:;" class="hp-order-btn" target="_blank">
+                    预订
+                  </a>
+                  <a v-if="!priceRow.isBook" href="javascript:;" class="hp-order-btn disabled"><span class="hidden hotelPriceStrs">{{ priceRow.hotelPriceStrs }}</span>不可订</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="hli-error-msg" v-if="!newPriceList.combinedRows">无相关价格！</div>
+    </div>
 </template>
 
 <script>
@@ -199,7 +204,7 @@ export default {
       for (let i = 0; i < res[type].length; i++) {
         const o = res[type][i]
 
-        console.log(o);
+        // console.log(o);
 
         for (let j = 0; j < o.roomTypePrices.length; j++) {
           const p = o.roomTypePrices[j];
@@ -215,6 +220,10 @@ export default {
 
           if(j > 0){
             p.roomNameHide = 'hidden'
+          }
+
+          if(o.roomTypePrices.length > 1){
+            p.rowsDropDown = '多行下拉'
           }
 
           res.combinedRows
@@ -437,5 +446,13 @@ export default {
             }
         }
     }
+}
+
+.hli-error-msg{
+    text-align: center;
+    color: red;
+    font-size: 16px;
+    padding: 15px;
+    border-top: solid 1px #ddd;
 }
 </style>

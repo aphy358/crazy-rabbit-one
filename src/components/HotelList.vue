@@ -337,14 +337,6 @@ export default {
                             margin: auto;
                         }
                     }
-    
-                    @at-root .hli-error-msg{
-                        text-align: center;
-                        color: red;
-                        font-size: 16px;
-                        padding: 15px;
-                        border-top: solid 1px #ddd;
-                    }
                 }
             }
 
