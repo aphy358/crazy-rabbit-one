@@ -263,7 +263,7 @@ export default {
 
       setTimeout(() => {
         commit('setHotelExtraAttr', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
-      }, 300)
+      }, 100)
     },
 
     setCityType({ commit, state, dispatch }, payload){
