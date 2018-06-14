@@ -52,6 +52,12 @@ export default {
           o.picSrc = o.picSrc.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
           o.extraStyle = 'height: 100%;width: auto;margin-left: 60px;'
         }
+
+        if(!o.minPriceText){
+          o.minPriceText = (o.minPrice && o.minPrice != '0')
+            ? `￥<span class="hli-lowest-price" style="font-size: 26px;margin: 0 2px;">${parseInt(o.minPrice)}</span>起`
+            : '正在查询最优价...'
+        }
       })
 
       return state.hotelList
@@ -115,7 +121,15 @@ export default {
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
     setHotelExtraAttr(state, payload){
       if(payload.data){
-        payload.hotel.priceList = payload.data
+        payload.hotel.priceList = payload.data.data
+        if(payload.data.returnCode === 1){
+          payload.hotel.minPriceText = payload.data.data.priceMin
+            ? `￥<span class="hli-lowest-price" style="font-size: 26px;margin: 0 2px;">${parseInt(payload.data.data.priceMin)}</span>起`
+            : `满房`
+        }else if(payload.data.returnCode === -400001){
+        }else{
+          payload.hotel.minPriceText = payload.data.errinfo
+        }
       }else{
         payload.hotel.percentage = payload.percentage
         payload.hotel.color = payload.color
@@ -197,7 +211,7 @@ export default {
 
       // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
       if(!payload.hotel.priceList){
-        commit('setHotelExtraAttr', {hotel: payload.hotel, data: res.data})
+        commit('setHotelExtraAttr', {hotel: payload.hotel, data: res})
       }
     },
 
@@ -254,7 +268,7 @@ export default {
     
       let res = await payload.api.hotelList.syncGetHotelPriceList(payload.params)
       
-      commit('setHotelExtraAttr', {hotel: hotel, data: res.data})
+      commit('setHotelExtraAttr', {hotel: hotel, data: res})
 
       clearInterval(timer1)
       clearInterval(timer2)

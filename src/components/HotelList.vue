@@ -49,7 +49,7 @@
           
           <div class="hli-check-detail">
             <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'"></i>
-            <span class="hli-lowest-price-wrap">￥<span class="hli-lowest-price">{{parseInt( (o.minPrice || 0) )}}</span>起</span>
+            <span class="hli-lowest-price-wrap" v-html="o.minPriceText"></span>
             <a target="_blank" href="#" style="position: absolute;right: 0;top: 75px;">
               <el-button type="primary" class="hli-check-detail-btn" size="small" plain style="font-size: 16px;padding: 9px;" icon="el-icon-document">
                 查看详情

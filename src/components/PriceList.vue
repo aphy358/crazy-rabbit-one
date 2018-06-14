@@ -21,7 +21,7 @@
             <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
               <td :class="priceRow.tdBindClass">
-                <span class="hp-roomName" :class="priceRow.roomNameHide">
+                <span class="hp-roomName" :class="priceRow.roomNameBindClass">
                   {{priceRow.roomName}}
                 </span>
                   <i v-if="priceRow.rowsDropDown" class="room-type-icon drag-up"></i>
@@ -204,8 +204,6 @@ export default {
       for (let i = 0; i < res[type].length; i++) {
         const o = res[type][i]
 
-        // console.log(o);
-
         for (let j = 0; j < o.roomTypePrices.length; j++) {
           const p = o.roomTypePrices[j];
 
@@ -219,7 +217,7 @@ export default {
             (j > 0 && j < o.roomTypePrices.length - 1)  ? 'no-border-td' : ''
 
           if(j > 0){
-            p.roomNameHide = 'hidden'
+            p.roomNameBindClass = 'hidden'
           }
 
           if(o.roomTypePrices.length > 1){
