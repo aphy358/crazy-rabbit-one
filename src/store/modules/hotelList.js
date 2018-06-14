@@ -139,8 +139,6 @@ export default {
 
     // 查酒店列表
     async queryHotelList({ commit, state, dispatch }, payload){
-      console.log(state);
-      
       let params = {
         cityId: state.cityId,
         type: state.cityType,

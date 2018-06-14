@@ -27,7 +27,6 @@ th, td /* table elements 表格元素 */ {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-	vertical-align: baseline;
 }
 
 /** 设置默认字体 **/

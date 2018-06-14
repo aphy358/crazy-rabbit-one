@@ -9,18 +9,7 @@
         <Pagination />
 
 
-        <div v-if="!user" style="    position: absolute;
-    overflow: hidden;
-    background: white;
-    top: 100px;
-    left: 50%;
-    width: 400px;
-    height: 260px;
-    z-index: 9999;
-    border: 1px solid;
-    margin-left: -150px;
-    padding-top: 100px;
-    padding-left: 100px;">
+        <div v-if="!user" style="position: absolute;overflow: hidden;background: white;top: 100px;left: 50%;width: 400px;height: 260px;z-index: 9999;border: 1px solid;margin-left: -150px;padding-top: 100px;padding-left: 100px;">
           
           <img class="yzm-img" 
             style=""

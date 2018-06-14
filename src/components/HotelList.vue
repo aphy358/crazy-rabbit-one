@@ -66,7 +66,7 @@
                   </el-button>
                 </template>
                 <div class="hli-price-list-outer">
-                  <div class="progress-outer" >
+                  <div class="progress-outer" v-if="o.percentage > 0">
                     <el-progress :text-inside="true" :stroke-width="18" :show-text=false
                       :percentage="o.percentage" 
                       :color="o.color"
@@ -78,6 +78,8 @@
                     <div class="fzg-loading-wrap" v-if="!o.priceList">
                       <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif"/>
                     </div>
+
+                    <PriceList v-if="o.priceList" :priceList="o.priceList" />
                   </div>
                 </div>
             </el-collapse-item>
@@ -88,6 +90,8 @@
 </template>
 
 <script>
+import PriceList from "./PriceList";
+
 export default {
   name: '',
 
@@ -101,7 +105,7 @@ export default {
   },
 
   components: {
-
+      PriceList,
   },
 
   computed: {
