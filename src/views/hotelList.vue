@@ -7,24 +7,6 @@
         <NoHotels v-if="pageRecordCount == 0" />
         <HotelList />
         <Pagination />
-
-
-        <div v-if="!user" style="position: absolute;overflow: hidden;background: white;top: 100px;left: 50%;width: 400px;height: 260px;z-index: 9999;border: 1px solid;margin-left: -150px;padding-top: 100px;padding-left: 100px;">
-          
-          <img class="yzm-img" 
-            style=""
-            src="/user/getCheckcodeImg.do?time=" alt="">
-
-          <input 
-            v-model="checkcode"
-            placeholder="输入验证码"
-            style="height: 30px;border: 1px solid;padding-left: 10px;width:70px;margin: 20px;"/>
-
-          <el-button type="primary" size="small" style="" @click="login" >
-            登录
-          </el-button>
-        </div>
-
     </div>
 </template>
 
@@ -42,8 +24,6 @@ export default {
   
   data: function() {
     return {
-      checkcode: '',
-      user: null,
     }
   },
 
@@ -68,19 +48,24 @@ export default {
 
   methods: {
     async login(){
+      await this.$api.hotelList.syncCheckcode()
+
       let params = {
           accountCode : 'sz2747',
           username    : 'ch',
           password    : '1',
-          checkcode   : this.checkcode,
+          checkcode   : '8998',
           rememberMe  : false
       }
 
       let res_login = await this.$api.hotelList.syncLogin(params)
+      sessionStorage.setItem('login__login', 'login__login')
+      window.location.reload(true);
+    },
 
-      this.user = res_login
-
-      sessionStorage.setItem('user__user', JSON.stringify(res_login))
+    async logout(){
+      let res_logout = await this.$api.hotelList.syncLogout()
+      sessionStorage.removeItem('login__login')
     },
   },
 
@@ -92,7 +77,11 @@ export default {
       sessionStorage.removeItem('jlfzg__state')
     }
 
-    this.user = sessionStorage.getItem('user__user')
+    // this.logout()
+
+    if(!sessionStorage.getItem('login__login')){
+      this.login()
+    }
   },
   
 }

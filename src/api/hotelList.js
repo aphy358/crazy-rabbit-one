@@ -34,5 +34,15 @@ export const syncGetHotelPriceList = (args, loading = true) => http.post("/hotel
 export const syncLogin = (args, loading = true) => http.post("/user/loginfzg.do", args, loading)
 
 
+// 退出
+export const syncLogout = (args, loading = true) => http.post("/user/loginoutfzg.do", args, loading)
+
+
+// 获取验证码
+export const syncCheckcode = (args, loading = true) => http.post("/user/getCheckcodeImg.do", args, loading)
+
+
+
+
 
 

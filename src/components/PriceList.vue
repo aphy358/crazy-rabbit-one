@@ -19,8 +19,8 @@
       <tbody class="hotel-price-tbody">
         <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
           <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
-          <td>
-            <span class="hp-roomName">
+          <td :class="priceRow.tdBindClass">
+            <span class="hp-roomName" :class="priceRow.roomNameHide">
               {{priceRow.roomName}}
             </span>
           </td>
@@ -208,9 +208,18 @@ export default {
             p.rowSpan = res[type].rowSpan
           }
 
+          p.tdBindClass = 
+            (j === 0 && o.roomTypePrices.length > 1)    ? 'no-border-bottom-td' :
+            (j > 0 && j == o.roomTypePrices.length - 1) ? 'no-border-top-td' :
+            (j > 0 && j < o.roomTypePrices.length - 1)  ? 'no-border-td' : ''
+
+          if(j > 0){
+            p.roomNameHide = 'hidden'
+          }
+
           res.combinedRows
-          ? res.combinedRows.push(p)
-          : res.combinedRows = [p]
+            ? res.combinedRows.push(p)
+            : res.combinedRows = [p]
         }
       }
     }
