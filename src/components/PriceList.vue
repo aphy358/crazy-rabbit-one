@@ -35,8 +35,19 @@
                 <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
                 <p><span>{{ priceRow.breakFastName || '' }}</span></p>
               </td>
-              <td><span class="hp-order-clause">预定条款</span></td>
-              <td><span class="hp-cancel-clause">{{ priceRow.cancellationText }}</span></td>
+              <td>
+                  <el-popover  v-if="priceRow.orderClauseText !== '无预订条款'"  placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
+                    <div v-html="priceRow.orderClauseTip"></div>
+                    <span slot="reference" class="hp-order-clause">{{priceRow.orderClauseText}}</span>
+                  </el-popover>
+                  <span v-if="priceRow.orderClauseText === '无预订条款'">{{priceRow.orderClauseText}}</span>
+              </td>
+              <td>
+                <el-popover placement="top-start"  width="200" trigger="hover" popper-class="price-table-tip">
+                  <span class="hli-cancellation-desc">{{priceRow.cancellationDesc}}</span>
+                  <span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
+                </el-popover>
+              </td>
               <td><span class="hp-store-status" v-html="priceRow.roomStatusText"></span></td>
               <td>
                 <span class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
@@ -89,66 +100,124 @@ export default {
   methods: {
     // 为价格数据设置新的属性，使之适合模板
     setNewAttrForPriceData(res, type){
-      
       if(res[type]){
-        var rowSpan = 0;
-        
-        for (var i = 0; i < res[type].length; i++) {
-          var o = res[type][i];
+        // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
+        this.setRoomStatusText(res, type)
 
-          rowSpan += o.roomTypePrices.length;
-
-          for (var j = 0; j < o.roomTypePrices.length; j++) {
-            var p = o.roomTypePrices[j];
-
-            p.cancellationText = p.cancellationType ? '可取消' : '不可取消';
-
-            // 设置房态显示    0：剩余库存  1畅订  2：待查  3：满房 5不可超售
-            if( p.roomStatus === 3 ){
-              p.roomStatusText = '<span class="red">满房</span>';
-            }else if( p.roomStatus === 2 ){
-              p.roomStatusText = '<span class="purple">待查</span>';
-            }else if( p.roomStatus === 0 || p.roomStatus === 5 ){
-              p.roomStatusText = 
-                p.isTimeLimitConfirSupplier === 1
-                  ? '<span class="blue">60秒确认</span>'
-                  : '剩余库存';
-            }else if( p.roomStatus === 1 ){
-              p.roomStatusText = 
-                p.isTimeLimitConfirSupplier === 1
-                  ? '<span class="blue">60秒确认</span>'
-                  : '<span class="green">畅订</span>';
-            }
-            
-            if( p.roomStatusText === '剩余库存' ){
-              var stockArr = [];
-              for (var k = 0; k < p.nightlyPriceList.length; k++) {
-                var q = p.nightlyPriceList[k];
-                if( q.status === 1 ){ q.stock = 999; }	// 畅订情况下库存为 0 ！
-                stockArr.push(q.stock - q.sellStock);
-              }
-              
-              var minStock = Math.min.apply(this, stockArr);
-              p.roomStatusText = 
-                minStock < 1
-                  ? '<span class="red">满房</span>'
-                  : '<span class="green">剩余 [' + Math.min.apply(this, stockArr) + ']</span>';
-            }
-            
-            if(!p.isHasMarketing) p.isHasMarketing = 0;
-            j = this.setMarketing(o, p, j);
-          }
-        }
-
-        res[type].rowSpan = rowSpan;
-
+        // 将 '推荐' 和 '其他' 两个数组合并为一个数组，并作为一个新的属性添加到酒店下，一边后续渲染页面
         this.combinePriceRows(res, type)
       }
     },
 
+    // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
+    setRoomStatusText111(p){
+      // 设置房态显示    0：剩余库存  1畅订  2：待查  3：满房 5不可超售
+      if( p.roomStatus === 3 ){
+        p.roomStatusText = '<span class="red">满房</span>';
+      }else if( p.roomStatus === 2 ){
+        p.roomStatusText = '<span class="purple">待查</span>';
+      }else if( p.roomStatus === 0 || p.roomStatus === 5 ){
+        p.roomStatusText = 
+          p.isTimeLimitConfirSupplier === 1
+            ? '<span class="blue">60秒确认</span>'
+            : '剩余库存';
+      }else if( p.roomStatus === 1 ){
+        p.roomStatusText = 
+          p.isTimeLimitConfirSupplier === 1
+            ? '<span class="blue">60秒确认</span>'
+            : '<span class="green">畅订</span>';
+      }
+
+      if( p.roomStatusText === '剩余库存' ){
+        let stockArr = [];
+        for (var k = 0; k < p.nightlyPriceList.length; k++) {
+          var q = p.nightlyPriceList[k];
+          if( q.status === 1 ){ q.stock = 999; }	// 畅订情况下库存为 0 ！
+          stockArr.push(q.stock - q.sellStock);
+        }
+        
+        let minStock = Math.min.apply(this, stockArr);
+        p.roomStatusText = 
+          minStock < 1
+            ? '<span class="red">满房</span>'
+            : '<span class="green">剩余 [' + Math.min.apply(this, stockArr) + ']</span>';
+      }
+    },
+
+    // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
+    setRoomStatusText(res, type){
+      let rowSpan = 0;
+        
+      for (let i = 0; i < res[type].length; i++) {
+        let o = res[type][i];
+
+        rowSpan += o.roomTypePrices.length;
+
+        for (let j = 0; j < o.roomTypePrices.length; j++) {
+          let p = o.roomTypePrices[j];
+
+          // 为预定条款 td 设置 pop 数据
+          this.setOrderClauseTip(p)
+
+          // 设置取消款的显示字样
+          p.cancellationText = p.cancellationType ? '可取消' : '不可取消';
+
+          // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
+          this.setRoomStatusText111(p)
+          
+          if(!p.isHasMarketing) p.isHasMarketing = 0;
+          j = this.setMarketing(o, p, j);
+        }
+      }
+
+      res[type].rowSpan = rowSpan
+    },
+
+    // 为预定条款 td 设置 pop 数据
+    setOrderClauseTip(roomTypePrice){
+      // 预定条款不区分每一天，所有只拿第一天的数据进行计算
+      let reserveShowArr = roomTypePrice.nightlyPriceList[0].reserveShow.split(/[|;]/)
+      let	clauses = []
+      let getOrderClauseInnerStr = clauses => {
+        let finnalStr = ''
+
+        for (let i = 0; i < clauses.length; i++) {
+          finnalStr += `
+            <li class="hli-order-clause-item">
+                <h2>${clauses[i].name}</h2>
+                <p>${clauses[i].tip}</p>
+            </li>`
+        }
+
+        return finnalStr
+      }
+  
+      for (var j = 0; j < reserveShowArr.length; j++) {
+        var o = reserveShowArr[j];
+        ~o.indexOf('限住') ? clauses.push({name: '限制晚数', tip: o}) :
+        ~o.indexOf('提前') ? clauses.push({name: '提前预订', tip: o}) :
+        ~o.indexOf('连住') ? clauses.push({name: '连住多晚', tip: o}) :
+        ~o.indexOf('时间') ? clauses.push({name: '限时预订', tip: o}) :
+        ~o.indexOf('间数') ? clauses.push({name: '限制间数', tip: o}) :
+        ~o.indexOf('没有') ? clauses.push({name: '无预订条款', tip: o}) : ''
+      }
+
+      roomTypePrice.orderClauseTip = `
+        <div class="hli-order-clause-wrap">
+            <ul class="hli-order-clause-list">
+                ${getOrderClauseInnerStr(clauses)}
+            </ul>
+        </div>`
+      
+      roomTypePrice.orderClauseText = 
+        clauses.length === 0 ? '无预订条款' :
+        clauses.length === 1 ? clauses[0].name 
+                              : '复合条款'		
+    },
+
     // 设置小礼包
     setMarketing(o, p, j){
-      var copy = Object.assign({}, p);
+      let copy = Object.assign({}, p);
 
       // 将裸房的小礼包信息置空
       p.isHasMarketing = 0;
@@ -156,14 +225,14 @@ export default {
       p.marketingStr = 'isHasMarketing=0';
       
       if(copy.marketing){
-        var giftStartTime = copy.marketing.startTime.slice(0, 11) + '00:00:00',
-          giftEndTime = copy.marketing.endTime.slice(0, 11) + '23:59:59',
-          marketingPrice = copy.marketing.marketingPrice || 0,
-          totalPrice = 0;
+        let giftStartTime = copy.marketing.startTime.slice(0, 11) + '00:00:00'
+        let giftEndTime = copy.marketing.endTime.slice(0, 11) + '23:59:59'
+        let marketingPrice = copy.marketing.marketingPrice || 0
+        let totalPrice = 0
         
         if(copy.marketing.pricingMethod){
           // 将小礼包价格加到每一天的单价里
-          for (var k = 0; k < copy.nightlyPriceList.length; k++) {
+          for (let k = 0; k < copy.nightlyPriceList.length; k++) {
             totalPrice += copy.nightlyPriceList[k].salePrice;
           }
 
@@ -171,8 +240,8 @@ export default {
           copy.totalPriceRMB = totalPrice * parseInt(this.selRoomNum) + marketingPrice;
         }else{
           // 将小礼包价格加到每一天的单价里
-          for (var k = 0; k < copy.nightlyPriceList.length; k++) {
-            var q = copy.nightlyPriceList[k];
+          for (let k = 0; k < copy.nightlyPriceList.length; k++) {
+            let q = copy.nightlyPriceList[k];
             
             if( new Date(giftStartTime) < new Date(q.date) && new Date(q.date) < new Date(giftEndTime) ){
               q.salePrice += marketingPrice;
@@ -229,11 +298,84 @@ export default {
             : res.combinedRows = [p]
         }
       }
-    }
+    },
+
+    // 初始化价格的 tips
+    initHotelPriceTips(hotelPriceTd, pList){
+
+      var isTimeLimitConfirSupplier = hotelPriceTd.closest('tr').find('.hp-store-status').text().indexOf('60秒确认') !== -1;
+
+      hotelPriceTd.on('mouseover', function(){
+        for (var i = 0; i < pList.length; i++) {
+          var o = pList[i];
+
+          // 设置房态显示    0：剩余库存  1畅订  2：待查  3：满房 5不可超售
+          if( o.status === 3 ){
+            o.statusText = '<span class="red">满房</span>';
+          }else if( o.status === 2 ){
+            o.statusText = '<span class="purple">待查</span>';
+          }else if( o.status === 0 || o.status === 5 ){
+            o.statusText = 
+              isTimeLimitConfirSupplier
+                ? '<span class="blue">60秒确认</span>'
+                : ( (o.stock - o.sellStock < 1) ? '<span class="red">满房</span>' : '<span class="green">剩' + (o.stock - o.sellStock) + '</span>' );
+          }else if( o.status === 1 ){
+            o.statusText = 
+              isTimeLimitConfirSupplier
+                ? '<span class="blue">60秒确认</span>'
+                : '<span class="green">畅订</span>';
+          }
+        }
+
+        var msg = priceDetailTipTmpl({list: pList});
+
+        tipShowAndHide($(this), msg, {area: '300px'});
+      })
+    },
 
   }
 }
 </script>
+
+<style lang="scss">
+.price-table-tip{
+  font-size: 12px!important;
+
+  &.el-popover{
+    background: #dce9f5!important;
+  }
+  &.el-popper[x-placement^=top] .popper__arrow::after{
+    border-top-color: #dce9f5!important;
+  }
+  &.el-popper[x-placement^=bottom] .popper__arrow::after{
+    border-bottom-color: #dce9f5!important;
+  }
+  &.el-popper[x-placement^=left] .popper__arrow::after{
+    border-left-color: #dce9f5!important;
+  }
+  &.el-popper[x-placement^=right] .popper__arrow::after{
+    border-right-color: #dce9f5!important;
+  }
+  &.el-popper[x-placement^=bottom]{
+    padding: 12px;
+  }
+
+  .hli-order-clause-item,
+  .hli-cancellation-desc{
+    color: #3f39d4;
+    margin-top: 10px;
+          
+    &:first-child{
+        margin-top: 0;
+    }
+
+    h2{
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+}
+</style>
 
 <style  lang="scss">
 @import "../assets/jl_sprites.scss";
