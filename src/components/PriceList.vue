@@ -21,9 +21,12 @@
             <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
               <td :class="priceRow.tdBindClass">
-                <span class="hp-roomName" :class="priceRow.roomNameBindClass" @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)">
-                  {{priceRow.roomName}}
-                </span>
+                <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
+                  <div class="hli-cancellation-desc" v-html="currentRoomInfo"></div>
+                  <span slot="reference" class="hp-roomName" :class="priceRow.roomNameBindClass" @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)">
+                    {{priceRow.roomName}}
+                  </span>
+                </el-popover>
                 <i v-if="priceRow.rowsDropDown" class="room-type-icon drag-up"></i>
               </td>
               <td>
@@ -374,6 +377,9 @@ export default {
         // 如果 state 里面已经存有该房型信息，则直接显示
         this.currentRoomInfo = roomInfo
       }else{
+        // 先清空当前显示的房型信息 tip
+        this.currentRoomInfo = ''
+
         // 否则发起请求
         this.queryRoomInfo(hotelId, suppId, roomId)
       }
@@ -383,10 +389,26 @@ export default {
       let res = await this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId})
       
       if(res.success){
-        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = res.content
-        this.currentRoomInfo = res.content
+        let c = res.content
+        let tipStr = 
+          `<div class="hotel-info-wrap">
+            <ul class="hotel-info-list">
+              ${c.roomName ? '<li class="hotel-info-item"><i class="iconfont icon-home"></i><h1 class="roomName">' + c.roomName + '</h1></li>' : ''}
+              ${c.floor ? '<li class="hotel-info-item"><label>楼层：</label><span>' + c.floor + '层</span></li>' : ''}
+              ${c.acreage ? '<li class="hotel-info-item"><label>面积：</label><span>' + c.acreage + 'm²</span></li>' : ''}
+              ${c.bedName ? '<li class="hotel-info-item"><label>床型：</label><span>' + c.bedName + '</span></li>' : ''}
+              ${c.bedWidth ? '<li class="hotel-info-item"><label>床型大小：</label><span>' + c.bedWidth + '</span></li>' : ''}
+              ${c.maximize ? '<li class="hotel-info-item"><label>最大入住人数：</label><span>' + c.maximize + '</span></li>' : ''}
+              ${c.facilities ? '<li class="hotel-info-item"><label>房间设施：</label><span>' + c.facilities + '</span></li>' : ''}
+              ${c.comment ? '<li class="hotel-info-item"><label>房型备注：</label><span>' + c.comment + '</span></li>' : ''}
+            </ul>
+          </div>`
+
+        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = tipStr
+        this.currentRoomInfo = tipStr
       }else{
-        this.currentRoomInfo = null
+        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
+        this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
       }
     },
 
@@ -471,6 +493,30 @@ export default {
                 font-weight: normal;
             }
         }
+    }
+  }
+
+  .hotel-info-wrap{
+    
+    @at-root .hotel-info-list{
+      padding: 5px;
+      
+      @at-root .hotel-info-item{
+        margin: 5px 0;
+
+        &:first-child,
+        &:last-child{
+          margin: 0;
+        }
+        
+        .roomName{
+            font-size: 14px;
+        }
+        
+        label{
+            color: #999;
+        }
+      }
     }
   }
 }
