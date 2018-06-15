@@ -101,8 +101,31 @@ export default {
     // 为价格数据设置新的属性，使之适合模板
     setNewAttrForPriceData(res, type){
       if(res[type]){
-        // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
-        this.setRoomStatusText(res, type)
+        let rowSpan = 0;
+        
+        for (let i = 0; i < res[type].length; i++) {
+          let o = res[type][i];
+
+          rowSpan += o.roomTypePrices.length;
+
+          for (let j = 0; j < o.roomTypePrices.length; j++) {
+            let p = o.roomTypePrices[j];
+
+            // 为预定条款 td 设置 tip
+            this.setOrderClauseTip(p)
+
+            // 设置取消款的显示字样
+            p.cancellationText = p.cancellationType ? '可取消' : '不可取消';
+
+            // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
+            this.setRoomStatusText(p)
+            
+            if(!p.isHasMarketing) p.isHasMarketing = 0;
+            j = this.setMarketing(o, p, j);
+          }
+        }
+
+        res[type].rowSpan = rowSpan
 
         // 将 '推荐' 和 '其他' 两个数组合并为一个数组，并作为一个新的属性添加到酒店下，一边后续渲染页面
         this.combinePriceRows(res, type)
@@ -110,7 +133,7 @@ export default {
     },
 
     // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
-    setRoomStatusText111(p){
+    setRoomStatusText(p){
       // 设置房态显示    0：剩余库存  1畅订  2：待查  3：满房 5不可超售
       if( p.roomStatus === 3 ){
         p.roomStatusText = '<span class="red">满房</span>';
@@ -142,35 +165,6 @@ export default {
             ? '<span class="red">满房</span>'
             : '<span class="green">剩余 [' + Math.min.apply(this, stockArr) + ']</span>';
       }
-    },
-
-    // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
-    setRoomStatusText(res, type){
-      let rowSpan = 0;
-        
-      for (let i = 0; i < res[type].length; i++) {
-        let o = res[type][i];
-
-        rowSpan += o.roomTypePrices.length;
-
-        for (let j = 0; j < o.roomTypePrices.length; j++) {
-          let p = o.roomTypePrices[j];
-
-          // 为预定条款 td 设置 tip
-          this.setOrderClauseTip(p)
-
-          // 设置取消款的显示字样
-          p.cancellationText = p.cancellationType ? '可取消' : '不可取消';
-
-          // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
-          this.setRoomStatusText111(p)
-          
-          if(!p.isHasMarketing) p.isHasMarketing = 0;
-          j = this.setMarketing(o, p, j);
-        }
-      }
-
-      res[type].rowSpan = rowSpan
     },
 
     // 为预定条款 td 设置 pop 数据
