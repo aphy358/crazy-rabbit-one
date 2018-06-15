@@ -374,6 +374,7 @@ export default {
 
   &.el-popover{
     background: #ecf5ff!important;
+    box-shadow: 0 0px 5px 0px rgba(0,0,0,.1);
   }
   &.el-popper[x-placement^=top] .popper__arrow::after{
     border-top-color: #ecf5ff!important;
