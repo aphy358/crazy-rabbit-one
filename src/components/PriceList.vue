@@ -21,10 +21,10 @@
             <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
               <td :class="priceRow.tdBindClass">
-                <span class="hp-roomName" :class="priceRow.roomNameBindClass">
+                <span class="hp-roomName" :class="priceRow.roomNameBindClass" @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)">
                   {{priceRow.roomName}}
                 </span>
-                  <i v-if="priceRow.rowsDropDown" class="room-type-icon drag-up"></i>
+                <i v-if="priceRow.rowsDropDown" class="room-type-icon drag-up"></i>
               </td>
               <td>
                 <span>{{priceRow.rateTypeName || ''}}</span>
@@ -63,10 +63,10 @@
                 <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
               </td>
               <td >
-                  <a v-if="priceRow.isBook" href="javascript:;" class="hp-order-btn" target="_blank">
-                    预订
+                  <a v-if="priceRow.isBook" href="javascript:;" target="_blank">
+                    <el-button type="warning" size="mini" class="hp-order-btn">预订</el-button>
                   </a>
-                  <a v-if="!priceRow.isBook" href="javascript:;" class="hp-order-btn disabled">不可订</a>
+                  <el-button type="info" size="mini" disabled v-if="!priceRow.isBook" class="hp-order-btn">不可订</el-button>
               </td>
             </tr>
           </tbody>
@@ -82,6 +82,8 @@ export default {
 
   data(){
     return {
+      roomInfoArr: {},
+      currentRoomInfo: null,
     }
   },
 
@@ -364,6 +366,30 @@ export default {
         </div>`
     },
 
+    // 获取房型信息，先从 state 里拿，如果拿不到，则发起请求，并将返回的数据设置到 state 里。
+    getRoomInfo(hotelId, suppId, roomId){
+      let roomInfo = this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`]
+
+      if(roomInfo){
+        // 如果 state 里面已经存有该房型信息，则直接显示
+        this.currentRoomInfo = roomInfo
+      }else{
+        // 否则发起请求
+        this.queryRoomInfo(hotelId, suppId, roomId)
+      }
+    },
+
+    async queryRoomInfo(hotelId, suppId, roomId){
+      let res = await this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId})
+      
+      if(res.success){
+        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = res.content
+        this.currentRoomInfo = res.content
+      }else{
+        this.currentRoomInfo = null
+      }
+    },
+
   }
 }
 </script>
@@ -636,24 +662,11 @@ export default {
                     }
                 }
                 
-                @at-root a.hp-order-btn{
-                    display: inline-block;
-                    width: 60px;
-                    text-align: center;
-                    padding: 4px 5px;
-                    background: #fea925;
-                    border-radius: 5px;
-                    color: white;
-                    text-decoration: none;
-                    transition: all 0.2s linear;
-                    
-                    &:hover{
-                        background: #cc8607;
-                    }
-                    
-                    &.disabled{
-                        background: #CCCCCC;
-                        cursor: not-allowed;
+                @at-root .hp-order-btn{
+                    &.el-button.el-button--mini{
+                      min-width: 64px;
+                      font-size: 14px;
+                      padding: 6px 10px;
                     }
                 }
             }

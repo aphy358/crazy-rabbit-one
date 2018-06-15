@@ -30,6 +30,10 @@ export const syncGetHotelPriceListInStock = (args, loading = true) => http.post(
 export const syncGetHotelPriceList = (args, loading = true) => http.post("/hotel/getHotelPriceList.do", args, loading)
 
 
+// 查询房型信息
+export const syncGetRoomInfo = (args, loading = false) => http.post("/hotel/roomInfo.do", args, loading)
+
+
 // 登录
 export const syncLogin = (args, loading = true) => http.post("/user/loginfzg.do", args, loading)
 
@@ -40,9 +44,3 @@ export const syncLogout = (args, loading = true) => http.post("/user/loginoutfzg
 
 // 获取验证码
 export const syncCheckcode = (args, loading = true) => http.post("/user/getCheckcodeImg.do", args, loading)
-
-
-
-
-
-
