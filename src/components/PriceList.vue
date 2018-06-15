@@ -373,19 +373,19 @@ export default {
   font-size: 12px!important;
 
   &.el-popover{
-    background: #dce9f5!important;
+    background: #ecf5ff!important;
   }
   &.el-popper[x-placement^=top] .popper__arrow::after{
-    border-top-color: #dce9f5!important;
+    border-top-color: #ecf5ff!important;
   }
   &.el-popper[x-placement^=bottom] .popper__arrow::after{
-    border-bottom-color: #dce9f5!important;
+    border-bottom-color: #ecf5ff!important;
   }
   &.el-popper[x-placement^=left] .popper__arrow::after{
-    border-left-color: #dce9f5!important;
+    border-left-color: #ecf5ff!important;
   }
   &.el-popper[x-placement^=right] .popper__arrow::after{
-    border-right-color: #dce9f5!important;
+    border-right-color: #ecf5ff!important;
   }
   &.el-popper[x-placement^=bottom]{
     padding: 12px;
@@ -416,7 +416,7 @@ export default {
             td{
                 height: 30px;
                 text-align: center;
-                background: #dce9f5;
+                background: #ecf5ff;
                 border: solid 1px #9ac5ed;
 
                 .red{
