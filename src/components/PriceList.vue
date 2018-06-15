@@ -48,9 +48,17 @@
                   <span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
                 </el-popover>
               </td>
-              <td><span class="hp-store-status" v-html="priceRow.roomStatusText"></span></td>
               <td>
-                <span class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
+                <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
+                  <span class="hli-cancellation-desc" v-html="priceRow.priceDetailTip"></span>
+                  <span slot="reference" class="hp-store-status" v-html="priceRow.roomStatusText"></span>
+                </el-popover>
+              </td>
+              <td>
+                <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
+                  <span class="hli-cancellation-desc" v-html="priceRow.priceDetailTip"></span>
+                  <span slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
+                </el-popover>
                 <br>
                 <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
               </td>
@@ -58,7 +66,7 @@
                   <a v-if="priceRow.isBook" href="javascript:;" class="hp-order-btn" target="_blank">
                     预订
                   </a>
-                  <a v-if="!priceRow.isBook" href="javascript:;" class="hp-order-btn disabled"><span class="hidden hotelPriceStrs">{{ priceRow.hotelPriceStrs }}</span>不可订</a>
+                  <a v-if="!priceRow.isBook" href="javascript:;" class="hp-order-btn disabled">不可订</a>
               </td>
             </tr>
           </tbody>
@@ -104,11 +112,13 @@ export default {
         let rowSpan = 0;
         
         for (let i = 0; i < res[type].length; i++) {
+          // o 指每个房型
           let o = res[type][i];
 
           rowSpan += o.roomTypePrices.length;
 
           for (let j = 0; j < o.roomTypePrices.length; j++) {
+            // o 指每个价格类型，真正用于渲染一行的数据
             let p = o.roomTypePrices[j];
 
             // 为预定条款 td 设置 tip
@@ -119,7 +129,11 @@ export default {
 
             // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
             this.setRoomStatusText(p)
+
+            // 初始化价格的 tips
+            this.setHotelPriceTip(p)
             
+            // 设置小礼包
             if(!p.isHasMarketing) p.isHasMarketing = 0;
             j = this.setMarketing(o, p, j);
           }
@@ -295,36 +309,59 @@ export default {
     },
 
     // 初始化价格的 tips
-    initHotelPriceTips(hotelPriceTd, pList){
+    setHotelPriceTip(p){
+      for (var i = 0; i < p.nightlyPriceList.length; i++) {
+        var o = p.nightlyPriceList[i];
 
-      var isTimeLimitConfirSupplier = hotelPriceTd.closest('tr').find('.hp-store-status').text().indexOf('60秒确认') !== -1;
+				// 设置房态显示    0：剩余库存  1畅订  2：待查  3：满房 5不可超售
+				if( o.status === 3 ){
+					o.statusText = '<span class="red">满房</span>';
+				}else if( o.status === 2 ){
+					o.statusText = '<span class="purple">待查</span>';
+				}else if( o.status === 0 || o.status === 5 ){
+					o.statusText = 
+						p.isTimeLimitConfirSupplier
+							? '<span class="blue">60秒确认</span>'
+							: ( (o.stock - o.sellStock < 1) ? '<span class="red">满房</span>' : '<span class="green">剩' + (o.stock - o.sellStock) + '</span>' );
+				}else if( o.status === 1 ){
+					o.statusText = 
+						p.isTimeLimitConfirSupplier
+							? '<span class="blue">60秒确认</span>'
+							: '<span class="green">畅订</span>';
+				}
+      }
+      
+      let getPriceTrStr = list => {
+        let finalStr = ''
 
-      hotelPriceTd.on('mouseover', function(){
-        for (var i = 0; i < pList.length; i++) {
-          var o = pList[i];
-
-          // 设置房态显示    0：剩余库存  1畅订  2：待查  3：满房 5不可超售
-          if( o.status === 3 ){
-            o.statusText = '<span class="red">满房</span>';
-          }else if( o.status === 2 ){
-            o.statusText = '<span class="purple">待查</span>';
-          }else if( o.status === 0 || o.status === 5 ){
-            o.statusText = 
-              isTimeLimitConfirSupplier
-                ? '<span class="blue">60秒确认</span>'
-                : ( (o.stock - o.sellStock < 1) ? '<span class="red">满房</span>' : '<span class="green">剩' + (o.stock - o.sellStock) + '</span>' );
-          }else if( o.status === 1 ){
-            o.statusText = 
-              isTimeLimitConfirSupplier
-                ? '<span class="blue">60秒确认</span>'
-                : '<span class="green">畅订</span>';
-          }
+        for (let i = 0; i < list.length; i++) {
+          const q = list[i];
+          finalStr += `
+            <tr>
+              <td>${q.date}</td>
+              <td>￥${q.salePrice} /间 【${q.statusText}】</td>
+              <td>${q.occupancyStock}间</td>
+            </tr>`
         }
 
-        var msg = priceDetailTipTmpl({list: pList});
+        return finalStr
+      }
 
-        tipShowAndHide($(this), msg, {area: '300px'});
-      })
+      p.priceDetailTip = `
+        <div class="hli-price-detail-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th>价格【房态】</th>
+                <th>预订间数</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${getPriceTrStr(p.nightlyPriceList)}
+            </tbody>
+          </table>
+        </div>`
     },
 
   }
@@ -366,6 +403,47 @@ export default {
     h2{
       font-weight: bold;
       margin-bottom: 5px;
+    }
+  }
+
+  .hli-price-detail-wrap{
+    table{
+        width: 100%;
+        
+        tr{
+            
+            th,
+            td{
+                height: 30px;
+                text-align: center;
+                background: #dce9f5;
+                border: solid 1px #9ac5ed;
+
+                .red{
+                    color: #ff6666;
+                }
+
+                .purple{
+                    color: #ffa825;
+                }
+
+                .orange{
+                    color: orange;
+                }
+
+                .blue{
+                    color: #3366cc;
+                }
+
+                .green{
+                    color: #4cba92;
+                }
+            }
+    
+            th{
+                font-weight: normal;
+            }
+        }
     }
   }
 }
