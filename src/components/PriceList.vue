@@ -156,7 +156,7 @@ export default {
         for (let j = 0; j < o.roomTypePrices.length; j++) {
           let p = o.roomTypePrices[j];
 
-          // 为预定条款 td 设置 pop 数据
+          // 为预定条款 td 设置 tip
           this.setOrderClauseTip(p)
 
           // 设置取消款的显示字样
