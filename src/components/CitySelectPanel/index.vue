@@ -9,7 +9,7 @@
                     <button class="kwc-history-clear" @click="clearCityHistory">清空</button>
                 </div>
                 <ul class="kwc-city-block">
-									<li v-for="city in historyCity" :key="city.cityid" class="kwc-city-item">{{city.cityname}}</li>
+									<li v-for="city in historyCity" :key="city.cityid" class="kwc-city-item" @click="pickvalue({t: city.citytype, i: city.cityid, n: city.cityname})">{{city.cityname}}</li>
 								</ul>
             </div>
 
@@ -71,12 +71,15 @@ export default {
 
   methods: {
     pickvalue(event){
+			console.log(event);
+			
       this.$emit('pickvalue', event)
     },
 
 		// 清空历史选择的城市
 		clearCityHistory(){
 			localStorage.removeItem('kwcHistory')
+			this.historyCity = null
 		},
 
 		getHistoryCity(cityType){
