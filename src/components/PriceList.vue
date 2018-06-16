@@ -83,13 +83,15 @@
 </template>
 
 <script>
+import loadingGif from "../assets/loading.gif";
+
 export default {
   name: '',
 
   data(){
     return {
       roomInfoArr: {},
-      currentRoomInfo: null,
+      currentRoomInfo: '',
     }
   },
 
@@ -383,7 +385,7 @@ export default {
         this.currentRoomInfo = roomInfo
       }else{
         // 先清空当前显示的房型信息 tip
-        this.currentRoomInfo = ''
+        this.currentRoomInfo = `<div class="hotel-info-wrap"><img src="${loadingGif}"/></div>`
 
         // 否则发起请求
         this.queryRoomInfo(hotelId, suppId, roomId)
@@ -413,7 +415,7 @@ export default {
         this.currentRoomInfo = tipStr
       }else{
         this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
-        this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
+        this.currentRoomInfo = `<div class="hotel-info-wrap"><img src="${loadingGif}"/></div>`
       }
     },
 
@@ -521,6 +523,11 @@ export default {
             color: #999;
         }
       }
+    }
+
+    img{
+      display: block;
+      margin: 20px auto;
     }
   }
 }
