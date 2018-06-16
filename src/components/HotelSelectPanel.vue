@@ -7,10 +7,7 @@
             <ul class="kwh-block-content-list city">
                 <li v-for="city of cityList" :key="city.cityid" 
                   @click="checkOneCity(city.type, city.cityid, city.aname)"
-                  class="kwh-block-content-item city" 
-                  :cityname="city.aname" 
-                  :citytype="city.type" 
-                  :cityid="city.cityid" >
+                  class="kwh-block-content-item city" >
                     <span v-html="city.cityStr"></span>
                     <span class="area">{{city.countryName}}</span>
                     <span class="area">{{city.provinceName}}</span>
@@ -42,6 +39,8 @@
 </template>
 
 <script>
+import { setHistory } from "./util.js";
+
 export default {
   name: "HotelSelectPanel",
 
@@ -56,6 +55,7 @@ export default {
   methods: {
     checkOneCity(t, i, n){
       this.$emit('pickvalue', {t, i, n})
+      setHistory(t, i, n)
     }
   }
 };
