@@ -125,8 +125,6 @@ export default {
           // o 指每个房型
           let o = res[type][i];
 
-          rowSpan += o.roomTypePrices.length;
-
           for (let j = 0; j < o.roomTypePrices.length; j++) {
             // o 指每个价格类型，真正用于渲染一行的数据
             let p = o.roomTypePrices[j];
@@ -147,6 +145,8 @@ export default {
             if(!p.isHasMarketing) p.isHasMarketing = 0;
             j = this.setMarketing(o, p, j);
           }
+
+          rowSpan += o.roomTypePrices.length;
         }
 
         res[type].rowSpan = rowSpan
