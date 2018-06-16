@@ -2,7 +2,7 @@
 <!-- 价格列表组件 -->
 <template>
     <div>
-        <table class="hotel-price-table" v-if="newPriceList.combinedRows">
+        <table class="hotel-price-table" v-if="combinedRows">
           <thead class="hotel-price-thead">
             <tr>
               <th width="65"></th>
@@ -18,8 +18,8 @@
           </thead>
 
           <tbody class="hotel-price-tbody">
-            <tr class="hotel-price-tr" v-for="(priceRow, i) in newPriceList.combinedRows" :key="i" :rowspan="priceRow.rowSpan">
-              <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
+            <tr class="hotel-price-tr" v-for="(priceRow, i) in combinedRows" :key="i" :rowspan="priceRow.rowSpan">
+              <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{priceRow.rowSpanText}}</td>
               <td :class="priceRow.tdBindClass">
                 <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                   <div class="hli-tip-style" v-html="currentRoomInfo"></div>
@@ -78,12 +78,14 @@
           </tbody>
         </table>
 
-        <div class="hli-error-msg" v-if="!newPriceList.combinedRows">无相关价格！</div>
+        <div class="hli-error-msg" v-if="!combinedRows">无相关价格！</div>
     </div>
 </template>
 
 <script>
 import loadingGif from "../assets/loading.gif";
+import { deepCopy } from "../util.js";
+
 
 export default {
   name: '',
@@ -92,6 +94,7 @@ export default {
     return {
       roomInfoArr: {},
       currentRoomInfo: '',
+      combinedRows: [],
     }
   },
 
@@ -101,21 +104,49 @@ export default {
 
   },
 
-  computed: {
-    newPriceList(){
-      this.setNewAttrForPriceData(this.priceList, 'roomTypeBasesRecommend');
-      this.setNewAttrForPriceData(this.priceList, 'roomTypeBases');
-      
-      return this.priceList
+  watch: {
+    filterCancelType(newValue){
+      this.newPriceList()
     },
 
+    filterConfirmType(){
+      this.newPriceList()
+    },
+  },
+
+  created(){
+    this.newPriceList()
+  },
+
+  computed: {
     selRoomNum(){
       return this.$store.state.hotelList.roomNum
+    },
+
+    filterCancelType(){
+      return this.$store.state.hotelList.checkedCancelType.join(',')
+    },
+
+    filterConfirmType(){
+      return this.$store.state.hotelList.checkedConfirmType.join(',')
+    },
+
+    filterPriceRange(){
+      return this.$store.state.hotelList.checkedPriceRange
     }
     
   },
   
   methods: {
+    // 对父组件穿过来的价格列表进行数据处理，设置新属性、筛选等
+    newPriceList(){
+      let tmpPriceList = deepCopy(this.priceList)
+      
+      this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
+      this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
+      this.combinedRows = tmpPriceList.combinedRows
+    },
+
     // 为价格数据设置新的属性，使之适合模板
     setNewAttrForPriceData(res, type){
       if(res[type]){
@@ -129,21 +160,28 @@ export default {
             // o 指每个价格类型，真正用于渲染一行的数据
             let p = o.roomTypePrices[j];
 
-            // 为预定条款 td 设置 tip
-            this.setOrderClauseTip(p)
+            // 根据前端条件过滤价格
+            let isShow = this.getIsShowBoolean(p)
 
-            // 设置取消款的显示字样
-            p.cancellationText = p.cancellationType ? '可取消' : '不可取消';
-
-            // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
-            this.setRoomStatusText(p)
-
-            // 初始化价格的 tips
-            this.setHotelPriceTip(p)
-            
-            // 设置小礼包
-            if(!p.isHasMarketing) p.isHasMarketing = 0;
-            j = this.setMarketing(o, p, j);
+            if( !isShow ){
+              o.roomTypePrices.splice(j--, 1);
+            }else{
+              // 为预定条款 td 设置 tip
+              this.setOrderClauseTip(p)
+  
+              // 设置取消款的显示字样
+              p.cancellationText = p.cancellationType ? '可取消' : '不可取消';
+  
+              // 设置房态的显示，如：'60秒确认'、'满房'、'畅订' 等...
+              this.setRoomStatusText(p)
+  
+              // 初始化价格的 tips
+              this.setHotelPriceTip(p)
+              
+              // 设置小礼包
+              if(!p.isHasMarketing) p.isHasMarketing = 0;
+              j = this.setMarketing(o, p, j);
+            }
           }
 
           rowSpan += o.roomTypePrices.length;
@@ -288,14 +326,18 @@ export default {
 
     // 将 '推荐' 和 '其他' 两个数组合并为一个数组，并作为一个新的属性添加到酒店下，一边后续渲染页面
     combinePriceRows(res, type){
+      // 计算该类型价格下所有价格记录条数
+      let typeRowCount = 0
+
       for (let i = 0; i < res[type].length; i++) {
         const o = res[type][i]
 
         for (let j = 0; j < o.roomTypePrices.length; j++) {
           const p = o.roomTypePrices[j];
 
-          if(i === 0 && j === 0){
+          if(typeRowCount++ === 0){
             p.rowSpan = res[type].rowSpan
+            p.rowSpanText = type === 'roomTypeBasesRecommend' ? '推荐' : '其他'
           }
 
           p.tdBindClass = 
@@ -417,6 +459,56 @@ export default {
       }
     },
 
+    // 根据前端条件过滤价格
+    getIsShowBoolean(priceObj){
+      let subIsShow1 = true
+      let subIsShow2 = true
+      let subIsShow3 = true
+      let avePrice = priceObj.averagePriceRMB
+        
+      // 确认时间
+      if(this.filterConfirmType){
+        subIsShow1 = false;
+        
+        if( ~this.filterConfirmType.indexOf('XS-0') ){
+          subIsShow1 |= (priceObj.roomStatus === 2);
+        }
+        
+        if( ~this.filterConfirmType.indexOf('XS-1') ){
+          subIsShow1 |= (priceObj.isTimeLimitConfirSupplier === 0 && priceObj.confirm === true && priceObj.roomStatus != 3);
+        }
+        
+        if( ~this.filterConfirmType.indexOf('XS-2') ){
+          subIsShow1 |= (priceObj.isTimeLimitConfirSupplier === 1);
+        }
+      }
+      
+      // 可否取消
+      if(this.filterCancelType){
+        subIsShow2 = false;
+        
+        if( ~this.filterCancelType.indexOf('canceltype-0') ){
+          subIsShow2 |= (priceObj.cancellationType === 1);
+        }
+        
+        if( ~this.filterCancelType.indexOf('canceltype-1') ){
+          subIsShow2 |= (priceObj.cancellationType !== 1);
+        }
+      }
+
+      // 价格区间
+      if(this.filterPriceRange){
+        subIsShow3 = false;
+
+        var priceRangeArr = (this.filterPriceRange.split('_')[0]).split('-');
+        let p1 = +priceRangeArr[0] || 0     // 避免价格为0的被选上
+        let p2 = +priceRangeArr[1] || 0     // 避免价格为0的被选上
+
+        subIsShow3 |= ( p1 <= avePrice && avePrice <= p2 );
+      }
+      
+      return subIsShow1 && subIsShow2 && subIsShow3
+    },
   }
 }
 </script>
