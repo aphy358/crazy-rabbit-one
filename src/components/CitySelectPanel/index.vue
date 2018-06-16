@@ -4,13 +4,12 @@
     <section class="key-word-city-wrap">
         <div class="kwc-inner">
             <div v-if="historyCity" class="kwc-history">
-                <div class="kwc-history-title">
-                    <span>历史搜索</span>
-                    <button class="kwc-history-clear" @click="clearCityHistory">清空</button>
-                </div>
-                <ul class="kwc-city-block">
-									<li v-for="city in historyCity" :key="city.cityid" class="kwc-city-item" @click="pickvalue({t: city.citytype, i: city.cityid, n: city.cityname})">{{city.cityname}}</li>
-								</ul>
+								<el-tag v-for="city in historyCity" :key="city.cityid" size="mini" 
+									class="kwc-history-tag"
+									@click.native="pickvalue({t: city.citytype, i: city.cityid, n: city.cityname})">
+										{{city.cityname}}
+								</el-tag>
+								<el-button type="text" @click="clearCityHistory" class="clear-kwc-history-tag">清空</el-button>
             </div>
 
             <!-- 港澳台城市 -->
@@ -116,24 +115,28 @@ export default {
         margin: 10px;
 
         @at-root .kwc-history{
+						margin-bottom: 5px;
+						margin-top: 12px;
 
-            @at-root .kwc-history-title{
-                color: #999;
-                font-size: 12px;
+						@at-root .kwc-history-tag{
+								margin: 0 10px 10px 0;
+								cursor: pointer;
+						}
 
-                @at-root .kwc-history-clear{
-                    border: none;
-                    color: #339afc;
-                    margin-left: 10px;
-
-                    &:hover{
-                        color: #1a6ab4;
-                    }
-                }
-            }
-        }
-
-        @at-root .kwc-city-block{
+						@at-root .clear-kwc-history-tag{
+								&.el-button--text{
+									color: #f56c6c;
+									padding: 0;
+	
+									&:hover{
+										color: #f56c6c;
+										text-shadow: 0 0 1px;
+									}
+								}
+						}
+				}
+				
+				@at-root .kwc-city-block{
             margin: 10px;
             overflow: hidden;
 
