@@ -243,8 +243,6 @@ export default {
       p.marketingStr = 'isHasMarketing=0';
       
       if(copy.marketing){
-        console.log(copy);
-        
         let giftStartTime = copy.marketing.startTime.slice(0, 11) + '00:00:00'
         let giftEndTime = copy.marketing.endTime.slice(0, 11) + '23:59:59'
         let marketingPrice = copy.marketing.marketingPrice || 0
