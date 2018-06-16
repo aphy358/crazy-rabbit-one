@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import { setHistory } from "../util.js";
-
 export default {
   name: 'CityListTmpl',
 
@@ -54,7 +52,6 @@ export default {
 
     checkOneCity(t, i, n){
       this.$emit('pickvalue', {t, i, n})
-      setHistory(t, i, n)
     },    
   }
 }

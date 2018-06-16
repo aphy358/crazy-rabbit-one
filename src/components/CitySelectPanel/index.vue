@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { setHistory } from "../util.js";
 import CityListTmpl from './CityListTmpl'
 import cityList_internal from './data/internalCity.js'
 import cityList_gat from './data/gatCity.js'
@@ -71,9 +72,8 @@ export default {
 
   methods: {
     pickvalue(event){
-			console.log(event);
-			
-      this.$emit('pickvalue', event)
+			this.$emit('pickvalue', event)
+			setHistory(event.t, event.i, event.n)
     },
 
 		// 清空历史选择的城市
