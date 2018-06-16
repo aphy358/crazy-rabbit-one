@@ -13,7 +13,7 @@
               <th><span>取消规则</span></th>
               <th><span>剩余数量</span></th>
               <th width="150"><span>均价/总价</span></th>
-              <th width="100"></th>
+              <th width="94"></th>
             </tr>
           </thead>
 
