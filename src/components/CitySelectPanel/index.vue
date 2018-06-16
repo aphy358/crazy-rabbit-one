@@ -3,12 +3,14 @@
     <!-- 城市关键字模板 -->
     <section class="key-word-city-wrap">
         <div class="kwc-inner">
-            <div v-if="getHistoryCity" class="kwc-history">
+            <div v-if="historyCity" class="kwc-history">
                 <div class="kwc-history-title">
                     <span>历史搜索</span>
                     <button class="kwc-history-clear" @click="clearCityHistory">清空</button>
                 </div>
-                <ul class="kwc-city-block" v-html="getHistoryCity"></ul>
+                <ul class="kwc-city-block">
+									<li v-for="city in historyCity" :key="city.cityid" class="kwc-city-item">{{city.cityname}}</li>
+								</ul>
             </div>
 
             <!-- 港澳台城市 -->
@@ -43,6 +45,7 @@ export default {
       cityList_internal: cityList_internal,
       cityList_gat: cityList_gat,
 			cityList_external: cityList_external,
+			historyCity: null,
     }
   },
 
@@ -54,30 +57,12 @@ export default {
     },
 
     getCityType(){
-      return this.$store.state.hotelList.cityType
+			let cityType = this.$store.state.hotelList.cityType
+			this.getHistoryCity(cityType)
+
+      return cityType
 		},
 		
-		getHistoryCity(){
-			let kwcHistory = localStorage.getItem('kwcHistory')
-			let tmpHotCityStr = '', _thisTypeHistory
-
-			if( kwcHistory ){
-				_thisTypeHistory = window.JSON.parse( kwcHistory )[this.getCityType]
-				
-				if( _thisTypeHistory ){
-					for (let i = 0; i < _thisTypeHistory.length; i++) {
-						let o = _thisTypeHistory[i]
-						tmpHotCityStr += '<li class="kwc-city-item" data-citytype="' + o.citytype + '" data-cityid="' + o.cityid + '">' + o.cityname + '</li>'
-					}
-
-					return tmpHotCityStr
-				}else{
-					return ''
-				}
-			}else{
-				return ''
-			}
-		}
   },
 
   components: {
@@ -92,6 +77,14 @@ export default {
 		// 清空历史选择的城市
 		clearCityHistory(){
 			localStorage.removeItem('kwcHistory')
+		},
+
+		getHistoryCity(cityType){
+			let kwcHistory = localStorage.getItem('kwcHistory')
+
+			this.historyCity = kwcHistory
+				? window.JSON.parse( kwcHistory )[cityType]
+				: null
 		}
 		
   },
