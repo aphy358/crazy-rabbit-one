@@ -22,7 +22,7 @@
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{i === 0 ? '推荐' : '其他'}}</td>
               <td :class="priceRow.tdBindClass">
                 <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
-                  <div class="hli-cancellation-desc" v-html="currentRoomInfo"></div>
+                  <div class="hli-tip-style" v-html="currentRoomInfo"></div>
                   <span slot="reference" class="hp-roomName" :class="priceRow.roomNameBindClass" @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)">
                     {{priceRow.roomName}}
                   </span>
@@ -31,7 +31,10 @@
               </td>
               <td>
                 <span>{{priceRow.rateTypeName || ''}}</span>
-                <i v-if="priceRow.isHasMarketing" class="marketing-icon"></i>
+                <el-popover  v-if="priceRow.isHasMarketing" placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
+                  <span class="hli-tip-style">{{priceRow.marketingInfo}}</span>
+                  <i slot="reference" class="marketing-icon"></i>
+                </el-popover>
                 <i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
               </td>
               <td class="align-center">
@@ -47,19 +50,19 @@
               </td>
               <td>
                 <el-popover placement="top-start"  width="200" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-cancellation-desc">{{priceRow.cancellationDesc}}</span>
+                  <span class="hli-tip-style">{{priceRow.cancellationDesc}}</span>
                   <span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
                 </el-popover>
               </td>
               <td>
                 <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-cancellation-desc" v-html="priceRow.priceDetailTip"></span>
+                  <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
                   <span slot="reference" class="hp-store-status" v-html="priceRow.roomStatusText"></span>
                 </el-popover>
               </td>
               <td>
                 <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-cancellation-desc" v-html="priceRow.priceDetailTip"></span>
+                  <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
                   <span slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
                 </el-popover>
                 <br>
@@ -196,7 +199,7 @@ export default {
 
         for (let i = 0; i < clauses.length; i++) {
           finnalStr += `
-            <li class="hli-order-clause-item">
+            <li class="hli-tip-style">
                 <h2>${clauses[i].name}</h2>
                 <p>${clauses[i].tip}</p>
             </li>`
@@ -238,6 +241,8 @@ export default {
       p.marketingStr = 'isHasMarketing=0';
       
       if(copy.marketing){
+        console.log(copy);
+        
         let giftStartTime = copy.marketing.startTime.slice(0, 11) + '00:00:00'
         let giftEndTime = copy.marketing.endTime.slice(0, 11) + '23:59:59'
         let marketingPrice = copy.marketing.marketingPrice || 0
@@ -440,8 +445,7 @@ export default {
     padding: 12px;
   }
 
-  .hli-order-clause-item,
-  .hli-cancellation-desc{
+  .hli-tip-style{
     color: #3f39d4;
     margin-top: 10px;
           
@@ -591,6 +595,7 @@ export default {
                     
                     display: inline-block;
                     margin-bottom: -2px;
+                    margin-left: 2px;
                 }
 
                 @at-root .pagekage-icon{

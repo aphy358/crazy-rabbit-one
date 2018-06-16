@@ -261,7 +261,6 @@ export default {
 @import "../assets/jl_sprites.scss";
 
 .ac-select-wrap{
-    position: absolute;
     font-size: 14px;
     min-width: 376px;
     min-width: 386px\9;

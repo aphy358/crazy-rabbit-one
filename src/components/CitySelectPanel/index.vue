@@ -76,7 +76,6 @@ export default {
 
 <style lang="scss">
 .key-word-city-wrap{
-    position: absolute;
     font-size: 14px;
     min-width: 376px;
     min-width: 386px\9;

@@ -44,7 +44,7 @@
               <i class="hli-icon icon-notice"></i>
               <label>特别提示：</label>
               <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-cancellation-desc">{{o.indicate || '无'}}</span>
+                  <span class="hli-tip-style">{{o.indicate || '无'}}</span>
                   <span slot="reference" class="hli-notice-text" >{{o.indicate || '无'}}</span>
               </el-popover>
             </div>

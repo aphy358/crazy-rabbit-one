@@ -20,6 +20,7 @@
       v-model="getKeyword"
       @input="queryCityAndHotels"
       @focus="queryCityAndHotels"
+      @keydown.enter.native="queryHotelList"
       clearable >
     </el-input>
 
@@ -138,6 +139,10 @@ export default {
       this.$store.commit('hotelList/setHotelListState', {t: 'keyword', v: event.n})
       this.$store.commit('hotelList/setHotelListState', {t: 'cityId', v: event.i})
     },
+
+    queryHotelList(){
+      this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
+    }
   }
 }
 </script>
