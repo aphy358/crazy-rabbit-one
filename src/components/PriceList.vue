@@ -455,7 +455,7 @@ export default {
         this.currentRoomInfo = tipStr
       }else{
         this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
-        this.currentRoomInfo = `<div class="hotel-info-wrap"><img src="${loadingGif}"/></div>`
+        this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
       }
     },
 
