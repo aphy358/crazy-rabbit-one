@@ -88,10 +88,9 @@
                 <div>
                   <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
                     <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
-                    <span slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
+                    <p slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></p>
                   </el-popover>
-                  <br>
-                  <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
+                  <p class="hp-total-price-wrap"><span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span></p>
                 </div>
               </td>
               <td>
@@ -788,6 +787,11 @@ export default {
                 height: 50px;
                 border: 1px solid #E3E3E3;
                 padding: 0 15px;
+
+                >div{
+                  height: 51px;
+                  line-height: 51px;
+                }
                 
                 &.first-td{
                     font-size: 16px;
@@ -813,7 +817,8 @@ export default {
                     text-align: center;
 
                     p{
-                        line-height: 15px;
+                        line-height: 37px;
+                        margin-bottom: -22px;
                     }
                 }
 
@@ -847,6 +852,7 @@ export default {
                       float: left;
                       width: 20px;
                       height: 20px;
+                      margin-top: 15px;
 
                       @at-root .room-type-icon{
                           @include jl_sprites;
@@ -927,6 +933,10 @@ export default {
                     color: #ffa825;
                     border-bottom: dashed 1px;
                     cursor: context-menu;
+                    line-height: 16px;
+                    display: inline-block;
+                    position: relative;
+                    top: -6px;
                     
                     @at-root .hp-average-price-num{
                         font-size: 20px;
@@ -935,6 +945,11 @@ export default {
                     &:hover{
                         color: orangered;
                     }
+                }
+
+                @at-root .hp-total-price-wrap{
+                    line-height: 20px;
+                    margin-top: -22px;
                 }
 
                 @at-root .hp-total-price{
