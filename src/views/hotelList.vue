@@ -66,7 +66,6 @@ export default {
     async logout(){
       let res_logout = await this.$api.hotelList.syncLogout()
       sessionStorage.removeItem('login__login')
-      this.login()
     },
   },
 
@@ -78,13 +77,11 @@ export default {
       sessionStorage.removeItem('jlfzg__state')
     }
 
+    // sessionStorage.removeItem('login__login')
+
     let timeStamp = +sessionStorage.getItem('login__login')
     if(!timeStamp){
       this.login()
-    }else{
-      if(+new Date > timeStamp + 1000){   // 60 * 60 * 
-        this.logout()
-      }
     }
   },
   

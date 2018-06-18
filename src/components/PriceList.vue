@@ -18,7 +18,16 @@
           </thead>
 
           <tbody class="hotel-price-tbody">
-            <tr class="hotel-price-tr" v-for="(priceRow, i) in combinedRows" :key="i" v-show="priceRow.isShow" :rowspan="priceRow.rowSpan">
+            <transition name="slide-price-row" v-for="(priceRow, i) in combinedRows" :key="i" v-if="priceRow.isShow"
+              appear
+              v-on:before-enter="beforeaAniEnter"
+              v-on:enter="aniEnter"
+              v-on:after-enter="afterEnter"
+              v-on:leave="aniLeave"
+              v-on:after-leave="afterLeave"
+              v-bind:css="false">
+
+            <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
               <td :class="priceRow.tdBindClass">
                 <div>
@@ -94,6 +103,8 @@
                 </div>
               </td>
             </tr>
+
+            </transition>
           </tbody>
 
         </table>
@@ -558,14 +569,80 @@ export default {
 
         // 随着行折叠，需要动态改变第一个 TD 的 rowspan
         let thefirstRow =  this.combinedRows.filter(n => n.priceType == type)[0]
-        thefirstRow.rowSpan = isShow 
-          ? thefirstRow.rowSpan - priceRow.relativeIndexArr.length
-          : thefirstRow.rowSpan + priceRow.relativeIndexArr.length
+
+        if(isShow){
+          thefirstRow.tmprowSpan = thefirstRow.rowSpan - priceRow.relativeIndexArr.length 
+        }else{
+          thefirstRow.tmprowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
+          thefirstRow.rowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
+        }
+
       }
-    }
+    },
+
+    beforeaAniEnter(el){
+      el.querySelectorAll('td').forEach(element => {
+        element.style.height = 0
+      });
+
+      el.querySelectorAll('td>div').forEach(element => {
+        element.style.height = 0
+        element.style.opacity = 0
+      });
+    },
+
+    aniEnter(el, done){
+      Velocity(el.querySelectorAll('td'), {height: '51px'}, {duration: 100, complete: done})
+      Velocity(el.querySelectorAll('td>div'), {height: '51px', opacity: 1}, {duration: 100, complete: done})
+    },
+
+    afterEnter(el){
+      el.querySelectorAll('td').forEach(element => {
+        element.removeAttribute('style')
+      });
+
+      el.querySelectorAll('td>div').forEach(element => {
+        element.removeAttribute('style')
+      });
+    },
+
+    aniLeave(el, done){
+      Velocity(el.querySelectorAll('td'), {height: 0}, {duration: 100, complete: done})
+      Velocity(el.querySelectorAll('td>div'), {height: 0, opacity: 0}, {duration: 100, complete: done})
+    },
+
+    afterLeave(el){
+      for (let i = 0; i < this.combinedRows.length; i++) {
+        const o = this.combinedRows[i]
+        if(o.tmprowSpan){
+          o.rowSpan = o.tmprowSpan
+        }
+      }
+    },
   }
 }
 </script>
+
+<style lang="scss">
+@keyframes slideDown {
+  0% { height: 0; }
+  100% { height: 51px; }
+}
+
+@keyframes slideUp {
+  0% { height: 51px; }
+  100% { height: 0; }
+}
+
+.slide-price-row-enter-active td,
+.slide-price-row-enter-active td div {
+  animation: slideDown .5s;
+}
+.slide-price-row-leave-active td,
+.slide-price-row-leave-active td div {
+  animation: slideDown .5s reverse;
+}
+</style>
 
 <style lang="scss">
 .price-table-tip{
