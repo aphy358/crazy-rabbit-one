@@ -27,37 +27,4 @@
 
 
 任务：
-2、价格行收缩
 6、页面滚动，固定搜索栏，固定展开按钮
-
-
-<!-- <transition-group tag="tbody"
-            class="hotel-price-tbody"
-            name="hotel-price-row"
-            v-on:enter="aniEnter"
-            v-on:leave="aniLeave"
-            :css="false"
-          > -->
-
-
-<style lang="scss">
-.hotel-price-row-enter td, .hotel-price-row-leave-to td
-/* .hotel-price-row-leave-active for below version 2.1.8 */ {
-  height: 0;
-}
-.hotel-price-row-leave-active td{
-  height: 0;
-}
-
-.hotel-price-row-enter td+div, .hotel-price-row-leave-to td+div
-/* .hotel-price-row-leave-active for below version 2.1.8 */ {
-  height: 0;
-}
-.hotel-price-row-leave-active td+div{
-  height: 0;
-}
-</style>
-
-
-
-
