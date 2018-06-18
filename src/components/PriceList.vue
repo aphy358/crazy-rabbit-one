@@ -616,27 +616,6 @@ export default {
 </script>
 
 <style lang="scss">
-@keyframes slideDown {
-  0% { height: 0; }
-  100% { height: 51px; }
-}
-
-@keyframes slideUp {
-  0% { height: 51px; }
-  100% { height: 0; }
-}
-
-.slide-price-row-enter-active td,
-.slide-price-row-enter-active td div {
-  animation: slideDown .5s;
-}
-.slide-price-row-leave-active td,
-.slide-price-row-leave-active td div {
-  animation: slideDown .5s reverse;
-}
-</style>
-
-<style lang="scss">
 .price-table-tip{
   font-size: 12px!important;
 
