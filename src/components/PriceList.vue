@@ -8,7 +8,7 @@
               <th width="65"></th>
               <th width="260"><span>房型</span></th>
               <th><span>价格类型</span></th>
-              <th width="110" class="align-center"><span>床型/早餐</span></th>
+              <th width="120" class="align-center"><span>床型/早餐</span></th>
               <th><span>预订规则</span></th>
               <th><span>取消规则</span></th>
               <th><span>剩余数量</span></th>
@@ -114,7 +114,7 @@
 <script>
 import loadingGif from "../assets/loading.gif";
 import { deepCopy } from "../util.js";
-
+import  Velocity from 'velocity-animate'
 
 export default {
   name: '',
@@ -591,16 +591,16 @@ export default {
     },
 
     aniEnter(el, done){
-      Velocity(el.querySelectorAll('td'), {height: '51px'}, {duration: 100, complete: done})
-      Velocity(el.querySelectorAll('td>div'), {height: '51px', opacity: 1}, {duration: 100, complete: done})
+      Velocity(el.querySelectorAll('td'), {height: '51px'}, {duration: 300, complete: done})
+      Velocity(el.querySelectorAll('td>div'), {height: '51px', opacity: 1}, {duration: 300, complete: done})
     },
 
     afterEnter(el){
     },
 
     aniLeave(el, done){
-      Velocity(el.querySelectorAll('td'), {height: 0}, {duration: 100, complete: done})
-      Velocity(el.querySelectorAll('td>div'), {height: 0, opacity: 0}, {duration: 100, complete: done})
+      Velocity(el.querySelectorAll('td'), {height: 0}, {duration: 300, complete: done})
+      Velocity(el.querySelectorAll('td>div'), {height: 0, opacity: 0}, {duration: 300, complete: done})
     },
 
     afterLeave(el){
