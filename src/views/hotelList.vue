@@ -59,13 +59,14 @@ export default {
       }
 
       let res_login = await this.$api.hotelList.syncLogin(params)
-      sessionStorage.setItem('login__login', 'login__login')
+      sessionStorage.setItem('login__login', +new Date)
       window.location.reload(true);
     },
 
     async logout(){
       let res_logout = await this.$api.hotelList.syncLogout()
       sessionStorage.removeItem('login__login')
+      this.login()
     },
   },
 
@@ -77,10 +78,13 @@ export default {
       sessionStorage.removeItem('jlfzg__state')
     }
 
-    // this.logout()
-
-    if(!sessionStorage.getItem('login__login')){
+    let timeStamp = +sessionStorage.getItem('login__login')
+    if(!timeStamp){
       this.login()
+    }else{
+      if(+new Date > timeStamp + 1000){   // 60 * 60 * 
+        this.logout()
+      }
     }
   },
   

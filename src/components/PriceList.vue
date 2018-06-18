@@ -18,66 +18,85 @@
           </thead>
 
           <tbody class="hotel-price-tbody">
-            <tr class="hotel-price-tr" v-for="(priceRow, i) in combinedRows" :key="i" :rowspan="priceRow.rowSpan">
-              <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan">{{priceRow.rowSpanText}}</td>
+            <tr class="hotel-price-tr" v-for="(priceRow, i) in combinedRows" :key="i" v-show="priceRow.isShow" :rowspan="priceRow.rowSpan">
+              <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
               <td :class="priceRow.tdBindClass">
-                <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
-                  <div class="hli-tip-style" v-html="currentRoomInfo"></div>
-                  <span slot="reference" class="hp-roomName" :class="priceRow.roomNameBindClass" @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)">
-                    {{priceRow.roomName}}
+                <div>
+                  <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
+                    <div class="hli-tip-style" v-html="currentRoomInfo"></div>
+                    <span slot="reference" class="hp-roomName" :class="priceRow.roomNameBindClass" 
+                      @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)" >
+                      {{priceRow.roomName}}
+                    </span>
+                  </el-popover>
+                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+                    <i v-if="priceRow.rowsDropDown" class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
-                </el-popover>
-                <i v-if="priceRow.rowsDropDown" class="room-type-icon drag-up"></i>
+                </div>
               </td>
               <td>
-                <span>{{priceRow.rateTypeName || ''}}</span>
-                <el-popover  v-if="priceRow.isHasMarketing" placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-tip-style">{{priceRow.marketingInfo}}</span>
-                  <i slot="reference" class="marketing-icon"></i>
-                </el-popover>
-                <i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
+                <div>
+                  <span>{{priceRow.rateTypeName || ''}}</span>
+                  <el-popover  v-if="priceRow.isHasMarketing" placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style">{{priceRow.marketingInfo}}</span>
+                    <i slot="reference" class="marketing-icon"></i>
+                  </el-popover>
+                  <i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
+                </div>
               </td>
               <td class="align-center">
-                <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
-                <p><span>{{ priceRow.breakFastName || '' }}</span></p>
+                <div>
+                  <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p><span>{{ priceRow.breakFastName || '' }}</span></p>
+                </div>
               </td>
               <td>
+                <div>
                   <el-popover  v-if="priceRow.orderClauseText !== '无预订条款'"  placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
                     <div v-html="priceRow.orderClauseTip"></div>
                     <span slot="reference" class="hp-order-clause">{{priceRow.orderClauseText}}</span>
                   </el-popover>
                   <span v-if="priceRow.orderClauseText === '无预订条款'">{{priceRow.orderClauseText}}</span>
+                </div>
               </td>
               <td>
-                <el-popover placement="top-start"  width="200" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-tip-style">{{priceRow.cancellationDesc}}</span>
-                  <span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
-                </el-popover>
+                <div>
+                  <el-popover placement="top-start"  width="200" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style">{{priceRow.cancellationDesc}}</span>
+                    <span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
+                  </el-popover>
+                </div>
               </td>
               <td>
-                <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
-                  <span slot="reference" class="hp-store-status" v-html="priceRow.roomStatusText"></span>
-                </el-popover>
+                <div>
+                  <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
+                    <span slot="reference" class="hp-store-status" v-html="priceRow.roomStatusText"></span>
+                  </el-popover>
+                </div>
               </td>
               <td>
-                <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
-                  <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
-                  <span slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
-                </el-popover>
-                <br>
-                <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
+                <div>
+                  <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
+                    <span slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></span>
+                  </el-popover>
+                  <br>
+                  <span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span>
+                </div>
               </td>
-              <td >
+              <td>
+                <div>
                   <a v-if="priceRow.isBook" href="javascript:;" target="_blank">
                     <el-button type="warning" size="mini" class="hp-order-btn">预订</el-button>
                   </a>
                   <el-button type="info" size="mini" disabled v-if="!priceRow.isBook" class="hp-order-btn">不可订</el-button>
+                </div>
               </td>
             </tr>
           </tbody>
-        </table>
 
+        </table>
         <div class="hli-error-msg" v-if="!combinedRows">无相关价格！</div>
     </div>
 </template>
@@ -141,7 +160,8 @@ export default {
     // 对父组件穿过来的价格列表进行数据处理，设置新属性、筛选等
     newPriceList(){
       let tmpPriceList = deepCopy(this.priceList)
-      
+      tmpPriceList.combinedRows = []
+
       this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
       this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
       this.combinedRows = tmpPriceList.combinedRows
@@ -335,6 +355,12 @@ export default {
         for (let j = 0; j < o.roomTypePrices.length; j++) {
           const p = o.roomTypePrices[j];
 
+          // 初始状态下，每一行都默认显示
+          p.isShow = true
+
+          // 价格类型：'推荐'、'其他'
+          p.priceType = type
+
           if(typeRowCount++ === 0){
             p.rowSpan = res[type].rowSpan
             p.rowSpanText = type === 'roomTypeBasesRecommend' ? '推荐' : '其他'
@@ -350,12 +376,20 @@ export default {
           }
 
           if(o.roomTypePrices.length > 1){
-            p.rowsDropDown = '多行下拉'
+            j === 0 ? p.rowsDropDown = '多行下拉' : ''
+
+            // 如果是同一个房型下多个价格类型，则第一个价格类型的数据将关联其他价格类型，便于同一房型的收缩操作
+            if(j === 0){
+              p.relativeIndexArr = []
+              p.relativeShow = true
+              let index = res.combinedRows.length
+              for (let _i = 1; _i < o.roomTypePrices.length; _i++) {
+                p.relativeIndexArr.push(index + _i)
+              }
+            }
           }
 
-          res.combinedRows
-            ? res.combinedRows.push(p)
-            : res.combinedRows = [p]
+          res.combinedRows.push(p)
         }
       }
     },
@@ -509,6 +543,26 @@ export default {
       
       return subIsShow1 && subIsShow2 && subIsShow3
     },
+
+    toggleSlideRow(priceRow){
+      // 如果有相关关联行，则执行行收缩动画
+      if(priceRow.relativeIndexArr){
+        let isShow = priceRow.relativeShow
+        let type = priceRow.priceType
+        priceRow.relativeShow = !isShow
+
+        for (let i = 0; i < priceRow.relativeIndexArr.length; i++) {
+          const index = priceRow.relativeIndexArr[i]
+          this.combinedRows[index].isShow = !isShow
+        }
+
+        // 随着行折叠，需要动态改变第一个 TD 的 rowspan
+        let thefirstRow =  this.combinedRows.filter(n => n.priceType == type)[0]
+        thefirstRow.rowSpan = isShow 
+          ? thefirstRow.rowSpan - priceRow.relativeIndexArr.length
+          : thefirstRow.rowSpan + priceRow.relativeIndexArr.length
+      }
+    }
   }
 }
 </script>
@@ -704,7 +758,7 @@ export default {
                 }
 
                 @at-root .hp-roomName{
-                    position: relative;
+                    float: left;
                     text-decoration: underline;
                     cursor: context-menu;
 
@@ -712,20 +766,25 @@ export default {
                         color: #339afc;
                     }
 
-                    @at-root .room-type-icon{
-                        @include jl_sprites;
-                        position: absolute;
-                        right: -15px;
-                        top: 50%;
-                        margin-top: -3px;
+                    @at-root .room-type-icon-outer{
+                      float: left;
+                      width: 20px;
+                      height: 20px;
 
-                        &.drag-down{
-                            @include triangle_blue_down;
-                        }
-
-                        &.drag-up{
-                            @include triangle_blue_up;
-                        }
+                      @at-root .room-type-icon{
+                          @include jl_sprites;
+                          float: left;
+                          margin-top: 8px;
+                          margin-left: 5px;
+  
+                          &.slide-down{
+                              @include triangle_blue_down;
+                          }
+  
+                          &.slide-up{
+                              @include triangle_blue_up;
+                          }
+                      }
                     }
                 }
                 
