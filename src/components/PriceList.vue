@@ -596,13 +596,6 @@ export default {
     },
 
     afterEnter(el){
-      el.querySelectorAll('td').forEach(element => {
-        element.removeAttribute('style')
-      });
-
-      el.querySelectorAll('td>div').forEach(element => {
-        element.removeAttribute('style')
-      });
     },
 
     aniLeave(el, done){
