@@ -1,6 +1,6 @@
 <!-- 酒店列表页和酒店详情页的搜索栏 -->
 <template>
-    <div class="search-line-outer">
+    <div class="search-line-outer" :class="fixTop === true ? 'fix-top' : ''">
         <div class="search-line-wrap">
             <CityTypeSelect />
             <KerywordSuggest />
@@ -24,6 +24,7 @@ export default {
 
   data(){
     return {
+      fixTop: false,
     }
   },
 
@@ -47,11 +48,25 @@ export default {
   methods: {
     queryHotelList(){
       this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
+    },
+
+    // 根据页面滚动，将搜索栏固定在页面顶部
+    onScroll(){
+      let advancedWrapper = document.querySelector('.advanced-search-wrap')
+      let rect = advancedWrapper.getBoundingClientRect()
+
+      rect.top < 90
+        ? this.fixTop = true
+        : this.fixTop = false
     }
   },
 
   created(){
     this.queryHotelList()
+
+    // 根据页面滚动，将搜索栏固定在页面顶部
+    window.addEventListener('scroll', this.onScroll)
+    
   }
 }
 </script>
@@ -100,7 +115,7 @@ export default {
         z-index: 9999;
 
         .search-line-wrap{
-            margin: 10px auto;
+            margin: 5px auto;
             box-shadow: none;
         }
     }
