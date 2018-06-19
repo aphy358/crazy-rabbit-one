@@ -112,7 +112,7 @@ export default {
         min-width: 1400px;
         background: white;
         box-shadow: 0 0 10px #999;
-        z-index: 9999;
+        z-index: 999;
 
         .search-line-wrap{
             margin: 5px auto;
