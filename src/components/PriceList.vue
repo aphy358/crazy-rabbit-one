@@ -2,7 +2,7 @@
 <!-- 价格列表组件 -->
 <template>
     <div>
-        <table class="hotel-price-table" v-if="combinedRows">
+        <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
               <th width="65"></th>
@@ -107,7 +107,7 @@
           </tbody>
 
         </table>
-        <div class="hli-error-msg" v-if="!combinedRows">无相关价格！</div>
+        <div class="hli-error-msg" v-if="!combinedRows.length">无相关价格！</div>
     </div>
 </template>
 
