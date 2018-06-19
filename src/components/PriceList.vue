@@ -30,15 +30,15 @@
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
               <td :class="priceRow.tdBindClass">
-                <div>
+                <div :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
-                    <span slot="reference" class="hp-roomName" :class="priceRow.roomNameBindClass" 
+                    <span slot="reference" class="hp-roomName"
                       @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)" >
                       {{priceRow.roomName}}
                     </span>
                   </el-popover>
-                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
                     <i v-if="priceRow.rowsDropDown" class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
                 </div>

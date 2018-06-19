@@ -52,10 +52,10 @@ export default {
 
     // 根据页面滚动，将搜索栏固定在页面顶部
     onScroll(){
-      let advancedWrapper = document.querySelector('.advanced-search-wrap')
-      let rect = advancedWrapper.getBoundingClientRect()
+      let topNavWrapper = document.querySelector('.top-nav-wrap')
+      let rect = topNavWrapper.getBoundingClientRect()
 
-      rect.top < 90
+      rect.top < -20
         ? this.fixTop = true
         : this.fixTop = false
     }
