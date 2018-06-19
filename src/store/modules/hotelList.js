@@ -267,7 +267,7 @@ export default {
       }, 35)
     
       let res = await payload.api.hotelList.syncGetHotelPriceList(payload.params)
-      
+
       commit('setHotelExtraAttr', {hotel: hotel, data: res})
 
       clearInterval(timer1)

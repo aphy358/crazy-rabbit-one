@@ -66,7 +66,6 @@ export default {
 
     // 根据页面滚动，将搜索栏固定在页面顶部
     window.addEventListener('scroll', this.onScroll)
-    
   }
 }
 </script>

@@ -6,8 +6,7 @@
       <li class="hl-item" v-for="o in hotelList" :key="o.infoId">
         <div class="hli-info-wrap">
           <div class="hli-img">
-            <a href="#" 
-              target="_blank">
+            <a href="#"  target="_blank">
               <img :src="o.picSrc" :style="o.extraStyle" />
             </a>
           </div>
@@ -64,8 +63,10 @@
         <el-collapse >
             <el-collapse-item>
                 <template slot="title">
-                  <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" >
-                    展开全部房型
+                  <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" 
+                    :class="hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].fixTop && hotelsExpanded[o.infoId].expanded ? 'fix-top' : ''"
+                    @click="clickExpand($event, o.infoId)">
+                    {{hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].fixTop ? '收起全部房型' : '展开全部房型'}}
                   </el-button>
                 </template>
                 <div class="hli-price-list-outer">
@@ -96,302 +97,369 @@
 import PriceList from "./PriceList";
 
 export default {
-  name: '',
+  name: "",
 
-  data(){
+  data() {
     return {
-    }
+      hotelsExpanded: {}
+    };
   },
 
-  props: {
-    
-  },
+  props: {},
 
   components: {
-      PriceList,
+    PriceList
   },
 
   computed: {
-    hotelList(){
-      return this.$store.getters['hotelList/getHotelList']
-    },
-    
+    hotelList() {
+      return this.$store.getters["hotelList/getHotelList"];
+    }
   },
-  
+
   methods: {
+    // 点击 '展开全部房型'，并将被点击的按钮、被点击按钮最近的酒店所在元素、该酒店房价被展开状态存储到局部对象 hotelsExpanded 中
+    clickExpand(e, hotelId) {
+      let thatHotel = this.hotelsExpanded[hotelId];
+
+      if (thatHotel) {
+        // 如果数组 hotelsExpanded 中已经保存了该酒店相关的状态，则只要切换其展开状态即可
+        thatHotel.expanded = !thatHotel.expanded;
+        
+        if(thatHotel.expanded){
+          let top = thatHotel.hotelWrapper.getBoundingClientRect().top;
+          if(top < 100){
+            thatHotel.hotelWrapper.scrollIntoView(200)
+          }
+        }
+      } else {
+        // 如果数组 hotelsExpanded 中没有该酒店的数据，则新创建一条记录，存入该酒店最外围的 DOM、该酒店下 '展开全部房型' 按钮的 DOM ，
+        // 初始状态设置为已经展开：expanded: true，初始固定顶部状态：fixTop: false
+        let closestHotelItem;
+        for (let i = 0; i < e.path.length; i++) {
+          const o = e.path[i];
+          if (
+            ~Array.prototype.slice
+              .call(o.classList)
+              .join(",")
+              .indexOf("hl-item")
+          ) {
+            closestHotelItem = o;
+            break;
+          }
+        }
+
+        this.hotelsExpanded[hotelId] = {
+          expanded: true,
+          elem: e.target,
+          hotelWrapper: closestHotelItem,
+          fixTop: false
+        };
+      }
+    },
+
+    onScroll() {
+      for (const key in this.hotelsExpanded) {
+        const o = this.hotelsExpanded[key]
+        
+        if(o.expanded){
+          let hotelWrapper = o.hotelWrapper
+          let rect = hotelWrapper.getBoundingClientRect();
+
+          (rect.top < -150 && rect.bottom > 200)
+            ? o.fixTop = true
+            : o.fixTop = false;
+
+          this.hotelsExpanded = Object.assign({}, this.hotelsExpanded)
+        }
+      }
+    },
+
   },
-}
+
+  created() {
+    // 根据页面滚动，将搜索栏固定在页面顶部
+    window.addEventListener("scroll", this.onScroll);
+  }
+};
 </script>
 
 
 <style lang="scss">
-.hotel-list-outer{
+.hotel-list-outer {
+  .el-collapse {
+    position: relative;
+    border-top: none;
+    border-bottom: none;
+  }
 
-    .el-collapse {
-        position: relative;
-        border-top: none;
-        border-bottom: none;
-    }
+  .el-collapse-item__header {
+    height: 35px;
+    line-height: 35px;
+    position: absolute;
+    right: 18px;
+    top: -58px;
+    border-bottom: none;
+  }
 
-    .el-collapse-item__header{
-        height: 35px;
-        line-height: 35px;
-        position: absolute;
-        right: 18px;
-        top: -58px;
-        border-bottom: none;
-    }
+  .el-collapse-item__arrow {
+    position: relative;
+    line-height: 35px;
+    margin-right: 0;
+    margin-left: -8px;
+    color: #409eff;
+  }
 
-    .el-collapse-item__arrow{
-        position: relative;
-        line-height: 35px;
-        margin-right: 0;
-        margin-left: -8px;
-        color: #409EFF;
-    }
+  .el-button [class*="el-icon-"] + span {
+    margin-left: 0;
+  }
 
-    .el-button [class*=el-icon-]+span{
-      margin-left: 0;
-    }
-
-    .el-collapse-item:last-child {
-        margin-bottom: 0px;
-    }
+  .el-collapse-item:last-child {
+    margin-bottom: 0px;
+  }
 }
 </style>
-
 
 <style scoped lang="scss">
 @import "../assets/jl_sprites.scss";
 
-.hotel-list-outer{
-    min-height: 200px;
-    
-    @at-root .hl-list{
-        width: 1200px;
-        margin: auto;
-        
-        @at-root .hl-item{
-            background: white;
-            margin: 20px 0;
-            box-sizing: border-box;
-            box-shadow: 0 0 5px #e8e8e8;
-            
-            @at-root .hli-info-wrap{
-                font-size: 15px;
-                padding: 20px;
-                
-                > *{
-                    float: left;
-                    height: 160px;
-                }
-                
-                &:after{
-                    content: '';
-                    display: block;
-                    clear: both;
-                }
-                
-                @at-root .hli-img{
-                    width: 280px;
-                    overflow: hidden;
-                    
-                    img{
-                        float: left;
-                        width: 100%;
-                        min-height: 100%;
-                    }
-                }
-                
-                @at-root .hli-info{
-                    width: 700px;
-                    margin: 0 20px;
-                    
-                    @at-root .hli-hotel-name-wrap{
-                        a{
-                            text-decoration: none;
-                        }
-                        
-                        @at-root .hli-hotel-name1{
-                            display: inline-block;
-                            font-weight: normal;
-                            font-size: 20px;
-                            color: #339afc;
-                        }
-                        
-                        @at-root .hli-hotel-name2{
-                            display: inline-block;
-                            color: #666666;
-                            font-weight: normal;
-                        }
-                    }
-                    
-                    @at-root .hli-location{
-                        margin: 30px 0 20px;
-                        
-                        label{
+.hotel-list-outer {
+  min-height: 200px;
 
-                        }
-                        
-                        @at-root .hli-location-text{
-                            color: #333333;
-                            text-decoration: underline;
-                            margin-right: 5px;
-                        }
-                    }
-                    
-                    @at-root .hli-notice-wrap{
-                        
-                        > *{
-                            float: left;
-                        }
-                        
-                        &:after{
-                            content: '';
-                            display: block;
-                            clear: both;
-                        }
-                        
-                        label{
-                            color: black;
-                            font-weight: bold;
-                            margin-left: 5px;
-                        }
-                        
-                        @at-root .hli-notice-text{
-                            display: inline-block;
-                            width: 590px;
-                            height: 22px;
-                            cursor: context-menu;
+  @at-root .hl-list {
+    width: 1200px;
+    margin: auto;
 
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                            overflow: hidden;
-                        }
-                    }
-                }
-                
-                @at-root .hli-check-detail{
-                    float: right;
-                    position: relative;
-                    width: 130px;
-                    
-                    @at-root .hli-check-gz-icon{
-                        position: absolute;
-                        top: 0;
-                        right: 0;
-                    }
-                    
-                    @at-root .hli-lowest-price-wrap{
-                        position: absolute;
-                        top: 30px;
-                        right: 0;
-                        width: 280px;
-                        color: red;
-                        font-size: 16px;
-                        text-align: right;
-                        
-                        @at-root .hli-lowest-price{
-                            font-size: 26px;
-                            margin: 0 2px;
-                        }
-                    }
-                    
-                    @at-root .hli-check-detail-btn{
-                        
-                    }
+    @at-root .hl-item {
+      background: white;
+      margin: 20px 0;
+      box-sizing: border-box;
+      box-shadow: 0 0 5px #e8e8e8;
 
-                    .icon-gz-off{
-                        @include jl_sprites;
-                        @include gz4;
-                    }
+      @at-root .hli-info-wrap {
+        font-size: 15px;
+        padding: 20px;
 
-                    .icon-gz-on{
-                        @include jl_sprites;
-                        @include gz3;
-                    }
-                }
-            }
-            
-            @at-root .progress-outer{
-                position: relative;
-                box-shadow: 0 0 5px #e8e8e8;
-                border: solid 1px #e8e8e8;
-                margin: 0 20px 10px;
-                border-radius: 10px;
-                overflow: hidden;
-            }
-
-            @at-root .hli-price-list-outer{
-
-                @at-root .hli-price-list-wrap{
-                    margin: 0 20px;
-                    overflow: hidden;
-    
-                    @at-root .fzg-loading-wrap{
-                        max-width: 1200px;
-                        margin: auto;
-                        padding: 15px 0;
-                        border-top: solid 1px #ddd;
-                        background: white;
-    
-                        img{
-                            display: block;
-                            margin: auto;
-                        }
-                    }
-                }
-            }
-
-            @at-root .hli-expand-wrap{
-                
-            }
+        > * {
+          float: left;
+          height: 160px;
         }
-    }
 
-    @at-root .hli-icon0{
-        margin-right: 5px;
-    }
-    
-    @at-root .hli-icon{
-        @include jl_sprites;
-        display: inline-block;
+        &:after {
+          content: "";
+          display: block;
+          clear: both;
+        }
+
+        @at-root .hli-img {
+          width: 280px;
+          overflow: hidden;
+
+          img {
+            float: left;
+            width: 100%;
+            min-height: 100%;
+          }
+        }
+
+        @at-root .hli-info {
+          width: 700px;
+          margin: 0 20px;
+
+          @at-root .hli-hotel-name-wrap {
+            a {
+              text-decoration: none;
+            }
+
+            @at-root .hli-hotel-name1 {
+              display: inline-block;
+              font-weight: normal;
+              font-size: 20px;
+              color: #339afc;
+            }
+
+            @at-root .hli-hotel-name2 {
+              display: inline-block;
+              color: #666666;
+              font-weight: normal;
+            }
+          }
+
+          @at-root .hli-location {
+            margin: 30px 0 20px;
+
+            label {
+            }
+
+            @at-root .hli-location-text {
+              color: #333333;
+              text-decoration: underline;
+              margin-right: 5px;
+            }
+          }
+
+          @at-root .hli-notice-wrap {
+            > * {
+              float: left;
+            }
+
+            &:after {
+              content: "";
+              display: block;
+              clear: both;
+            }
+
+            label {
+              color: black;
+              font-weight: bold;
+              margin-left: 5px;
+            }
+
+            @at-root .hli-notice-text {
+              display: inline-block;
+              width: 590px;
+              height: 22px;
+              cursor: context-menu;
+
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+            }
+          }
+        }
+
+        @at-root .hli-check-detail {
+          float: right;
+          position: relative;
+          width: 130px;
+
+          @at-root .hli-check-gz-icon {
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+
+          @at-root .hli-lowest-price-wrap {
+            position: absolute;
+            top: 30px;
+            right: 0;
+            width: 280px;
+            color: red;
+            font-size: 16px;
+            text-align: right;
+
+            @at-root .hli-lowest-price {
+              font-size: 26px;
+              margin: 0 2px;
+            }
+          }
+
+          @at-root .hli-check-detail-btn {
+          }
+
+          .icon-gz-off {
+            @include jl_sprites;
+            @include gz4;
+          }
+
+          .icon-gz-on {
+            @include jl_sprites;
+            @include gz3;
+          }
+        }
+      }
+
+      @at-root .progress-outer {
         position: relative;
-        
-        @at-root .icon-star{
-            position: relative;
-            top: -2px;
-            display: inline-block;
-            font-size: 12px;
-            font-style: normal;
-            background: #7eb6ec;
-            color: white;
-            width: 50px;
-            height: 18px;
-            line-height: 18px;
-            text-align: center;
-            border-radius: 3px;
+        box-shadow: 0 0 5px #e8e8e8;
+        border: solid 1px #e8e8e8;
+        margin: 0 20px 10px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      @at-root .hli-price-list-outer {
+        @at-root .hli-price-list-wrap {
+          margin: 0 20px;
+          overflow: hidden;
+
+          @at-root .fzg-loading-wrap {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 0;
+            border-top: solid 1px #ddd;
+            background: white;
+
+            img {
+              display: block;
+              margin: auto;
+            }
+          }
         }
-        
-        &.icon-jinpai{
-            @include jinpai;
-            top: 3px;
+      }
+
+      @at-root .hli-expand-wrap {
+        transition: 0s;
+
+        &.fix-top{
+          position: fixed;
+          top: 80px;
+          color: #fff;
+          background-color: #409EFF;
+          left: 50%;
+          margin-left: 620px;
+
+          &:hover{
+            background: #66b1ff;
+          }
         }
-        
-        &.icon-tuiguang{
-            @include tuiguang;
-            top: 3px;
-        }
-        
-        &.icon-location2{
-            @include location2;
-            top: 3px;
-        }
-        
-        &.icon-notice{
-            @include specialNotice;
-            top: 1px;
-        }
+      }
     }
+  }
+
+  @at-root .hli-icon0 {
+    margin-right: 5px;
+  }
+
+  @at-root .hli-icon {
+    @include jl_sprites;
+    display: inline-block;
+    position: relative;
+
+    @at-root .icon-star {
+      position: relative;
+      top: -2px;
+      display: inline-block;
+      font-size: 12px;
+      font-style: normal;
+      background: #7eb6ec;
+      color: white;
+      width: 50px;
+      height: 18px;
+      line-height: 18px;
+      text-align: center;
+      border-radius: 3px;
+    }
+
+    &.icon-jinpai {
+      @include jinpai;
+      top: 3px;
+    }
+
+    &.icon-tuiguang {
+      @include tuiguang;
+      top: 3px;
+    }
+
+    &.icon-location2 {
+      @include location2;
+      top: 3px;
+    }
+
+    &.icon-notice {
+      @include specialNotice;
+      top: 1px;
+    }
+  }
 }
 </style>
