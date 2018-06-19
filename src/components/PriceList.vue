@@ -476,6 +476,7 @@ export default {
       }
     },
 
+    // 查询房型信息
     async queryRoomInfo(hotelId, suppId, roomId){
       let res = await this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId})
       
@@ -554,6 +555,7 @@ export default {
       return subIsShow1 && subIsShow2 && subIsShow3
     },
 
+    // 收缩同一房型下的表格行
     toggleSlideRow(priceRow){
       // 如果有相关关联行，则执行行收缩动画
       if(priceRow.relativeIndexArr){
@@ -575,7 +577,6 @@ export default {
           thefirstRow.tmprowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
           thefirstRow.rowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
         }
-
       }
     },
 
