@@ -597,6 +597,10 @@ export default {
     },
 
     afterEnter(el){
+      // 价格行插入页面之后要删除行内样式，不然会影响价格 tip 的样式
+      el.querySelectorAll('td').forEach(element => {
+        element.removeAttribute('style')
+      });
     },
 
     aniLeave(el, done){
