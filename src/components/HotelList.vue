@@ -95,6 +95,7 @@
 
 <script>
 import PriceList from "./PriceList";
+import Velocity from 'velocity-animate';
 
 export default {
   name: "",
@@ -126,10 +127,10 @@ export default {
         // 如果数组 hotelsExpanded 中已经保存了该酒店相关的状态，则只要切换其展开状态即可
         thatHotel.expanded = !thatHotel.expanded;
         
-        if(thatHotel.expanded){
+        if(!thatHotel.expanded){
           let top = thatHotel.hotelWrapper.getBoundingClientRect().top;
           if(top < 100){
-            thatHotel.hotelWrapper.scrollIntoView(200)
+            Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px'})
           }
         }
       } else {

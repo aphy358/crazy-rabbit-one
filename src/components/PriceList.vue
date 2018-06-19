@@ -114,7 +114,7 @@
 <script>
 import loadingGif from "../assets/loading.gif";
 import { deepCopy } from "../util.js";
-import  Velocity from 'velocity-animate'
+import Velocity from 'velocity-animate'
 
 export default {
   name: '',
