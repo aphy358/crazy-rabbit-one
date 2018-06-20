@@ -67,9 +67,9 @@ export default {
   mutations: {
     // 页面跳转初始化 state
     initState(state, newState){
-      for (const key in newState.hotelList) {
-        if (newState.hotelList.hasOwnProperty(key)) {
-          state[key] = newState.hotelList[key]
+      for (const key in newState) {
+        if (newState.hasOwnProperty(key)) {
+          state[key] = newState[key]
         }
       }
     },
