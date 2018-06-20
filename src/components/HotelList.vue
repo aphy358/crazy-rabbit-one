@@ -66,7 +66,7 @@
                   <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" 
                     :class="hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].fixTop && hotelsExpanded[o.infoId].expanded ? 'fix-top' : ''"
                     @click="clickExpand($event, o.infoId)">
-                    {{hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].fixTop ? '收起全部房型' : '展开全部房型'}}
+                    {{hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].expanded ? '收起全部房型' : '展开全部房型'}}
                   </el-button>
                 </template>
                 <div class="hli-price-list-outer">
