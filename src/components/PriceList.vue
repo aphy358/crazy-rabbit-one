@@ -818,7 +818,6 @@ export default {
                 }
 
                 @at-root .hp-roomName{
-                    float: left;
                     text-decoration: underline;
                     cursor: context-menu;
 
@@ -827,10 +826,11 @@ export default {
                     }
 
                     @at-root .room-type-icon-outer{
-                      float: left;
+                      display: inline-block;
                       width: 20px;
                       height: 20px;
-                      margin-top: 15px;
+                      position: relative;
+                      top: 5px;
 
                       @at-root .room-type-icon{
                           @include jl_sprites;
