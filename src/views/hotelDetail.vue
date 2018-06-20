@@ -6,6 +6,7 @@
 
 <script>
 import Breadcrumb from '../components/Breadcrumb'
+import { queryString } from "../util.js";
 
 export default {
   name: 'hotelDetail',
@@ -26,8 +27,23 @@ export default {
   },
 
   created(){
+    // 获取 url 参数
+    this.getQueryParams()
     
   },
+
+  methods: {
+    // 获取 url 参数
+    getQueryParams(){
+      let hotelId = queryString('hotelId')
+      let checkin = queryString('checkin')
+      let checkout = queryString('checkout')
+      let ch = queryString('ch')
+
+      console.log(hotelId, checkin, checkout, ch);
+      
+    }
+  }
 
 }
 </script>

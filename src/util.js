@@ -56,7 +56,11 @@ const
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
 		var r;
 		if (!targetStr) {
-			r = window.location.search.substr(1).match(reg);
+			if(window.location.search){
+				r = window.location.search.substr(1).match(reg);
+			}else if(window.location.hash){
+				r = window.location.hash.split('?')[1].match(reg);
+			}
 		} else {
 			r = targetStr.match(reg);
 		}
