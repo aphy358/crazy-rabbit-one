@@ -70,7 +70,7 @@ export default {
     let state = sessionStorage.getItem('jlfzg__state')
     
     if(state){
-      this.$store.commit('hotelList/initState', window.JSON.parse(state))
+      this.$store.commit('hotelList/copyState', window.JSON.parse(state))
       sessionStorage.removeItem('jlfzg__state')
     }
 

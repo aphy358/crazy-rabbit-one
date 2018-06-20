@@ -6,14 +6,14 @@
       <li class="hl-item" v-for="o in hotelList" :key="o.infoId">
         <div class="hli-info-wrap">
           <div class="hli-img">
-            <router-link target="_blank" to="/hotelDetail" @click.native="toHotelDetail">
+            <router-link target="_blank" :to="queryStr + o.infoId">
               <img :src="o.picSrc" :style="o.extraStyle" />
             </router-link>
           </div>
           
           <div class="hli-info">
             <div class="hli-hotel-name-wrap">
-              <router-link target="_blank" to="/hotelDetail" @click.native="toHotelDetail">
+              <router-link target="_blank" :to="queryStr + o.infoId">
                 <h1 class="hli-hotel-name1">
                   {{o.infoName}}
                   <i class="hli-icon0 icon-star">
@@ -51,7 +51,7 @@
           <div class="hli-check-detail">
             <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'"></i>
             <span class="hli-lowest-price-wrap" v-html="o.minPriceText"></span>
-            <router-link target="_blank" to="/hotelDetail" style="position: absolute;right: 0;top: 75px;" @click.native="toHotelDetail">
+            <router-link target="_blank" :to="queryStr + o.infoId" style="position: absolute;right: 0;top: 75px;">
               <el-button type="primary" class="hli-check-detail-btn" size="small" plain style="font-size: 16px;padding: 9px;" icon="el-icon-document">
                 查看详情
               </el-button>
@@ -114,6 +114,14 @@ export default {
   computed: {
     hotelList() {
       return this.$store.getters["hotelList/getHotelList"];
+    },
+
+    queryStr(){
+      let ch = this.$store.state.hotelList.cityType
+      let checkin = this.$store.state.hotelList.checkin
+      let checkout = this.$store.state.hotelList.checkout
+
+      return `/hotelDetail?checkin=${checkin}&checkout=${checkout}&ch=${ch}&hotelId=`
     }
   },
 
@@ -177,14 +185,6 @@ export default {
         }
       }
     },
-
-    toHotelDetail(){
-      console.log(this.$store.state.hotelList);
-      
-      // 将列表页的 state 设置到 sessionStorage，然后再在详情页提取出来去赋值给详情页的 state
-      let state = JSON.stringify(this.$store.state.hotelList)
-      sessionStorage.setItem('jlfzg_hotelDetail_state', state)
-    }
 
   },
 

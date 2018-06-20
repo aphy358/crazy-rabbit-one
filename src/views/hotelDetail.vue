@@ -26,12 +26,7 @@ export default {
   },
 
   created(){
-    let state = sessionStorage.getItem('jlfzg_hotelDetail_state')
     
-    if(state){
-      this.$store.commit('hotelDetail/initState', window.JSON.parse(state))
-      sessionStorage.removeItem('jlfzg_hotelDetail_state')
-    }
   },
 
 }
