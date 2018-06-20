@@ -52,10 +52,10 @@ export default {
 
     // 根据页面滚动，将搜索栏固定在页面顶部
     onScroll(){
-      let advancedWrapper = document.querySelector('.advanced-search-wrap')
-      let rect = advancedWrapper.getBoundingClientRect()
+      let topNavWrapper = document.querySelector('.top-nav-wrap')
+      let rect = topNavWrapper.getBoundingClientRect()
 
-      rect.top < 90
+      rect.top < -20
         ? this.fixTop = true
         : this.fixTop = false
     }
@@ -66,7 +66,6 @@ export default {
 
     // 根据页面滚动，将搜索栏固定在页面顶部
     window.addEventListener('scroll', this.onScroll)
-    
   }
 }
 </script>
@@ -112,7 +111,7 @@ export default {
         min-width: 1400px;
         background: white;
         box-shadow: 0 0 10px #999;
-        z-index: 9999;
+        z-index: 999;
 
         .search-line-wrap{
             margin: 5px auto;

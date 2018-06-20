@@ -2,7 +2,7 @@
 <!-- 价格列表组件 -->
 <template>
     <div>
-        <table class="hotel-price-table" v-if="combinedRows">
+        <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
               <th width="65"></th>
@@ -30,15 +30,15 @@
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
               <td :class="priceRow.tdBindClass">
-                <div>
+                <div :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
-                    <span slot="reference" class="hp-roomName" :class="priceRow.roomNameBindClass" 
+                    <span slot="reference" class="hp-roomName"
                       @mouseover="getRoomInfo(priceRow.hotelId, priceRow.supplierId, priceRow.roomId)" >
                       {{priceRow.roomName}}
                     </span>
                   </el-popover>
-                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
                     <i v-if="priceRow.rowsDropDown" class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
                 </div>
@@ -107,14 +107,14 @@
           </tbody>
 
         </table>
-        <div class="hli-error-msg" v-if="!combinedRows">无相关价格！</div>
+        <div class="hli-error-msg" v-if="!combinedRows.length">无相关价格！</div>
     </div>
 </template>
 
 <script>
 import loadingGif from "../assets/loading.gif";
 import { deepCopy } from "../util.js";
-import  Velocity from 'velocity-animate'
+import Velocity from 'velocity-animate'
 
 export default {
   name: '',
@@ -476,6 +476,7 @@ export default {
       }
     },
 
+    // 查询房型信息
     async queryRoomInfo(hotelId, suppId, roomId){
       let res = await this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId})
       
@@ -554,6 +555,7 @@ export default {
       return subIsShow1 && subIsShow2 && subIsShow3
     },
 
+    // 收缩同一房型下的表格行
     toggleSlideRow(priceRow){
       // 如果有相关关联行，则执行行收缩动画
       if(priceRow.relativeIndexArr){
@@ -575,7 +577,6 @@ export default {
           thefirstRow.tmprowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
           thefirstRow.rowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
         }
-
       }
     },
 
@@ -596,6 +597,10 @@ export default {
     },
 
     afterEnter(el){
+      // 价格行插入页面之后要删除行内样式，不然会影响价格 tip 的样式
+      el.querySelectorAll('td').forEach(element => {
+        element.removeAttribute('style')
+      });
     },
 
     aniLeave(el, done){
@@ -611,6 +616,7 @@ export default {
         }
       }
     },
+    
   }
 }
 </script>
