@@ -128,6 +128,8 @@ export default {
         thatHotel.expanded = !thatHotel.expanded;
         
         if(!thatHotel.expanded){
+          thatHotel.fixTop = false
+
           let top = thatHotel.hotelWrapper.getBoundingClientRect().top;
           if(top < 100){
             Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px'})
