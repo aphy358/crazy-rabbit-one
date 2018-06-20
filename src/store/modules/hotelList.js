@@ -68,7 +68,9 @@ export default {
     // 页面跳转初始化 state
     initState(state, newState){
       for (const key in newState.hotelList) {
-        state[key] = newState.hotelList[key]
+        if (newState.hotelList.hasOwnProperty(key)) {
+          state[key] = newState.hotelList[key]
+        }
       }
     },
 
