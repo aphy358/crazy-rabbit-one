@@ -6,15 +6,14 @@
       <li class="hl-item" v-for="o in hotelList" :key="o.infoId">
         <div class="hli-info-wrap">
           <div class="hli-img">
-            <a href="#"  target="_blank">
+            <router-link target="_blank" to="/hotelDetail">
               <img :src="o.picSrc" :style="o.extraStyle" />
-            </a>
+            </router-link>
           </div>
           
           <div class="hli-info">
             <div class="hli-hotel-name-wrap">
-              <a href="#"
-                target="_blank">
+              <router-link target="_blank" to="/hotelDetail">
                 <h1 class="hli-hotel-name1">
                   {{o.infoName}}
                   <i class="hli-icon0 icon-star">
@@ -28,7 +27,7 @@
                 </h1>
                 <br>
                 <h2 class="hli-hotel-name2">{{o.enName || ''}}</h2>
-              </a>
+              </router-link>
             </div>
             
             <div class="hli-location">
@@ -52,11 +51,11 @@
           <div class="hli-check-detail">
             <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'"></i>
             <span class="hli-lowest-price-wrap" v-html="o.minPriceText"></span>
-            <a target="_blank" href="#" style="position: absolute;right: 0;top: 75px;">
+            <router-link target="_blank" to="/hotelDetail" style="position: absolute;right: 0;top: 75px;">
               <el-button type="primary" class="hli-check-detail-btn" size="small" plain style="font-size: 16px;padding: 9px;" icon="el-icon-document">
                 查看详情
               </el-button>
-            </a>
+            </router-link>
           </div>
         </div>
 
