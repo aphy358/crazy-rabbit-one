@@ -1,7 +1,9 @@
 import * as hotelList from './hotelList'
+import * as hotelDetail from './hotelDetail'
 
 const api = {
   hotelList,
+  hotelDetail,
 }
 
 // define install for vue.use()
