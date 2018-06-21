@@ -36,14 +36,16 @@ export default {
     // 获取入离日期
     getDateRange: {
       get: function () {
-        return [this.$store.state.hotelList.checkin, this.$store.state.hotelList.checkout]
+        let checkin = new Date(this.$store.state.hotelList.checkin)
+        let checkout = new Date(this.$store.state.hotelList.checkout)
+        return [checkin, checkout]
       },
       set: function (newValue) {
         // 矫正手动输入日期超出范围的情形
         if(newValue){
           (+newValue[1] - (+newValue[0])) > 15 * 24 * 60 * 60 * 1000
             ? this.$store.commit('hotelList/setDate', this.lastValue)
-            : this.$store.commit('hotelList/setDate', newValue)
+            : (this.$store.commit('hotelList/setDate', newValue), this.lastValue = newValue)
         }
       }
     },
