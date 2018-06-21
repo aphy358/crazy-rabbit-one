@@ -1,11 +1,15 @@
 <template>
   <div class="hotelDetail">
     <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotelInfo && hotelInfo.infoName" />
+    <HotelDetailInfo1 :hotelInfo="hotelInfo" />
+    <HotelDetailInfo2 :hotelInfo="hotelInfo" />
   </div>
 </template>
 
 <script>
 import Breadcrumb from '../components/Breadcrumb'
+import HotelDetailInfo1 from '../components/HotelDetailInfo1'
+import HotelDetailInfo2 from '../components/HotelDetailInfo2'
 import { queryString } from "../util.js";
 
 export default {
@@ -22,6 +26,8 @@ export default {
 
   components: {
     Breadcrumb,
+    HotelDetailInfo1,
+    HotelDetailInfo2,
   },
 
   computed: {
@@ -32,7 +38,8 @@ export default {
     },
 
     hotelInfo: function(){
-      return this.$store.state.hotelDetail.hotelInfo
+      // return this.$store.state.hotelDetail.hotelInfo
+      return this.$store.getters["hotelDetail/getHotelInfo"];
     }
   },
 
@@ -76,5 +83,84 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+// icons
+@import "../assets/jl_sprites.scss";
+.hli-icon{
+    @include jl_sprites;
+    display: inline-block;
+    position: relative;
+    
+    @at-root .icon-star{
+        position: relative;
+        top: -2px;
+        display: inline-block;
+        font-size: 12px;
+        font-style: normal;
+        background: #7eb6ec;
+        color: white;
+        width: 50px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        border-radius: 3px;
+    }
+    
+    &.icon-jinpai{
+        @include jinpai;
+        top: 3px;
+    }
+    
+    &.icon-tuiguang{
+        @include tuiguang;
+        top: 3px;
+    }
+    
+    &.icon-location2{
+        @include location2;
+        top: 3px;
+    }
+    
+    &.icon-gz-on{
+        @include gz3;
+    }
+    
+    &.icon-gz-off{
+        @include gz4;
+    }
+    
+    &.icon-jiudianjianjie{
+        @include jiudianjianjie;
+    }
+    
+    &.icon-lianxifangshi{
+        @include lianxifangshi;
+    }
+
+    &.icon-jiudiansheshi{
+        @include jiudiansheshi;
+    }
+    
+    &.icon-tebietixing{
+        @include tebietixing;
+    }
+    
+    &.icon-down{
+        @include triangle_blue_down;
+        top: -1px;
+
+        &:before{
+            content: none;
+        }
+    }
+    
+    &.icon-up{
+        @include triangle_blue_up;
+        top: -1px;
+
+        &:before{
+            content: none;
+        }
+    }
+}
 </style>

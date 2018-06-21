@@ -1,5 +1,6 @@
 import { addDays } from "../../util.js"
 import API from "../../api"
+import { log } from "util";
 
 export default {
   namespaced: true,
@@ -18,6 +19,37 @@ export default {
 
     confirmType: [],
     cancelType: [],
+  },
+
+  getters: {
+    // 将酒店数据进行初步加工
+    getHotelInfo(state){
+      let o = state.hotelInfo
+
+      if(o){
+        // 设置酒店图片
+        o.picList = o.picList || [];
+        let picArr = o.picSrc.split('|');
+        if(!o.picList.length)	o.picList = picArr;
+        o.picSrc = picArr[0];
+        
+        if(o.picSrc.indexOf('nopic.png') != -1){
+          o.picSrc = o.picSrc.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
+          o.extraStyle = 'height: 100%;width: auto;margin-left: 60px;'
+          o.extraStyle2 = 'height: 100%;width: auto;margin-left: 26px;'
+        }
+
+        for (let i = 0; i < o.picList.length; i++) {
+          let pic = o.picList[i];
+          if(pic.indexOf('nopic.png') != -1){
+            pic.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
+          }
+        }
+        console.log(o);
+      }
+
+      return o
+    }
   },
 
   mutations: {
