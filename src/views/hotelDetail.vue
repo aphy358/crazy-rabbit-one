@@ -20,10 +20,6 @@ export default {
     }
   },
 
-  props: {
-    
-  },
-
   components: {
     Breadcrumb,
     HotelDetailInfo1,
@@ -36,6 +32,10 @@ export default {
       return cityType == '2' ? '港澳台' :
              cityType == '3' ? '国外'   : '国内'
     },
+
+    hotelInfo: function(){
+      return this.$store.getters["hotelDetail/getHotelInfo"];
+    }
 
   },
 
