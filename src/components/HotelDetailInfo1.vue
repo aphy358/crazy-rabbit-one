@@ -43,7 +43,7 @@
       <div class="hdi-body">
       <div class="hdi-img-outer">
         <div class="hdi-img-wrap-big">
-          <img :src="hotelInfo.picSrc" :style="hotelInfo.extraStyle" />
+          <img :src="picSrc" :style="hotelInfo.extraStyle" />
         </div>
         <div class="hdi-img-wrap-small">
           <div class="hdi-img-scroll scroll-up">
@@ -55,9 +55,9 @@
             <i class="hli-icon"></i>
           </div>
           <ul class="hdi-img-small-list">
-            <li class="hdi-img-small-item" v-for="(pic, i) in hotelInfo.picList" :key="i">
+            <li class="hdi-img-small-item" v-for="(pic, i) in hotelInfo.picList" :key="i" @click="clickHotelImg(pic, i)">
               <img :src="pic" :style="hotelInfo.extraStyle2" />
-              <div class="hdi-isi-mask" :class="i === 0 ? '' : ' hidden'"></div>
+              <div class="hdi-isi-mask" :class="i === currentImgIndex ? '' : ' hidden'"></div>
             </li>
           </ul>
         </div>
@@ -100,20 +100,34 @@ export default {
 
   data(){
     return {
+      picSrc: '54',
+      currentImgIndex: 0,
     }
   },
 
-  props: ['hotelInfo'],
+  // props: ['hotelInfo'],
 
   components: {
 
   },
 
   computed: {
-    
+    hotelInfo: function(){
+      let hotelInfo = this.$store.getters["hotelDetail/getHotelInfo"]
+
+      if(hotelInfo){
+        this.picSrc = hotelInfo.picSrc
+      }
+
+      return hotelInfo
+    }
   },
   
   methods: {
+    clickHotelImg(pic, i){
+      this.picSrc = pic
+      this.currentImgIndex = i
+    }
 
   }
 }

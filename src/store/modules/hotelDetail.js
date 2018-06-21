@@ -45,7 +45,6 @@ export default {
             pic.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
           }
         }
-        console.log(o);
       }
 
       return o
