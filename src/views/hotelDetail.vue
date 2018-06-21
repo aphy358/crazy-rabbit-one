@@ -10,7 +10,7 @@
 import Breadcrumb from '../components/Breadcrumb'
 import HotelDetailInfo1 from '../components/HotelDetailInfo1'
 import HotelDetailInfo2 from '../components/HotelDetailInfo2'
-import { queryString } from "../util.js";
+import { queryString, addDays } from "../util.js";
 
 export default {
   name: 'hotelDetail',
