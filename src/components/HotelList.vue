@@ -6,15 +6,14 @@
       <li class="hl-item" v-for="o in hotelList" :key="o.infoId">
         <div class="hli-info-wrap">
           <div class="hli-img">
-            <a href="#"  target="_blank">
+            <router-link target="_blank" :to="queryStr + o.infoId">
               <img :src="o.picSrc" :style="o.extraStyle" />
-            </a>
+            </router-link>
           </div>
           
           <div class="hli-info">
             <div class="hli-hotel-name-wrap">
-              <a href="#"
-                target="_blank">
+              <router-link target="_blank" :to="queryStr + o.infoId">
                 <h1 class="hli-hotel-name1">
                   {{o.infoName}}
                   <i class="hli-icon0 icon-star">
@@ -28,7 +27,7 @@
                 </h1>
                 <br>
                 <h2 class="hli-hotel-name2">{{o.enName || ''}}</h2>
-              </a>
+              </router-link>
             </div>
             
             <div class="hli-location">
@@ -52,11 +51,11 @@
           <div class="hli-check-detail">
             <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'"></i>
             <span class="hli-lowest-price-wrap" v-html="o.minPriceText"></span>
-            <a target="_blank" href="#" style="position: absolute;right: 0;top: 75px;">
+            <router-link target="_blank" :to="queryStr + o.infoId" style="position: absolute;right: 0;top: 75px;">
               <el-button type="primary" class="hli-check-detail-btn" size="small" plain style="font-size: 16px;padding: 9px;" icon="el-icon-document">
                 查看详情
               </el-button>
-            </a>
+            </router-link>
           </div>
         </div>
 
@@ -66,7 +65,7 @@
                   <el-button type="text" class="hli-expand-wrap" size="small" style="font-size: 16px;padding: 9px;" 
                     :class="hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].fixTop && hotelsExpanded[o.infoId].expanded ? 'fix-top' : ''"
                     @click="clickExpand($event, o.infoId)">
-                    {{hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].fixTop ? '收起全部房型' : '展开全部房型'}}
+                    {{hotelsExpanded[o.infoId] && hotelsExpanded[o.infoId].expanded ? '收起全部房型' : '展开全部房型'}}
                   </el-button>
                 </template>
                 <div class="hli-price-list-outer">
@@ -115,6 +114,14 @@ export default {
   computed: {
     hotelList() {
       return this.$store.getters["hotelList/getHotelList"];
+    },
+
+    queryStr(){
+      let ch = this.$store.state.hotelList.cityType
+      let checkin = this.$store.state.hotelList.checkin
+      let checkout = this.$store.state.hotelList.checkout
+
+      return `/hotelDetail?checkin=${checkin}&checkout=${checkout}&ch=${ch}&hotelId=`
     }
   },
 
@@ -128,6 +135,8 @@ export default {
         thatHotel.expanded = !thatHotel.expanded;
         
         if(!thatHotel.expanded){
+          thatHotel.fixTop = false
+
           let top = thatHotel.hotelWrapper.getBoundingClientRect().top;
           if(top < 100){
             Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px'})
@@ -159,6 +168,7 @@ export default {
       }
     },
 
+    // 处理页面滚动
     onScroll() {
       for (const key in this.hotelsExpanded) {
         const o = this.hotelsExpanded[key]

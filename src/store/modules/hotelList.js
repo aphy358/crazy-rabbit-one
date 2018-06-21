@@ -1,4 +1,5 @@
 import { addDays } from "../../util.js"
+import API from '../../api'
 
 export default {
   namespaced: true,
@@ -66,9 +67,11 @@ export default {
 
   mutations: {
     // 页面跳转初始化 state
-    initState(state, newState){
-      for (const key in newState.hotelList) {
-        state[key] = newState.hotelList[key]
+    copyState(state, newState){
+      for (const key in newState) {
+        if (newState.hasOwnProperty(key)) {
+          state[key] = newState[key]
+        }
       }
     },
 

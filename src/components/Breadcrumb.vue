@@ -2,7 +2,7 @@
 <template>
   <div class="top-nav-wrap">
     <div class="top-nav-inner">
-        {{getCityTypeText}}酒店
+        {{cityTypeText}}酒店
         <template v-if="hotelName">
            > <span class="hotel-name">{{hotelName}}</span>
         </template>
@@ -13,14 +13,7 @@
 <script>
 export default {
   name: 'breadcrumb',
-  props: ['hotelName'],
-  computed: {
-    getCityTypeText: function(){
-      let cityType = this.$store.state.hotelList.cityType
-      return cityType == '2' ? '港澳台' :
-             cityType == '3' ? '国外'   : '国内'
-    }
-  },
+  props: ['hotelName', 'cityTypeText'],
 }
 </script>
 

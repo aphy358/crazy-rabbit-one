@@ -601,6 +601,10 @@ export default {
       el.querySelectorAll('td').forEach(element => {
         element.removeAttribute('style')
       });
+
+      el.querySelectorAll('td>div').forEach(element => {
+        element.removeAttribute('style')
+      });
     },
 
     aniLeave(el, done){
@@ -818,7 +822,6 @@ export default {
                 }
 
                 @at-root .hp-roomName{
-                    float: left;
                     text-decoration: underline;
                     cursor: context-menu;
 
@@ -827,10 +830,11 @@ export default {
                     }
 
                     @at-root .room-type-icon-outer{
-                      float: left;
+                      display: inline-block;
                       width: 20px;
                       height: 20px;
-                      margin-top: 15px;
+                      position: relative;
+                      top: 5px;
 
                       @at-root .room-type-icon{
                           @include jl_sprites;

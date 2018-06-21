@@ -1,6 +1,6 @@
 <template>
     <div class="hotelList">
-        <Breadcrumb />
+        <Breadcrumb :cityTypeText="cityTypeText" />
         <SearchLine />
         <AdvancedSearch />
         <SubSearchLine />
@@ -43,6 +43,12 @@ export default {
   computed: {
     pageRecordCount(){
       return this.$store.state.hotelList.pageRecordCount
+    },
+
+    cityTypeText: function(){
+      let cityType = this.$store.state.hotelList.cityType
+      return cityType == '2' ? '港澳台' :
+             cityType == '3' ? '国外'   : '国内'
     }
   },
 
@@ -70,7 +76,7 @@ export default {
     let state = sessionStorage.getItem('jlfzg__state')
     
     if(state){
-      this.$store.commit('hotelList/initState', window.JSON.parse(state))
+      this.$store.commit('hotelList/copyState', window.JSON.parse(state))
       sessionStorage.removeItem('jlfzg__state')
     }
 
