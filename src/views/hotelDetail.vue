@@ -1,8 +1,8 @@
 <template>
   <div class="hotelDetail">
     <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotelInfo && hotelInfo.infoName" />
-    <HotelDetailInfo1 :hotelInfo="hotelInfo" />
-    <HotelDetailInfo2 :hotelInfo="hotelInfo" />
+    <HotelDetailInfo1 />
+    <HotelDetailInfo2 />
   </div>
 </template>
 
@@ -37,10 +37,6 @@ export default {
              cityType == '3' ? '国外'   : '国内'
     },
 
-    hotelInfo: function(){
-      // return this.$store.state.hotelDetail.hotelInfo
-      return this.$store.getters["hotelDetail/getHotelInfo"];
-    }
   },
 
   created(){

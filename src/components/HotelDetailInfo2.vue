@@ -47,7 +47,11 @@ export default {
     }
   },
 
-  props: ['hotelInfo'],
+  computed: {
+    hotelInfo: function(){
+      return this.$store.getters["hotelDetail/getHotelInfo"];
+    }
+  },
 }
 </script>
 

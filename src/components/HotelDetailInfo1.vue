@@ -105,8 +105,6 @@ export default {
     }
   },
 
-  // props: ['hotelInfo'],
-
   components: {
 
   },
