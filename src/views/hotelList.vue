@@ -53,22 +53,22 @@ export default {
   },
 
   methods: {
-    async login(){
-      await this.$api.hotelList.syncCheckcode()
-
-      let params = {
+    login(){
+      this.$api.hotelList.syncCheckcode().then(() => {
+        let params = {
           accountCode : 'sz2747',
           username    : 'ch',
           password    : '1',
           checkcode   : '8998',
           rememberMe  : false
-      }
+        }
 
-      await this.$api.hotelList.syncLogin(params)
+        this.$api.hotelList.syncLogin(params)
+      })
     },
 
-    async logout(){
-      await this.$api.hotelList.syncLogout()
+    logout(){
+      this.$api.hotelList.syncLogout()
     },
   },
 

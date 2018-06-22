@@ -477,31 +477,31 @@ export default {
     },
 
     // 查询房型信息
-    async queryRoomInfo(hotelId, suppId, roomId){
-      let res = await this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId})
-      
-      if(res.success){
-        let c = res.content
-        let tipStr = 
-          `<div class="hotel-info-wrap">
-            <ul class="hotel-info-list">
-              ${c.roomName ? '<li class="hotel-info-item"><i class="iconfont icon-home"></i><h1 class="roomName">' + c.roomName + '</h1></li>' : ''}
-              ${c.floor ? '<li class="hotel-info-item"><label>楼层：</label><span>' + c.floor + '层</span></li>' : ''}
-              ${c.acreage ? '<li class="hotel-info-item"><label>面积：</label><span>' + c.acreage + 'm²</span></li>' : ''}
-              ${c.bedName ? '<li class="hotel-info-item"><label>床型：</label><span>' + c.bedName + '</span></li>' : ''}
-              ${c.bedWidth ? '<li class="hotel-info-item"><label>床型大小：</label><span>' + c.bedWidth + '</span></li>' : ''}
-              ${c.maximize ? '<li class="hotel-info-item"><label>最大入住人数：</label><span>' + c.maximize + '</span></li>' : ''}
-              ${c.facilities ? '<li class="hotel-info-item"><label>房间设施：</label><span>' + c.facilities + '</span></li>' : ''}
-              ${c.comment ? '<li class="hotel-info-item"><label>房型备注：</label><span>' + c.comment + '</span></li>' : ''}
-            </ul>
-          </div>`
-
-        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = tipStr
-        this.currentRoomInfo = tipStr
-      }else{
-        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
-        this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
-      }
+    queryRoomInfo(hotelId, suppId, roomId){
+      this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId}).then(res => {
+        if(res.success){
+          let c = res.content
+          let tipStr = 
+            `<div class="hotel-info-wrap">
+              <ul class="hotel-info-list">
+                ${c.roomName ? '<li class="hotel-info-item"><i class="iconfont icon-home"></i><h1 class="roomName">' + c.roomName + '</h1></li>' : ''}
+                ${c.floor ? '<li class="hotel-info-item"><label>楼层：</label><span>' + c.floor + '层</span></li>' : ''}
+                ${c.acreage ? '<li class="hotel-info-item"><label>面积：</label><span>' + c.acreage + 'm²</span></li>' : ''}
+                ${c.bedName ? '<li class="hotel-info-item"><label>床型：</label><span>' + c.bedName + '</span></li>' : ''}
+                ${c.bedWidth ? '<li class="hotel-info-item"><label>床型大小：</label><span>' + c.bedWidth + '</span></li>' : ''}
+                ${c.maximize ? '<li class="hotel-info-item"><label>最大入住人数：</label><span>' + c.maximize + '</span></li>' : ''}
+                ${c.facilities ? '<li class="hotel-info-item"><label>房间设施：</label><span>' + c.facilities + '</span></li>' : ''}
+                ${c.comment ? '<li class="hotel-info-item"><label>房型备注：</label><span>' + c.comment + '</span></li>' : ''}
+              </ul>
+            </div>`
+  
+          this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = tipStr
+          this.currentRoomInfo = tipStr
+        }else{
+          this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
+          this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
+        }
+      })
     },
 
     // 根据前端条件过滤价格

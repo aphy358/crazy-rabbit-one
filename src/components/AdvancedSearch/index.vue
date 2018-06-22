@@ -331,13 +331,13 @@ export default {
 
   methods: {
     // 查酒店列表
-    async getZoneData(param) {
-      let res_ZoneData = await this.$api.hotelList.syncGetZone(param);
-
-      if (res_ZoneData.returnCode === 1 && res_ZoneData.data) {
-        this.bizzoneList = res_ZoneData.data.bizzoneList;
-        this.zoneList = res_ZoneData.data.zoneList;
-      }
+    getZoneData(param) {
+      this.$api.hotelList.syncGetZone(param).then(res_ZoneData => {
+        if (res_ZoneData.returnCode === 1 && res_ZoneData.data) {
+          this.bizzoneList = res_ZoneData.data.bizzoneList;
+          this.zoneList = res_ZoneData.data.zoneList;
+        }
+      })
     },
 
     // 点击 tag 的删除按钮

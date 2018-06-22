@@ -1,5 +1,6 @@
 import { addDays } from "../../util.js"
 import API from "../../api"
+import { log } from "util";
 
 export default {
   namespaced: true,
@@ -20,6 +21,36 @@ export default {
     cancelType: [],
   },
 
+  getters: {
+    // 将酒店数据进行初步加工
+    getHotelInfo(state){
+      let o = state.hotelInfo
+
+      if(o){
+        // 设置酒店图片
+        o.picList = o.picList || [];
+        let picArr = o.picSrc.split('|');
+        if(!o.picList.length)	o.picList = picArr;
+        o.picSrc = picArr[0];
+        
+        if(o.picSrc.indexOf('nopic.png') != -1){
+          o.picSrc = o.picSrc.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
+          o.extraStyle = 'height: 100%;width: auto;margin-left: 60px;'
+          o.extraStyle2 = 'height: 100%;width: auto;margin-left: 26px;'
+        }
+
+        for (let i = 0; i < o.picList.length; i++) {
+          let pic = o.picList[i];
+          if(pic.indexOf('nopic.png') != -1){
+            pic.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
+          }
+        }
+      }
+
+      return o
+    }
+  },
+
   mutations: {
     // 设置状态的公共函数
     setHotelDetailState(state, payload){
@@ -31,7 +62,7 @@ export default {
 
   actions: {
     // 查酒店信息
-    async getHotelInfo({ commit, state, dispatch }, payload){
+    getHotelInfo({ commit, state, dispatch }, payload){
       // hotelId, checkin, checkout, citytype
       let	params = {
 				'infoIds': payload.hotelId,
@@ -45,13 +76,12 @@ export default {
         "pageNow": 1
       }
       
-      let res = await API.hotelDetail.syncGetHotelsInfo(params)
-
-      if(res.returnCode === 1){
-        commit('setHotelDetailState', {t: 'hotelInfo', v: res.dataList[0]})
-      }else if(res.returnCode === -400001){
-      }
-
+      API.hotelDetail.syncGetHotelsInfo(params).then(res => {
+        if(res.returnCode === 1){
+          commit('setHotelDetailState', {t: 'hotelInfo', v: res.dataList[0]})
+        }else if(res.returnCode === -400001){
+        }
+      })
 
     },
   },

@@ -87,21 +87,23 @@ export default {
     },
 
     // 查城市
-    async getCityList(param){
-      let res_city = await this.$api.hotelList.syncGetCity(param)
+    getCityList(param){
+      this.$api.hotelList.syncGetCity(param).then(res_city => {
+        if(res_city.returnCode === 1 && res_city.dataList){
+          this.cityList = this.setHighlightStr(res_city.dataList, param.keys, 'aname', 'cityStr')
+        }
+      })
 
-      if(res_city.returnCode === 1 && res_city.dataList){
-        this.cityList = this.setHighlightStr(res_city.dataList, param.keys, 'aname', 'cityStr')
-      }
     },
 
     // 查酒店列表
-    async getHotelList(param){
-      let res_hotel = await this.$api.hotelList.syncGetHotels(param)
+    getHotelList(param){
+      this.$api.hotelList.syncGetHotels(param).then(res_hotel => {
+        if(res_hotel.returnCode === 1 && res_hotel.dataList){
+          this.hotelList = this.setHighlightStr(res_hotel.dataList, param.keys, 'name', 'hotelStr')
+        }
+      })
 
-      if(res_hotel.returnCode === 1 && res_hotel.dataList){
-        this.hotelList = this.setHighlightStr(res_hotel.dataList, param.keys, 'name', 'hotelStr')
-      }
     },
 
     /**

@@ -138,26 +138,16 @@ export default {
           thatHotel.fixTop = false
 
           let top = thatHotel.hotelWrapper.getBoundingClientRect().top;
+          
           if(top < 100){
-            Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px'})
+            let container = document.querySelector('.el-scrollbar__wrap')
+            Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px', container: container})
           }
         }
       } else {
         // 如果数组 hotelsExpanded 中没有该酒店的数据，则新创建一条记录，存入该酒店最外围的 DOM、该酒店下 '展开全部房型' 按钮的 DOM ，
         // 初始状态设置为已经展开：expanded: true，初始固定顶部状态：fixTop: false
-        let closestHotelItem;
-        for (let i = 0; i < e.path.length; i++) {
-          const o = e.path[i];
-          if (
-            ~Array.prototype.slice
-              .call(o.classList)
-              .join(",")
-              .indexOf("hl-item")
-          ) {
-            closestHotelItem = o;
-            break;
-          }
-        }
+        let closestHotelItem = e.target.closest('.hl-item')
 
         this.hotelsExpanded[hotelId] = {
           expanded: true,
@@ -188,9 +178,8 @@ export default {
 
   },
 
-  created() {
-    // 根据页面滚动，将搜索栏固定在页面顶部
-    window.addEventListener("scroll", this.onScroll);
+  mounted(){
+    document.querySelector('.el-scrollbar__wrap').addEventListener("scroll", this.onScroll)
   }
 };
 </script>
