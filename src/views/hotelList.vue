@@ -13,7 +13,7 @@
 <script>
 import Breadcrumb from '../components/Breadcrumb'
 import SearchLine from '../components/SearchLine'
-import AdvancedSearch from '../components/AdvancedSearch'
+import AdvancedSearch from '../components/__HotelList/AdvancedSearch'
 import SubSearchLine from '../components/SubSearchLine'
 import NoHotels from '../components/NoHotels'
 import HotelList from '../components/HotelList'

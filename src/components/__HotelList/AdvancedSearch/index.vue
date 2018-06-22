@@ -593,7 +593,7 @@ export default {
 </style>
 
 <style scoped lang="scss">
-@import "../../assets/jl_sprites.scss";
+@import "../../../assets/jl_sprites.scss";
 
 .advanced-search-wrap {
   position: relative;
