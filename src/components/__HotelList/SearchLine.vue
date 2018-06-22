@@ -16,7 +16,7 @@
 import CityTypeSelect from '../common/CityTypeSelect'
 import RoomNumSelect from '../common/RoomNumSelect'
 import DateRange from '../common/DateRange'
-import KerywordSuggest from '../KerywordSuggest'
+import KerywordSuggest from '../common/KerywordSuggest'
 import AdultChildrenSelect from '../common/AdultChildrenSelect'
 
 export default {
