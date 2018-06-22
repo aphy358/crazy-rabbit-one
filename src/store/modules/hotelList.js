@@ -155,7 +155,7 @@ export default {
     },
 
     // 查酒店列表
-    async queryHotelList({ commit, state, dispatch }, payload){
+    queryHotelList({ commit, state, dispatch }, payload){
       let params = {
         cityId: state.cityId,
         type: state.cityType,
@@ -175,18 +175,18 @@ export default {
         hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
       }
 
-      let res_HotelList = await payload.api.hotelList.syncGetHotelList(params)
-
-      if(res_HotelList.returnCode === 1){
-        commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
-        commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
-        commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
-      }
-
-      params.api = payload.api
-
-      // 查价格列表
-      dispatch('queryHotelPriceList', params)
+      payload.api.hotelList.syncGetHotelList(params).then(res_HotelList => {
+        if(res_HotelList.returnCode === 1){
+          commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
+          commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
+          commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
+        }
+  
+        params.api = payload.api
+  
+        // 查价格列表
+        dispatch('queryHotelPriceList', params)
+      })
     },
 
     // 查价格列表
@@ -209,17 +209,17 @@ export default {
     },
 
     // 查缓存内的价格
-    async queryPriceListInStock({ commit, state, dispatch }, payload){
-      let res = await payload.api.hotelList.syncGetHotelPriceListInStock(payload.params)
-
-      // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
-      if(!payload.hotel.priceList){
-        commit('setHotelExtraAttr', {hotel: payload.hotel, data: res})
-      }
+    queryPriceListInStock({ commit, state, dispatch }, payload){
+      payload.api.hotelList.syncGetHotelPriceListInStock(payload.params).then(res => {
+        // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
+        if(!payload.hotel.priceList){
+          commit('setHotelExtraAttr', {hotel: payload.hotel, data: res})
+        }
+      })
     },
 
     // 查价，实查
-    async queryPriceList({ commit, state, dispatch }, payload){
+    queryPriceList({ commit, state, dispatch }, payload){
       let hotel = payload.hotel
       let timer1, timer2, timer3
       let percentage = 1
@@ -269,19 +269,19 @@ export default {
         }
       }, 35)
     
-      let res = await payload.api.hotelList.syncGetHotelPriceList(payload.params)
-
-      commit('setHotelExtraAttr', {hotel: hotel, data: res})
-
-      clearInterval(timer1)
-      clearInterval(timer2)
-      clearInterval(timer3)
-
-      commit('setHotelExtraAttr', {hotel: hotel, percentage: 100, color: `rgba(35, 183, 35, 0.7)`})
-
-      setTimeout(() => {
-        commit('setHotelExtraAttr', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
-      }, 100)
+      payload.api.hotelList.syncGetHotelPriceList(payload.params).then(res => {
+        commit('setHotelExtraAttr', {hotel: hotel, data: res})
+  
+        clearInterval(timer1)
+        clearInterval(timer2)
+        clearInterval(timer3)
+  
+        commit('setHotelExtraAttr', {hotel: hotel, percentage: 100, color: `rgba(35, 183, 35, 0.7)`})
+  
+        setTimeout(() => {
+          commit('setHotelExtraAttr', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
+        }, 100)
+      })
     },
 
     setCityType({ commit, state, dispatch }, payload){

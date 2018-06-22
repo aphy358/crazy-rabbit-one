@@ -62,7 +62,7 @@ export default {
 
   actions: {
     // 查酒店信息
-    async getHotelInfo({ commit, state, dispatch }, payload){
+    getHotelInfo({ commit, state, dispatch }, payload){
       // hotelId, checkin, checkout, citytype
       let	params = {
 				'infoIds': payload.hotelId,
@@ -76,13 +76,12 @@ export default {
         "pageNow": 1
       }
       
-      let res = await API.hotelDetail.syncGetHotelsInfo(params)
-
-      if(res.returnCode === 1){
-        commit('setHotelDetailState', {t: 'hotelInfo', v: res.dataList[0]})
-      }else if(res.returnCode === -400001){
-      }
-
+      API.hotelDetail.syncGetHotelsInfo(params).then(res => {
+        if(res.returnCode === 1){
+          commit('setHotelDetailState', {t: 'hotelInfo', v: res.dataList[0]})
+        }else if(res.returnCode === -400001){
+        }
+      })
 
     },
   },
