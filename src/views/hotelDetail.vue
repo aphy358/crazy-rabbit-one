@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Breadcrumb from '../components/Breadcrumb'
+import Breadcrumb from '../components/common/Breadcrumb'
 import HotelDetailInfo1 from '../components/__HotelDetail/HotelDetailInfo1'
 import HotelDetailInfo2 from '../components/__HotelDetail/HotelDetailInfo2'
 import { queryString, addDays } from "../util.js";
