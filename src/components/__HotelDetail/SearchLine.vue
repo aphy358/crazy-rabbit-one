@@ -1,9 +1,7 @@
-<!-- 酒店列表页的搜索栏 -->
+<!-- 酒店详情页的搜索栏 -->
 <template>
     <div class="search-line-outer" :class="fixTop === true ? 'fix-top' : ''">
         <div class="search-line-wrap">
-            <CityTypeSelect />
-            <KerywordSuggest />
             <DateRange />
             <RoomNumSelect />
             <AdultChildrenSelect v-if="getCityType != 0" />
@@ -13,10 +11,8 @@
 </template>
 
 <script>
-import CityTypeSelect from '../common/CityTypeSelect'
 import RoomNumSelect from '../common/RoomNumSelect'
 import DateRange from '../common/DateRange'
-import KerywordSuggest from '../common/KerywordSuggest'
 import AdultChildrenSelect from '../common/AdultChildrenSelect'
 
 export default {
@@ -33,31 +29,24 @@ export default {
   computed: {
     // 获取城市类型，如：'国内'、'港澳台'、'国外'
     getCityType(){
-      return this.$store.state.hotelList.cityType
+      return this.$store.state.hotelDetail.cityType
     },
   },
 
   components: {
-    CityTypeSelect,
     RoomNumSelect,
     DateRange,
-    KerywordSuggest,
     AdultChildrenSelect,
   },
 
   methods: {
     queryHotelList(){
-      this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
+      // this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
     },
 
     // 根据页面滚动，将搜索栏固定在页面顶部
     onScroll(){
-      let topNavWrapper = document.querySelector('.top-nav-wrap')
-      let rect = topNavWrapper.getBoundingClientRect()
-
-      rect.top < -20
-        ? this.fixTop = true
-        : this.fixTop = false
+      
     }
   },
 
@@ -66,7 +55,6 @@ export default {
   },
 
   mounted(){
-    document.querySelector('.el-scrollbar__wrap').addEventListener("scroll", this.onScroll)
   }
 }
 </script>
@@ -105,6 +93,11 @@ export default {
 
 <style scoped lang="scss">
 .search-line-outer{
+    background: #fff;
+    padding: 20px 0;
+    margin-top: 20px;
+    box-shadow: 0 0 5px #ddd;
+
     &.fix-top{
         position: fixed;
         top: 0;
@@ -129,8 +122,8 @@ export default {
         width: 1200px;
         font-size: 15px;
         padding: 10px;
-        margin: 20px auto;
-        box-shadow: 0 0 5px #dadada;
+        margin: 0 auto;
+        border: 1px solid #e3e3e3;
         box-sizing: border-box;
         background: white;
 

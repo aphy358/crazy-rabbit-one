@@ -2,6 +2,7 @@
   <div class="hotelDetail">
     <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotelInfo && hotelInfo.infoName" />
     <HotelDetailInfo1 />
+    <SearchLine />
     <HotelDetailInfo2 />
   </div>
 </template>
@@ -9,8 +10,9 @@
 <script>
 import Breadcrumb from '../components/common/Breadcrumb'
 import HotelDetailInfo1 from '../components/__HotelDetail/HotelDetailInfo1'
+import SearchLine from '../components/__HotelDetail/SearchLine'
 import HotelDetailInfo2 from '../components/__HotelDetail/HotelDetailInfo2'
-import { queryString, addDays } from "../util.js";
+import { queryString, addDays } from "../util.js"
 
 export default {
   name: 'hotelDetail',
@@ -23,6 +25,7 @@ export default {
   components: {
     Breadcrumb,
     HotelDetailInfo1,
+    SearchLine,
     HotelDetailInfo2,
   },
 
@@ -40,14 +43,13 @@ export default {
   },
 
   created(){
-    // 获取 url 参数
-    this.getQueryParams()
-    
+    // 获取 url 参数，并将之设置到 store 里去，并查询酒店信息
+    this.getQueryParamsAndQueryHotel()
   },
 
   methods: {
-    // 获取 url 参数，并将之设置到 store 里去
-    getQueryParams(){
+    // 获取 url 参数，并将之设置到 store 里去，并查询酒店信息
+    getQueryParamsAndQueryHotel(){
       let hotelId = queryString('hotelId')
       let checkin = queryString('checkin')
       let checkout = queryString('checkout')
@@ -72,7 +74,7 @@ export default {
       this.$store.commit('hotelDetail/setHotelDetailState', {t: 'cityType', v: citytype})
 
       // 查询酒店信息
-      this.$store.dispatch("hotelDetail/getHotelInfo", {hotelId, checkin, checkout, citytype})
+      this.$store.dispatch("hotelDetail/queryHotelInfo", {hotelId, checkin, checkout, citytype})
     }
   }
 

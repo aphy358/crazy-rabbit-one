@@ -62,7 +62,7 @@ export default {
 
   actions: {
     // 查酒店信息
-    getHotelInfo({ commit, state, dispatch }, payload){
+    queryHotelInfo({ commit, state, dispatch }, payload){
       // hotelId, checkin, checkout, citytype
       let	params = {
 				'infoIds': payload.hotelId,
@@ -84,5 +84,10 @@ export default {
       })
 
     },
+
+    // 查询酒店价格
+    queryHotelPriceList({ commit, state, dispatch }, payload){
+
+    }
   },
 }
