@@ -12,11 +12,11 @@
 
 <script>
 import Breadcrumb from '../components/Breadcrumb'
-import SearchLine from '../components/SearchLine'
-import AdvancedSearch from '../components/AdvancedSearch'
-import SubSearchLine from '../components/SubSearchLine'
-import NoHotels from '../components/NoHotels'
-import HotelList from '../components/HotelList'
+import SearchLine from '../components/__HotelList/SearchLine'
+import AdvancedSearch from '../components/__HotelList/AdvancedSearch'
+import SubSearchLine from '../components/__HotelList/SubSearchLine'
+import NoHotels from '../components/__HotelList/NoHotels'
+import HotelList from '../components/__HotelList/HotelList'
 import Pagination from '../components/Pagination'
 
 export default {

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { setHistory } from "../util.js";
+import { setHistory } from "../../util.js";
 import CityListTmpl from './CityListTmpl'
 import cityList_internal from './data/internalCity.js'
 import cityList_gat from './data/gatCity.js'

@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import CityTypeSelect from './CityTypeSelect'
-import RoomNumSelect from './RoomNumSelect'
-import DateRange from './DateRange'
-import KerywordSuggest from './KerywordSuggest'
-import AdultChildrenSelect from './AdultChildrenSelect'
+import CityTypeSelect from '../CityTypeSelect'
+import RoomNumSelect from '../RoomNumSelect'
+import DateRange from '../DateRange'
+import KerywordSuggest from '../KerywordSuggest'
+import AdultChildrenSelect from '../AdultChildrenSelect'
 
 export default {
   name: 'SearchLine',
