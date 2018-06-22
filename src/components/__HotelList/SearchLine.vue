@@ -113,6 +113,11 @@ export default {
         background: white;
         box-shadow: 0 0 10px #999;
         z-index: 999;
+        opacity: .9;
+
+        &:hover{
+          opacity: 1;
+        }
 
         .search-line-wrap{
             margin: 5px auto;
