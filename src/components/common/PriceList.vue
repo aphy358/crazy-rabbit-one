@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import loadingGif from "../assets/loading.gif";
-import { deepCopy } from "../util.js";
+import loadingGif from "../../assets/loading.gif";
+import { deepCopy } from "../../util.js";
 import Velocity from 'velocity-animate'
 
 export default {
@@ -736,7 +736,7 @@ export default {
 </style>
 
 <style  lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
 
 .hl-item{
   .el-collapse-item__content{

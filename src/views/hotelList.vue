@@ -11,13 +11,13 @@
 </template>
 
 <script>
-import Breadcrumb from '../components/Breadcrumb'
+import Breadcrumb from '../components/common/Breadcrumb'
 import SearchLine from '../components/__HotelList/SearchLine'
 import AdvancedSearch from '../components/__HotelList/AdvancedSearch'
 import SubSearchLine from '../components/__HotelList/SubSearchLine'
 import NoHotels from '../components/__HotelList/NoHotels'
 import HotelList from '../components/__HotelList/HotelList'
-import Pagination from '../components/Pagination'
+import Pagination from '../components/common/Pagination'
 
 export default {
   name: 'hotelList',

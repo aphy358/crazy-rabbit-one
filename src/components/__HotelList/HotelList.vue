@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import PriceList from "../PriceList";
+import PriceList from "../common/PriceList";
 import Velocity from 'velocity-animate';
 
 export default {
