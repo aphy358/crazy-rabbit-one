@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { setHistory } from "./util.js";
+import { setHistory } from "../util.js";
 
 export default {
   name: "HotelSelectPanel",
