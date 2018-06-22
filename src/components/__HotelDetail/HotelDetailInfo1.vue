@@ -122,7 +122,7 @@ export default {
 </script>
 
 <style  lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
 
 .hotel-detail-info-outer{
     background: white;
