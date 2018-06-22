@@ -63,9 +63,10 @@ export default {
 
   created(){
     this.queryHotelList()
+  },
 
-    // 根据页面滚动，将搜索栏固定在页面顶部
-    window.addEventListener('scroll', this.onScroll)
+  mounted(){
+    document.querySelector('.el-scrollbar__wrap').addEventListener("scroll", this.onScroll)
   }
 }
 </script>

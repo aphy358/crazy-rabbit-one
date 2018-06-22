@@ -138,8 +138,10 @@ export default {
           thatHotel.fixTop = false
 
           let top = thatHotel.hotelWrapper.getBoundingClientRect().top;
+          
           if(top < 100){
-            Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px'})
+            let container = document.querySelector('.el-scrollbar__wrap')
+            Velocity(thatHotel.hotelWrapper, 'scroll', {offset: '-80px', container: container})
           }
         }
       } else {
@@ -176,9 +178,8 @@ export default {
 
   },
 
-  created() {
-    // 根据页面滚动，将搜索栏固定在页面顶部
-    window.addEventListener("scroll", this.onScroll);
+  mounted(){
+    document.querySelector('.el-scrollbar__wrap').addEventListener("scroll", this.onScroll)
   }
 };
 </script>
