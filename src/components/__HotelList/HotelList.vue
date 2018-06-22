@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import PriceList from "./PriceList";
+import PriceList from "../PriceList";
 import Velocity from 'velocity-animate';
 
 export default {
@@ -221,7 +221,7 @@ export default {
 </style>
 
 <style scoped lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
 
 .hotel-list-outer {
   min-height: 200px;

@@ -62,7 +62,7 @@ export default {
 </style>
 
 <style scoped lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
 
 .sub-search-line-wrap{
     font-size: 14px;
