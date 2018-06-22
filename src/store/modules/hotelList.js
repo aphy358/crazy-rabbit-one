@@ -1,5 +1,6 @@
 import { addDays } from "../../util.js"
 import API from '../../api'
+import Velocity from 'velocity-animate'
 
 export default {
   namespaced: true,
@@ -187,6 +188,22 @@ export default {
         // 查价格列表
         dispatch('queryHotelPriceList', params)
       })
+
+      dispatch('scrollTop')
+    },
+
+    // 滚动到页面顶部
+    scrollTop(){
+      let elem = document.querySelector('.index-top-nav')
+      let container = document.querySelector('.el-scrollbar__wrap')
+      if(elem && container){
+        let fixTop = document.querySelector('.search-line-outer.fix-top')
+        fixTop
+          ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
+          : Velocity(elem, 'scroll', {container: container})
+        
+        Velocity(elem, 'finish')
+      }
     },
 
     // 查价格列表
