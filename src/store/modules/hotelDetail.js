@@ -1,6 +1,7 @@
 import { addDays } from "../../util.js"
 import { _queryHotelPriceList, _setCommonState } from "../util.js"
 import API from "../../api"
+import { log } from "util";
 
 export default {
   namespaced: true,
@@ -52,6 +53,15 @@ export default {
 
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
     setHotelExtraAttr(state, payload){
+      if(payload.data){
+        payload.hotel.priceList = payload.data.data
+        if(payload.data.returnCode === 1){
+        }else if(payload.data.returnCode === -400001){
+        }
+      }else{
+        payload.hotel.percentage = payload.percentage
+        payload.hotel.color = payload.color
+      }
 
     }
   },
@@ -74,6 +84,7 @@ export default {
       API.hotelDetail.syncGetHotelsInfo(params).then(res => {
         if(res.returnCode === 1){
           commit('setCommonState', {t: 'hotel', v: res.dataList[0]})
+          dispatch('queryHotelPriceList')
         }else if(res.returnCode === -400001){
         }
       })
@@ -81,8 +92,18 @@ export default {
     },
 
     // 查询酒店价格
-    queryHotelPriceList({ commit, state, dispatch }, payload){
+    queryHotelPriceList({ commit, state, dispatch, rootState }){
+      let params = {
+        startDate:          rootState.checkin,
+        endDate:            rootState.checkout,
+        selRoomNum:         rootState.roomNum,
+        adultNum:           rootState.adultNum,
+        childrenNum:        rootState.childrenNum,
+        childrenAgesStr:    rootState.childrenStr,
+        isSearchSurcharge:  0
+      }
 
+      _queryHotelPriceList({ commit, state, dispatch }, params, state.hotel)
     }
   },
 }

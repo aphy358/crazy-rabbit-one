@@ -43,13 +43,16 @@ export default {
   },
 
   created(){
-    // 获取 url 参数，并将之设置到 store 里去，并查询酒店信息
-    this.getQueryParamsAndQueryHotel()
+    // 获取 url 参数，并将之设置到 store 里去
+    this.getQueryParams()
+
+    // 查询酒店信息
+    this.queryHotelInfo()
   },
 
   methods: {
-    // 获取 url 参数，并将之设置到 store 里去，并查询酒店信息
-    getQueryParamsAndQueryHotel(){
+    // 获取 url 参数，并将之设置到 store 里去
+    getQueryParams(){
       let hotelId = queryString('hotelId')
       let checkin = queryString('checkin')
       let checkout = queryString('checkout')
@@ -76,9 +79,16 @@ export default {
       this.$store.commit('setCommonState', {t: 'checkin', v: checkin})
       this.$store.commit('setCommonState', {t: 'checkout', v: checkout})
       this.$store.commit('setCommonState', {t: 'cityType', v: citytype})
+    },
 
-      // 查询酒店信息
+    // 查询酒店信息
+    queryHotelInfo(){
       this.$store.dispatch("hotelDetail/queryHotelInfo")
+    },
+
+    // 查询酒店价格列表
+    queryHotelPriceList(){
+      this.$store.dispatch("hotelDetail/queryHotelPriceList")
     }
   }
 

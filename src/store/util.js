@@ -112,6 +112,8 @@ const queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
 
 // 查酒店价格，先查落地的缓存价，再实查
 export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
+  console.log(payload);
+  
   let params = {
     hotelId:            hotel.infoId,
     checkInDate:        payload.startDate,
