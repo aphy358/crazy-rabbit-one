@@ -178,14 +178,12 @@ export default {
         hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
       }
 
-      payload.api.hotelList.syncGetHotelList(params).then(res_HotelList => {
+      API.hotelList.syncGetHotelList(params).then(res_HotelList => {
         if(res_HotelList.returnCode === 1){
           commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
           commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
           commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
         }
-  
-        params.api = payload.api
   
         // 查价格列表
         dispatch('queryHotelPriceList', params)
@@ -218,7 +216,7 @@ export default {
     setCityType({ commit, state, dispatch }, payload){
       commit('setCityType', payload.cityType)
       commit('resetFilters')
-      dispatch('actionHotelList', { api: payload.api })
+      dispatch('actionHotelList', { api: API })
     },
   },
   
