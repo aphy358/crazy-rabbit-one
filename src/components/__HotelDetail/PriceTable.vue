@@ -4,7 +4,7 @@
   <div class="price-table-outer">
     <div class="price-table-inner">
       <!-- 进度条 -->
-      <div class="progress-outer" v-if="hotel && hotel.percentage > 0" style="margin-bottom: 10px;">
+      <div class="progress-outer" v-if="hotel && hotel.percentage > 0" style="position: relative;margin-bottom: 10px;">
         <el-progress :text-inside="true" :stroke-width="18" :show-text=false
           :percentage="hotel.percentage" 
           :color="hotel.color"
