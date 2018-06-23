@@ -1,7 +1,7 @@
 import API from '../api'
 
 // 查价，实查
-const _queryPriceList = ({
+const queryPriceList = ({
   commit,
   state,
   dispatch
@@ -99,7 +99,7 @@ const _queryPriceList = ({
   })
 }
 
-const _queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
+const queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
   API.hotelList.syncGetHotelPriceListInStock(payload.params).then(res => {
     // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
     if(!payload.hotel.priceList){
@@ -120,8 +120,8 @@ const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
     isSearchSurcharge: 0
   }
 
-  _queryPriceListInStock({ commit, state, dispatch }, {params: params, hotel: hotel})
-  _queryPriceList({ commit, state, dispatch }, {params: params, hotel: hotel})
+  queryPriceListInStock({ commit, state, dispatch }, {params: params, hotel: hotel})
+  queryPriceList({ commit, state, dispatch }, {params: params, hotel: hotel})
 }
 
 

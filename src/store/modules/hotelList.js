@@ -37,7 +37,7 @@ export default {
   getters: {
     // 判断是否当前一个过滤条件都没有
     isNoFilter(state){
-			return state.checkedPriceRange === '' &&
+      return state.checkedPriceRange === '' &&
         state.checkedStar.length < 1 &&
         state.checkedConfirmType.length < 1 &&
         state.checkedCancelType.length < 1 &&
@@ -87,7 +87,7 @@ export default {
       state.checkedBizzone = []
       state.checkedHotelGroup1 = []
       state.checkedHotelGroup2 = []
-			state.checkedFacilities = []
+      state.checkedFacilities = []
     },
 
     // 设置城市类型，如：'国内'、'港澳台'、'国外'
@@ -160,35 +160,36 @@ export default {
     // 查酒店列表
     queryHotelList({ commit, state, dispatch }, payload){
       let params = {
-        cityId: state.cityId,
-        type: state.cityType,
-        keyWords: state.cityId ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
-        startDate: state.checkin,
-        endDate: state.checkout,
-        selRoomNum: state.roomNum,
-        adultNum: state.adultNum,
-        childrenNum: state.childrenNum,
-        childrenAgesStr: state.childrenStr,
-        pageNow: state.pageNow,
-        star: state.checkedStar.map(n => n.split('_')[0]).join(','),
-        priceRange: state.checkedPriceRange.split('_')[0],
-        bizCircleId: state.checkedBizzone.map(n => n.split('_')[0]).join(','),
-        zoneId: state.checkedZone.map(n => n.split('_')[0]).join(','),
-        hotelFacility: state.checkedFacilities.map(n => n.split('_')[0]).join(','),
-        hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
+        cityId:           state.cityId,
+        type:             state.cityType,
+        keyWords:         state.cityId ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
+        startDate:        state.checkin,
+        endDate:          state.checkout,
+        selRoomNum:       state.roomNum,
+        adultNum:         state.adultNum,
+        childrenNum:      state.childrenNum,
+        childrenAgesStr:  state.childrenStr,
+        pageNow:          state.pageNow,
+        star:             state.checkedStar.map(n => n.split('_')[0]).join(','),
+        priceRange:       state.checkedPriceRange.split('_')[0],
+        bizCircleId:      state.checkedBizzone.map(n => n.split('_')[0]).join(','),
+        zoneId:           state.checkedZone.map(n => n.split('_')[0]).join(','),
+        hotelFacility:    state.checkedFacilities.map(n => n.split('_')[0]).join(','),
+        hotelGroup:       state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
       }
 
-      API.hotelList.syncGetHotelList(params).then(res_HotelList => {
-        if(res_HotelList.returnCode === 1){
-          commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
-          commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
-          commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
+      API.hotelList.syncGetHotelList(params).then(res => {
+        if(res.returnCode === 1){
+          commit('setHotelListState', {t: 'hotelList', v: res.dataList})
+          commit('setHotelListState', {t: 'pageRecordCount', v: res.data ? 0 : res.pageRecordCount})
+          commit('setHotelListState', {t: 'pageTotal', v: res.pageTotal})
         }
   
         // 查价格列表
         dispatch('queryHotelPriceList', params)
       })
 
+      // 重新查询酒店列表后，触发页面滚动到顶部
       dispatch('scrollTop')
     },
 
@@ -213,6 +214,7 @@ export default {
       })
     },
 
+    // 切换城市类型，改变城市类型后需要重置前端过滤条件，然后是重新查询酒店列表
     setCityType({ commit, state, dispatch }, payload){
       commit('setCityType', payload.cityType)
       commit('resetFilters')
