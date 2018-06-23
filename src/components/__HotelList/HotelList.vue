@@ -117,9 +117,9 @@ export default {
     },
 
     queryStr(){
-      let ch = this.$store.state.hotelList.cityType
-      let checkin = this.$store.state.hotelList.checkin
-      let checkout = this.$store.state.hotelList.checkout
+      let ch = this.$store.state.cityType
+      let checkin = this.$store.state.checkin
+      let checkout = this.$store.state.checkout
 
       return `/hotelDetail?checkin=${checkin}&checkout=${checkout}&ch=${ch}&hotelId=`
     }

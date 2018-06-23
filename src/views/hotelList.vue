@@ -46,7 +46,7 @@ export default {
     },
 
     cityTypeText: function(){
-      let cityType = this.$store.state.hotelList.cityType
+      let cityType = this.$store.state.cityType
       return cityType == '2' ? '港澳台' :
              cityType == '3' ? '国外'   : '国内'
     }

@@ -5,7 +5,7 @@
             <CityTypeSelect />
             <KerywordSuggest />
             <DateRange />
-            <RoomNumSelect />
+            <RoomNumSelect :page="'hotelList'" />
             <AdultChildrenSelect v-if="getCityType != 0" />
             <el-button type="primary" size="small" @click="queryHotelList">搜索</el-button>
         </div>
@@ -33,7 +33,7 @@ export default {
   computed: {
     // 获取城市类型，如：'国内'、'港澳台'、'国外'
     getCityType(){
-      return this.$store.state.hotelList.cityType
+      return this.$store.state.cityType
     },
   },
 

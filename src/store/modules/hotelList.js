@@ -1,21 +1,14 @@
 import { addDays } from "../../util.js"
-import { _queryHotelPriceList, _scrollTop } from "../util.js"
+import { _queryHotelPriceList, _scrollTop, _setCommonState } from "../util.js"
 import API from '../../api'
 
 export default {
   namespaced: true,
 
   state: {
-    cityType: '2',
     keyword: '',
     keywords: '',
     cityId: '',
-    roomNum: '1',
-    adultNum: '2',
-    childrenNum: '0',
-    childrenStr: '',
-    checkin: addDays(new Date),
-    checkout: addDays(new Date, 1),
 
     pageNow: '1',
     pageTotal: '1',
@@ -80,37 +73,10 @@ export default {
       state.checkedFacilities = []
     },
 
-    // 设置城市类型，如：'国内'、'港澳台'、'国外'
-    setCityType(state, cityType){
-      state.cityType = cityType
-
+    // 重置城市类型，需要将关键字、城市ID清空
+    setCityType(state){
       state.keyword = ''
       state.cityId = ''
-      state.roomNum = '1'
-      state.adultNum = '2'
-      state.childrenNum = '0'
-      state.childrenStr = ''
-
-      state.checkin = cityType == 3 
-        ? addDays(new Date, 1) 
-        : addDays(new Date, 0)
-
-      state.checkout = cityType == 3 
-        ? addDays(new Date, 2) 
-        : addDays(new Date, 1)
-    },
-
-    // 设置入离日期
-    setDate(state, dateRange){
-      state.checkin = addDays(dateRange[0])
-      state.checkout = addDays(dateRange[1])
-    },
-
-    // 设置状态的公共函数
-    setHotelListState(state, payload){
-      if(payload.t){
-        state[payload.t] = payload.v
-      }
     },
 
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
@@ -134,31 +100,36 @@ export default {
       state.hotelList = Object.assign([], state.hotelList)
     },
 
+    // 设置状态的公共函数
+    setCommonState(state, payload){
+      _setCommonState(state, payload)
+    },
+
   },
 
   actions: {
     // 一般是先改变查询条件，然后再触发查询酒店列表
     actionHotelList({ commit, state, dispatch }, payload){
-      commit('setHotelListState', payload)
+      commit('setCommonState', payload)
 
       if(payload.api){
         // 查酒店列表
-        dispatch('queryHotelList', payload)
+        dispatch('queryHotelList')
       }
     },
 
     // 查酒店列表
-    queryHotelList({ commit, state, dispatch }, payload){
+    queryHotelList({ commit, state, dispatch, rootState }){
       let params = {
         cityId:           state.cityId,
-        type:             state.cityType,
+        type:             rootState.cityType,
         keyWords:         state.cityId ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
-        startDate:        state.checkin,
-        endDate:          state.checkout,
-        selRoomNum:       state.roomNum,
-        adultNum:         state.adultNum,
-        childrenNum:      state.childrenNum,
-        childrenAgesStr:  state.childrenStr,
+        startDate:        rootState.checkin,
+        endDate:          rootState.checkout,
+        selRoomNum:       rootState.roomNum,
+        adultNum:         rootState.adultNum,
+        childrenNum:      rootState.childrenNum,
+        childrenAgesStr:  rootState.childrenStr,
         pageNow:          state.pageNow,
         star:             state.checkedStar.map(n => n.split('_')[0]).join(','),
         priceRange:       state.checkedPriceRange.split('_')[0],
@@ -170,9 +141,9 @@ export default {
 
       API.hotelList.syncGetHotelList(params).then(res => {
         if(res.returnCode === 1){
-          commit('setHotelListState', {t: 'hotelList', v: res.dataList})
-          commit('setHotelListState', {t: 'pageRecordCount', v: res.data ? 0 : res.pageRecordCount})
-          commit('setHotelListState', {t: 'pageTotal', v: res.pageTotal})
+          commit('setCommonState', {t: 'hotelList', v: res.dataList})
+          commit('setCommonState', {t: 'pageRecordCount', v: res.data ? 0 : res.pageRecordCount})
+          commit('setCommonState', {t: 'pageTotal', v: res.pageTotal})
         }
   
         // 查价格列表
@@ -191,10 +162,10 @@ export default {
     },
 
     // 切换城市类型，改变城市类型后需要重置前端过滤条件，然后是重新查询酒店列表
-    setCityType({ commit, state, dispatch }, payload){
-      commit('setCityType', payload.cityType)
+    setCityType({ commit, state, dispatch }){
+      commit('setCityType')
       commit('resetFilters')
-      dispatch('actionHotelList', { api: API })
+      dispatch('queryHotelList')
     },
   },
 }

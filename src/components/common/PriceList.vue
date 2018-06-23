@@ -149,7 +149,7 @@ export default {
 
   computed: {
     selRoomNum(){
-      return this.$store.state.hotelList.roomNum
+      return this.$store.state.roomNum
     },
 
     filterCancelType(){

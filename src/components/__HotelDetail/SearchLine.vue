@@ -29,7 +29,7 @@ export default {
   computed: {
     // 获取城市类型，如：'国内'、'港澳台'、'国外'
     getCityType(){
-      return this.$store.state.hotelDetail.cityType
+      return this.$store.state.cityType
     },
   },
 

@@ -1,19 +1,12 @@
 import { addDays } from "../../util.js"
-import { _queryHotelPriceList } from "../util.js"
+import { _queryHotelPriceList, _setCommonState } from "../util.js"
 import API from "../../api"
 
 export default {
   namespaced: true,
 
   state: {
-    cityType: '0',
     hotelId: '',
-    roomNum: '1',
-    adultNum: '2',
-    childrenNum: '0',
-    childrenStr: '',
-    checkin: addDays(new Date),
-    checkout: addDays(new Date, 1),
 
     hotel: null,
 
@@ -53,10 +46,8 @@ export default {
 
   mutations: {
     // 设置状态的公共函数
-    setHotelDetailState(state, payload){
-      if(payload.t){
-        state[payload.t] = payload.v
-      }
+    setCommonState(state, payload){
+      _setCommonState(state, payload)
     },
 
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
@@ -67,22 +58,22 @@ export default {
 
   actions: {
     // 查酒店信息
-    queryHotelInfo({ commit, state, dispatch }){
+    queryHotelInfo({ commit, state, dispatch, rootState }){
       let	params = {
 				'infoIds':          state.hotelId,
-				"type":             state.cityType,
-        "startDate":        state.checkin,
-        "endDate":          state.checkout,
-        "selRoomNum":       state.roomNum,
-        "adultNum":         state.adultNum,
-        "childrenNum":      state.childrenNum,
-        "childrenAgesStr":  state.childrenStr,
+				"type":             rootState.cityType,
+        "startDate":        rootState.checkin,
+        "endDate":          rootState.checkout,
+        "selRoomNum":       rootState.roomNum,
+        "adultNum":         rootState.adultNum,
+        "childrenNum":      rootState.childrenNum,
+        "childrenAgesStr":  rootState.childrenStr,
         "pageNow":          1
       }
       
       API.hotelDetail.syncGetHotelsInfo(params).then(res => {
         if(res.returnCode === 1){
-          commit('setHotelDetailState', {t: 'hotel', v: res.dataList[0]})
+          commit('setCommonState', {t: 'hotel', v: res.dataList[0]})
         }else if(res.returnCode === -400001){
         }
       })

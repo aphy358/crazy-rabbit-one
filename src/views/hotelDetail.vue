@@ -31,7 +31,7 @@ export default {
 
   computed: {
     cityTypeText: function(){
-      let cityType = this.$store.state.hotelDetail.cityType
+      let cityType = this.$store.state.cityType
       return cityType == '2' ? '港澳台' :
              cityType == '3' ? '国外'   : '国内'
     },
@@ -68,10 +68,14 @@ export default {
         }
       }
 
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'hotelId', v: hotelId})
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'checkin', v: checkin})
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'checkout', v: checkout})
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'cityType', v: citytype})
+      if( +new Date(checkin.replace(/-/g, '/')) >= +new Date(checkout.replace(/-/g, '/')) ){
+        checkout = addDays( new Date(), 1 )
+      }
+
+      this.$store.commit('hotelDetail/setCommonState', {t: 'hotelId', v: hotelId})
+      this.$store.commit('setCommonState', {t: 'checkin', v: checkin})
+      this.$store.commit('setCommonState', {t: 'checkout', v: checkout})
+      this.$store.commit('setCommonState', {t: 'cityType', v: citytype})
 
       // 查询酒店信息
       this.$store.dispatch("hotelDetail/queryHotelInfo")

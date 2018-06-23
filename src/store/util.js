@@ -141,3 +141,10 @@ export const _scrollTop = () => {
     Velocity(elem, 'finish')
   }
 }
+
+// 设置状态的公共函数
+export const _setCommonState = (state, payload) => {
+  if(payload.t){
+    state[payload.t] = payload.v
+  }
+}

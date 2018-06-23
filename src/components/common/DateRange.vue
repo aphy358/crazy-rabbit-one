@@ -36,23 +36,23 @@ export default {
     // 获取入离日期
     getDateRange: {
       get: function () {
-        let checkin = new Date(this.$store.state.hotelList.checkin)
-        let checkout = new Date(this.$store.state.hotelList.checkout)
+        let checkin = new Date(this.$store.state.checkin)
+        let checkout = new Date(this.$store.state.checkout)
         return [checkin, checkout]
       },
       set: function (newValue) {
         // 矫正手动输入日期超出范围的情形
         if(newValue){
           (+newValue[1] - (+newValue[0])) > 15 * 24 * 60 * 60 * 1000
-            ? this.$store.commit('hotelList/setDate', this.lastValue)
-            : (this.$store.commit('hotelList/setDate', newValue), this.lastValue = newValue)
+            ? this.$store.commit('setDate', this.lastValue)
+            : (this.$store.commit('setDate', newValue), this.lastValue = newValue)
         }
       }
     },
 
     pickerOptions(){
       let _this = this
-      let cityType = this.$store.state.hotelList.cityType
+      let cityType = this.$store.state.cityType
       let baseMinDate = new Date( addDays(new Date, cityType == 3 ? 1 : 0) + ' 00:00:00' )
       
       return {
