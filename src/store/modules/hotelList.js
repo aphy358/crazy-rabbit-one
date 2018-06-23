@@ -1,7 +1,8 @@
 import { addDays } from "../../util.js"
-import _queryHotelPriceList from "../util.js"
+import Util from "../util.js"
 import API from '../../api'
-import Velocity from 'velocity-animate'
+
+const { _queryHotelPriceList, _scrollTop } = Util
 
 export default {
   namespaced: true,
@@ -181,21 +182,7 @@ export default {
       })
 
       // 重新查询酒店列表后，触发页面滚动到顶部
-      dispatch('scrollTop')
-    },
-
-    // 滚动到页面顶部
-    scrollTop(){
-      let elem = document.querySelector('.index-top-nav')
-      let container = document.querySelector('.el-scrollbar__wrap')
-      if(elem && container){
-        let fixTop = document.querySelector('.search-line-outer.fix-top')
-        fixTop
-          ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
-          : Velocity(elem, 'scroll', {container: container})
-        
-        Velocity(elem, 'finish')
-      }
+      _scrollTop()
     },
 
     // 查价格列表

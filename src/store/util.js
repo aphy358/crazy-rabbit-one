@@ -1,3 +1,4 @@
+import Velocity from 'velocity-animate'
 import API from '../api'
 
 // 查价，实查
@@ -99,6 +100,7 @@ const queryPriceList = ({
   })
 }
 
+// 查价，查落地的缓存价
 const queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
   API.hotelList.syncGetHotelPriceListInStock(payload.params).then(res => {
     // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
@@ -108,6 +110,7 @@ const queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
   })
 }
 
+// 查酒店价格，先查落地的缓存价，再实查
 const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
   let params = {
     hotelId: hotel.infoId,
@@ -124,5 +127,22 @@ const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
   queryPriceList({ commit, state, dispatch }, {params: params, hotel: hotel})
 }
 
+// 重新查询酒店列表后，触发页面滚动到顶部
+const _scrollTop = () => {
+  let elem = document.querySelector('.index-top-nav')
+  let container = document.querySelector('.el-scrollbar__wrap')
+  if(elem && container){
+    let fixTop = document.querySelector('.search-line-outer.fix-top')
+    fixTop
+      ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
+      : Velocity(elem, 'scroll', {container: container})
+    
+    Velocity(elem, 'finish')
+  }
+}
 
-export default _queryHotelPriceList
+
+export default {
+  _queryHotelPriceList,
+  _scrollTop
+}
