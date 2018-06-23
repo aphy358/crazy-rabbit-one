@@ -1,5 +1,5 @@
 import { addDays } from "../../util.js"
-import { _queryPriceList, _queryPriceListInStock, _queryHotelPriceList } from "../util.js"
+import _queryHotelPriceList from "../util.js"
 import API from '../../api'
 import Velocity from 'velocity-animate'
 
@@ -216,12 +216,12 @@ export default {
 
     // 查缓存内的价格
     queryPriceListInStock({ commit, state, dispatch }, payload){
-      _queryPriceListInStock({ commit, state, dispatch }, payload)
+      // _queryPriceListInStock({ commit, state, dispatch }, payload)
     },
 
     // 查价，实查
     queryPriceList({ commit, state, dispatch }, payload){
-      _queryPriceList({ commit, state, dispatch }, payload)
+      // _queryPriceList({ commit, state, dispatch }, payload)
     },
 
     setCityType({ commit, state, dispatch }, payload){

@@ -1,4 +1,6 @@
-// 将被点击的城市设置到历史记录里
+import API from '../api'
+
+// 查价，实查
 const _queryPriceList = ({
   commit,
   state,
@@ -71,7 +73,7 @@ const _queryPriceList = ({
     }
   }, 35)
 
-  payload.api.hotelList.syncGetHotelPriceList(payload.params).then(res => {
+  API.hotelList.syncGetHotelPriceList(payload.params).then(res => {
     commit('setHotelExtraAttr', {
       hotel: hotel,
       data: res
@@ -98,7 +100,7 @@ const _queryPriceList = ({
 }
 
 const _queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
-  payload.api.hotelList.syncGetHotelPriceListInStock(payload.params).then(res => {
+  API.hotelList.syncGetHotelPriceListInStock(payload.params).then(res => {
     // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
     if(!payload.hotel.priceList){
       commit('setHotelExtraAttr', {hotel: payload.hotel, data: res})
@@ -118,13 +120,9 @@ const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
     isSearchSurcharge: 0
   }
 
-  dispatch('queryPriceListInStock', {params: params, hotel: hotel, api: payload.api})
-  dispatch('queryPriceList', {params: params, hotel: hotel, api: payload.api})
+  _queryPriceListInStock({ commit, state, dispatch }, {params: params, hotel: hotel})
+  _queryPriceList({ commit, state, dispatch }, {params: params, hotel: hotel})
 }
 
 
-module.exports = {
-  _queryHotelPriceList,
-  _queryPriceList,
-  _queryPriceListInStock,
-}
+export default _queryHotelPriceList
