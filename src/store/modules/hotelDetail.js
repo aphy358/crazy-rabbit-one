@@ -1,5 +1,5 @@
 import { addDays } from "../../util.js"
-import _queryHotelPriceList from "../util.js"
+import { _queryHotelPriceList } from "../util.js"
 import API from "../../api"
 
 export default {

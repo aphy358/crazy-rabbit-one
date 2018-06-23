@@ -131,6 +131,7 @@ export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel
 export const _scrollTop = () => {
   let elem = document.querySelector('.index-top-nav')
   let container = document.querySelector('.el-scrollbar__wrap')
+  
   if(elem && container){
     let fixTop = document.querySelector('.search-line-outer.fix-top')
     fixTop

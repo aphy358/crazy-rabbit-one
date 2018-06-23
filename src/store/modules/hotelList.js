@@ -197,5 +197,4 @@ export default {
       dispatch('actionHotelList', { api: API })
     },
   },
-  
 }
