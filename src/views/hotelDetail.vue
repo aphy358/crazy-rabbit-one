@@ -1,8 +1,13 @@
 <template>
   <div class="hotelDetail">
-    <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotelInfo && hotelInfo.infoName" />
+    <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotel && hotel.infoName" />
     <HotelDetailInfo1 />
     <SearchLine />
+    <div class="price-table-outer">
+      <div class="price-table-inner">
+        <PriceList v-if="hotel && hotel.priceList" :priceList="hotel.priceList" />
+      </div>
+    </div>
     <HotelDetailInfo2 />
   </div>
 </template>
@@ -11,6 +16,7 @@
 import Breadcrumb from '../components/common/Breadcrumb'
 import HotelDetailInfo1 from '../components/__HotelDetail/HotelDetailInfo1'
 import SearchLine from '../components/__HotelDetail/SearchLine'
+import PriceList from "../components/common/PriceList"
 import HotelDetailInfo2 from '../components/__HotelDetail/HotelDetailInfo2'
 import { queryString, addDays } from "../util.js"
 
@@ -26,6 +32,7 @@ export default {
     Breadcrumb,
     HotelDetailInfo1,
     SearchLine,
+    PriceList,
     HotelDetailInfo2,
   },
 
@@ -36,7 +43,7 @@ export default {
              cityType == '3' ? '国外'   : '国内'
     },
 
-    hotelInfo: function(){
+    hotel: function(){
       return this.$store.getters["hotelDetail/getHotelInfo"];
     }
 
@@ -174,5 +181,39 @@ export default {
             content: none;
         }
     }
+}
+
+.price-table-outer{
+  padding-bottom: 20px;
+  background: white;
+  
+  @at-root .price-table-inner{
+    width: 1200px;
+    margin: auto;
+
+    @at-root .hotel-price-thead{
+      th{
+        position: relative;
+        font-size: 14px;
+        color: #666;
+        height: 40px;
+        border: 1px solid #E3E3E3;
+        background: #f4fbfe;
+        font-weight: bold;
+        
+        span{
+          display: table-cell!important;
+          padding-left: 15px;
+        }
+
+        &.align-center{
+          span{
+            display: inline-block!important;
+            padding-left: 0;
+          }
+        }
+      }
+    }
+  }   
 }
 </style>
