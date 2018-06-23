@@ -73,15 +73,6 @@ export default {
   },
 
   created(){
-    let state = sessionStorage.getItem('jlfzg__state')
-    
-    if(state){
-      this.$store.commit('hotelList/copyState', window.JSON.parse(state))
-      sessionStorage.removeItem('jlfzg__state')
-    }
-
-    sessionStorage.removeItem('login__login')
-
     this.login()
   },
   

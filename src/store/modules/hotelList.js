@@ -68,15 +68,6 @@ export default {
   },
 
   mutations: {
-    // 页面跳转初始化 state
-    copyState(state, newState){
-      for (const key in newState) {
-        if (newState.hasOwnProperty(key)) {
-          state[key] = newState[key]
-        }
-      }
-    },
-
     // 重置所有高级搜索的过滤条件
     resetFilters(state){
       state.checkedPriceRange = ''
