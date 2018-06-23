@@ -1,7 +1,6 @@
 import { addDays } from "../../util.js"
 import { _queryHotelPriceList, _setCommonState } from "../util.js"
 import API from "../../api"
-import { log } from "util";
 
 export default {
   namespaced: true,
@@ -54,17 +53,17 @@ export default {
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
     setHotelExtraAttr(state, payload){
       if(payload.data){
-        state.hotel.priceList = payload.data.data
+        payload.hotel.priceList = payload.data.data
         if(payload.data.returnCode === 1){
         }else if(payload.data.returnCode === -400001){
         }
       }else{
-        state.hotel.percentage = payload.percentage
-        state.hotel.color = payload.color
+        payload.hotel.percentage = payload.percentage
+        payload.hotel.color = payload.color
       }
 
       // 对于对象的修改，要用 Object.assign 进行覆盖赋值
-      state.hotel = Object.assign({}, state.hotel)
+      state.hotel = Object.assign({}, payload.hotel)
     }
   },
 
@@ -104,7 +103,7 @@ export default {
         childrenAgesStr:    rootState.childrenStr,
         isSearchSurcharge:  0
       }
-
+      
       _queryHotelPriceList({ commit, state, dispatch }, params, state.hotel)
     }
   },
