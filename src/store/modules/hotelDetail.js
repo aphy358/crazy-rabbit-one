@@ -1,6 +1,6 @@
 import { addDays } from "../../util.js"
+import _queryHotelPriceList from "../util.js"
 import API from "../../api"
-import { log } from "util";
 
 export default {
   namespaced: true,
@@ -15,7 +15,7 @@ export default {
     checkin: addDays(new Date),
     checkout: addDays(new Date, 1),
 
-    hotelInfo: null,
+    hotel: null,
 
     confirmType: [],
     cancelType: [],
@@ -24,7 +24,7 @@ export default {
   getters: {
     // 将酒店数据进行初步加工
     getHotelInfo(state){
-      let o = state.hotelInfo
+      let o = state.hotel
 
       if(o){
         // 设置酒店图片
@@ -58,6 +58,11 @@ export default {
         state[payload.t] = payload.v
       }
     },
+
+    // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
+    setHotelExtraAttr(state, payload){
+
+    }
   },
 
   actions: {
@@ -78,7 +83,7 @@ export default {
       
       API.hotelDetail.syncGetHotelsInfo(params).then(res => {
         if(res.returnCode === 1){
-          commit('setHotelDetailState', {t: 'hotelInfo', v: res.dataList[0]})
+          commit('setHotelDetailState', {t: 'hotel', v: res.dataList[0]})
         }else if(res.returnCode === -400001){
         }
       })
