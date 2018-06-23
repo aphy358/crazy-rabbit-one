@@ -1,8 +1,6 @@
 import { addDays } from "../../util.js"
-import Util from "../util.js"
+import { _queryHotelPriceList, _scrollTop } from "../util.js"
 import API from '../../api'
-
-const { _queryHotelPriceList, _scrollTop } = Util
 
 export default {
   namespaced: true,

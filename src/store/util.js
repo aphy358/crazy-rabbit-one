@@ -111,7 +111,7 @@ const queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
 }
 
 // 查酒店价格，先查落地的缓存价，再实查
-const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
+export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
   let params = {
     hotelId: hotel.infoId,
     checkInDate: payload.startDate,
@@ -128,7 +128,7 @@ const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
 }
 
 // 重新查询酒店列表后，触发页面滚动到顶部
-const _scrollTop = () => {
+export const _scrollTop = () => {
   let elem = document.querySelector('.index-top-nav')
   let container = document.querySelector('.el-scrollbar__wrap')
   if(elem && container){
@@ -139,10 +139,4 @@ const _scrollTop = () => {
     
     Velocity(elem, 'finish')
   }
-}
-
-
-export default {
-  _queryHotelPriceList,
-  _scrollTop
 }
