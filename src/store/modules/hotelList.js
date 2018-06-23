@@ -147,6 +147,7 @@ export default {
   },
 
   actions: {
+    // 一般是先改变查询条件，然后再触发查询酒店列表
     actionHotelList({ commit, state, dispatch }, payload){
       commit('setHotelListState', payload)
 
@@ -212,16 +213,6 @@ export default {
       state.hotelList.forEach(hotel => {
         _queryHotelPriceList({ commit, state, dispatch }, payload, hotel)
       })
-    },
-
-    // 查缓存内的价格
-    queryPriceListInStock({ commit, state, dispatch }, payload){
-      // _queryPriceListInStock({ commit, state, dispatch }, payload)
-    },
-
-    // 查价，实查
-    queryPriceList({ commit, state, dispatch }, payload){
-      // _queryPriceList({ commit, state, dispatch }, payload)
     },
 
     setCityType({ commit, state, dispatch }, payload){
