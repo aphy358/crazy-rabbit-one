@@ -67,18 +67,17 @@ export default {
 
   actions: {
     // 查酒店信息
-    queryHotelInfo({ commit, state, dispatch }, payload){
-      // hotelId, checkin, checkout, citytype
+    queryHotelInfo({ commit, state, dispatch }){
       let	params = {
-				'infoIds': payload.hotelId,
-				"type": payload.citytype,
-        "startDate": payload.checkin,
-        "endDate": payload.checkout,
-        "selRoomNum": payload.selRoomNum || 1,
-        "adultNum": payload.adultNum || 2,
-        "childrenNum": payload.childrenNum || 0,
-        "childrenAgesStr": payload.childrenAgesStr || '',
-        "pageNow": 1
+				'infoIds':          state.hotelId,
+				"type":             state.cityType,
+        "startDate":        state.checkin,
+        "endDate":          state.checkout,
+        "selRoomNum":       state.roomNum,
+        "adultNum":         state.adultNum,
+        "childrenNum":      state.childrenNum,
+        "childrenAgesStr":  state.childrenStr,
+        "pageNow":          1
       }
       
       API.hotelDetail.syncGetHotelsInfo(params).then(res => {

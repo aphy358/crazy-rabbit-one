@@ -113,14 +113,14 @@ const queryPriceListInStock = ({ commit, state, dispatch }, payload) => {
 // 查酒店价格，先查落地的缓存价，再实查
 export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel) => {
   let params = {
-    hotelId: hotel.infoId,
-    checkInDate: payload.startDate,
-    checkOutDate: payload.endDate,
-    roomNum: payload.selRoomNum,
-    adultNum: payload.adultNum,
-    childrenNum: payload.childrenNum,
-    childrenAgesStr: payload.childrenAgesStr,
-    isSearchSurcharge: 0
+    hotelId:            hotel.infoId,
+    checkInDate:        payload.startDate,
+    checkOutDate:       payload.endDate,
+    roomNum:            payload.selRoomNum,
+    adultNum:           payload.adultNum,
+    childrenNum:        payload.childrenNum,
+    childrenAgesStr:    payload.childrenAgesStr,
+    isSearchSurcharge:  0
   }
 
   queryPriceListInStock({ commit, state, dispatch }, {params: params, hotel: hotel})
@@ -131,7 +131,7 @@ export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel
 export const _scrollTop = () => {
   let elem = document.querySelector('.index-top-nav')
   let container = document.querySelector('.el-scrollbar__wrap')
-  
+
   if(elem && container){
     let fixTop = document.querySelector('.search-line-outer.fix-top')
     fixTop

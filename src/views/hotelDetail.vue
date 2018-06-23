@@ -74,7 +74,7 @@ export default {
       this.$store.commit('hotelDetail/setHotelDetailState', {t: 'cityType', v: citytype})
 
       // 查询酒店信息
-      this.$store.dispatch("hotelDetail/queryHotelInfo", {hotelId, checkin, checkout, citytype})
+      this.$store.dispatch("hotelDetail/queryHotelInfo")
     }
   }
 
