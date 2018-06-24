@@ -21,11 +21,11 @@
         <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif" style="display: block;margin: 20px auto;"/>
       </div>
       
-      <transition name="slide-price" v-if="hotel && hotel.priceList" >
-        <PriceList :priceList="hotel.priceList" :class="{ 'expanded': expanded, 'to-be-expand': toBeExpand }" :page="'hotelDetail'" />
+      <transition name="slide-price" v-if="priceList" >
+        <PriceList :priceList="priceList" :class="{ 'expanded': expanded, 'to-be-expand': toBeExpand }" :page="'hotelDetail'" />
       </transition>
 
-      <div v-if="hotel && hotel.priceList && combinedRows.length > 10" class="hli-expand-inner" @click="toggleExpand">
+      <div v-if="priceList && combinedRows.length > 10" class="hli-expand-inner" @click="toggleExpand">
         <span style="margin-right: 5px;">展开全部房型</span>
         <i class="hli-icon" :class="expandClass ? 'icon-down' : 'icon-up'"></i>
       </div>
@@ -65,6 +65,15 @@ export default {
   computed: {
     hotel: function(){
       return this.$store.getters["hotelDetail/getHotelInfo"];
+    },
+
+    priceList: function(){
+      if(this.$store.getters["hotelDetail/getHotelPriceList"]){
+
+        console.log(this.$store.getters["hotelDetail/getHotelPriceList"]);
+      }
+      
+      return this.$store.getters["hotelDetail/getHotelPriceList"];
     },
 
     combinedRows: function(){
@@ -113,10 +122,6 @@ export default {
 
   &.expanded{
     height: auto;
-  }
-
-  .hotel-price-table{
-    margin-bottom: 0;
   }
 }
 
@@ -172,6 +177,10 @@ export default {
           }
         }
       }
+    }
+
+    .hotel-price-table{
+      margin-bottom: 0;
     }
   }
   
