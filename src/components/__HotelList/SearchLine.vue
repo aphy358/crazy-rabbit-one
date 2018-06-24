@@ -136,6 +136,7 @@ export default {
 
         > * {
           margin-right: 15px;
+          float: left;
         }
     
         &:after{

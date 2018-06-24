@@ -10,8 +10,13 @@ export default {
 
     hotel: null,
 
-    confirmType: [],
-    cancelType: [],
+    priceRange1: '',
+    priceRange2: '',
+
+    onlyCanBook: false,
+    checkedCancelType: false,
+    checkedConfirmType: [],
+    checkedExtraService: [],
   },
 
   getters: {

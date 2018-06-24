@@ -57,7 +57,7 @@ export default {
     width: 1200px;
     margin: auto;
 
-    @at-root .hotel-price-thead{
+    .hotel-price-thead{
       th{
         position: relative;
         font-size: 14px;

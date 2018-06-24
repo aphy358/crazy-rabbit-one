@@ -3,7 +3,7 @@
 <template>
   <el-popover
     :width="356"
-    style="width: 130px;display: inline-block;"
+    style="width: 130px;"
     placement="bottom-start"
     v-model="visible" >
 
