@@ -157,6 +157,11 @@ export default {
     // 详情页，勾选 '只显示可订'
     onlyCanBook(){
       this.newPriceList()
+    },
+
+    // 详情页，价格区间
+    filterPriceRange2(){
+      this.newPriceList()
     }
   },
 
@@ -192,6 +197,13 @@ export default {
 
     filterPriceRange(){
       return this.$store.state.hotelList.checkedPriceRange
+    },
+
+    // 详情页，价格区间
+    filterPriceRange2(){
+      let priceRange1 = this.$store.state.hotelDetail.priceRange1 || 0
+      let priceRange2 = this.$store.state.hotelDetail.priceRange2 || 29999
+      return priceRange1 + '-' + priceRange2
     },
 
     // 详情页，勾选 '只显示可订'
@@ -579,11 +591,14 @@ export default {
         }
       }
 
-      // 价格区间
-      if(this.filterPriceRange){
+      // 价格区间，由于列表页和详情页的价格区间不会共存，所以这里共用 subIsShow3
+      if(this.filterPriceRange || this.filterPriceRange2 !== '0-29999'){
         subIsShow3 = false;
 
-        var priceRangeArr = (this.filterPriceRange.split('_')[0]).split('-');
+        var priceRangeArr = this.filterPriceRange
+          ? (this.filterPriceRange.split('_')[0]).split('-')
+          : this.filterPriceRange2.split('-')
+
         let p1 = +priceRangeArr[0] || 0     // 避免价格为0的被选上
         let p2 = +priceRangeArr[1] || 0     // 避免价格为0的被选上
 
