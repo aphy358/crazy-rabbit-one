@@ -6,15 +6,9 @@
             <RoomNumSelect />
 
             <div class="search-item-price-wrap">
-              <input class="search-line-price" placeholder="最低价" type="number"
-                v-model.number="priceRange1"
-                @input="priceRangeEdit('priceRange1', priceRange1)">
-
+              <input v-model.number="priceRange1" class="search-line-price" placeholder="最低价" type="number" >
               <i class="search-line-seperator"></i>
-
-              <input class="search-line-price" placeholder="最高价" type="number"
-                v-model.number="priceRange2"
-                @input="priceRangeEdit('priceRange2', priceRange2)">
+              <input v-model.number="priceRange2" class="search-line-price" placeholder="最高价" type="number" >
             </div>
 
             <AdultChildrenSelect v-if="getCityType != 0" />
@@ -130,12 +124,6 @@ export default {
     onScroll(){
       
     },
-
-    // 编辑价格区间
-    priceRangeEdit(type, value) {
-      this[type] = value;
-    },
-
   },
 
   created(){
