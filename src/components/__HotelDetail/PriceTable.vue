@@ -22,10 +22,10 @@
       </div>
       
       <transition name="slide-price" v-if="hotel && hotel.priceList" >
-        <PriceList :priceList="hotel.priceList" :class="expanded ? 'expanded' : ''" />
+        <PriceList :priceList="hotel.priceList" :class="{ 'expanded': expanded, 'to-be-expand': toBeExpand }" :page="'hotelDetail'" />
       </transition>
 
-      <div v-if="hotel && hotel.priceList" class="hli-expand-inner" @click="toggleExpand">
+      <div v-if="hotel && hotel.priceList && combinedRows.length > 10" class="hli-expand-inner" @click="toggleExpand">
         <span style="margin-right: 5px;">展开全部房型</span>
         <i class="hli-icon" :class="expandClass ? 'icon-down' : 'icon-up'"></i>
       </div>
@@ -47,6 +47,9 @@ export default {
 
       expanded: false,
 
+      // 只有当总价格条数超过 10 条，才显示展开按钮
+      toBeExpand: true,
+
       expandClass: true,
 
       priceTableHeight: 0
@@ -62,6 +65,18 @@ export default {
   computed: {
     hotel: function(){
       return this.$store.getters["hotelDetail/getHotelInfo"];
+    },
+
+    combinedRows: function(){
+      let combinedRows = this.$store.state.hotelDetail.combinedRows
+
+      if(combinedRows.length > 10){
+        this.toBeExpand = true
+      }else{
+        this.toBeExpand = false
+      }
+
+      return combinedRows
     }
   },
   
@@ -75,12 +90,10 @@ export default {
       this.priceTableHeight = elem2.getBoundingClientRect().height
 
       if(this.expanded){
-        // Velocity(document.querySelector('.hotel-price-table-wrapper'), 'slideDown')
         Velocity(elem, { height: this.priceTableHeight }, {
           complete: function(elems) { elems[0].removeAttribute('style') }
         })
       }else{
-        // Velocity(document.querySelector('.hotel-price-table-wrapper'), 'slideUp')
         Velocity(elem, { height: '249px' })
       }
     },
@@ -93,7 +106,10 @@ export default {
 <style lang="scss">
 .hotel-price-table-wrapper{
   overflow: hidden;
-  height: 249px;
+
+  &.to-be-expand{
+    height: 249px;
+  }
 
   &.expanded{
     height: auto;

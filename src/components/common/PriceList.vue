@@ -127,7 +127,7 @@ export default {
     }
   },
 
-  props: ['priceList'],
+  props: ['priceList', 'page'],
 
   components: {
 
@@ -222,6 +222,10 @@ export default {
       this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
       this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
       this.combinedRows = tmpPriceList.combinedRows
+
+      if(this.page === 'hotelDetail'){
+        this.$store.commit('hotelDetail/setCommonState', {t: 'combinedRows', v: this.combinedRows})
+      }
     },
 
     // 为价格数据设置新的属性，使之适合模板

@@ -17,6 +17,9 @@ export default {
     checkedCancelType: false,
     checkedConfirmType: [],
     checkedExtraService: [],
+
+    // 经过前端筛选之后的价格条数
+    combinedRows: [],
   },
 
   getters: {
