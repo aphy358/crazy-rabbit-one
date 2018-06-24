@@ -34,18 +34,21 @@ export default {
 
   data(){
     return {
+      // 这里的 '70' 是和组件的 name 属性对应的
       showv: '70',
     }
   },
 
-  props: ['hotel'],
+  props: [],
 
   components: {
     PriceList,
   },
 
   computed: {
-    
+    hotel: function(){
+      return this.$store.getters["hotelDetail/getHotelInfo"];
+    }
   },
   
   methods: {

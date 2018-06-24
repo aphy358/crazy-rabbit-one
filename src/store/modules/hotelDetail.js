@@ -106,7 +106,7 @@ export default {
         adultNum:           rootState.adultNum,
         childrenNum:        rootState.childrenNum,
         childrenAgesStr:    rootState.childrenStr,
-        isSearchSurcharge:  0
+        isSearchSurcharge:  state.checkedExtraService.length ? 1 : 0
       }
       
       _queryHotelPriceList({ commit, state, dispatch }, params, state.hotel)

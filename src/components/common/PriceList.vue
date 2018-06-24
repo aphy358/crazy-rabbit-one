@@ -169,6 +169,8 @@ export default {
   methods: {
     // 对父组件穿过来的价格列表进行数据处理，设置新属性、筛选等
     newPriceList(){
+      console.log('ress');
+      
       let tmpPriceList = deepCopy(this.priceList)
       tmpPriceList.combinedRows = []
 

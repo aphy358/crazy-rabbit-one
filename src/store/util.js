@@ -120,7 +120,7 @@ export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel
     adultNum:           payload.adultNum,
     childrenNum:        payload.childrenNum,
     childrenAgesStr:    payload.childrenAgesStr,
-    isSearchSurcharge:  0
+    isSearchSurcharge:  payload.isSearchSurcharge
   }
 
   queryPriceListInStock({ commit, state, dispatch }, {params: params, hotel: hotel})

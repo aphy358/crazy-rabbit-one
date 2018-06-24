@@ -3,7 +3,7 @@
     <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotel && hotel.infoName" />
     <HotelDetailInfo1 />
     <SearchLine />
-    <PriceTable :hotel="hotel" />
+    <PriceTable />
     <HotelDetailInfo2 />
   </div>
 </template>
@@ -88,11 +88,6 @@ export default {
     queryHotelInfo(){
       this.$store.dispatch("hotelDetail/queryHotelInfo")
     },
-
-    // 查询酒店价格列表
-    queryHotelPriceList(){
-      this.$store.dispatch("hotelDetail/queryHotelPriceList")
-    }
   }
 
 }

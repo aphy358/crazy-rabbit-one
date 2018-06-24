@@ -27,7 +27,7 @@
               <el-checkbox label="bedbreakfast-1" key="bedbreakfast-1" style="margin-left: 0;">可加床</el-checkbox>
             </el-checkbox-group>
             
-            <el-button type="primary" size="small" @click="queryHotelList">搜索</el-button>
+            <el-button type="primary" size="small" @click="queryHotelPriceList">搜索</el-button>
         </div>
     </div>
 </template>
@@ -116,8 +116,8 @@ export default {
   },
 
   methods: {
-    queryHotelList(){
-      // this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
+    queryHotelPriceList(){
+      this.$store.dispatch("hotelDetail/queryHotelPriceList")
     },
 
     // 根据页面滚动，将搜索栏固定在页面顶部
@@ -127,7 +127,6 @@ export default {
   },
 
   created(){
-    this.queryHotelList()
   },
 
   mounted(){
