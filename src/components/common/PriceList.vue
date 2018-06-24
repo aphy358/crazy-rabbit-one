@@ -134,13 +134,30 @@ export default {
   },
 
   watch: {
-    filterCancelType(newValue){
+    // 列表页取消条款
+    filterCancelType(){
       this.newPriceList()
     },
 
+    // 详情页取消条款
+    filterCancelType2(){
+      this.newPriceList()
+    },
+
+    // 列表页确认时间
     filterConfirmType(){
       this.newPriceList()
     },
+
+    // 详情页确认时间
+    filterConfirmType2(){
+      this.newPriceList()
+    },
+
+    // 详情页，勾选 '只显示可订'
+    onlyCanBook(){
+      this.newPriceList()
+    }
   },
 
   created(){
@@ -152,16 +169,34 @@ export default {
       return this.$store.state.roomNum
     },
 
+    // 列表页取消条款
     filterCancelType(){
       return this.$store.state.hotelList.checkedCancelType.join(',')
     },
 
+    // 详情页取消条款
+    filterCancelType2(){
+      let checkedCancelType = this.$store.state.hotelDetail.checkedCancelType
+      return checkedCancelType ? 'canceltype-0' : ''
+    },
+
+    // 列表页确认时间
     filterConfirmType(){
       return this.$store.state.hotelList.checkedConfirmType.join(',')
     },
 
+    // 详情页确认时间
+    filterConfirmType2(){
+      return this.$store.state.hotelDetail.checkedConfirmType.join(',')
+    },
+
     filterPriceRange(){
       return this.$store.state.hotelList.checkedPriceRange
+    },
+
+    // 详情页，勾选 '只显示可订'
+    onlyCanBook(){
+      return this.$store.state.hotelDetail.onlyCanBook
     }
     
   },
@@ -169,8 +204,6 @@ export default {
   methods: {
     // 对父组件穿过来的价格列表进行数据处理，设置新属性、筛选等
     newPriceList(){
-      console.log('ress');
-      
       let tmpPriceList = deepCopy(this.priceList)
       tmpPriceList.combinedRows = []
 
@@ -511,34 +544,37 @@ export default {
       let subIsShow1 = true
       let subIsShow2 = true
       let subIsShow3 = true
+      let subIsShow4 = true
       let avePrice = priceObj.averagePriceRMB
         
-      // 确认时间
-      if(this.filterConfirmType){
+      // 确认时间，由于列表页和详情页的确认时间不会共存，所以这里共用 subIsShow1
+      if(this.filterConfirmType || this.filterConfirmType2){
+        let tmpFilterConfirmType = this.filterConfirmType || this.filterConfirmType2
         subIsShow1 = false;
         
-        if( ~this.filterConfirmType.indexOf('XS-0') ){
+        if( ~tmpFilterConfirmType.indexOf('XS-0') ){
           subIsShow1 |= (priceObj.roomStatus === 2);
         }
         
-        if( ~this.filterConfirmType.indexOf('XS-1') ){
+        if( ~tmpFilterConfirmType.indexOf('XS-1') ){
           subIsShow1 |= (priceObj.isTimeLimitConfirSupplier === 0 && priceObj.confirm === true && priceObj.roomStatus != 3);
         }
         
-        if( ~this.filterConfirmType.indexOf('XS-2') ){
+        if( ~tmpFilterConfirmType.indexOf('XS-2') ){
           subIsShow1 |= (priceObj.isTimeLimitConfirSupplier === 1);
         }
       }
       
-      // 可否取消
-      if(this.filterCancelType){
+      // 可否取消，由于列表页和详情页的取消条款不会共存，所以这里共用 subIsShow2
+      if(this.filterCancelType || this.filterCancelType2){
+        let tmpFilterCancelType = this.filterCancelType || this.filterCancelType2
         subIsShow2 = false;
         
-        if( ~this.filterCancelType.indexOf('canceltype-0') ){
+        if( ~tmpFilterCancelType.indexOf('canceltype-0') ){
           subIsShow2 |= (priceObj.cancellationType === 1);
         }
         
-        if( ~this.filterCancelType.indexOf('canceltype-1') ){
+        if( ~tmpFilterCancelType.indexOf('canceltype-1') ){
           subIsShow2 |= (priceObj.cancellationType !== 1);
         }
       }
@@ -553,8 +589,14 @@ export default {
 
         subIsShow3 |= ( p1 <= avePrice && avePrice <= p2 );
       }
+
+      // 只显示可订
+      if(this.onlyCanBook){
+        subIsShow4 = false;
+			  subIsShow4 |= priceObj.isBook;
+      }
       
-      return subIsShow1 && subIsShow2 && subIsShow3
+      return subIsShow1 && subIsShow2 && subIsShow3 && subIsShow4
     },
 
     // 收缩同一房型下的表格行

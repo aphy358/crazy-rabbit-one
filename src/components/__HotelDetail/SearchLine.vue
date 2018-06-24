@@ -105,6 +105,7 @@ export default {
       },
       set(checkedExtraService) {
         this.$store.commit("hotelDetail/setCommonState", { t: "checkedExtraService", v: checkedExtraService });
+        this.queryHotelPriceList()
       }
     }
   },

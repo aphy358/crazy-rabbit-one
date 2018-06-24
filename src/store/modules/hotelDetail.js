@@ -55,6 +55,13 @@ export default {
       _setCommonState(state, payload)
     },
 
+    // 清空 hotel 下的 priceList 属性
+    removeAttrPriceList(state){
+      if(state.hotel){
+        state.hotel.priceList = null
+      }
+    },
+
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
     setHotelExtraAttr(state, payload){
       if(payload.data){
@@ -99,6 +106,9 @@ export default {
 
     // 查询酒店价格
     queryHotelPriceList({ commit, state, dispatch, rootState }){
+      // 先清空 priceList 属性，这样才能触发视图重新渲染
+      commit('removeAttrPriceList')
+
       let params = {
         startDate:          rootState.checkin,
         endDate:            rootState.checkout,
