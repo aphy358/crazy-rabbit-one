@@ -21,13 +21,21 @@
         <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif" style="display: block;margin: 20px auto;"/>
       </div>
       
-      <PriceList v-if="hotel && hotel.priceList" :priceList="hotel.priceList" />
+      <transition name="slide-price" v-if="hotel && hotel.priceList" >
+        <PriceList :priceList="hotel.priceList" :class="expanded ? 'expanded' : ''" />
+      </transition>
+
+      <div v-if="hotel && hotel.priceList" class="hli-expand-inner" @click="toggleExpand">
+        <span style="margin-right: 5px;">展开全部房型</span>
+        <i class="hli-icon" :class="expandClass ? 'icon-down' : 'icon-up'"></i>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import PriceList from "../common/PriceList"
+import Velocity from 'velocity-animate'
 
 export default {
   name: '',
@@ -36,6 +44,12 @@ export default {
     return {
       // 这里的 '70' 是和组件的 name 属性对应的
       showv: '70',
+
+      expanded: false,
+
+      expandClass: true,
+
+      priceTableHeight: 0
     }
   },
 
@@ -52,12 +66,44 @@ export default {
   },
   
   methods: {
+    toggleExpand(){
+      this.expanded = !this.expanded
+      this.expandClass = !this.expandClass
+      let elem = document.querySelector('.hotel-price-table-wrapper')
 
-  }
+      let elem2 = document.querySelector('.hotel-price-table')
+      this.priceTableHeight = elem2.getBoundingClientRect().height
+
+      if(this.expanded){
+        // Velocity(document.querySelector('.hotel-price-table-wrapper'), 'slideDown')
+        Velocity(elem, { height: this.priceTableHeight }, {
+          complete: function(elems) { elems[0].removeAttribute('style') }
+        })
+      }else{
+        // Velocity(document.querySelector('.hotel-price-table-wrapper'), 'slideUp')
+        Velocity(elem, { height: '249px' })
+      }
+    },
+
+  },
+
 }
 </script>
 
 <style lang="scss">
+.hotel-price-table-wrapper{
+  overflow: hidden;
+  height: 249px;
+
+  &.expanded{
+    height: auto;
+  }
+
+  .hotel-price-table{
+    margin-bottom: 0;
+  }
+}
+
 .price-table-outer{
   padding-bottom: 20px;
   background: white;
@@ -111,6 +157,26 @@ export default {
         }
       }
     }
-  }   
+  }
+  
+  @at-root .hli-expand-inner{
+    line-height: 30px;
+    text-align: center;
+    font-size: 12px;
+    color: #339afc;
+    background: #f4fbfe;
+    cursor: context-menu;
+    border: 1px solid #E3E3E3;
+    margin-top: -1px;
+    margin-bottom: 20px;
+
+    &.fix-bottom{
+      position: fixed;
+      bottom: 0;
+      width: 1198px;
+      box-shadow: 0 0 5px #dadada;
+      z-index: 9999;
+    }
+  }
 }
 </style>

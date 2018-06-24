@@ -1,7 +1,7 @@
 
 <!-- 价格列表组件 -->
 <template>
-    <div>
+    <div class="hotel-price-table-wrapper">
         <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
@@ -680,7 +680,7 @@ export default {
       }
     },
     
-  }
+  },
 }
 </script>
 
