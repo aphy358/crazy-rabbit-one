@@ -17,7 +17,7 @@
           </el-collapse-item>
       </el-collapse>
       
-      <div class="fzg-loading-wrap" v-if="!hotel || !hotel.priceList">
+      <div class="fzg-loading-wrap" v-if="!priceList">
         <img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514022140288.gif" style="display: block;margin: 20px auto;"/>
       </div>
       
@@ -71,10 +71,7 @@ export default {
     },
 
     priceList: function(){
-      if(this.$store.getters["hotelDetail/getHotelPriceList"]){
-
-        console.log(this.$store.getters["hotelDetail/getHotelPriceList"]);
-      }
+      console.log(this.$store.getters["hotelDetail/getHotelPriceList"]);
       
       return this.$store.getters["hotelDetail/getHotelPriceList"];
     },
