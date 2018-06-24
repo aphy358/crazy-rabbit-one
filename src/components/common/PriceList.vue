@@ -8,7 +8,7 @@
               <th width="65"></th>
               <th width="260"><span>房型</span></th>
               <th><span>价格类型</span></th>
-              <th width="120" class="align-center"><span>床型/早餐</span></th>
+              <th width="140" class="align-center"><span>床型/早餐</span></th>
               <th><span>预订规则</span></th>
               <th><span>取消规则</span></th>
               <th><span>剩余数量</span></th>

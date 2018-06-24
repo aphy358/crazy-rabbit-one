@@ -1,6 +1,6 @@
 <!-- 酒店详情页的搜索栏 -->
 <template>
-    <div class="search-line-outer" :class="fixTop === true ? 'fix-top' : ''">
+    <div class="search-line-outer" :class="{'fix-top': fixTop}">
         <div class="search-line-wrap">
             <DateRange />
             <RoomNumSelect />
@@ -42,7 +42,8 @@ export default {
 
   data(){
     return {
-      fixTop: false,
+      // 搜索栏固定在页面顶部，默认不固定
+      fixTop: false
     }
   },
 
@@ -123,7 +124,18 @@ export default {
 
     // 根据页面滚动，将搜索栏固定在页面顶部
     onScroll(){
-      
+      // 只有当价格全部展开的时候才处理底部 '展开全部房型' 按钮的固定
+      let expanded = document.querySelector('.hli-icon.icon-up')
+
+      if(expanded){
+        let _bottom = document.querySelector('.hotel-detail-info-outer').getBoundingClientRect().bottom
+        
+        _bottom < 0
+          ? this.fixTop = true
+          : this.fixTop = false
+      }else{
+        this.fixTop = false
+      }
     },
   },
 
@@ -131,6 +143,7 @@ export default {
   },
 
   mounted(){
+    document.querySelector('.el-scrollbar__wrap').addEventListener("scroll", this.onScroll)
   }
 }
 </script>
@@ -188,14 +201,16 @@ export default {
         box-shadow: 0 0 10px #999;
         z-index: 999;
         opacity: .8;
+        margin-top: 0;
+        padding: 5px 0;
 
         &:hover{
           opacity: 1;
         }
 
         .search-line-wrap{
-            margin: 5px auto;
-            box-shadow: none;
+          border: none;
+          box-shadow: none;
         }
     }
 

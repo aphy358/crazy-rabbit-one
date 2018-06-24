@@ -25,9 +25,9 @@
         <PriceList :priceList="priceList" :class="{ 'expanded': expanded, 'to-be-expand': toBeExpand }" :page="'hotelDetail'" />
       </transition>
 
-      <div v-if="priceList && combinedRows.length > 10" class="hli-expand-inner" @click="toggleExpand">
+      <div v-if="priceList && combinedRows.length > 10" class="hli-expand-inner" :class="{ 'fix-bottom': fixBottom }" @click="toggleExpand">
         <span style="margin-right: 5px;">展开全部房型</span>
-        <i class="hli-icon" :class="expandClass ? 'icon-down' : 'icon-up'"></i>
+        <i class="hli-icon" :class="!expanded ? 'icon-down' : 'icon-up'"></i>
       </div>
     </div>
   </div>
@@ -45,14 +45,17 @@ export default {
       // 这里的 '70' 是和组件的 name 属性对应的
       showv: '70',
 
+      // 是否已经展开
       expanded: false,
 
       // 只有当总价格条数超过 10 条，才显示展开按钮
       toBeExpand: true,
 
-      expandClass: true,
+      priceTableHeight: 0,
 
-      priceTableHeight: 0
+      // '展开全部房型' 按钮是否固定在页面底部
+      fixBottom: false,
+
     }
   },
 
@@ -92,23 +95,55 @@ export default {
   methods: {
     toggleExpand(){
       this.expanded = !this.expanded
-      this.expandClass = !this.expandClass
       let elem = document.querySelector('.hotel-price-table-wrapper')
 
       let elem2 = document.querySelector('.hotel-price-table')
       this.priceTableHeight = elem2.getBoundingClientRect().height
+      let _this = this
 
       if(this.expanded){
         Velocity(elem, { height: this.priceTableHeight }, {
-          complete: function(elems) { elems[0].removeAttribute('style') }
+          complete: function(elems) { 
+            elems[0].removeAttribute('style') 
+            _this.onScroll()
+          }
         })
       }else{
         Velocity(elem, { height: '249px' })
+
+        let container = document.querySelector('.el-scrollbar__wrap')
+        Velocity(elem, 'scroll', {offset: '20px', container: container})
+        Velocity(elem, 'finish')
+
+        this.fixBottom = false
+      }
+    },
+
+    // 处理页面滚动
+    onScroll() {
+      // 只有当价格全部展开的时候才处理底部 '展开全部房型' 按钮的固定
+      if(this.expanded){
+        let priceTable = document.querySelector('.hotel-price-table')
+        let rect = priceTable.getBoundingClientRect()
+        let clientHeight = document.documentElement.clientHeight;
+
+        rect.bottom > clientHeight
+          ? this.fixBottom = true
+          : this.fixBottom = false
+
+				if(rect.top >= clientHeight - 300){
+					this.fixBottom = false
+        }
+      }else{
+        this.fixBottom = false
       }
     },
 
   },
 
+  mounted(){
+    document.querySelector('.el-scrollbar__wrap').addEventListener("scroll", this.onScroll)
+  }
 }
 </script>
 
@@ -198,7 +233,9 @@ export default {
     &.fix-bottom{
       position: fixed;
       bottom: 0;
-      width: 1198px;
+      width: 1200px;
+      margin-bottom: 0;
+      box-sizing: border-box;
       box-shadow: 0 0 5px #dadada;
       z-index: 9999;
     }
