@@ -129,11 +129,12 @@ export default {
 
   props: ['priceList', 'page'],
 
-  components: {
-
-  },
-
   watch: {
+    // 实时监听由父组件传过来的 prop，如果不这么做的话，那么有可能当该 prop 改变之后，页面不能马上响应并重新渲染
+    priceList(newV){
+      this.newPriceList()
+    },
+
     // 列表页取消条款
     filterCancelType(){
       this.newPriceList()

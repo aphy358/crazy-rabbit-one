@@ -71,8 +71,6 @@ export default {
     },
 
     priceList: function(){
-      console.log(this.$store.getters["hotelDetail/getHotelPriceList"]);
-      
       return this.$store.getters["hotelDetail/getHotelPriceList"];
     },
 
