@@ -22,7 +22,7 @@
       </div>
       
       <transition name="slide-price" v-if="priceList" >
-        <PriceList :priceList="priceList" :class="{ 'expanded': expanded, 'to-be-expand': toBeExpand }" :page="'hotelDetail'" />
+        <PriceList :priceList="priceList" :class="{ 'expanded': expanded, 'to-be-expand': toBeExpand }" :page="'hotelDetail'" @expandPriceRow="expandPriceRow" />
       </transition>
 
       <div v-if="priceList && combinedRows.length > 10" class="hli-expand-inner" :class="{ 'fix-bottom': fixBottom }" @click="toggleExpand">
@@ -111,6 +111,12 @@ export default {
         Velocity(elem, 'finish')
 
         this.fixBottom = false
+      }
+    },
+
+    expandPriceRow(){
+      if(!this.expanded){
+        this.toggleExpand()
       }
     },
 

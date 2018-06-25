@@ -640,6 +640,7 @@ export default {
         }else{
           thefirstRow.tmprowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
           thefirstRow.rowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
+          this.$emit('expandPriceRow')
         }
       }
     },

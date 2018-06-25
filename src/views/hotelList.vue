@@ -64,6 +64,13 @@ export default {
         }
 
         this.$api.hotelList.syncLogin(params)
+
+        setTimeout(() => {
+          let hotel = document.querySelector('.hl-item')
+          if(!hotel){
+            location.reload();
+          }
+        }, 666)
       })
     },
 
@@ -72,7 +79,8 @@ export default {
     },
   },
 
-  created(){
+  mounted(){
+    // this.logout()
     this.login()
   },
   
