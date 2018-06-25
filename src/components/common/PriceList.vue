@@ -30,7 +30,7 @@
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
               <td :class="priceRow.tdBindClass">
-                <div :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
                     <span slot="reference" class="hp-roomName"
@@ -38,8 +38,8 @@
                       {{priceRow.roomName}}
                     </span>
                   </el-popover>
-                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
-                    <i v-if="priceRow.rowsDropDown" class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
+                  <span v-if="priceRow.rowsDropDown" class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
+                    <i class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
                 </div>
               </td>
@@ -838,6 +838,11 @@ export default {
                 >div{
                   height: 51px;
                   line-height: 51px;
+
+                  &.hotel-price-room-name{
+                    height: auto!important;
+                    line-height: initial!important;
+                  }
                 }
                 
                 &.first-td{
