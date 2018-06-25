@@ -53,36 +53,11 @@ export default {
   },
 
   methods: {
-    async login(){
-      await this.$api.hotelList.syncCheckcode()
 
-      let params = {
-          accountCode : 'sz2747',
-          username    : 'ch',
-          password    : '1',
-          checkcode   : '8998',
-          rememberMe  : false
-      }
-
-      await this.$api.hotelList.syncLogin(params)
-    },
-
-    async logout(){
-      await this.$api.hotelList.syncLogout()
-    },
   },
 
   created(){
-    let state = sessionStorage.getItem('jlfzg__state')
-    
-    if(state){
-      this.$store.commit('hotelList/copyState', window.JSON.parse(state))
-      sessionStorage.removeItem('jlfzg__state')
-    }
 
-    sessionStorage.removeItem('login__login')
-
-    this.login()
   },
   
 }
