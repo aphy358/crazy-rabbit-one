@@ -870,7 +870,7 @@ export default {
                     padding: 0;
 
                     p{
-                        line-height: 38px;
+                        line-height: 37px;
                         margin-bottom: -10px;
                         overflow: hidden;
                         height: 26px;
