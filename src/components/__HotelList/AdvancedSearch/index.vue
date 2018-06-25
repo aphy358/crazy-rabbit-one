@@ -320,7 +320,7 @@ export default {
     },
 
     getCityType() {
-      return this.$store.state.hotelList.cityType;
+      return this.$store.state.cityType;
     },
 
     // 判断是否当前一个过滤条件都没有

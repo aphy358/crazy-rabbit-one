@@ -256,7 +256,6 @@ export default {
 
                       .el-scrollbar__wrap{
                         overflow: auto;
-
                       }
 
                       &:hover .el-scrollbar__thumb{
@@ -317,6 +316,7 @@ export default {
                 }
                 
                 @at-root .hdi-brief-list{
+                    max-width: 393px;
                     
                     @at-root .hdi-brief-item{
                         

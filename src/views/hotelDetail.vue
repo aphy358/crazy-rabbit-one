@@ -1,7 +1,9 @@
 <template>
   <div class="hotelDetail">
-    <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotelInfo && hotelInfo.infoName" />
+    <Breadcrumb :cityTypeText="cityTypeText" :hotelName="hotel && hotel.infoName" />
     <HotelDetailInfo1 />
+    <SearchLine />
+    <PriceTable />
     <HotelDetailInfo2 />
   </div>
 </template>
@@ -9,8 +11,10 @@
 <script>
 import Breadcrumb from '../components/common/Breadcrumb'
 import HotelDetailInfo1 from '../components/__HotelDetail/HotelDetailInfo1'
+import SearchLine from '../components/__HotelDetail/SearchLine'
+import PriceTable from '../components/__HotelDetail/PriceTable'
 import HotelDetailInfo2 from '../components/__HotelDetail/HotelDetailInfo2'
-import { queryString, addDays } from "../util.js";
+import { queryString, addDays } from "../util.js"
 
 export default {
   name: 'hotelDetail',
@@ -23,26 +27,30 @@ export default {
   components: {
     Breadcrumb,
     HotelDetailInfo1,
+    SearchLine,
+    PriceTable,
     HotelDetailInfo2,
   },
 
   computed: {
     cityTypeText: function(){
-      let cityType = this.$store.state.hotelDetail.cityType
+      let cityType = this.$store.state.cityType
       return cityType == '2' ? '港澳台' :
              cityType == '3' ? '国外'   : '国内'
     },
 
-    hotelInfo: function(){
+    hotel: function(){
       return this.$store.getters["hotelDetail/getHotelInfo"];
     }
 
   },
 
   created(){
-    // 获取 url 参数
+    // 获取 url 参数，并将之设置到 store 里去
     this.getQueryParams()
-    
+
+    // 查询酒店信息
+    this.queryHotelInfo()
   },
 
   methods: {
@@ -66,14 +74,20 @@ export default {
         }
       }
 
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'hotelId', v: hotelId})
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'checkin', v: checkin})
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'checkout', v: checkout})
-      this.$store.commit('hotelDetail/setHotelDetailState', {t: 'cityType', v: citytype})
+      if( +new Date(checkin.replace(/-/g, '/')) >= +new Date(checkout.replace(/-/g, '/')) ){
+        checkout = addDays( new Date(), 1 )
+      }
 
-      // 查询酒店信息
-      this.$store.dispatch("hotelDetail/getHotelInfo", {hotelId, checkin, checkout, citytype})
-    }
+      this.$store.commit('hotelDetail/setCommonState', {t: 'hotelId', v: hotelId})
+      this.$store.commit('setCommonState', {t: 'checkin', v: checkin})
+      this.$store.commit('setCommonState', {t: 'checkout', v: checkout})
+      this.$store.commit('setCommonState', {t: 'cityType', v: citytype})
+    },
+
+    // 查询酒店信息
+    queryHotelInfo(){
+      this.$store.dispatch("hotelDetail/queryHotelInfo")
+    },
   }
 
 }
@@ -159,4 +173,5 @@ export default {
         }
     }
 }
+
 </style>

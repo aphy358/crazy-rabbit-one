@@ -53,11 +53,11 @@ export default {
 
   computed: {
     getKey(){
-      return this.$store.state.hotelList.cityType == 2 ? '港澳台' : '热门'
+      return this.$store.state.cityType == 2 ? '港澳台' : '热门'
     },
 
     getCityType(){
-			let cityType = this.$store.state.hotelList.cityType
+			let cityType = this.$store.state.cityType
 			this.getHistoryCity(cityType)
 
       return cityType

@@ -1,30 +1,31 @@
 import { addDays } from "../../util.js"
+import { _queryHotelPriceList, _setCommonState } from "../util.js"
 import API from "../../api"
-import { log } from "util";
 
 export default {
   namespaced: true,
 
   state: {
-    cityType: '0',
     hotelId: '',
-    roomNum: '1',
-    adultNum: '2',
-    childrenNum: '0',
-    childrenStr: '',
-    checkin: addDays(new Date),
-    checkout: addDays(new Date, 1),
 
-    hotelInfo: null,
+    hotel: null,
 
-    confirmType: [],
-    cancelType: [],
+    priceRange1: '',
+    priceRange2: '',
+
+    onlyCanBook: false,
+    checkedCancelType: false,
+    checkedConfirmType: [],
+    checkedExtraService: [],
+
+    // 经过前端筛选之后的价格条数
+    combinedRows: [],
   },
 
   getters: {
     // 将酒店数据进行初步加工
     getHotelInfo(state){
-      let o = state.hotelInfo
+      let o = state.hotel
 
       if(o){
         // 设置酒店图片
@@ -48,41 +49,84 @@ export default {
       }
 
       return o
+    },
+
+    getHotelPriceList(state){
+      return state.hotel && state.hotel.priceList
     }
   },
 
   mutations: {
     // 设置状态的公共函数
-    setHotelDetailState(state, payload){
-      if(payload.t){
-        state[payload.t] = payload.v
+    setCommonState(state, payload){
+      _setCommonState(state, payload)
+    },
+
+    // 清空 hotel 下的 priceList 属性
+    removeAttrPriceList(state){
+      if(state.hotel){
+        state.hotel.priceList = null
       }
     },
+
+    // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
+    setHotelExtraAttr(state, payload){
+      if(payload.data){
+        payload.hotel.priceList = payload.data.data
+        // if(payload.data.returnCode === 1){
+        // }else if(payload.data.returnCode === -400001){
+        // }
+      }else{
+        payload.hotel.percentage = payload.percentage
+        payload.hotel.color = payload.color
+      }
+
+      // 对于对象的修改，要用 Object.assign 进行覆盖赋值
+      state.hotel = Object.assign({}, payload.hotel)
+    }
   },
 
   actions: {
     // 查酒店信息
-    getHotelInfo({ commit, state, dispatch }, payload){
-      // hotelId, checkin, checkout, citytype
+    queryHotelInfo({ commit, state, dispatch, rootState }){
       let	params = {
-				'infoIds': payload.hotelId,
-				"type": payload.citytype,
-        "startDate": payload.checkin,
-        "endDate": payload.checkout,
-        "selRoomNum": payload.selRoomNum || 1,
-        "adultNum": payload.adultNum || 2,
-        "childrenNum": payload.childrenNum || 0,
-        "childrenAgesStr": payload.childrenAgesStr || '',
-        "pageNow": 1
+				'infoIds':          state.hotelId,
+				"type":             rootState.cityType,
+        "startDate":        rootState.checkin,
+        "endDate":          rootState.checkout,
+        "selRoomNum":       rootState.roomNum,
+        "adultNum":         rootState.adultNum,
+        "childrenNum":      rootState.childrenNum,
+        "childrenAgesStr":  rootState.childrenStr,
+        "pageNow":          1
       }
       
       API.hotelDetail.syncGetHotelsInfo(params).then(res => {
         if(res.returnCode === 1){
-          commit('setHotelDetailState', {t: 'hotelInfo', v: res.dataList[0]})
+          commit('setCommonState', {t: 'hotel', v: res.dataList[0]})
+          dispatch('queryHotelPriceList')
         }else if(res.returnCode === -400001){
         }
       })
 
     },
+
+    // 查询酒店价格
+    queryHotelPriceList({ commit, state, dispatch, rootState }){
+      // 先清空 priceList 属性，这样才能触发视图重新渲染
+      commit('removeAttrPriceList')
+
+      let params = {
+        startDate:          rootState.checkin,
+        endDate:            rootState.checkout,
+        selRoomNum:         rootState.roomNum,
+        adultNum:           rootState.adultNum,
+        childrenNum:        rootState.childrenNum,
+        childrenAgesStr:    rootState.childrenStr,
+        isSearchSurcharge:  state.checkedExtraService.length ? 1 : 0
+      }
+      
+      _queryHotelPriceList({ commit, state, dispatch }, params, state.hotel)
+    }
   },
 }

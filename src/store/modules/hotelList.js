@@ -1,21 +1,14 @@
 import { addDays } from "../../util.js"
+import { _queryHotelPriceList, _scrollTop, _setCommonState } from "../util.js"
 import API from '../../api'
-import Velocity from 'velocity-animate'
 
 export default {
   namespaced: true,
 
   state: {
-    cityType: '2',
     keyword: '',
     keywords: '',
     cityId: '',
-    roomNum: '1',
-    adultNum: '2',
-    childrenNum: '0',
-    childrenStr: '',
-    checkin: addDays(new Date),
-    checkout: addDays(new Date, 1),
 
     pageNow: '1',
     pageTotal: '1',
@@ -36,7 +29,7 @@ export default {
   getters: {
     // 判断是否当前一个过滤条件都没有
     isNoFilter(state){
-			return state.checkedPriceRange === '' &&
+      return state.checkedPriceRange === '' &&
         state.checkedStar.length < 1 &&
         state.checkedConfirmType.length < 1 &&
         state.checkedCancelType.length < 1 &&
@@ -67,15 +60,6 @@ export default {
   },
 
   mutations: {
-    // 页面跳转初始化 state
-    copyState(state, newState){
-      for (const key in newState) {
-        if (newState.hasOwnProperty(key)) {
-          state[key] = newState[key]
-        }
-      }
-    },
-
     // 重置所有高级搜索的过滤条件
     resetFilters(state){
       state.checkedPriceRange = ''
@@ -86,40 +70,13 @@ export default {
       state.checkedBizzone = []
       state.checkedHotelGroup1 = []
       state.checkedHotelGroup2 = []
-			state.checkedFacilities = []
+      state.checkedFacilities = []
     },
 
-    // 设置城市类型，如：'国内'、'港澳台'、'国外'
-    setCityType(state, cityType){
-      state.cityType = cityType
-
+    // 重置城市类型，需要将关键字、城市ID清空
+    setCityType(state){
       state.keyword = ''
       state.cityId = ''
-      state.roomNum = '1'
-      state.adultNum = '2'
-      state.childrenNum = '0'
-      state.childrenStr = ''
-
-      state.checkin = cityType == 3 
-        ? addDays(new Date, 1) 
-        : addDays(new Date, 0)
-
-      state.checkout = cityType == 3 
-        ? addDays(new Date, 2) 
-        : addDays(new Date, 1)
-    },
-
-    // 设置入离日期
-    setDate(state, dateRange){
-      state.checkin = addDays(dateRange[0])
-      state.checkout = addDays(dateRange[1])
-    },
-
-    // 设置状态的公共函数
-    setHotelListState(state, payload){
-      if(payload.t){
-        state[payload.t] = payload.v
-      }
     },
 
     // 给酒店添加额外属性，以便渲染页面，如 '价格列表'、'百分比'、'颜色字符串'
@@ -143,169 +100,72 @@ export default {
       state.hotelList = Object.assign([], state.hotelList)
     },
 
+    // 设置状态的公共函数
+    setCommonState(state, payload){
+      _setCommonState(state, payload)
+    },
+
   },
 
   actions: {
+    // 一般是先改变查询条件，然后再触发查询酒店列表
     actionHotelList({ commit, state, dispatch }, payload){
-      commit('setHotelListState', payload)
+      commit('setCommonState', payload)
 
       if(payload.api){
         // 查酒店列表
-        dispatch('queryHotelList', payload)
+        dispatch('queryHotelList')
       }
     },
 
     // 查酒店列表
-    queryHotelList({ commit, state, dispatch }, payload){
+    queryHotelList({ commit, state, dispatch, rootState }){
       let params = {
-        cityId: state.cityId,
-        type: state.cityType,
-        keyWords: state.cityId ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
-        startDate: state.checkin,
-        endDate: state.checkout,
-        selRoomNum: state.roomNum,
-        adultNum: state.adultNum,
-        childrenNum: state.childrenNum,
-        childrenAgesStr: state.childrenStr,
-        pageNow: state.pageNow,
-        star: state.checkedStar.map(n => n.split('_')[0]).join(','),
-        priceRange: state.checkedPriceRange.split('_')[0],
-        bizCircleId: state.checkedBizzone.map(n => n.split('_')[0]).join(','),
-        zoneId: state.checkedZone.map(n => n.split('_')[0]).join(','),
-        hotelFacility: state.checkedFacilities.map(n => n.split('_')[0]).join(','),
-        hotelGroup: state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
+        cityId:           state.cityId,
+        type:             rootState.cityType,
+        keyWords:         state.cityId ? state.keywords : [state.keyword, state.keywords].join('&nbsp;').replace(/^&nbsp;|&nbsp;$/g, ''),
+        startDate:        rootState.checkin,
+        endDate:          rootState.checkout,
+        selRoomNum:       rootState.roomNum,
+        adultNum:         rootState.adultNum,
+        childrenNum:      rootState.childrenNum,
+        childrenAgesStr:  rootState.childrenStr,
+        pageNow:          state.pageNow,
+        star:             state.checkedStar.map(n => n.split('_')[0]).join(','),
+        priceRange:       state.checkedPriceRange.split('_')[0],
+        bizCircleId:      state.checkedBizzone.map(n => n.split('_')[0]).join(','),
+        zoneId:           state.checkedZone.map(n => n.split('_')[0]).join(','),
+        hotelFacility:    state.checkedFacilities.map(n => n.split('_')[0]).join(','),
+        hotelGroup:       state.checkedHotelGroup1.concat(state.checkedHotelGroup2).map(n => n.split('_')[0]).join(','),
       }
 
-      payload.api.hotelList.syncGetHotelList(params).then(res_HotelList => {
-        if(res_HotelList.returnCode === 1){
-          commit('setHotelListState', {t: 'hotelList', v: res_HotelList.dataList})
-          commit('setHotelListState', {t: 'pageRecordCount', v: res_HotelList.data ? 0 : res_HotelList.pageRecordCount})
-          commit('setHotelListState', {t: 'pageTotal', v: res_HotelList.pageTotal})
+      API.hotelList.syncGetHotelList(params).then(res => {
+        if(res.returnCode === 1){
+          commit('setCommonState', {t: 'hotelList', v: res.dataList})
+          commit('setCommonState', {t: 'pageRecordCount', v: res.data ? 0 : res.pageRecordCount})
+          commit('setCommonState', {t: 'pageTotal', v: res.pageTotal})
         }
-  
-        params.api = payload.api
   
         // 查价格列表
         dispatch('queryHotelPriceList', params)
       })
 
-      dispatch('scrollTop')
-    },
-
-    // 滚动到页面顶部
-    scrollTop(){
-      let elem = document.querySelector('.index-top-nav')
-      let container = document.querySelector('.el-scrollbar__wrap')
-      if(elem && container){
-        let fixTop = document.querySelector('.search-line-outer.fix-top')
-        fixTop
-          ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
-          : Velocity(elem, 'scroll', {container: container})
-        
-        Velocity(elem, 'finish')
-      }
+      // 重新查询酒店列表后，触发页面滚动到顶部
+      _scrollTop()
     },
 
     // 查价格列表
     queryHotelPriceList({ commit, state, dispatch }, payload){
       state.hotelList.forEach(hotel => {
-        let params = {
-          hotelId: hotel.infoId,
-          checkInDate: payload.startDate,
-          checkOutDate: payload.endDate,
-          roomNum: payload.selRoomNum,
-          adultNum: payload.adultNum,
-          childrenNum: payload.childrenNum,
-          childrenAgesStr: payload.childrenAgesStr,
-          isSearchSurcharge: 0
-        }
-
-        dispatch('queryPriceListInStock', {params: params, hotel: hotel, api: payload.api})
-        dispatch('queryPriceList', {params: params, hotel: hotel, api: payload.api})
+        _queryHotelPriceList({ commit, state, dispatch }, payload, hotel)
       })
     },
 
-    // 查缓存内的价格
-    queryPriceListInStock({ commit, state, dispatch }, payload){
-      payload.api.hotelList.syncGetHotelPriceListInStock(payload.params).then(res => {
-        // 如果实查的价格比缓存的价格更早返回前端，则不再将缓存的价格赋值给相关变量
-        if(!payload.hotel.priceList){
-          commit('setHotelExtraAttr', {hotel: payload.hotel, data: res})
-        }
-      })
-    },
-
-    // 查价，实查
-    queryPriceList({ commit, state, dispatch }, payload){
-      let hotel = payload.hotel
-      let timer1, timer2, timer3
-      let percentage = 1
-      let c1 = 255, c2 = 45, c3 = 0
-
-      commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
-
-      // 前面 80% 的部分，每一个百分比耗时 35 毫秒
-      timer1 = setInterval(() => {
-        percentage = hotel.percentage + 1
-        c1 = parseInt(255 - percentage * 2.2)
-        c2 = parseInt(45 + percentage * 1.38)
-        c3 = parseInt(percentage * 0.35)
-
-        commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
-
-        if(percentage >= 80){
-          clearInterval(timer1)
-
-          // 80% ~ 95% 的部分，每一个百分比耗时 333 毫秒
-          timer2 = setInterval(() => {
-            percentage = hotel.percentage + 1
-            c1 = parseInt(255 - percentage * 2.2)
-            c2 = parseInt(45 + percentage * 1.38)
-            c3 = parseInt(percentage * 0.35)
-
-            commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
-            
-            if(percentage >= 95){
-              clearInterval(timer2)
-
-              // 95% ~ 99% 的部分，每一个百分比耗时 1250 毫秒
-              timer3 = setInterval(() => {
-                percentage = hotel.percentage + 1
-                c1 = parseInt(255 - percentage * 2.2)
-                c2 = parseInt(45 + percentage * 1.38)
-                c3 = parseInt(percentage * 0.35)
-
-                commit('setHotelExtraAttr', {hotel: hotel, percentage: percentage, color: `rgba(${c1}, ${c2}, ${c3}, 0.7)`})
-
-                if(percentage >= 99){
-                  clearInterval(timer3)
-                }
-              }, 1250)
-            }
-          }, 333)
-        }
-      }, 35)
-    
-      payload.api.hotelList.syncGetHotelPriceList(payload.params).then(res => {
-        commit('setHotelExtraAttr', {hotel: hotel, data: res})
-  
-        clearInterval(timer1)
-        clearInterval(timer2)
-        clearInterval(timer3)
-  
-        commit('setHotelExtraAttr', {hotel: hotel, percentage: 100, color: `rgba(35, 183, 35, 0.7)`})
-  
-        setTimeout(() => {
-          commit('setHotelExtraAttr', {hotel: hotel, percentage: 0, color: `rgba(35, 183, 35, 0.7)`})
-        }, 100)
-      })
-    },
-
-    setCityType({ commit, state, dispatch }, payload){
-      commit('setCityType', payload.cityType)
+    // 切换城市类型，改变城市类型后需要重置前端过滤条件，然后是重新查询酒店列表
+    setCityType({ commit, state, dispatch }){
+      commit('setCityType')
       commit('resetFilters')
-      dispatch('actionHotelList', { api: payload.api })
+      dispatch('queryHotelList')
     },
   },
-  
 }

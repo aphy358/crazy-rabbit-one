@@ -40,10 +40,11 @@ export default {
     // 获取城市类型，如：'国内'、'港澳台'、'国外'
     getCityType: {
       get: function () {
-        return this.$store.state.hotelList.cityType
+        return this.$store.state.cityType
       },
       set: function (newValue) {
-        this.$store.dispatch('hotelList/setCityType', {cityType: newValue, api: this.$api})
+        this.$store.commit('setCityType', newValue)
+        this.$store.dispatch('hotelList/setCityType')
       }
     },
   },

@@ -46,7 +46,7 @@ export default {
     },
 
     cityTypeText: function(){
-      let cityType = this.$store.state.hotelList.cityType
+      let cityType = this.$store.state.cityType
       return cityType == '2' ? '港澳台' :
              cityType == '3' ? '国外'   : '国内'
     }
@@ -64,6 +64,13 @@ export default {
         }
 
         this.$api.hotelList.syncLogin(params)
+
+        setTimeout(() => {
+          let hotel = document.querySelector('.hl-item')
+          if(!hotel){
+            location.reload();
+          }
+        }, 666)
       })
     },
 
@@ -72,16 +79,8 @@ export default {
     },
   },
 
-  created(){
-    let state = sessionStorage.getItem('jlfzg__state')
-    
-    if(state){
-      this.$store.commit('hotelList/copyState', window.JSON.parse(state))
-      sessionStorage.removeItem('jlfzg__state')
-    }
-
-    sessionStorage.removeItem('login__login')
-
+  mounted(){
+    // this.logout()
     this.login()
   },
   

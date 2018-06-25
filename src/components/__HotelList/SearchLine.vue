@@ -1,11 +1,11 @@
-<!-- 酒店列表页和酒店详情页的搜索栏 -->
+<!-- 酒店列表页的搜索栏 -->
 <template>
     <div class="search-line-outer" :class="fixTop === true ? 'fix-top' : ''">
         <div class="search-line-wrap">
             <CityTypeSelect />
             <KerywordSuggest />
             <DateRange />
-            <RoomNumSelect />
+            <RoomNumSelect :page="'hotelList'" />
             <AdultChildrenSelect v-if="getCityType != 0" />
             <el-button type="primary" size="small" @click="queryHotelList">搜索</el-button>
         </div>
@@ -33,7 +33,7 @@ export default {
   computed: {
     // 获取城市类型，如：'国内'、'港澳台'、'国外'
     getCityType(){
-      return this.$store.state.hotelList.cityType
+      return this.$store.state.cityType
     },
   },
 
@@ -113,6 +113,11 @@ export default {
         background: white;
         box-shadow: 0 0 10px #999;
         z-index: 999;
+        opacity: .8;
+
+        &:hover{
+          opacity: 1;
+        }
 
         .search-line-wrap{
             margin: 5px auto;
@@ -131,6 +136,7 @@ export default {
 
         > * {
           margin-right: 15px;
+          float: left;
         }
     
         &:after{
