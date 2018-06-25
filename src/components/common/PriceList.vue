@@ -55,8 +55,8 @@
               </td>
               <td class="align-center">
                 <div>
-                  <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
-                  <p><span>{{ priceRow.breakFastName || '' }}</span></p>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName.split('[')[0]">{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
                 </div>
               </td>
               <td>
@@ -867,10 +867,16 @@ export default {
 
                 &.align-center{
                     text-align: center;
+                    padding: 0;
 
                     p{
-                        line-height: 37px;
-                        margin-bottom: -22px;
+                        line-height: 38px;
+                        margin-bottom: -10px;
+                        overflow: hidden;
+                        height: 26px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        max-width: 135px;
                     }
                 }
 
