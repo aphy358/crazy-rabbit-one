@@ -53,35 +53,9 @@ export default {
   },
 
   methods: {
-    login(){
-      this.$api.hotelList.syncCheckcode().then(() => {
-        let params = {
-          accountCode : 'sz2747',
-          username    : 'ch',
-          password    : '1',
-          checkcode   : '8998',
-          rememberMe  : false
-        }
-
-        this.$api.hotelList.syncLogin(params)
-
-        setTimeout(() => {
-          let hotel = document.querySelector('.hl-item')
-          if(!hotel){
-            location.reload();
-          }
-        }, 666)
-      })
-    },
-
-    logout(){
-      this.$api.hotelList.syncLogout()
-    },
+   
   },
 
-  mounted(){
-    // this.logout()
-    this.login()
   },
   
 }
