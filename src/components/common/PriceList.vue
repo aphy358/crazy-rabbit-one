@@ -5,13 +5,13 @@
         <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
-              <th width="65"></th>
-              <th width="260"><span>房型</span></th>
+              <th width="55"></th>
+              <th width="220"><span>房型</span></th>
               <th><span>价格类型</span></th>
-              <th width="140" class="align-center"><span>床型/早餐</span></th>
-              <th><span>预订规则</span></th>
-              <th><span>取消规则</span></th>
-              <th><span>剩余数量</span></th>
+              <th width="150" class="align-center"><span>床型/早餐</span></th>
+              <th width="100"><span>预订规则</span></th>
+              <th width="100"><span>取消规则</span></th>
+              <th width="90"><span>剩余数量</span></th>
               <th width="150"><span>均价/总价</span></th>
               <th width="85"></th>
             </tr>
@@ -867,7 +867,7 @@ export default {
 
                 &.align-center{
                     text-align: center;
-                    padding: 0;
+                    padding: 0 5px;
 
                     p{
                         line-height: 37px;
@@ -876,7 +876,7 @@ export default {
                         height: 26px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        max-width: 135px;
+                        max-width: 149px;
                     }
                 }
 
