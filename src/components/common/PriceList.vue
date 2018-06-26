@@ -29,8 +29,8 @@
 
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
-              <td :class="priceRow.tdBindClass">
-                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+              <td :class="priceRow.tdBindClass" @click="toggleSlideRow(priceRow)">
+                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" >
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
                     <span slot="reference" class="hp-roomName"
@@ -907,10 +907,8 @@ export default {
 
                     @at-root .room-type-icon-outer{
                       display: inline-block;
-                      width: 20px;
-                      height: 20px;
-                      position: relative;
-                      top: 5px;
+                      width: 16px;
+                      height: 16px;
 
                       @at-root .room-type-icon{
                           @include jl_sprites;
