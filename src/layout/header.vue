@@ -81,13 +81,11 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import {
   setCookies,
   getCookies,
   delCookies
 } from '../components/Login/login.js'
-import filters from '../filters'
 export default {
   data() {
     return {
@@ -107,10 +105,11 @@ export default {
     }
   },
   mounted() {
-    let userCookie = getCookies('jl_username')
-    // console.log(userCookie)
-    if (userCookie) {
-      this.user = userCookie
+    
+    let userCookie = this.$api.hotelList.getCurrentUser()
+     console.log(userCookie)
+    if (userCookie.returnCode == 1) {
+      this.user = userCookie.user.loginName
     } else {
       this.user = '请登录'
     }
