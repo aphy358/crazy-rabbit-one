@@ -56,10 +56,10 @@ export default {
         return this.$store.state.hotelList.keyword
       },
       set: function (newValue) {
-        this.$store.commit('hotelList/setHotelListState', {t: 'keyword', v: newValue})
+        this.$store.commit('hotelList/setCommonState', {t: 'keyword', v: newValue})
 
         // 当关键字是通过输入获取的，则只将其当做关键字（所以这里把城市 ID 设置为 null），除非是通过点击某个城市才当做是城市
-        this.$store.commit('hotelList/setHotelListState', {t: 'cityId', v: null})
+        this.$store.commit('hotelList/setCommonState', {t: 'cityId', v: null})
       }
     },
 
@@ -76,7 +76,7 @@ export default {
       
       if (keyword && keyword !== '') {
         let param = {
-          type: this.$store.state.hotelList.cityType,
+          type: this.$store.state.cityType,
           key: keyword,
           keys: keyword
         };
@@ -87,21 +87,23 @@ export default {
     },
 
     // 查城市
-    async getCityList(param){
-      let res_city = await this.$api.hotelList.syncGetCity(param)
+    getCityList(param){
+      this.$api.hotelList.syncGetCity(param).then(res_city => {
+        if(res_city.returnCode === 1 && res_city.dataList){
+          this.cityList = this.setHighlightStr(res_city.dataList, param.keys, 'aname', 'cityStr')
+        }
+      })
 
-      if(res_city.returnCode === 1 && res_city.dataList){
-        this.cityList = this.setHighlightStr(res_city.dataList, param.keys, 'aname', 'cityStr')
-      }
     },
 
     // 查酒店列表
-    async getHotelList(param){
-      let res_hotel = await this.$api.hotelList.syncGetHotels(param)
+    getHotelList(param){
+      this.$api.hotelList.syncGetHotels(param).then(res_hotel => {
+        if(res_hotel.returnCode === 1 && res_hotel.dataList){
+          this.hotelList = this.setHighlightStr(res_hotel.dataList, param.keys, 'name', 'hotelStr')
+        }
+      })
 
-      if(res_hotel.returnCode === 1 && res_hotel.dataList){
-        this.hotelList = this.setHighlightStr(res_hotel.dataList, param.keys, 'name', 'hotelStr')
-      }
     },
 
     /**
@@ -136,8 +138,8 @@ export default {
     // 接收子组件发送过来的事件（当选中某个城市或者点击了某个酒店时）
     pickvalue(event){
       this.visible = false
-      this.$store.commit('hotelList/setHotelListState', {t: 'keyword', v: event.n})
-      this.$store.commit('hotelList/setHotelListState', {t: 'cityId', v: event.i})
+      this.$store.commit('hotelList/setCommonState', {t: 'keyword', v: event.n})
+      this.$store.commit('hotelList/setCommonState', {t: 'cityId', v: event.i})
     },
 
     queryHotelList(){

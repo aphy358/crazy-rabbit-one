@@ -58,6 +58,7 @@ button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie
 table { border-collapse: collapse; border-spacing: 0; }
 
 body{ min-width: 1400px;color: #333; }
+html,body{height: 100%;overflow-y: hidden;}
 .hidden{ display: none; }
 .placeholder { color: #aaa; }
 .too-width{ min-width: 100%; height: 100%; }   /* 针对于图片相对于容器太宽的处理 */
@@ -145,4 +146,17 @@ my-select{
   .my-select-list{
     border: none;
   }
+}
+
+/*清除浮动*/
+.clearfix:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1
 }

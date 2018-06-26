@@ -41,13 +41,13 @@ export default {
 
   computed: {
     getBlockKey(){
-      return this.$data._blockKey || this.$props.blockKey
+      return this._blockKey || this.blockKey
     }
   },
   
   methods: {
     switchBlock(key1){
-      this.$data._blockKey = key1
+      this._blockKey = key1
     },
 
     checkOneCity(t, i, n){

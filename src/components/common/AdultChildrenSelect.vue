@@ -3,7 +3,7 @@
 <template>
   <el-popover
     :width="356"
-    style="width: 130px;display: inline-block;"
+    style="width: 130px;"
     placement="bottom-start"
     v-model="visible" >
 
@@ -165,31 +165,31 @@ export default {
     // 获取成人数
     getAdultNum: {
       get: function () {
-        return +this.$store.state.hotelList.adultNum
+        return +this.$store.state.adultNum
       },
       set: function (newValue) {
-        this.$store.commit('hotelList/setHotelListState', {t: 'adultNum', v: newValue})
+        this.$store.commit('setCommonState', {t: 'adultNum', v: newValue})
       }
     },
 
     // 获取小孩数
     getChildrenNum: {
       get: function () {
-        return +this.$store.state.hotelList.childrenNum
+        return +this.$store.state.childrenNum
       },
       set: function (newValue) {
         this.childAge1 = '0'
         this.childAge2 = '0'
         this.childAge3 = '0'
 
-        this.$store.commit('hotelList/setHotelListState', {t: 'childrenNum', v: newValue})
+        this.$store.commit('setCommonState', {t: 'childrenNum', v: newValue})
         this.setChildrenStr()
       }
     },
 
     // 根据成人数和小孩数，计算出 input 框该显示的文字，如：'2成人，1小孩'
     getAdultChildrenText(){
-      return `${this.$store.state.hotelList.adultNum}成人，${this.$store.state.hotelList.childrenNum}小孩`
+      return `${this.$store.state.adultNum}成人，${this.$store.state.childrenNum}小孩`
     },
   },
   
@@ -201,13 +201,13 @@ export default {
       // 这里要根据小孩数改变小孩年龄数组的长短
       ageArr.length = this.getChildrenNum
 
-      this.$store.commit('hotelList/setHotelListState', {t: 'childrenStr', v: ageArr.join(',')})
+      this.$store.commit('setCommonState', {t: 'childrenStr', v: ageArr.join(',')})
     },
   },
 
   created(){
     // 初始化每个小孩的年龄
-    let ageArr = this.$store.state.hotelList.childrenStr.split(',')
+    let ageArr = this.$store.state.childrenStr.split(',')
     this.childAge1 = ageArr[0] || '0'
     this.childAge2 = ageArr[1] || '0'
     this.childAge3 = ageArr[2] || '0'
@@ -258,7 +258,7 @@ export default {
 </style>
 
 <style scoped lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
 
 .ac-select-wrap{
     font-size: 14px;

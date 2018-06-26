@@ -1,14 +1,14 @@
 
 <!-- 价格列表组件 -->
 <template>
-    <div>
+    <div class="hotel-price-table-wrapper">
         <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
               <th width="65"></th>
               <th width="260"><span>房型</span></th>
               <th><span>价格类型</span></th>
-              <th width="120" class="align-center"><span>床型/早餐</span></th>
+              <th width="140" class="align-center"><span>床型/早餐</span></th>
               <th><span>预订规则</span></th>
               <th><span>取消规则</span></th>
               <th><span>剩余数量</span></th>
@@ -30,7 +30,7 @@
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
               <td :class="priceRow.tdBindClass">
-                <div :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
                     <span slot="reference" class="hp-roomName"
@@ -38,8 +38,8 @@
                       {{priceRow.roomName}}
                     </span>
                   </el-popover>
-                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
-                    <i v-if="priceRow.rowsDropDown" class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
+                  <span v-if="priceRow.rowsDropDown" class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
+                    <i class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
                 </div>
               </td>
@@ -55,8 +55,8 @@
               </td>
               <td class="align-center">
                 <div>
-                  <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
-                  <p><span>{{ priceRow.breakFastName || '' }}</span></p>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName.split('[')[0]">{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
                 </div>
               </td>
               <td>
@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import loadingGif from "../assets/loading.gif";
-import { deepCopy } from "../util.js";
+import loadingGif from "../../assets/loading.gif";
+import { deepCopy } from "../../util.js";
 import Velocity from 'velocity-animate'
 
 export default {
@@ -127,20 +127,43 @@ export default {
     }
   },
 
-  props: ['priceList'],
-
-  components: {
-
-  },
+  props: ['priceList', 'page'],
 
   watch: {
-    filterCancelType(newValue){
+    // 实时监听由父组件传过来的 prop，如果不这么做的话，那么有可能当该 prop 改变之后，页面不能马上响应并重新渲染
+    priceList(newV){
       this.newPriceList()
     },
 
+    // 列表页取消条款
+    filterCancelType(){
+      this.newPriceList()
+    },
+
+    // 详情页取消条款
+    filterCancelType2(){
+      this.newPriceList()
+    },
+
+    // 列表页确认时间
     filterConfirmType(){
       this.newPriceList()
     },
+
+    // 详情页确认时间
+    filterConfirmType2(){
+      this.newPriceList()
+    },
+
+    // 详情页，勾选 '只显示可订'
+    onlyCanBook(){
+      this.newPriceList()
+    },
+
+    // 详情页，价格区间
+    filterPriceRange2(){
+      this.newPriceList()
+    }
   },
 
   created(){
@@ -149,19 +172,44 @@ export default {
 
   computed: {
     selRoomNum(){
-      return this.$store.state.hotelList.roomNum
+      return this.$store.state.roomNum
     },
 
+    // 列表页取消条款
     filterCancelType(){
       return this.$store.state.hotelList.checkedCancelType.join(',')
     },
 
+    // 详情页取消条款
+    filterCancelType2(){
+      let checkedCancelType = this.$store.state.hotelDetail.checkedCancelType
+      return checkedCancelType ? 'canceltype-0' : ''
+    },
+
+    // 列表页确认时间
     filterConfirmType(){
       return this.$store.state.hotelList.checkedConfirmType.join(',')
     },
 
+    // 详情页确认时间
+    filterConfirmType2(){
+      return this.$store.state.hotelDetail.checkedConfirmType.join(',')
+    },
+
     filterPriceRange(){
       return this.$store.state.hotelList.checkedPriceRange
+    },
+
+    // 详情页，价格区间
+    filterPriceRange2(){
+      let priceRange1 = this.$store.state.hotelDetail.priceRange1 || 0
+      let priceRange2 = this.$store.state.hotelDetail.priceRange2 || 29999
+      return priceRange1 + '-' + priceRange2
+    },
+
+    // 详情页，勾选 '只显示可订'
+    onlyCanBook(){
+      return this.$store.state.hotelDetail.onlyCanBook
     }
     
   },
@@ -175,6 +223,10 @@ export default {
       this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
       this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
       this.combinedRows = tmpPriceList.combinedRows
+
+      if(this.page === 'hotelDetail'){
+        this.$store.commit('hotelDetail/setCommonState', {t: 'combinedRows', v: this.combinedRows})
+      }
     },
 
     // 为价格数据设置新的属性，使之适合模板
@@ -477,31 +529,31 @@ export default {
     },
 
     // 查询房型信息
-    async queryRoomInfo(hotelId, suppId, roomId){
-      let res = await this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId})
-      
-      if(res.success){
-        let c = res.content
-        let tipStr = 
-          `<div class="hotel-info-wrap">
-            <ul class="hotel-info-list">
-              ${c.roomName ? '<li class="hotel-info-item"><i class="iconfont icon-home"></i><h1 class="roomName">' + c.roomName + '</h1></li>' : ''}
-              ${c.floor ? '<li class="hotel-info-item"><label>楼层：</label><span>' + c.floor + '层</span></li>' : ''}
-              ${c.acreage ? '<li class="hotel-info-item"><label>面积：</label><span>' + c.acreage + 'm²</span></li>' : ''}
-              ${c.bedName ? '<li class="hotel-info-item"><label>床型：</label><span>' + c.bedName + '</span></li>' : ''}
-              ${c.bedWidth ? '<li class="hotel-info-item"><label>床型大小：</label><span>' + c.bedWidth + '</span></li>' : ''}
-              ${c.maximize ? '<li class="hotel-info-item"><label>最大入住人数：</label><span>' + c.maximize + '</span></li>' : ''}
-              ${c.facilities ? '<li class="hotel-info-item"><label>房间设施：</label><span>' + c.facilities + '</span></li>' : ''}
-              ${c.comment ? '<li class="hotel-info-item"><label>房型备注：</label><span>' + c.comment + '</span></li>' : ''}
-            </ul>
-          </div>`
-
-        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = tipStr
-        this.currentRoomInfo = tipStr
-      }else{
-        this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
-        this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
-      }
+    queryRoomInfo(hotelId, suppId, roomId){
+      this.$api.hotelList.syncGetRoomInfo({hotelId, suppId, roomId}).then(res => {
+        if(res.success){
+          let c = res.content
+          let tipStr = 
+            `<div class="hotel-info-wrap">
+              <ul class="hotel-info-list">
+                ${c.roomName ? '<li class="hotel-info-item"><i class="iconfont icon-home"></i><h1 class="roomName">' + c.roomName + '</h1></li>' : ''}
+                ${c.floor ? '<li class="hotel-info-item"><label>楼层：</label><span>' + c.floor + '层</span></li>' : ''}
+                ${c.acreage ? '<li class="hotel-info-item"><label>面积：</label><span>' + c.acreage + 'm²</span></li>' : ''}
+                ${c.bedName ? '<li class="hotel-info-item"><label>床型：</label><span>' + c.bedName + '</span></li>' : ''}
+                ${c.bedWidth ? '<li class="hotel-info-item"><label>床型大小：</label><span>' + c.bedWidth + '</span></li>' : ''}
+                ${c.maximize ? '<li class="hotel-info-item"><label>最大入住人数：</label><span>' + c.maximize + '</span></li>' : ''}
+                ${c.facilities ? '<li class="hotel-info-item"><label>房间设施：</label><span>' + c.facilities + '</span></li>' : ''}
+                ${c.comment ? '<li class="hotel-info-item"><label>房型备注：</label><span>' + c.comment + '</span></li>' : ''}
+              </ul>
+            </div>`
+  
+          this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = tipStr
+          this.currentRoomInfo = tipStr
+        }else{
+          this.roomInfoArr[`${hotelId}_${suppId}_${roomId}`] = `<div class="hotel-info-wrap">暂无房型信息！</div>`
+          this.currentRoomInfo = `<div class="hotel-info-wrap">暂无房型信息！</div>`
+        }
+      })
     },
 
     // 根据前端条件过滤价格
@@ -509,50 +561,62 @@ export default {
       let subIsShow1 = true
       let subIsShow2 = true
       let subIsShow3 = true
+      let subIsShow4 = true
       let avePrice = priceObj.averagePriceRMB
         
-      // 确认时间
-      if(this.filterConfirmType){
+      // 确认时间，由于列表页和详情页的确认时间不会共存，所以这里共用 subIsShow1
+      if(this.filterConfirmType || this.filterConfirmType2){
+        let tmpFilterConfirmType = this.filterConfirmType || this.filterConfirmType2
         subIsShow1 = false;
         
-        if( ~this.filterConfirmType.indexOf('XS-0') ){
+        if( ~tmpFilterConfirmType.indexOf('XS-0') ){
           subIsShow1 |= (priceObj.roomStatus === 2);
         }
         
-        if( ~this.filterConfirmType.indexOf('XS-1') ){
+        if( ~tmpFilterConfirmType.indexOf('XS-1') ){
           subIsShow1 |= (priceObj.isTimeLimitConfirSupplier === 0 && priceObj.confirm === true && priceObj.roomStatus != 3);
         }
         
-        if( ~this.filterConfirmType.indexOf('XS-2') ){
+        if( ~tmpFilterConfirmType.indexOf('XS-2') ){
           subIsShow1 |= (priceObj.isTimeLimitConfirSupplier === 1);
         }
       }
       
-      // 可否取消
-      if(this.filterCancelType){
+      // 可否取消，由于列表页和详情页的取消条款不会共存，所以这里共用 subIsShow2
+      if(this.filterCancelType || this.filterCancelType2){
+        let tmpFilterCancelType = this.filterCancelType || this.filterCancelType2
         subIsShow2 = false;
         
-        if( ~this.filterCancelType.indexOf('canceltype-0') ){
+        if( ~tmpFilterCancelType.indexOf('canceltype-0') ){
           subIsShow2 |= (priceObj.cancellationType === 1);
         }
         
-        if( ~this.filterCancelType.indexOf('canceltype-1') ){
+        if( ~tmpFilterCancelType.indexOf('canceltype-1') ){
           subIsShow2 |= (priceObj.cancellationType !== 1);
         }
       }
 
-      // 价格区间
-      if(this.filterPriceRange){
+      // 价格区间，由于列表页和详情页的价格区间不会共存，所以这里共用 subIsShow3
+      if(this.filterPriceRange || this.filterPriceRange2 !== '0-29999'){
         subIsShow3 = false;
 
-        var priceRangeArr = (this.filterPriceRange.split('_')[0]).split('-');
+        var priceRangeArr = this.filterPriceRange
+          ? (this.filterPriceRange.split('_')[0]).split('-')
+          : this.filterPriceRange2.split('-')
+
         let p1 = +priceRangeArr[0] || 0     // 避免价格为0的被选上
         let p2 = +priceRangeArr[1] || 0     // 避免价格为0的被选上
 
         subIsShow3 |= ( p1 <= avePrice && avePrice <= p2 );
       }
+
+      // 只显示可订
+      if(this.onlyCanBook){
+        subIsShow4 = false;
+			  subIsShow4 |= priceObj.isBook;
+      }
       
-      return subIsShow1 && subIsShow2 && subIsShow3
+      return subIsShow1 && subIsShow2 && subIsShow3 && subIsShow4
     },
 
     // 收缩同一房型下的表格行
@@ -576,6 +640,7 @@ export default {
         }else{
           thefirstRow.tmprowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
           thefirstRow.rowSpan = thefirstRow.rowSpan + priceRow.relativeIndexArr.length 
+          this.$emit('expandPriceRow')
         }
       }
     },
@@ -621,7 +686,7 @@ export default {
       }
     },
     
-  }
+  },
 }
 </script>
 
@@ -736,7 +801,7 @@ export default {
 </style>
 
 <style  lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
 
 .hl-item{
   .el-collapse-item__content{
@@ -773,6 +838,11 @@ export default {
                 >div{
                   height: 51px;
                   line-height: 51px;
+
+                  &.hotel-price-room-name{
+                    height: auto!important;
+                    line-height: initial!important;
+                  }
                 }
                 
                 &.first-td{
@@ -797,10 +867,16 @@ export default {
 
                 &.align-center{
                     text-align: center;
+                    padding: 0;
 
                     p{
-                        line-height: 37px;
-                        margin-bottom: -22px;
+                        line-height: 38px;
+                        margin-bottom: -10px;
+                        overflow: hidden;
+                        height: 26px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        max-width: 135px;
                     }
                 }
 

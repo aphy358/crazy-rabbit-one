@@ -22,33 +22,6 @@ const
 	},
 
 	/**
-	 * 在 < IE9 的环境下采用的按需加载 js 的方法
-	 * @param {插入的 script 标签的src} src
-	 * @param {script 加载完成后的回调函数} callback
-	 */
-	loadAsync = function (src, callback) {
-		//如果是单个字符串，则修正为字符串数组
-		if (typeof src === 'string') {
-			src = [src];
-		}
-
-		for (var i = 0; i < src.length; i++) {
-			var script = document.createElement('script');
-			script.src = src[i];
-
-			//给最后加载的插件绑定 onload 事件，IE8不能正确处理 onload 事件，所以这里用 onreadystatechange 事件
-			if (callback && $.type(callback) === 'function' && (i + 1) === src.length) {
-				script.onreadystatechange = function () {
-					if (script.readyState === 'loaded' || script.readyState === 'complete') {
-						callback();
-					}
-				}
-			}
-			document.body.appendChild(script);
-		}
-	},
-
-	/**
 	 * 获取指定的url参数值
 	 * @param {指定的url参数名} name
 	 */
@@ -149,7 +122,6 @@ module.exports = {
 	ltIE9,
 	login,
 	addDays,
-	loadAsync,
 	queryString,
 	throttle,
 	formatOne,

@@ -46,20 +46,14 @@
           <img :src="picSrc" :style="hotelInfo.extraStyle" />
         </div>
         <div class="hdi-img-wrap-small">
-          <div class="hdi-img-scroll scroll-up">
-            <div class="hdi-img-scroll-mask"></div>
-            <i class="hli-icon disabled"></i>
-          </div>
-          <div class="hdi-img-scroll scroll-down">
-            <div class="hdi-img-scroll-mask"></div>
-            <i class="hli-icon"></i>
-          </div>
-          <ul class="hdi-img-small-list">
-            <li class="hdi-img-small-item" v-for="(pic, i) in hotelInfo.picList" :key="i" @click="clickHotelImg(pic, i)">
-              <img :src="pic" :style="hotelInfo.extraStyle2" />
-              <div class="hdi-isi-mask" :class="i === currentImgIndex ? '' : ' hidden'"></div>
-            </li>
-          </ul>
+          <el-scrollbar class="hdi-picture-scroll">
+            <ul class="hdi-img-small-list">
+              <li class="hdi-img-small-item" v-for="(pic, i) in hotelInfo.picList" :key="i" @click="clickHotelImg(pic, i)">
+                <img :src="pic" :style="hotelInfo.extraStyle2" />
+                <div class="hdi-isi-mask" :class="i === currentImgIndex ? '' : ' hidden'"></div>
+              </li>
+            </ul>
+          </el-scrollbar>
         </div>
       </div>
       <div class="hdi-brief-wrap">
@@ -100,15 +94,9 @@ export default {
 
   data(){
     return {
-      picSrc: '54',
+      picSrc: '',
       currentImgIndex: 0,
     }
-  },
-
-  // props: ['hotelInfo'],
-
-  components: {
-
   },
 
   computed: {
@@ -134,7 +122,8 @@ export default {
 </script>
 
 <style  lang="scss">
-@import "../assets/jl_sprites.scss";
+@import "../../assets/jl_sprites.scss";
+
 .hotel-detail-info-outer{
     background: white;
     box-shadow: 0 0 5px #ddd;
@@ -261,52 +250,20 @@ export default {
                     width: 160px;
                     height: 400px;
                     overflow: hidden;
-                    
-                    @at-root .hdi-img-scroll{
-                        position: absolute;
-                        left: 0;
-                        width: 100%;
-                        z-index: 9;
-                        
-                        @at-root .hdi-img-scroll-mask{
-                            height: 30px;
-                            background: black;
-                            opacity: 0.5;
-                            filter: alpha(opacity=50);
-                        }
-                        
-                        i{
-                            position: absolute;
-                            top: 0;
-                            left: 50%;
-                            margin-left: -10px;
-                            margin-top: 9px;
-                        }
-                        
-                        &.scroll-up{
-                            top: 0;
-                            
-                            i{
-                                @include swipeUp2;
-                                
-                                &.disabled{
-                                    @include swipeUp1
-                                }
-                            }
-                        }
-                        
-                        &.scroll-down{
-                            bottom: 0;
-                            
-                            i{
-                                @include swipeDown2;
-                                
-                                &.disabled{
-                                    @include swipeDown1
-                                }
-                            }
-                        }
+
+                    @at-root .hdi-picture-scroll.el-scrollbar{
+                      height: 100%;
+
+                      .el-scrollbar__wrap{
+                        overflow: auto;
+                      }
+
+                      &:hover .el-scrollbar__thumb{
+                        background-color: rgba(16, 13, 19, 0.8);
+                      }
                     }
+                    
+                    
                         
                     @at-root .hdi-img-small-list{
                         
@@ -329,7 +286,7 @@ export default {
                             
                             .hdi-isi-mask{
                                 position: relative;
-                                border: solid 3px #339afc;
+                                border: solid 3px #339afccc;
                                 height: 110px;
                                 box-sizing: border-box;
                             }
@@ -342,6 +299,7 @@ export default {
                 float: left;
                 width: 415px;
                 height: 400px;
+                padding-bottom: 5px;
                 border: solid 1px #e3e3e3;
                 box-sizing: border-box;
 
@@ -352,12 +310,13 @@ export default {
                     overflow: auto;
 
                     .el-scrollbar__view{
-                      padding: 20px;
+                      padding: 0 10px;
                     }
                   }
                 }
                 
                 @at-root .hdi-brief-list{
+                    max-width: 393px;
                     
                     @at-root .hdi-brief-item{
                         
@@ -366,6 +325,7 @@ export default {
                             line-height: 26px;
                             color: #339afc;
                             margin-bottom: 5px;
+                            margin-top: 10px;
                             
                             .hli-icon{
                                 float: left;
@@ -379,7 +339,6 @@ export default {
                         
                         @at-root .hdi-brief-item-content{
                             font-size: 15px;
-                            margin-bottom: 15px;
                             padding-left: 35px;
                         }
                     }

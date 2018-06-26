@@ -46,16 +46,20 @@ export default {
     }
   },
   
-  props: {},
+  props: ['page'],
 
   computed: {
     // 获取关键字
     getRoomNum: {
       get: function () {
-        return this.$store.state.hotelList.roomNum
+        return this.$store.state.roomNum
       },
       set: function (newValue) {
-        this.$store.dispatch('hotelList/actionHotelList', {t: 'roomNum', v: newValue, api: this.$api})
+        this.$store.commit('setCommonState', {t: 'roomNum', v: newValue})
+
+        if(this.page === 'hotelList'){
+          this.$store.dispatch('hotelList/queryHotelList')
+        }
       }
     },
   },

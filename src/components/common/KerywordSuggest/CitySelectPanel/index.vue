@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { setHistory } from "../util.js";
+import { setHistory } from "../../../util.js";
 import CityListTmpl from './CityListTmpl'
 import cityList_internal from './data/internalCity.js'
 import cityList_gat from './data/gatCity.js'
@@ -53,11 +53,11 @@ export default {
 
   computed: {
     getKey(){
-      return this.$store.state.hotelList.cityType == 2 ? '港澳台' : '热门'
+      return this.$store.state.cityType == 2 ? '港澳台' : '热门'
     },
 
     getCityType(){
-			let cityType = this.$store.state.hotelList.cityType
+			let cityType = this.$store.state.cityType
 			this.getHistoryCity(cityType)
 
       return cityType
