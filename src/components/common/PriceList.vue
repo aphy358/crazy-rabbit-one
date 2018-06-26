@@ -833,7 +833,7 @@ export default {
                 font-size: 14px;
                 height: 50px;
                 border: 1px solid #E3E3E3;
-                padding: 0 15px;
+                padding: 0 10px;
 
                 >div{
                   height: 51px;

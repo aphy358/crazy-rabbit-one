@@ -57,7 +57,7 @@
                   <li class="yzm-box">
                     <i class="login-icon login-icon-4"></i>
                     <input :placeholder="isCode" id="checkcode" title="请输入验证码" name="checkcode" type="text" autocomplete="off" v-model="checkcode">
-                    <img class="yzm-img" src="/user/getCheckcodeImg.do?time=<%=new Date().getTime()%>" alt="" />
+                    <img class="yzm-img" src="/user/getCheckcodeImg.do" alt="" />
                   </li>
                 </ul>
                 <p class="err-msg">{{errinfo}}</p>
@@ -87,7 +87,7 @@ import {
   getCookies,
   delCookies
 } from '../components/Login/login.js'
-import filters from '../filters'
+
 export default {
   data() {
     return {
