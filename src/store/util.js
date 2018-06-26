@@ -146,5 +146,7 @@ export const _scrollTop = () => {
 export const _setCommonState = (state, payload) => {
   if(payload.t){
     state[payload.t] = payload.v
+  }else if(payload.k){
+    state[payload.k] = payload.v
   }
 }

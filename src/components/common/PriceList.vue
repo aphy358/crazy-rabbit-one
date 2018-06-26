@@ -5,15 +5,15 @@
         <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
-              <th width="65"></th>
-              <th width="260"><span>房型</span></th>
+              <th width="55"></th>
+              <th width="220"><span>房型</span></th>
               <th><span>价格类型</span></th>
-              <th width="140" class="align-center"><span>床型/早餐</span></th>
-              <th><span>预订规则</span></th>
-              <th><span>取消规则</span></th>
-              <th><span>剩余数量</span></th>
+              <th width="150" class="align-center"><span>床型/早餐</span></th>
+              <th width="100"><span>预订规则</span></th>
+              <th width="100"><span>取消规则</span></th>
+              <th width="90"><span>剩余数量</span></th>
               <th width="150"><span>均价/总价</span></th>
-              <th width="94"></th>
+              <th width="85"></th>
             </tr>
           </thead>
 
@@ -29,8 +29,8 @@
 
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
-              <td :class="priceRow.tdBindClass">
-                <div :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+              <td :class="priceRow.tdBindClass" @click="toggleSlideRow(priceRow)">
+                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" >
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
                     <span slot="reference" class="hp-roomName"
@@ -38,8 +38,8 @@
                       {{priceRow.roomName}}
                     </span>
                   </el-popover>
-                  <span class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
-                    <i v-if="priceRow.rowsDropDown" class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
+                  <span v-if="priceRow.rowsDropDown" class="room-type-icon-outer" :class="priceRow.roomNameBindClass">
+                    <i class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
                 </div>
               </td>
@@ -55,8 +55,8 @@
               </td>
               <td class="align-center">
                 <div>
-                  <p v-if="priceRow.bedTypeName"><span>{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
-                  <p><span>{{ priceRow.breakFastName || '' }}</span></p>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName.split('[')[0]">{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
                 </div>
               </td>
               <td>
@@ -833,11 +833,16 @@ export default {
                 font-size: 14px;
                 height: 50px;
                 border: 1px solid #E3E3E3;
-                padding: 0 15px;
+                padding: 0 10px;
 
                 >div{
                   height: 51px;
                   line-height: 51px;
+
+                  &.hotel-price-room-name{
+                    height: auto!important;
+                    line-height: initial!important;
+                  }
                 }
                 
                 &.first-td{
@@ -862,10 +867,16 @@ export default {
 
                 &.align-center{
                     text-align: center;
+                    padding: 0 5px;
 
                     p{
                         line-height: 37px;
-                        margin-bottom: -22px;
+                        margin-bottom: -10px;
+                        overflow: hidden;
+                        height: 26px;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        max-width: 149px;
                     }
                 }
 
@@ -896,10 +907,8 @@ export default {
 
                     @at-root .room-type-icon-outer{
                       display: inline-block;
-                      width: 20px;
-                      height: 20px;
-                      position: relative;
-                      top: 5px;
+                      width: 16px;
+                      height: 16px;
 
                       @at-root .room-type-icon{
                           @include jl_sprites;
