@@ -4,22 +4,18 @@ import Router from 'vue-router'
 import Header from './layout/header.vue'
 import Footer from './layout/footer.vue'
 
-import Login from './views/Login.vue'
 import hotelDetail from './views/hotelDetail.vue'
 import hotelList from './views/hotelList.vue'
 import personalCenter from './views/personalCenter.vue'
+import home from './views/home.vue'
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/',
+      path: '/hotelList',
       name: 'hotelList',
       components: {
         default: hotelList,
@@ -41,6 +37,15 @@ export default new Router({
       name: 'personalCenter',
       components: {
         default : personalCenter,
+        header : Header,
+        footer : Footer
+      }
+    },
+    {
+      path: '/',
+      name: 'home',
+      components: {
+        default : home,
         header : Header,
         footer : Footer
       }

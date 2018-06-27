@@ -1,6 +1,10 @@
 import * as hotelList from './hotelList'
 import * as hotelDetail from './hotelDetail'
+<<<<<<< HEAD
 import * as personalCenter from './personalCenter'
+=======
+import * as home from './home'
+>>>>>>> b763d93d27cf62e0cc4cf7c4f7bf17dfd5e7dd7b
 
 const api = {
   hotelList,

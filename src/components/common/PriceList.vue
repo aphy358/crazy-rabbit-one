@@ -55,7 +55,7 @@
               </td>
               <td class="align-center">
                 <div>
-                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName.split('[')[0]">{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeNameText">{{ priceRow.bedTypeNameText }}</span></p>
                   <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
                 </div>
               </td>
@@ -229,6 +229,17 @@ export default {
       }
     },
 
+    // 设置床型名称的显示
+    setBedTypeNameText(p){
+      let tmpArr = []
+      for (let k = 0; k < p.bedTypeList.length; k++) {
+        const q = p.bedTypeList[k].bedTypeName;
+        tmpArr.push(q.split('[')[0])
+      }
+
+      p.bedTypeNameText = tmpArr.join('/')
+    },
+
     // 为价格数据设置新的属性，使之适合模板
     setNewAttrForPriceData(res, type){
       if(res[type]){
@@ -241,6 +252,8 @@ export default {
           for (let j = 0; j < o.roomTypePrices.length; j++) {
             // o 指每个价格类型，真正用于渲染一行的数据
             let p = o.roomTypePrices[j];
+
+            this.setBedTypeNameText(p)
 
             // 根据前端条件过滤价格
             let isShow = this.getIsShowBoolean(p)
