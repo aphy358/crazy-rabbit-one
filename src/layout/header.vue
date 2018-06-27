@@ -83,7 +83,6 @@ export default {
         this.user = null
 
         if (res.returnCode != 1) {
-          console.log(res.errinfo)
         } else {
           location.reload()
         }
