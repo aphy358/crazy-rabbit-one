@@ -51,11 +51,6 @@ export default {
              cityType == '3' ? '国外'   : '国内'
     }
   },
-
-  methods: {
-   
-  },
-
   
 }
 </script>

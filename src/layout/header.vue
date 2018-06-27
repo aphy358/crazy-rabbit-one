@@ -57,7 +57,7 @@
                   <li class="yzm-box">
                     <i class="login-icon login-icon-4"></i>
                     <input :placeholder="isCode" id="checkcode" title="请输入验证码" name="checkcode" type="text" autocomplete="off" v-model="checkcode">
-                    <img class="yzm-img" src="/user/getCheckcodeImg.do?time=<%=new Date().getTime()%>" alt="" />
+                    <img class="yzm-img" src="/user/getCheckcodeImg.do" alt="" />
                   </li>
                 </ul>
                 <p class="err-msg">{{errinfo}}</p>
@@ -81,11 +81,6 @@
 </template>
 
 <script>
-import {
-  setCookies,
-  getCookies,
-  delCookies
-} from '../components/Login/login.js'
 export default {
   data() {
     return {
@@ -101,21 +96,23 @@ export default {
       pwd: '密码',
       isCode: '请输入验证码',
       errinfo: '',
-      exitDialogVisible:false
+      exitDialogVisible: false
     }
   },
   mounted() {
-    
-    let userCookie = this.$api.hotelList.getCurrentUser()
-     console.log(userCookie)
-    if (userCookie.returnCode == 1) {
-      this.user = userCookie.user.loginName
-    } else {
-      this.user = '请登录'
-    }
+    let _this = this
+
+    this.$api.hotelList.getCurrentUser().then(function(res) {
+      if (res.returnCode == 1) {
+        //console.log(res)
+        _this.user = res.data.user.loginName
+      } else {
+        _this.user = '请登录'
+      }
+    })
   },
   methods: {
-    async login() {
+    login() {
       // await this.$api.hotelList.syncCheckcode()
       let params = {
         accountCode: this.accountCode,
@@ -143,31 +140,32 @@ export default {
         }
       }
 
-      let res = await this.$api.hotelList.syncLogin(params)
-
-      if (res.returnCode != 1) {
-        console.log(res.errinfo)
-        if (res.errinfo == '用户名或密码不正确！') {
-          this.errinfo = '*用户名或密码不正确！'
+      this.$api.hotelList.syncLogin(params).then(res => {
+        if (res.returnCode != 1) {
+          console.log(res.errinfo)
+          if (res.errinfo == '用户名或密码不正确！') {
+            this.errinfo = '*用户名或密码不正确！'
+          }
+        } else {
+          sessionStorage.setItem('jl_username', this.username)
+          this.user = this.username
+          this.centerDialogVisible = false
+          location.reload()
         }
-      } else {
-        setCookies('jl_username', this.username, 1000 * 60)
-        this.user = this.username
-        this.centerDialogVisible = false
-        location.reload()
-      }
+      })
     },
 
-    async logout() {
-      let res = await this.$api.hotelList.syncLogout()
-      if (res.returnCode != 1) {
-        console.log(res.errinfo)
-      } else {
-        delCookies('jl_username')
-        this.exitDialogVisible = false
-        this.user = '请登录'
-        location.reload()
-      }
+    logout() {
+      this.$api.hotelList.syncLogout().then(res => {
+        if (res.returnCode != 1) {
+          console.log(res.errinfo)
+        } else {
+          sessionStorage.removeItem('jl_username')
+          this.exitDialogVisible = false
+          this.user = '请登录'
+          location.reload()
+        }
+      })
     }
   }
 }
@@ -374,7 +372,7 @@ export default {
           }
         }
       }
-      @at-root .exit_content{
+      @at-root .exit_content {
         padding: 20px;
         font-size: 16px;
       }
@@ -437,8 +435,8 @@ export default {
   .el-dialog__body {
     padding: 0;
   }
-  .el-dialog__footer{
-    padding: 0
+  .el-dialog__footer {
+    padding: 0;
   }
 }
 </style>
