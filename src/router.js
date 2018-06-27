@@ -15,7 +15,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/hotelList',
+      path: '/',
       name: 'hotelList',
       components: {
         default: hotelList,
@@ -42,7 +42,7 @@ export default new Router({
       }
     },
     {
-      path: '/',
+      path: '/home',
       name: 'home',
       components: {
         default : home,
