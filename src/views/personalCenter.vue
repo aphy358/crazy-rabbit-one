@@ -99,4 +99,13 @@
 	.bold{
 		font-weight: bold;
 	}
+	
+	
+	.fl {
+		float: left;
+	}
+	
+	.fr {
+		float: right;
+	}
 </style>
