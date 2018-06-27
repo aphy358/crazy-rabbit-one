@@ -217,15 +217,17 @@ export default {
   methods: {
     // 对父组件穿过来的价格列表进行数据处理，设置新属性、筛选等
     newPriceList(){
-      let tmpPriceList = deepCopy(this.priceList)
-      tmpPriceList.combinedRows = []
-
-      this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
-      this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
-      this.combinedRows = tmpPriceList.combinedRows
-
-      if(this.page === 'hotelDetail'){
-        this.$store.commit('hotelDetail/setCommonState', {t: 'combinedRows', v: this.combinedRows})
+      if(this.priceList){
+        let tmpPriceList = deepCopy(this.priceList)
+        tmpPriceList.combinedRows = []
+  
+        this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
+        this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
+        this.combinedRows = tmpPriceList.combinedRows
+  
+        if(this.page === 'hotelDetail'){
+          this.$store.commit('hotelDetail/setCommonState', {t: 'combinedRows', v: this.combinedRows})
+        }
       }
     },
 
