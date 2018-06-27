@@ -106,7 +106,7 @@
 						<span>{{ o.createTime }}</span>
 					</td>
 					<td class="tb-option" data-class="tb-option">
-						<button class="read-order">查看</button>
+						<button class="read-order" @click="seeDetail">查看</button>
 						<button class="upload-pdf">下载入住券</button>
 					</td>
 				</tr>
@@ -121,7 +121,7 @@
 					@current-change="handleCurrentChange"
 					:page-size="10"
 					layout="prev, pager, next, jumper"
-					:total="pageCount">
+					:page-count="pageCount">
 			</el-pagination>
 		</div>
 	
@@ -137,7 +137,7 @@
 		data() {
 			return {
 				orderList: [],
-			    pageCount: 0,
+				pageCount: 0,
 				currentPage: 1
 			}
 		},
@@ -164,12 +164,15 @@
 				};
 				
 				API.personalCenter.syncGetHotelOrder(params).then(res => {
-					this.$data.orderList = res.item;
-					this.$data.pageCount = res.pageCount;
+					this.orderList = res.item;
+					this.pageCount = res.pageCount;
 				})
 			},
 			handleCurrentChange(val) {
 				this.searchOrderList(val);
+			},
+			seeDetail() {
+			
 			}
 		}
 	}

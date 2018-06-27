@@ -6,7 +6,8 @@ import * as home from './home'
 const api = {
   hotelList,
   hotelDetail,
-	personalCenter
+	personalCenter,
+  home
 }
 
 // define install for vue.use()
