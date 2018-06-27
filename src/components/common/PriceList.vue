@@ -5,15 +5,15 @@
         <table class="hotel-price-table" v-if="combinedRows.length">
           <thead class="hotel-price-thead">
             <tr>
-              <th width="65"></th>
-              <th width="260"><span>房型</span></th>
+              <th width="55"></th>
+              <th width="220"><span>房型</span></th>
               <th><span>价格类型</span></th>
-              <th width="140" class="align-center"><span>床型/早餐</span></th>
-              <th><span>预订规则</span></th>
-              <th><span>取消规则</span></th>
-              <th><span>剩余数量</span></th>
+              <th width="150" class="align-center"><span>床型/早餐</span></th>
+              <th width="100"><span>预订规则</span></th>
+              <th width="100"><span>取消规则</span></th>
+              <th width="90"><span>剩余数量</span></th>
               <th width="150"><span>均价/总价</span></th>
-              <th width="94"></th>
+              <th width="85"></th>
             </tr>
           </thead>
 
@@ -29,8 +29,8 @@
 
             <tr class="hotel-price-tr" >
               <td v-if="priceRow.rowSpan" class="first-td" :rowspan="priceRow.rowSpan"><div>{{priceRow.rowSpanText}}</div></td>
-              <td :class="priceRow.tdBindClass">
-                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" @click="toggleSlideRow(priceRow)">
+              <td :class="priceRow.tdBindClass" @click="toggleSlideRow(priceRow)">
+                <div class="hotel-price-room-name" :class="priceRow.roomNameBindClass" >
                   <el-popover placement="top-start"  width="245" trigger="hover" popper-class="price-table-tip">
                     <div class="hli-tip-style" v-html="currentRoomInfo"></div>
                     <span slot="reference" class="hp-roomName"
@@ -55,7 +55,7 @@
               </td>
               <td class="align-center">
                 <div>
-                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName.split('[')[0]">{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeNameText">{{ priceRow.bedTypeNameText }}</span></p>
                   <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
                 </div>
               </td>
@@ -229,6 +229,17 @@ export default {
       }
     },
 
+    // 设置床型名称的显示
+    setBedTypeNameText(p){
+      let tmpArr = []
+      for (let k = 0; k < p.bedTypeList.length; k++) {
+        const q = p.bedTypeList[k].bedTypeName;
+        tmpArr.push(q.split('[')[0])
+      }
+
+      p.bedTypeNameText = tmpArr.join('/')
+    },
+
     // 为价格数据设置新的属性，使之适合模板
     setNewAttrForPriceData(res, type){
       if(res[type]){
@@ -241,6 +252,8 @@ export default {
           for (let j = 0; j < o.roomTypePrices.length; j++) {
             // o 指每个价格类型，真正用于渲染一行的数据
             let p = o.roomTypePrices[j];
+
+            this.setBedTypeNameText(p)
 
             // 根据前端条件过滤价格
             let isShow = this.getIsShowBoolean(p)
@@ -867,7 +880,7 @@ export default {
 
                 &.align-center{
                     text-align: center;
-                    padding: 0;
+                    padding: 0 5px;
 
                     p{
                         line-height: 37px;
@@ -876,7 +889,7 @@ export default {
                         height: 26px;
                         text-overflow: ellipsis;
                         white-space: nowrap;
-                        max-width: 135px;
+                        max-width: 149px;
                     }
                 }
 
@@ -907,10 +920,8 @@ export default {
 
                     @at-root .room-type-icon-outer{
                       display: inline-block;
-                      width: 20px;
-                      height: 20px;
-                      position: relative;
-                      top: 5px;
+                      width: 16px;
+                      height: 16px;
 
                       @at-root .room-type-icon{
                           @include jl_sprites;
