@@ -33,14 +33,3 @@ export const syncGetHotelPriceList = (args, loading = true) => http.post("/hotel
 // 查询房型信息
 export const syncGetRoomInfo = (args, loading = false) => http.post("/hotel/roomInfo.do", args, loading)
 
-
-// 登录
-export const syncLogin = (args, loading = true) => http.post("/user/loginfzg.do", args, loading)
-
-
-// 退出
-export const syncLogout = (args, loading = true) => http.post("/user/loginoutfzg.do", args, loading)
-
-
-// 获取验证码
-export const syncCheckcode = (args, loading = true) => http.post("/user/getCheckcodeImg.do", args, loading)
