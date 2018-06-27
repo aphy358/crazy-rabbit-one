@@ -233,13 +233,18 @@ export default {
 
     // 设置床型名称的显示
     setBedTypeNameText(p){
-      let tmpArr = []
-      for (let k = 0; k < p.bedTypeList.length; k++) {
-        const q = p.bedTypeList[k].bedTypeName;
-        tmpArr.push(q.split('[')[0])
+      if(p.bedTypeList){
+        let tmpArr = []
+        
+        for (let k = 0; k < p.bedTypeList.length; k++) {
+          const q = p.bedTypeList[k].bedTypeName;
+          tmpArr.push(q.split('[')[0])
+        }
+  
+        p.bedTypeNameText = tmpArr.join('/')
+      }else{
+        p.bedTypeNameText = ''
       }
-
-      p.bedTypeNameText = tmpArr.join('/')
     },
 
     // 为价格数据设置新的属性，使之适合模板
