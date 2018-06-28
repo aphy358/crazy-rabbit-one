@@ -26,7 +26,7 @@
           <p class="err-msg">{{errinfo}}</p>
           <button id="loginIn" @click.prevent="login">登录</button>
           <div class="login-bottom">
-            <input id="remberCode" name="rememberMe" type="checkbox" value="true" v-model="rememberMe">
+            <input id="remberCode" name="rememberMe" type="checkbox" value="true" v-model="rememberMe" @change="toggleRememberMe">
             <label for="remberCode">记住账号</label>
             <a class="find-password" href="#">忘记密码？</a>
             <a class="register" href="#">免费注册</a>
@@ -85,14 +85,46 @@ export default {
       this.$api.home.syncLogin(params).then(res => {
         if (res.returnCode != 1) {
           this.errinfo = '* ' + res.errinfo
+          this.codeTimeStamp = +new Date
         } else {
           location.reload();
         }
       })
     },
 
+    toggleRememberMe(){
+      if(this.rememberMe){
+        let account = {
+          accountCode: this.accountCode,
+          username: this.username,
+          password: this.password
+        }
+
+        localStorage.setItem('crazy-rabbit-one-account', JSON.stringify(account))
+      }else{
+        localStorage.removeItem('crazy-rabbit-one-account')
+      }
+    },
+
+    // 设置已经记住的密码
+    setRememberMe(){
+      let account = localStorage.getItem('crazy-rabbit-one-account')
+
+      if(account){
+        account = JSON.parse(account)
+
+        this.accountCode = account.accountCode
+        this.username = account.username
+        this.password = account.password
+        this.rememberMe = true
+      }
+    }
+
   },
 
+  created(){
+    this.setRememberMe()
+  }
 }
 </script>
 
@@ -129,7 +161,7 @@ export default {
       height: 40px;
       line-height: 40px;
       color: red;
-      text-indent: 90px;
+      text-align: center;
       //font-size: 14px;
     }
     > ul {
