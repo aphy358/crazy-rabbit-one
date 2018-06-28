@@ -1,6 +1,6 @@
 
 // 将被点击的城市设置到历史记录里
-const setHistory = (citytype, cityid, cityname) => {
+export const setHistory = (citytype, cityid, cityname) => {
   let kwcHistory = localStorage.getItem('kwcHistory')
 
   if( kwcHistory ){
@@ -42,8 +42,4 @@ const setHistory = (citytype, cityid, cityname) => {
   }
 
   localStorage.setItem('kwcHistory', window.JSON.stringify(kwcHistory));
-}
-
-module.exports = {
-  setHistory,
 }
