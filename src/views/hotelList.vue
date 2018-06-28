@@ -6,7 +6,7 @@
         <SubSearchLine />
         <NoHotels v-if="pageRecordCount == 0" />
         <HotelList />
-        <Pagination />
+        <Pagination @changePage="changePage" :pageNow="pageNow" :pageTotal="pageTotal" />
     </div>
 </template>
 
@@ -41,6 +41,14 @@ export default {
   },
 
   computed: {
+    pageNow() {
+      return +this.$store.state.hotelList.pageNow
+    },
+
+    pageTotal() {
+      return +this.$store.state.hotelList.pageTotal
+    },
+
     pageRecordCount(){
       return this.$store.state.hotelList.pageRecordCount
     },
@@ -51,6 +59,12 @@ export default {
              cityType == '3' ? '国外'   : '国内'
     }
   },
+
+  methods: {
+    changePage($event){
+      this.$store.dispatch("hotelList/actionHotelList", {t: 'pageNow', v: $event, api: this.$api});
+    }
+  }
   
 }
 </script>
