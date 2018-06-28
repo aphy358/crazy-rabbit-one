@@ -10,7 +10,7 @@
         <SearchBlock></SearchBlock>
         <div class="todayPush">
             <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane :label="item.isShow == 1?item.cityName:''" name="first" v-for="item in todayPushList" v-show="item.isShow == 1">{{item.cityName}}</el-tab-pane>
+                <el-tab-pane :label="item.isShow == 1?item.cityName:''" name="first" v-for="(item, i) in todayPushList" :key="i" v-show="item.isShow == 1">{{item.cityName}}</el-tab-pane>
             </el-tabs>
         </div>
 

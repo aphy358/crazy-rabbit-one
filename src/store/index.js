@@ -6,6 +6,7 @@ import { _queryHotelPriceList, _scrollTop, _setCommonState } from "./util.js"
 // 引入各个子模块
 import hotelList from './modules/hotelList'
 import hotelDetail from './modules/hotelDetail'
+import personalCenter from './modules/personalCenter'
 
 Vue.use(Vuex)
 
@@ -57,6 +58,7 @@ export default new Vuex.Store({
 
   modules: {
     hotelList,
-    hotelDetail
+    hotelDetail,
+	  personalCenter
   },
 })

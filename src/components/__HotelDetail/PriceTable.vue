@@ -65,6 +65,16 @@ export default {
     PriceList,
   },
 
+  watch: {
+    combinedRows(newValue) {
+      if(newValue.length > 10){
+        this.toBeExpand = true
+      }else{
+        this.toBeExpand = false
+      }
+    },
+  },
+
   computed: {
     hotel: function(){
       return this.$store.getters["hotelDetail/getHotelInfo"];
@@ -75,15 +85,7 @@ export default {
     },
 
     combinedRows: function(){
-      let combinedRows = this.$store.state.hotelDetail.combinedRows
-
-      if(combinedRows.length > 10){
-        this.toBeExpand = true
-      }else{
-        this.toBeExpand = false
-      }
-
-      return combinedRows
+      return this.$store.state.hotelDetail.combinedRows
     }
   },
   
