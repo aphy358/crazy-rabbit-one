@@ -55,7 +55,7 @@
               </td>
               <td class="align-center">
                 <div>
-                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeNameText">{{ priceRow.bedTypeNameText }}</span></p>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName">{{ priceRow.bedTypeName }}</span></p>
                   <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
                 </div>
               </td>
@@ -217,27 +217,18 @@ export default {
   methods: {
     // 对父组件穿过来的价格列表进行数据处理，设置新属性、筛选等
     newPriceList(){
-      let tmpPriceList = deepCopy(this.priceList)
-      tmpPriceList.combinedRows = []
-
-      this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
-      this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
-      this.combinedRows = tmpPriceList.combinedRows
-
-      if(this.page === 'hotelDetail'){
-        this.$store.commit('hotelDetail/setCommonState', {t: 'combinedRows', v: this.combinedRows})
+      if(this.priceList){
+        let tmpPriceList = deepCopy(this.priceList)
+        tmpPriceList.combinedRows = []
+  
+        this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBasesRecommend');
+        this.setNewAttrForPriceData(tmpPriceList, 'roomTypeBases');
+        this.combinedRows = tmpPriceList.combinedRows
+  
+        if(this.page === 'hotelDetail'){
+          this.$store.commit('hotelDetail/setCommonState', {t: 'combinedRows', v: this.combinedRows})
+        }
       }
-    },
-
-    // 设置床型名称的显示
-    setBedTypeNameText(p){
-      let tmpArr = []
-      for (let k = 0; k < p.bedTypeList.length; k++) {
-        const q = p.bedTypeList[k].bedTypeName;
-        tmpArr.push(q.split('[')[0])
-      }
-
-      p.bedTypeNameText = tmpArr.join('/')
     },
 
     // 为价格数据设置新的属性，使之适合模板
@@ -252,8 +243,6 @@ export default {
           for (let j = 0; j < o.roomTypePrices.length; j++) {
             // o 指每个价格类型，真正用于渲染一行的数据
             let p = o.roomTypePrices[j];
-
-            this.setBedTypeNameText(p)
 
             // 根据前端条件过滤价格
             let isShow = this.getIsShowBoolean(p)

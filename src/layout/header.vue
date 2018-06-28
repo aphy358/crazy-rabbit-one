@@ -42,7 +42,7 @@
     <Confirm v-if="showConfirmLogoutDialog" @confirm="logout" @close="showConfirmLogoutDialog = false">
       <div style="text-align: center;font-size: 16px;">是否确定要退出？</div>
     </Confirm>
-    
+
   </header>
 </template>
 
@@ -80,10 +80,10 @@ export default {
 
     logout() {
       this.$api.home.syncLogout().then(res => {
+        this.user = null
+
         if (res.returnCode != 1) {
-          console.log(res.errinfo)
         } else {
-          this.user = null
           location.reload()
         }
       })
