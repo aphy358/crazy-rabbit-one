@@ -28,7 +28,10 @@
           <div class="login-bottom">
             <input id="remberCode" name="rememberMe" type="checkbox" value="true" v-model="rememberMe" @change="toggleRememberMe">
             <label for="remberCode">记住账号</label>
-            <a class="find-password" href="#">忘记密码？</a>
+            <el-tooltip class="item" effect="dark" placement="right-end" popper-class="forget-pwd" visible-arrow="false">
+              <div slot="content">请联系账户管理员或致电<b class="jl-phone">0755-33336999</b></div>
+              <a class="find-password" href="#">忘记密码？</a>
+            </el-tooltip>
             <a class="register" href="#">免费注册</a>
           </div>
         </form>
@@ -128,10 +131,28 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .el-dialog__headerbtn{
   font-size: 20px!important;
   z-index: 99;
+}
+
+.forget-pwd{
+  &.el-tooltip__popper.is-dark{
+    background: #7ea5f4;
+  }
+
+  &.el-tooltip__popper[x-placement^=right] .popper__arrow, &.el-tooltip__popper[x-placement^=right] .popper__arrow::after{
+    border-right-color: #7ea5f4!important;
+  }
+
+  &.el-tooltip__popper[x-placement^=left] .popper__arrow, &.el-tooltip__popper[x-placement^=left] .popper__arrow::after{
+    border-left-color: #7ea5f4!important;
+  }
+
+  .jl-phone{
+    margin-left: 5px;
+  }
 }
 </style>
 
