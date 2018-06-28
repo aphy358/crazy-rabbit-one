@@ -3,7 +3,7 @@
         <el-carousel :interval="5000" arrow="always" height="520px" indicator-position="none">
             <el-carousel-item v-for="item in imgList" :key="item">
                 <a href="#">
-                    <img :src="item" class="carousel_img"></img>
+                    <img :src="item" class="carousel_img" />
                 </a>
             </el-carousel-item>
         </el-carousel>
