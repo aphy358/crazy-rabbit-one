@@ -130,13 +130,7 @@
                           <span class="item-title message-required">收单适用星期</span>
                       </div>
                       <ul class="item-r fl">
-                          <li class="sdweek" :class="{'selected': selectedWeek[0]}" @click="toggleWeekSelect(0)">1</li>
-                          <li class="sdweek" :class="{'selected': selectedWeek[1]}" @click="toggleWeekSelect(1)">2</li>
-                          <li class="sdweek" :class="{'selected': selectedWeek[2]}" @click="toggleWeekSelect(2)">3</li>
-                          <li class="sdweek" :class="{'selected': selectedWeek[3]}" @click="toggleWeekSelect(3)">4</li>
-                          <li class="sdweek" :class="{'selected': selectedWeek[4]}" @click="toggleWeekSelect(4)">5</li>
-                          <li class="sdweek" :class="{'selected': selectedWeek[5]}" @click="toggleWeekSelect(5)">6</li>
-                          <li class="sdweek" :class="{'selected': selectedWeek[6]}" @click="toggleWeekSelect(6)">7</li>
+                          <li class="sdweek" v-for="(item, i) in selectedWeek" :key="i" :class="{'selected': item}" @click="toggleWeekSelect(i)">{{i + 1}}</li>
                       </ul>
                       <p class="warning"></p>
                   </li>
