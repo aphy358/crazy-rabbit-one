@@ -109,8 +109,14 @@ export default {
       }else{
         Velocity(elem, { height: '249px' })
 
+        let _top = elem.getBoundingClientRect().top
+
         let container = document.querySelector('.el-scrollbar__wrap')
-        Velocity(elem, 'scroll', {offset: '20px', container: container})
+
+        _top < 0
+          ? Velocity(elem, 'scroll', {offset: '20px', container: container})
+          : ''
+
         Velocity(elem, 'finish')
 
         this.fixBottom = false
