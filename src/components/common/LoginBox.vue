@@ -1,7 +1,7 @@
 
 <!-- 登录框 -->
 <template>
-    <el-dialog title="" :visible="true" width="360px" center @close="$emit('close')">
+    <el-dialog title="" :visible="visible" width="360px" center @close="$emit('close')">
       <div class="login-box">
         <form id="loginJl">
           <ul>
@@ -32,7 +32,7 @@
               <div slot="content">请联系账户管理员或致电<b class="jl-phone">0755-33336999</b></div>
               <a class="find-password" href="#">忘记密码？</a>
             </el-tooltip>
-            <a class="register" href="#">免费注册</a>
+            <router-link class="register" to="/registry" @click.native="visible = false">免费注册</router-link>
           </div>
         </form>
       </div>
@@ -45,6 +45,7 @@ export default {
 
   data(){
     return {
+      visible: true,
       accountCode: '',
       username: '',
       password: '',
