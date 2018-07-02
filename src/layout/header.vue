@@ -16,7 +16,7 @@
             <li>
               <a href="#">个人中心</a>
             </li>
-            <li>
+            <!-- <li>
               <a href="#">酒店订单</a>
             </li>
             <li>
@@ -24,7 +24,7 @@
             </li>
             <li>
               <a href="#">发票索取</a>
-            </li>
+            </li> -->
             <li @click="showConfirmLogoutDialog = true">
               <a href="#">退出</a>
             </li>

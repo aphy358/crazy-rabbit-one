@@ -64,7 +64,7 @@
               </ul>
               <div class="gongshang-outer">
                   <div class="gongshang-inner">
-                      <a href="http://szcert.ebs.org.cn/6768cf73-7a38-463b-a3d3-83bfb2959cf9" target="_blank" class="gongshang-icon">
+                      <a href="http://szcert.ebs.org.cn/6768cf73-7a38-463b-a3d3-83bfb2959cf9" target="_blank" class="gongshang-icon" style="margin-right:5px;">
                           <i class="gov-logo" title="深圳市市场监督管理局企业主体身份公示"></i>
                       </a>
                       <a href="http://www.miitbeian.gov.cn" target="_blank">粤ICP备11071174号</a>&nbsp;&nbsp;&nbsp;Copyright © 2001-2018 版权所有

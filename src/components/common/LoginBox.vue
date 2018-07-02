@@ -1,7 +1,7 @@
 
 <!-- 登录框 -->
 <template>
-    <el-dialog title="" :visible="true" width="360px" center @close="$emit('close')">
+    <el-dialog title="" :visible="visible" width="360px" center @close="$emit('close')">
       <div class="login-box">
         <form id="loginJl">
           <ul>
@@ -26,10 +26,13 @@
           <p class="err-msg">{{errinfo}}</p>
           <button id="loginIn" @click.prevent="login">登录</button>
           <div class="login-bottom">
-            <input id="remberCode" name="rememberMe" type="checkbox" value="true" v-model="rememberMe">
+            <input id="remberCode" name="rememberMe" type="checkbox" value="true" v-model="rememberMe" @change="toggleRememberMe">
             <label for="remberCode">记住账号</label>
-            <a class="find-password" href="#">忘记密码？</a>
-            <a class="register" href="#">免费注册</a>
+            <el-tooltip class="item" effect="dark" placement="right-end" popper-class="forget-pwd" visible-arrow="false">
+              <div slot="content">请联系账户管理员或致电<b class="jl-phone">0755-33336999</b></div>
+              <a class="find-password" href="#">忘记密码？</a>
+            </el-tooltip>
+            <router-link class="register" to="/registry" @click.native="visible = false">免费注册</router-link>
           </div>
         </form>
       </div>
@@ -42,6 +45,7 @@ export default {
 
   data(){
     return {
+      visible: true,
       accountCode: '',
       username: '',
       password: '',
@@ -85,21 +89,71 @@ export default {
       this.$api.home.syncLogin(params).then(res => {
         if (res.returnCode != 1) {
           this.errinfo = '* ' + res.errinfo
+          this.codeTimeStamp = +new Date
         } else {
           location.reload();
         }
       })
     },
 
+    toggleRememberMe(){
+      if(this.rememberMe){
+        let account = {
+          accountCode: this.accountCode,
+          username: this.username,
+          password: this.password
+        }
+
+        localStorage.setItem('crazy-rabbit-one-account', JSON.stringify(account))
+      }else{
+        localStorage.removeItem('crazy-rabbit-one-account')
+      }
+    },
+
+    // 设置已经记住的密码
+    setRememberMe(){
+      let account = localStorage.getItem('crazy-rabbit-one-account')
+
+      if(account){
+        account = JSON.parse(account)
+
+        this.accountCode = account.accountCode
+        this.username = account.username
+        this.password = account.password
+        this.rememberMe = true
+      }
+    }
+
   },
 
+  created(){
+    this.setRememberMe()
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
 .el-dialog__headerbtn{
   font-size: 20px!important;
   z-index: 99;
+}
+
+.forget-pwd{
+  &.el-tooltip__popper.is-dark{
+    background: #7ea5f4;
+  }
+
+  &.el-tooltip__popper[x-placement^=right] .popper__arrow, &.el-tooltip__popper[x-placement^=right] .popper__arrow::after{
+    border-right-color: #7ea5f4!important;
+  }
+
+  &.el-tooltip__popper[x-placement^=left] .popper__arrow, &.el-tooltip__popper[x-placement^=left] .popper__arrow::after{
+    border-left-color: #7ea5f4!important;
+  }
+
+  .jl-phone{
+    margin-left: 5px;
+  }
 }
 </style>
 
@@ -129,7 +183,7 @@ export default {
       height: 40px;
       line-height: 40px;
       color: red;
-      text-indent: 90px;
+      text-align: center;
       //font-size: 14px;
     }
     > ul {

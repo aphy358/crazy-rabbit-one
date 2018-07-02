@@ -6,7 +6,7 @@
           background
           layout="prev, pager, next"
           style="float: right;margin-right: -10px;"
-          @current-change="changePage"
+          @current-change="$emit('changePage', $event)"
           :current-page="pageNow"
           :page-count="pageTotal" >
         </el-pagination>
@@ -21,24 +21,14 @@ export default {
     return {};
   },
 
-  props: {},
-
-  components: {},
+  props: ['pageNow', 'pageTotal'],
 
   computed: {
-    pageNow() {
-      return +this.$store.state.hotelList.pageNow
-    },
-
-    pageTotal() {
-      return +this.$store.state.hotelList.pageTotal
-    },
+    
   },
 
   methods: {
-    changePage($event){
-      this.$store.dispatch("hotelList/actionHotelList", {t: 'pageNow', v: $event, api: this.$api});
-    }
+    
   }
 };
 </script>
