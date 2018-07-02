@@ -8,6 +8,7 @@ import hotelDetail from './views/hotelDetail.vue'
 import hotelList from './views/hotelList.vue'
 import personalCenter from './views/personalCenter.vue'
 import home from './views/home.vue'
+import orderWrite from './views/orderWrite.vue'
 
 
 Vue.use(Router)
@@ -36,20 +37,29 @@ export default new Router({
       path: '/personalCenter',
       name: 'personalCenter',
       components: {
-        default : personalCenter,
-        header : Header,
-        footer : Footer
+        default: personalCenter,
+        header: Header,
+        footer: Footer
       }
     },
     {
       path: '/home',
       name: 'home',
       components: {
-        default : home,
-        header : Header,
-        footer : Footer
+        default: home,
+        header: Header,
+        footer: Footer
+      }
+    },
+    {
+      path: '/orderWrite',
+      name: '/orderWrite',
+      components: {
+        default: orderWrite,
+        header: Header,
+        footer: Footer
       }
     }
-    
+  
   ]
 })

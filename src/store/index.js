@@ -7,6 +7,7 @@ import { _queryHotelPriceList, _scrollTop, _setCommonState } from "./util.js"
 import hotelList from './modules/hotelList'
 import hotelDetail from './modules/hotelDetail'
 import personalCenter from './modules/personalCenter'
+import orderWrite from './modules/orderWrite'
 
 Vue.use(Vuex)
 
@@ -59,6 +60,7 @@ export default new Vuex.Store({
   modules: {
     hotelList,
     hotelDetail,
-	  personalCenter
+	  personalCenter,
+    orderWrite
   },
 })

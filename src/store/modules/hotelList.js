@@ -42,7 +42,7 @@ export default {
     
     // 将酒店数据进行初步加工
     getHotelList(state){
-      state.hotelList.forEach((o, i) => {
+      state.hotelList.length > 0 && state.hotelList.forEach((o, i) => {
         if(o.picSrc.indexOf('nopic.png') != -1){
           o.picSrc = o.picSrc.replace(/\/common\/images\/nopic.png/, 'https://qnb.oss-cn-shenzhen.aliyuncs.com/real_1514016068416.png')
           o.extraStyle = 'height: 100%;width: auto;margin-left: 60px;'
