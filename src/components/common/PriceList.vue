@@ -44,87 +44,75 @@
 							      :class="priceRow.roomNameBindClass">
                     <i class="room-type-icon" :class="priceRow.relativeShow ? 'slide-up' : 'slide-down'"></i>
                   </span>
-						</div>
-					</td>
-					<td>
-						<div>
-							<span>{{priceRow.rateTypeName || ''}}</span>
-							<el-popover v-if="priceRow.isHasMarketing" placement="top-start" width="200" trigger="hover"
-							            popper-class="price-table-tip">
-								<span class="hli-tip-style">{{priceRow.marketingInfo}}</span>
-								<i slot="reference" class="marketing-icon"></i>
-							</el-popover>
-							<i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
-						</div>
-					</td>
-					<td class="align-center">
-						<div>
-							<p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName">{{ priceRow.bedTypeName
-								}}</span></p>
-							<p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
-						</div>
-					</td>
-					<td>
-						<div>
-							<el-popover v-if="priceRow.orderClauseText !== '无预订条款'" placement="top-start" width="200"
-							            trigger="hover" popper-class="price-table-tip">
-								<div v-html="priceRow.orderClauseTip"></div>
-								<span slot="reference" class="hp-order-clause">{{priceRow.orderClauseText}}</span>
-							</el-popover>
-							<span v-if="priceRow.orderClauseText === '无预订条款'">{{priceRow.orderClauseText}}</span>
-						</div>
-					</td>
-					<td>
-						<div>
-							<el-popover placement="top-start" width="200" trigger="hover"
-							            popper-class="price-table-tip">
-								<span class="hli-tip-style">{{priceRow.cancellationDesc}}</span>
-								<span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
-							</el-popover>
-						</div>
-					</td>
-					<td>
-						<div>
-							<el-popover placement="top-start" width="300" trigger="hover"
-							            popper-class="price-table-tip">
-								<span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
-								<span slot="reference" class="hp-store-status" v-html="priceRow.roomStatusText"></span>
-							</el-popover>
-						</div>
-					</td>
-					<td>
-						<div>
-							<el-popover placement="top-start" width="300" trigger="hover"
-							            popper-class="price-table-tip">
-								<span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
-								<p slot="reference" class="hp-currency">均 ￥<span
-										class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '')
-									}}</span></p>
-							</el-popover>
-							<p class="hp-total-price-wrap"><span class="hp-total-price">总 ￥<span
-									class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span></p>
-						</div>
-					</td>
-					<td>
-						<div>
-							<router-link v-if="priceRow.isBook" target="_blank"
-							             :to="{ path: 'orderWrite', query: getLink(priceRow, i) }">
-								<el-button type="warning" size="mini" class="hp-order-btn"
-								           @click="setHotelPriceStrs(priceRow, i)">预订</el-button>
-							</router-link>
-							<el-button type="info" size="mini" disabled v-if="!priceRow.isBook" class="hp-order-btn">
-								不可订
-							</el-button>
-						</div>
-					</td>
-				</tr>
-			
-			</transition>
-			</tbody>
-		
-		</table>
-		<div class="hli-error-msg" v-if="!combinedRows.length">无相关价格！</div>
-	</div>
+
+                </div>
+              </td>
+              <td>
+                <div>
+                  <span>{{priceRow.rateTypeName || ''}}</span>
+                  <el-popover  v-if="priceRow.isHasMarketing" placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style">{{priceRow.marketingInfo}}</span>
+                    <i slot="reference" class="marketing-icon"></i>
+                  </el-popover>
+                  <i v-if="priceRow.packageRequest" class="pagekage-icon"></i>
+                </div>
+              </td>
+              <td class="align-center">
+                <div>
+                  <p v-if="priceRow.bedTypeName"><span :title="priceRow.bedTypeName.split('[')[0]">{{ priceRow.bedTypeName.split('[')[0] }}</span></p>
+                  <p><span :title="priceRow.breakFastName || ''">{{ priceRow.breakFastName || '' }}</span></p>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <el-popover  v-if="priceRow.orderClauseText !== '无预订条款'"  placement="top-start" width="200" trigger="hover" popper-class="price-table-tip">
+                    <div v-html="priceRow.orderClauseTip"></div>
+                    <span slot="reference" class="hp-order-clause">{{priceRow.orderClauseText}}</span>
+                  </el-popover>
+                  <span v-if="priceRow.orderClauseText === '无预订条款'">{{priceRow.orderClauseText}}</span>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <el-popover placement="top-start"  width="200" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style">{{priceRow.cancellationDesc}}</span>
+                    <span slot="reference" class="hp-cancel-clause">{{ priceRow.cancellationText }}</span>
+                  </el-popover>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
+                    <span slot="reference" class="hp-store-status" v-html="priceRow.roomStatusText"></span>
+                  </el-popover>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <el-popover placement="top-start"  width="300" trigger="hover" popper-class="price-table-tip">
+                    <span class="hli-tip-style" v-html="priceRow.priceDetailTip"></span>
+                    <p slot="reference" class="hp-currency">均 ￥<span class="hp-average-price-num">{{ priceRow.averagePriceRMB.toFixed(2).replace(/(\.0+|0+)$/, '') }}</span></p>
+                  </el-popover>
+                  <p class="hp-total-price-wrap"><span class="hp-total-price">总 ￥<span class="hp-total-price-num">{{ priceRow.totalPriceRMB }}</span></span></p>
+                </div>
+              </td>
+              <td>
+                <div>
+                  <a v-if="priceRow.isBook" href="javascript:;" target="_blank">
+                    <el-button type="warning" size="mini" class="hp-order-btn">预订</el-button>
+                  </a>
+                  <el-button type="info" size="mini" disabled v-if="!priceRow.isBook" class="hp-order-btn">不可订</el-button>
+                </div>
+              </td>
+            </tr>
+
+            </transition>
+          </tbody>
+
+        </table>
+        <div class="hli-error-msg" v-if="!combinedRows.length">无相关价格！</div>
+    </div>
 </template>
 
 <script>

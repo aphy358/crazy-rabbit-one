@@ -93,6 +93,7 @@ export default {
     toggleExpand(){
       this.expanded = !this.expanded
       let elem = document.querySelector('.hotel-price-table-wrapper')
+      if(!elem) return;
 
       let elem2 = document.querySelector('.hotel-price-table')
       this.priceTableHeight = elem2.getBoundingClientRect().height
@@ -108,8 +109,14 @@ export default {
       }else{
         Velocity(elem, { height: '249px' })
 
+        let _top = elem.getBoundingClientRect().top
+
         let container = document.querySelector('.el-scrollbar__wrap')
-        Velocity(elem, 'scroll', {offset: '20px', container: container})
+
+        _top < 0
+          ? Velocity(elem, 'scroll', {offset: '20px', container: container})
+          : ''
+
         Velocity(elem, 'finish')
 
         this.fixBottom = false
@@ -127,6 +134,7 @@ export default {
       // 只有当价格全部展开的时候才处理底部 '展开全部房型' 按钮的固定
       if(this.expanded){
         let priceTable = document.querySelector('.hotel-price-table')
+        if(!priceTable) return;
         let rect = priceTable.getBoundingClientRect()
         let clientHeight = document.documentElement.clientHeight;
 

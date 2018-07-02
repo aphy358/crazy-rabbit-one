@@ -3,13 +3,15 @@ import * as hotelDetail from './hotelDetail'
 import * as personalCenter from './personalCenter'
 import * as home from './home'
 import * as orderWrite from './orderWrite'
+import * as registry from './registry'
 
 const api = {
   hotelList,
   hotelDetail,
 	personalCenter,
   home,
-  orderWrite
+  orderWrite,
+  registry
 }
 
 // define install for vue.use()

@@ -7,6 +7,7 @@ import Footer from './layout/footer.vue'
 import hotelDetail from './views/hotelDetail.vue'
 import hotelList from './views/hotelList.vue'
 import personalCenter from './views/personalCenter.vue'
+import registry from './views/registry.vue'
 import home from './views/home.vue'
 import orderWrite from './views/orderWrite.vue'
 
@@ -58,6 +59,15 @@ export default new Router({
         default: orderWrite,
         header: Header,
         footer: Footer
+      }
+    },
+    {
+      path: '/registry',
+      name: 'registry',
+      components: {
+        default : registry,
+        header : Header,
+        footer : Footer
       }
     }
   
