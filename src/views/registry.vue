@@ -27,17 +27,17 @@
                           <span class="item-title message-required">企业名称</span>
                       </div>
                       <input v-model="companyName" type="text" class="fl submit-required" placeholder="请填写正确的公司名称全称" 
-                        :class="{'input-error': $errors.companyName}" 
-                        @input="validateCompanyName"/>
+                        :class="{'input-error': errors.companyNameMsg}" 
+                        @input="throttle(validateCompanyName)"/>
 
-                      <p class="warning" v-show="$errors.companyName"><i class="icon-warning"></i>{{$errors.companyName}}</p>
+                      <p class="warning" v-show="errors.companyNameMsg"><i class="icon-warning"></i>{{errors.companyNameMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">企业所在地</span>
                       </div>
                       <div class="item-r fl">
-                          <el-select v-model="selValue1" filterable @change="changeCountry" style="width: 140px;margin-right: 20px;" :class="{'input-error': $errors.companyLocation}" >
+                          <el-select v-model="selValue1" filterable @change="changeCountry" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.companyLocation}" >
                             <el-option
                               v-for="item in selOptions1"
                               :key="item[1]"
@@ -46,7 +46,7 @@
                             </el-option>
                           </el-select>
 
-                          <el-select v-model="selValue2" filterable @change="changeState" style="width: 140px;margin-right: 20px;" :class="{'input-error': $errors.companyLocation}">
+                          <el-select v-model="selValue2" filterable @change="changeState" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.companyLocation}">
                             <el-option
                               v-for="item in selOptions2"
                               :key="item[1]"
@@ -55,7 +55,7 @@
                             </el-option>
                           </el-select>
 
-                          <el-select v-model="selValue3" filterable @change="changeCity" style="width: 140px;" :class="{'input-error': $errors.companyLocation}">
+                          <el-select v-model="selValue3" filterable @change="changeCity" style="width: 140px;" :class="{'input-error': errors.companyLocation}">
                             <el-option
                               v-for="item in selOptions3"
                               :key="item[1]"
@@ -64,34 +64,34 @@
                             </el-option>
                           </el-select>
                       </div>
-                      <p class="warning" v-show="$errors.companyLocation"><i class="icon-warning"></i>{{$errors.companyLocation}}</p>
+                      <p class="warning" v-show="errors.companyLocationMsg"><i class="icon-warning"></i>{{errors.companyLocationMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">企业地址</span>
                       </div>
                       <input v-model="address" type="text" class="fl submit-required" placeholder="请填写正确的公司办公地址" 
-                        :class="{'input-error': $errors.address}" 
+                        :class="{'input-error': errors.addressMsg}" 
                         @input="_validate('address', {preset: '企业地址', rules: ['required']})" />
 
-                      <p class="warning" v-show="$errors.address"><i class="icon-warning"></i>{{$errors.address}}</p>
+                      <p class="warning" v-show="errors.addressMsg"><i class="icon-warning"></i>{{errors.addressMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title">企业电话</span>
                       </div>
                       <input v-model="telephone" type="text" class="fl" placeholder="请填写正确格式，如075533397777"
-                        :class="{'input-error': $errors.telephone}" 
+                        :class="{'input-error': errors.telephoneMsg}" 
                         @input="_validate('telephone', ['telephone'])" />
 
-                      <p class="warning" v-show="$errors.telephone"><i class="icon-warning"></i>{{$errors.telephone}}</p>
+                      <p class="warning" v-show="errors.telephoneMsg"><i class="icon-warning"></i>{{errors.telephoneMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">企业传真</span>
                       </div>
                       <input v-model="fax" type="text" class="fl submit-required" placeholder="请填写正确格式，如075533397777" @input="_validate('fax')"/>
-                      <p class="warning" v-show="$errors.fax"><i class="icon-warning"></i>{{$errors.fax}}</p>
+                      <p class="warning" v-show="errors.faxMsg"><i class="icon-warning"></i>{{errors.faxMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
@@ -140,7 +140,7 @@
                       <ul class="item-r fl" style="width: 457px;">
                           <li class="sdweek" v-for="(item, i) in selectedWeek" :key="i" :class="{'selected': item}" @click="toggleWeekSelect(i)">{{i + 1}}</li>
                       </ul>
-                      <p class="warning" v-show="$errors.selectedWeek"><i class="icon-warning"></i>{{$errors.selectedWeek}}</p>
+                      <p class="warning" v-show="errors.selectedWeekMsg"><i class="icon-warning"></i>{{errors.selectedWeekMsg}}</p>
                   </li>
               </ul>
           </div>
@@ -155,42 +155,42 @@
                           <span class="item-title message-required">用户名</span>
                       </div>
                       <input v-model="userName" type="text" class="fl submit-required" placeholder="请设置用户名，由4至16位数字或英文字母组成" @input="_validate('userName')"/>
-                      <p class="warning" v-show="$errors.userName"><i class="icon-warning"></i>{{$errors.userName}}</p>
+                      <p class="warning" v-show="errors.userNameMsg"><i class="icon-warning"></i>{{errors.userNameMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">密码</span>
                       </div>
                       <input v-model="password" type="password" class="fl submit-required" placeholder="请设置密码，由4至16位字符组成" @input="_validate('password')"/>
-                      <p class="warning" v-show="$errors.password"><i class="icon-warning"></i>{{$errors.password}}</p>
+                      <p class="warning" v-show="errors.passwordMsg"><i class="icon-warning"></i>{{errors.passwordMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">确认密码</span>
                       </div>
                       <input v-model="passwordConfirm" type="password" class="fl submit-required" placeholder="请再次输入密码" @input="_validate('passwordConfirm')"/>
-                      <p class="warning" v-show="$errors.passwordConfirm"><i class="icon-warning"></i>{{$errors.passwordConfirm}}</p>
+                      <p class="warning" v-show="errors.passwordConfirmMsg"><i class="icon-warning"></i>{{errors.passwordConfirmMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">姓名</span>
                       </div>
                       <input v-model="name" type="text" class="fl submit-required" placeholder="请填写您的真实姓名" @input="_validate('name')"/>
-                      <p class="warning" v-show="$errors.name"><i class="icon-warning"></i>{{$errors.name}}</p>
+                      <p class="warning" v-show="errors.nameMsg"><i class="icon-warning"></i>{{errors.nameMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">手机</span>
                       </div>
                       <input v-model="mobile" type="text" class="fl submit-required" placeholder="请填写您的手机号码" @input="_validate('mobile')"/>
-                      <p class="warning" v-show="$errors.mobile"><i class="icon-warning"></i>{{$errors.mobile}}</p>
+                      <p class="warning" v-show="errors.mobileMsg"><i class="icon-warning"></i>{{errors.mobileMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
                           <span class="item-title message-required">邮箱</span>
                       </div>
                       <input v-model="email" type="text" class="fl submit-required" placeholder="请填写您的邮箱地址" @input="_validate('email')"/>
-                      <p class="warning" v-show="$errors.email"><i class="icon-warning"></i>{{$errors.email}}</p>
+                      <p class="warning" v-show="errors.emailMsg"><i class="icon-warning"></i>{{errors.emailMsg}}</p>
                   </li>
                   <li class="company-item">
                       <div class="fl item-l">
@@ -206,7 +206,7 @@
                           <input v-model="verificationCode" type="text" class="fl submit-required" maxlength="4" placeholder="请输入验证码" style="width: 360px;margin-right: 18px;" @input="_validate('verificationCode')"/>
                           <img class="yzm-img" :src="'/user/getCheckcodeImg.do?time=' + codeTimeStamp" @click="codeTimeStamp = +new Date()" />
                       </div>
-                      <p class="warning" v-show="$errors.verificationCode"><i class="icon-warning"></i>{{$errors.verificationCode}}</p>
+                      <p class="warning" v-show="errors.verificationCodeMsg"><i class="icon-warning"></i>{{errors.verificationCodeMsg}}</p>
                   </li>
               </ul>
           </div>
@@ -219,6 +219,7 @@
 <script>
 import { area } from "../assets/area.js";
 import { validator } from "../components/validator.js";
+import { throttle } from "../util.js";
 const { countrys, states, citys } = area
 
 export default {
@@ -325,6 +326,8 @@ export default {
       // 验证码时间戳
       codeTimeStamp: 0,
 
+      errors: {}
+
     }
   },
 
@@ -332,16 +335,15 @@ export default {
     
   },
 
-  // 挂载前在组件下定义一个 $errors 对象，专门用于存储所有错误信息
-  beforeMount(){
-    this.$errors = {}
-  },
-
   computed: {
     
   },
   
   methods: {
+    throttle(func){
+      throttle(func)
+    },
+
     // 切换国家
     changeCountry(e){
       this.selOptions2 = states.filter(n => n[0] == e || n[0] == '-1')
@@ -398,7 +400,7 @@ export default {
             callback: function(){
               return _this.$api.registry.checkCompanyName({ key: 'allName', val: _this.companyName })
             }, 
-            cb_promise: function(res){
+            callback2: function(res){
               return res.isSucc !== false
             },
             msg: '该企业名称已存在，请使用其他名称，或联系0755-33336999'
