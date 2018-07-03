@@ -3,7 +3,7 @@
  * 1、必须在组件 data 里定义属性 errors: {}，该属性将包含所有验证返回的错误信息
  * 2、所有被验证的 key 值，都需要在组件 data 里定义好，比如要验证用户名 userName，则组件 data 必须定义好属性 userName
  * 3、由于每个被验证的项都会返回一个错误数组（而不是单个错误），所以在设计上又给对象 errors[key] 新增一个属性 key + 'Msg'，即 errors[key + 'Msg']，值设置为数组第一个元素的 msg 属性
- * 4、所以基于第三点，在显示验证返回的错误信息时，显示的其实是 errors[key + 'Msg'] 的值，如 'errors.companyNameMsg'，而不是显示 'errors.companyName'
+ * 4、所以基于第3点，在显示验证返回的错误信息时，显示的其实是 errors[key + 'Msg'] 的值，如 'errors.companyNameMsg'，而不是显示 'errors.companyName'
  */
 
 
