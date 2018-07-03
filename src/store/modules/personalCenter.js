@@ -9,9 +9,6 @@ export default {
 	
 	
 	mutations : {
-		setIndex : function () {
-		
-		},
 		
 		// 设置状态的公共函数
 		setCommonState(state, payload){
