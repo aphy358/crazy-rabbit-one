@@ -28,7 +28,7 @@
                       </div>
                       <input v-model="companyName" type="text" class="fl submit-required" placeholder="请填写正确的公司名称全称" 
                         :class="{'input-error': errors.companyNameMsg}" 
-                        @input="throttle(validateCompanyName)"/>
+                        @input="validateCompanyName"/>
 
                       <p class="warning" v-show="errors.companyNameMsg"><i class="icon-warning"></i>{{errors.companyNameMsg}}</p>
                   </li>
@@ -37,7 +37,7 @@
                           <span class="item-title message-required">企业所在地</span>
                       </div>
                       <div class="item-r fl">
-                          <el-select v-model="selValue1" filterable @change="changeCountry" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.companyLocation}" >
+                          <el-select v-model="selValue1" filterable @change="changeCountry" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.validated && selValue1 === '-1'}" >
                             <el-option
                               v-for="item in selOptions1"
                               :key="item[1]"
@@ -46,7 +46,7 @@
                             </el-option>
                           </el-select>
 
-                          <el-select v-model="selValue2" filterable @change="changeState" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.companyLocation}">
+                          <el-select v-model="selValue2" filterable @change="changeState" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.validated && selValue2 === '-1'}">
                             <el-option
                               v-for="item in selOptions2"
                               :key="item[1]"
@@ -55,7 +55,7 @@
                             </el-option>
                           </el-select>
 
-                          <el-select v-model="selValue3" filterable @change="changeCity" style="width: 140px;" :class="{'input-error': errors.companyLocation}">
+                          <el-select v-model="selValue3" filterable @change="changeCity" style="width: 140px;" :class="{'input-error': errors.validated && selValue3 === '-1'}">
                             <el-option
                               v-for="item in selOptions3"
                               :key="item[1]"
@@ -219,7 +219,6 @@
 <script>
 import { area } from "../assets/area.js";
 import { validator } from "../components/validator.js";
-import { throttle } from "../util.js";
 const { countrys, states, citys } = area
 
 export default {
@@ -326,7 +325,9 @@ export default {
       // 验证码时间戳
       codeTimeStamp: 0,
 
-      errors: {}
+      errors: {
+        validated: false,
+      }
 
     }
   },
@@ -340,9 +341,6 @@ export default {
   },
   
   methods: {
-    throttle(func){
-      throttle(func)
-    },
 
     // 切换国家
     changeCountry(e){
@@ -401,7 +399,7 @@ export default {
               return _this.$api.registry.checkCompanyName({ key: 'allName', val: _this.companyName })
             }, 
             callback2: function(res){
-              return res.isSucc !== false
+              return res.isSucc !== false || res.msg === "需要检查的值为空"
             },
             msg: '该企业名称已存在，请使用其他名称，或联系0755-33336999'
           }
