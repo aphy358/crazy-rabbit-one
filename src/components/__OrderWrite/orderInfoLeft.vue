@@ -23,34 +23,10 @@
 					<span class="order-room-max">最多可预订{{stock}}间（该房型每间最多入住{{maxPersonNum}}人）</span>
 				</div>
 			</el-form-item>
-			<addBreakfast/>
-			<addBed/>
-			<addNetwork/>
-			<el-form-item label="入住信息">
-				<div class="guest-box">
-					<div class="guest guest-required">
-						住客1：
-						<el-input placeholder="姓" prop="firstname" v-model="orderForm.firstname"></el-input>
-						<el-input placeholder="名"></el-input>
-						<el-input placeholder="护照国籍"></el-input>
-					</div>
-					<!--<el-form-item label="住客1：" class="guest" prop="firstname">-->
-						<!--<el-input placeholder="姓" v-model="orderForm.firstname"></el-input>-->
-					<!--</el-form-item>-->
-					<div class="guest">
-						住客2：
-						<el-input placeholder="姓"></el-input>
-						<el-input placeholder="名"></el-input>
-						<el-input placeholder="护照国籍"></el-input>
-					</div>
-					<div class="guest">
-						住客3：
-						<el-input placeholder="姓"></el-input>
-						<el-input placeholder="名"></el-input>
-						<el-input placeholder="护照国籍"></el-input>
-					</div>
-				</div>
-			</el-form-item>
+			<add-breakfast/>
+			<add-bed/>
+			<add-network/>
+			<write-guest/>
 			<el-form-item label="个性化信息">
 				<el-checkbox-group>
 					<el-checkbox label="立即到店" name="type"></el-checkbox>
@@ -130,7 +106,7 @@
 			</el-form-item>
 		</el-form>
 		
-		<payWarning/>
+		<pay-warning/>
 		
 		<el-button type="success" class="go-to-pay">下一步，支付</el-button>
 	</div>
@@ -141,12 +117,13 @@
     import addBreakfast from './addBreakfast.vue'
     import addBed from './addBed.vue'
     import addNetwork from './addNetwork.vue'
+	import writeGuest from './writeGuest.vue'
 	
   export default {
     data() {
       return {
         orderForm: {
-          firstname: '',
+          name: '',
           region: '',
           date1: '',
           date2: '',
@@ -156,7 +133,7 @@
           desc: ''
         },
         rules: {
-          firstname: [
+          name: [
             {required: true, message: '请输入该信息', trigger: 'blur'},
             {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
           ],
@@ -245,7 +222,8 @@
       payWarning,
       addBed,
       addBreakfast,
-      addNetwork
+      addNetwork,
+      writeGuest
     }
   }
 </script>
