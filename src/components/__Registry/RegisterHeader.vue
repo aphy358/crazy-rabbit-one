@@ -1,5 +1,5 @@
 
-<!-- 注册页面头部说明 -->
+<!-- 注册页面头部 -->
 <template>
   <div>
     <div class="register-head clearfix">
