@@ -23,95 +23,20 @@
 					<span class="order-room-max">最多可预订{{stock}}间（该房型每间最多入住{{maxPersonNum}}人）</span>
 				</div>
 			</el-form-item>
-			<el-form-item label="加床信息">
-				<el-collapse>
-					<el-collapse-item>
-						<template slot="title">
-							<span class="add-extra-title">成人床 ￥34/份</span>
-						</template>
-						<el-date-picker
-								type="daterange"
-								range-separator="至"
-								:start-placeholder="checkin"
-								:end-placeholder="checkout"
-								v-model="bedDateStr"
-								value-format="yyyy-MM-dd">
-						</el-date-picker>
-						<el-select v-model="bedType" placeholder="成人床">
-							<el-option
-									v-for="item in bedtypes"
-									:key="item.value"
-									:label="item.label"
-									:value="item.value">
-							</el-option>
-						</el-select>
-						<el-input placeholder="请输入份数" v-model="bedNum"></el-input>
-						<el-button type="primary" icon="el-icon-plus" size="mini" circle @click="addBed"></el-button>
-					</el-collapse-item>
-					
-					<el-tag
-							:key="tag"
-							v-for="tag in dynamicTags"
-							closable
-							:disable-transitions="false"
-							@close="handleClose(tag)">
-						{{tag}}
-					</el-tag>
-					
-				</el-collapse>
-			</el-form-item>
-			<el-form-item label="加早信息">
-				<el-collapse>
-					<el-collapse-item>
-						<template slot="title">
-							<span class="add-extra-title">成人早 ￥34/份</span>
-						</template>
-						<el-date-picker
-								v-model="value7"
-								type="daterange"
-								range-separator="至"
-								start-placeholder="开始日期"
-								end-placeholder="结束日期">
-						</el-date-picker>
-						<el-select v-model="value" placeholder="成人早">
-							<el-option
-									v-for="item in eattypes"
-									:key="item.value"
-									:label="item.label"
-									:value="item.value">
-							</el-option>
-						</el-select>
-						<el-input placeholder="请输入份数"></el-input>
-						<el-button type="primary" icon="el-icon-plus" size="mini" circle></el-button>
-					</el-collapse-item>
-				</el-collapse>
-			</el-form-item>
-			<el-form-item label="加宽带信息">
-				<el-collapse>
-					<el-collapse-item>
-						<template slot="title">
-							<span class="add-extra-title">宽带 ￥34/份</span>
-						</template>
-						<el-date-picker
-								v-model="value8"
-								type="daterange"
-								range-separator="至"
-								start-placeholder="开始日期"
-								end-placeholder="结束日期">
-						</el-date-picker>
-						<el-input placeholder="请输入份数"></el-input>
-						<el-button type="primary" icon="el-icon-plus" size="mini" circle></el-button>
-					</el-collapse-item>
-				</el-collapse>
-			</el-form-item>
+			<addBreakfast/>
+			<addBed/>
+			<addNetwork/>
 			<el-form-item label="入住信息">
 				<div class="guest-box">
 					<div class="guest guest-required">
 						住客1：
-						<el-input placeholder="姓"></el-input>
+						<el-input placeholder="姓" prop="firstname" v-model="orderForm.firstname"></el-input>
 						<el-input placeholder="名"></el-input>
 						<el-input placeholder="护照国籍"></el-input>
 					</div>
+					<!--<el-form-item label="住客1：" class="guest" prop="firstname">-->
+						<!--<el-input placeholder="姓" v-model="orderForm.firstname"></el-input>-->
+					<!--</el-form-item>-->
 					<div class="guest">
 						住客2：
 						<el-input placeholder="姓"></el-input>
@@ -213,12 +138,15 @@
 
 <script>
 	import payWarning from './payWarning.vue'
+    import addBreakfast from './addBreakfast.vue'
+    import addBed from './addBed.vue'
+    import addNetwork from './addNetwork.vue'
 	
   export default {
     data() {
       return {
         orderForm: {
-          name: '',
+          firstname: '',
           region: '',
           date1: '',
           date2: '',
@@ -228,8 +156,8 @@
           desc: ''
         },
         rules: {
-          name: [
-            {required: true, message: '请输入活动名称', trigger: 'blur'},
+          firstname: [
+            {required: true, message: '请输入该信息', trigger: 'blur'},
             {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
           ],
           region: [
@@ -251,48 +179,7 @@
             {required: true, message: '请填写活动形式', trigger: 'blur'}
           ]
         },
-        options: [
-          {
-            value: '1',
-            label: '1间'
-          }, {
-            value: '2',
-            label: '2间'
-          }, {
-            value: '3',
-            label: '3间'
-          }, {
-            value: '4',
-            label: '4间'
-          }, {
-            value: '5',
-            label: '5间'
-          }, {
-            value: '6',
-            label: '6间'
-          }, {
-            value: '7',
-            label: '7间'
-          }
-        ],
-        bedtypes: [
-          {
-            value: '1',
-            label: '成人床'
-          }, {
-            value: '2',
-            label: '儿童床'
-          }
-        ],
-        eattypes: [
-          {
-            value: '1',
-            label: '成人早'
-          }, {
-            value: '2',
-            label: '儿童早'
-          }
-        ],
+        options: [],
         balanceways: [
           {
             value: '1',
@@ -302,9 +189,7 @@
             label: '月结'
           }
         ],
-        value: this.$store.state.orderWrite.roomNum,
-        value7: '',
-        value8: '',
+        value: this.$store.state.orderWrite.roomNum + '间',
         value9: '',
         
         checkin : this.$store.state.orderWrite.checkin,
@@ -313,9 +198,7 @@
         dateNum : this.$store.state.orderWrite.dateNum,
         maxPersonNum : this.$store.state.orderWrite.maxPersonNum,
   
-        dynamicTags: [],
-        bedDateStr : [this.$store.state.orderWrite.checkin, this.$store.state.orderWrite.checkout],
-        bedNum : 0
+        
       };
     },
     
@@ -336,10 +219,7 @@
   
         return stock;
       },
-  
-      bedType : function () {
-        this.$store.dispatch('orderWrite/getExtraInfo', {typeId : 2})
-      }
+      
     },
     
     methods: {
@@ -356,19 +236,16 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-  
-      addBed(){
-        this.dynamicTags.push(
-          this.bedDateStr[0] + ' 至 ' + this.bedDateStr[1] + this.bedType + this.bedNum + '份'
-        )
-      },
-      handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-      }
+    },
+    
+    created: function () {
     },
   
     components: {
-      payWarning
+      payWarning,
+      addBed,
+      addBreakfast,
+      addNetwork
     }
   }
 </script>
@@ -426,42 +303,6 @@
 			}
 		}
 		
-		.el-collapse {
-			display: inline-block;
-			border: none;
-		}
-		
-		.el-collapse-item__header {
-			border: none;
-			background-color: transparent;
-			height: 50px;
-			line-height: 50px;
-			display: inline-block;
-		}
-		
-		.el-collapse-item__arrow {
-			clear: both;
-			margin-left: 10px;
-		}
-		
-		.el-collapse-item__content {
-			padding-bottom: 0;
-			display: flex;
-			border: none;
-			max-width: 600px;
-			
-			> div {
-				margin-right: 20px;
-				height: 30px;
-				line-height: 30px;
-			}
-		}
-		
-		.el-collapse-item__wrap {
-			background-color: transparent;
-			border: none;
-		}
-		
 		.el-input {
 			width: auto;
 			height: 30px;
@@ -497,10 +338,10 @@
 			*{
 				color: #606266;
 			}
-		}
-		
-		.el-icon-plus{
-			color: #ffffff;
+			
+			.el-icon-plus{
+				color: #ffffff;
+			}
 		}
 	}
 	

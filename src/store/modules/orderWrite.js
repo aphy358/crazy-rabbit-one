@@ -12,6 +12,13 @@ export default {
     dateNum : 1,
     stock : 7,
     maxPersonNum : 1,
+    
+    breakfastData : {},
+    breakfastDates : [],
+    bedData : {},
+    bedDates : [],
+    netData : {},
+    netDates : []
   },
   
   
@@ -64,7 +71,6 @@ export default {
       if (queryString("rateType")) params['rateType'] = queryString("rateType");
       
       API.orderWrite.checkOrder(params).then(function (data) {
-        console.log(data);
       })
     },
     
@@ -100,7 +106,6 @@ export default {
         params.isRoomNumChange = 1;
       }
       API.orderWrite.getOrderInfo(params).then(function (data) {
-        console.log(data);
         state.dateNum = data.content.dateNum;
         state.stock = data.content.stock;
         state.maxPersonNum = data.content.hotelPrice.maxPersonNum;
@@ -122,8 +127,40 @@ export default {
       };
   
       API.orderWrite.getExtraInfo(params).then(function (data) {
-        console.log(data);
+        if (payload['typeId'] === 1){
+          dispatch('setExtraData', {
+            data : data.data,
+            dataIndex : 'breakfastData',
+            datesIndex : 'breakfastDates'
+          });
+        }else if (payload['typeId'] === 2){
+          dispatch('setExtraData', {
+            data : data.data,
+            dataIndex : 'bedData',
+            datesIndex : 'bedDates'
+          });
+        }else if (payload['typeId'] === 3){
+          dispatch('setExtraData', {
+            data : data.data,
+            dataIndex : 'netData',
+            datesIndex : 'netDates'
+          });
+        }
       })
+    },
+    
+    setExtraData : function ({ commit, state, dispatch }, payload) {
+      payload.data.forEach(function (v, i) {
+        let key = v[0].date.split(' ')[0];
+        state[payload.dataIndex][key] = v
+      });
+  
+      for (let k in state[payload.dataIndex]) {
+        state[payload.datesIndex].push({
+          value: k,
+          label: k
+        });
+      }
     }
   },
   
