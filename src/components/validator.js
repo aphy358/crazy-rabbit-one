@@ -68,36 +68,44 @@ export const validator = (_com, _key, options) => {
           msg = msg || preset + '不能为空'
           _func1(valid, _com, _key, msg, 'required')
           break;
+
         case 'email':
           valid = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(value) || value === ''
           msg = msg || preset + '邮箱格式不正确'
           _func1(valid, _com, _key, msg, 'email')
           break;
+
         case 'max':
           break;
+
         case 'min':
           break;
+
         case 'range':
           let lenArr = msg.split(',')
           valid = ( value.length >= parseInt(lenArr[0]) && value.length <= parseInt(lenArr[1]) ) || value === ''
           msg = preset + `字符长度必须为${lenArr[0]}-${lenArr[1]}位`
           _func1(valid, _com, _key, msg, 'range')
           break;
+
         case 'mobile':
           valid = /^[1][3,4,5,7,8][0-9]{9}$/.test(value) || value === ''
           msg = msg || preset + '手机格式不正确'
           _func1(valid, _com, _key, msg, 'mobile')
           break;
+
         case 'telephone':
           valid = /^(\(\d{1,5}\)|\d{1,5}-|\s)?\d{3,14}$/.test(value) || value === ''
           msg = msg || preset + '电话号码格式不正确'
           _func1(valid, _com, _key, msg, 'telephone')
           break;
+
         case 'fax':
           valid = /^(\(\d{1,5}\)|\d{1,5}-|\s)?\d{3,14}$/.test(value) || value === ''
           msg = msg || preset + '传真号码格式不正确'
           _func1(valid, _com, _key, msg, 'fax')
           break;
+          
         default:
           break;
       }
