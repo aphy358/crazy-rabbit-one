@@ -105,7 +105,7 @@ export const validator = (_com, _key, options) => {
           msg = msg || preset + '传真号码格式不正确'
           _func1(valid, _com, _key, msg, 'fax')
           break;
-          
+
         default:
           break;
       }
@@ -131,8 +131,6 @@ const _func1 = (valid, _com, _key, msg, type, callback2) => {
     type = 'remote'
 
     valid.then(function(res) {
-      console.log(res);
-      
       _func2(callback2(res), errors, _key, type, msg)
       _com.errors = Object.assign({}, _com.errors)
     })
