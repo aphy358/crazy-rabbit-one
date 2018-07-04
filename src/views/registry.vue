@@ -2,7 +2,7 @@
 <!-- 注册页面 -->
 <template>
   <div class="registry-main-box">
-      <div class="main">
+      <div v-if="!registSuccess" class="main">
           <div class="register-head clearfix">
               <h5 class="register-title fl">注册账号</h5>
               <div class="register-h-r fr">
@@ -237,12 +237,27 @@
 
           <el-button type="warning" style="font-size: 18px;letter-spacing: 18px;width: 300px;padding-left: 48px;margin: 50px auto;display: block;" @click="submitRegistry">提交</el-button>
       </div>
+
+      <div v-if="registSuccess" class="regist-success">
+          <div class="success-top">
+              <div class="success-img"></div>
+              <h6 class="submit-suc">提交成功</h6>
+          </div>
+          <p class="success-mid">
+              我们将在3个工作日内进行审核，如有任何疑问，请致电：
+              <span class="orange">0755-33336999</span>
+          </p>
+          <button class="success-bot">
+              <a href="#">知道了</a>
+          </button>
+      </div>
   </div>
 </template>
 
 <script>
 import { area } from "../assets/area.js";
 import { validator } from "../components/validator.js";
+import { Message } from "element-ui"
 const { countrys, states, citys } = area
 
 export default {
@@ -351,7 +366,9 @@ export default {
 
       errors: {
         validated: false,
-      }
+      },
+
+      registSuccess: false
 
     }
   },
@@ -621,8 +638,46 @@ export default {
       this.validateEmail()
       this.validateVerificationCode()
 
-    }
+      
+      let _this = this
+      if(this.errors.isValid){
+        let params = {
+          "registercountry"    : this.selValue1,
+          "registerProvince"   : this.selValue2,
+          "registerCity"       : this.selValue3,
+          "registerCompanyName": this.companyName,
+          "registerAccount"    : this.userName,
+          "registerAddress"    : this.address,
+          "registerName"       : this.name,
+          "registerEmail"      : this.email,
+          "registerMobile"     : this.mobile,
+          "registerTel"        : this.telephone,
+          "registerFax"        : this.fax,
+          "registerReference"  : this.applicantInfo,
+          "confirmStart"       : this.selValue5,
+          "confirmEnd"         : this.selValue6,
+          "confirmWeek"        : this.selectedWeek.map((n, i) => { return n && i + 1 }).filter(n => n).join(','),
+          "confirmType"        : this.selValue4,
+          "confirmWay"         : this.selValue4,
+          "registerPassWord"   : this.password,
+          "vcode"              : this.verificationCode
+        };
 
+        this.$api.registry.submitRegist(params).then(function(data){
+          if(data.isSucc === true){
+            _this.registSuccess = true
+          }else{
+            _this.registSuccess = false
+
+            // 显示错误信息
+            Message({
+              type: "error",
+              message: data.msg
+            });
+          }
+        })
+      }
+    }
   }
 }
 </script>
@@ -860,6 +915,7 @@ export default {
       .warning{
         float: left;
         font-size: 12px;
+        color: red;
         
         .icon-warning{
           display: inline-block;
@@ -871,5 +927,73 @@ export default {
       }
     }
   }
+}
+
+
+.regist-success{
+	width: 500px;
+	height: 280px;
+	margin: 120px auto 160px;
+	
+	
+	@at-root .success-top{
+		width: 220px;
+		height: 100px;
+		margin: 0 auto;
+		
+		.success-img{
+			@include jl_sprites;
+			@include submit_success;
+			float: left;
+			margin: 11px 0;
+		}
+		
+		.submit-suc{
+			float: left;
+			height: 100px;
+			line-height: 100px;
+			font-size: 26px;
+			margin-left: 30px;
+			font-weight: normal;
+		}
+	}
+	
+	@at-root .success-mid{
+		font-size: 14px;
+		text-align: center;
+		height: 74px;
+		line-height: 74px;
+		color: #999999;
+		
+		.orange{
+			color: #ffa825;
+		}
+	}
+	
+	@at-root .success-bot{
+		width: 300px;
+		height: 42px;
+		line-height: 42px;
+		background-color: #ffa825;
+		text-align: center;
+		display: block;
+		margin: 0 auto;
+		border-radius: 6px;
+		margin-top: 50px;
+		cursor: pointer;
+		
+		
+		>a{
+			display: block;
+			width: 100%;
+			height: 100%;
+			color: #ffffff;
+			font-size: 16px;
+			
+			&:hover{
+				text-decoration: none;
+			}
+		}
+	}
 }
 </style>
