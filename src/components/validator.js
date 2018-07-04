@@ -1,6 +1,6 @@
 /**
  * 验证器使用要点：
- * 1、必须在组件 data 里定义属性 errors: {}，该属性将包含所有验证返回的错误信息
+ * 1、必须在组件 data 里定义属性 errors: {validated: false,}，该属性将包含所有验证返回的错误信息，初始值 validated: false 表示第一次进页面不显示错误信息，直到将 validated 设置为 true 才显示。
  * 2、所有被验证的 key 值，都需要在组件 data 里定义好，比如要验证用户名 userName，则组件 data 必须定义好属性 userName
  * 3、由于每个被验证的项都会返回一个错误数组（而不是单个错误），所以在设计上又给对象 errors[key] 新增一个属性 key + 'Msg'，即 errors[key + 'Msg']，值设置为数组第一个元素的 msg 属性
  * 4、所以基于第3点，在显示验证返回的错误信息时，显示的其实是 errors[key + 'Msg'] 的值，如 'errors.companyNameMsg'，而不是显示 'errors.companyName'
@@ -15,7 +15,7 @@ import { throttle } from "../util.js";
  * @param {string} _key 表示被验证的键值
  * @param {object} options 表示验证规则的操作项
  */
-export const validator = (_com, _key, options) => {
+export const validator = (_com, _key, options) => {  
 
   // 提取错误信息的前缀，比如 '企业名称'、'用户名' 等
   let preset = Array.isArray(options) ? '' : options.preset
@@ -54,10 +54,14 @@ export const validator = (_com, _key, options) => {
     }
     
     if(typeof rule === 'function'){
+      if(!_com.errors.validated && !callback2)  continue;
+
       callback2
         ? throttle(_func1, [rule(), _com, _key, msg, 'coustom', callback2])
         : _func1(rule(), _com, _key, msg, 'coustom', callback2)
     }else{
+      if(!_com.errors.validated)  continue;
+
       switch(rule){
         case 'required':
           valid = value !== ''
@@ -65,10 +69,34 @@ export const validator = (_com, _key, options) => {
           _func1(valid, _com, _key, msg, 'required')
           break;
         case 'email':
+          valid = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/.test(value) || value === ''
+          msg = msg || preset + '邮箱格式不正确'
+          _func1(valid, _com, _key, msg, 'email')
           break;
         case 'max':
           break;
         case 'min':
+          break;
+        case 'range':
+          let lenArr = msg.split(',')
+          valid = ( value.length >= parseInt(lenArr[0]) && value.length <= parseInt(lenArr[1]) ) || value === ''
+          msg = preset + `字符长度必须为${lenArr[0]}-${lenArr[1]}位`
+          _func1(valid, _com, _key, msg, 'range')
+          break;
+        case 'mobile':
+          valid = /^[1][3,4,5,7,8][0-9]{9}$/.test(value) || value === ''
+          msg = msg || preset + '手机格式不正确'
+          _func1(valid, _com, _key, msg, 'mobile')
+          break;
+        case 'telephone':
+          valid = /^(\(\d{1,5}\)|\d{1,5}-|\s)?\d{3,14}$/.test(value) || value === ''
+          msg = msg || preset + '电话号码格式不正确'
+          _func1(valid, _com, _key, msg, 'telephone')
+          break;
+        case 'fax':
+          valid = /^(\(\d{1,5}\)|\d{1,5}-|\s)?\d{3,14}$/.test(value) || value === ''
+          msg = msg || preset + '传真号码格式不正确'
+          _func1(valid, _com, _key, msg, 'fax')
           break;
         default:
           break;
@@ -95,6 +123,8 @@ const _func1 = (valid, _com, _key, msg, type, callback2) => {
     type = 'remote'
 
     valid.then(function(res) {
+      console.log(res);
+      
       _func2(callback2(res), errors, _key, type, msg)
       _com.errors = Object.assign({}, _com.errors)
     })
