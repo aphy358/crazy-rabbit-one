@@ -47,6 +47,14 @@ export default {
       text-decoration: underline;
     }
   }
+
+  .fl{
+    float: left;
+  }
+
+  .fr{
+    float: right;
+  }
 }
 
 .tips{

@@ -77,7 +77,7 @@ export default {
 .search-line-wrap{
   .el-input__inner{
     font-size: 14px;
-    padding: 0 10px;
+    padding: 3px 10px;
     border-radius: 0;
   }
   

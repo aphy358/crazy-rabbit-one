@@ -648,6 +648,14 @@ export default {
     box-shadow: 0 0 10px #eeeeee;
     overflow: hidden;
   }
+
+  .fl{
+    float: left;
+  }
+
+  .fr{
+    float: right;
+  }
 }
 
 .company-message{
