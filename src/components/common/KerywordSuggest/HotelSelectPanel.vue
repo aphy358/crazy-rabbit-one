@@ -21,12 +21,12 @@
             <ul class="kwh-block-content-list hotel">
                 <li v-for="hotel of hotelList" :key="hotel.id"
                   class="kwh-block-content-item hotel">
-                    <a href="#" target="_blank" :hotelid="hotel.id">
-                        <span class="kwh-hotel-name" v-html="hotel.hotelStr"></span>
-                        <span class="area">{{hotel.countryName}}</span>
-                        <span class="area">{{hotel.provinceName}}</span>
-                        <span class="area">{{hotel.cityName}}</span>
-                    </a>
+                    <router-link target="_blank" :to="queryStr + hotel.id">
+                      <span class="kwh-hotel-name" v-html="hotel.hotelStr"></span>
+                      <span class="area">{{hotel.countryName}}</span>
+                      <span class="area">{{hotel.provinceName}}</span>
+                      <span class="area">{{hotel.cityName}}</span>
+                    </router-link>
                 </li>
             </ul>
         </div>
@@ -50,7 +50,15 @@ export default {
 
   props: ['hotelList', 'cityList'],
 
-  computed: {},
+  computed: {
+    queryStr(){
+      let ch = this.$store.state.cityType
+      let checkin = this.$store.state.checkin
+      let checkout = this.$store.state.checkout
+
+      return `/hotelDetail?checkin=${checkin}&checkout=${checkout}&ch=${ch}&hotelId=`
+    }
+  },
   
   methods: {
     checkOneCity(t, i, n){
