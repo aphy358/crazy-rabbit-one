@@ -359,7 +359,7 @@ export default {
           _this,
           'companyLocation', 
           [{
-            callback: function(){ return _this.selValue3 != '-1' }, 
+            callback: function(){ return _this.selValue1 != '-1' && _this.selValue2 != '-1' && _this.selValue3 != '-1' }, 
             msg: '国家、省份、城市信息均为必填'
           }]
         )
