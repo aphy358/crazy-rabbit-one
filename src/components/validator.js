@@ -122,32 +122,31 @@ export const validator = (_com, _key, options) => {
  * @param {string} type 表示错误类型，如 'required'、'email'、'min' 等
  * @param {function} callback2 表示异步验证的回调函数，可为空
  */
-const _func1 = (valid, _com, _key, msg, type, callback2) => {
-  let errors = _com.errors
-  errors[_key] = errors[_key] || []
-
+const _func1 = (valid, _com, _key, msg, type, callback2) => {  
   if(Object.prototype.toString.call(valid) === '[object Promise]' && callback2){
     // 如果有第二个回调函数 callback2，则说明验证类型是异步验证
     type = 'remote'
 
     valid.then(function(res) {
-      _func2(callback2(res), errors, _key, type, msg)
-      _com.errors = Object.assign({}, _com.errors)
+      _func2(callback2(res), _com, _key, type, msg)
     })
   }else{
-    _func2(valid, errors, _key, type, msg)
+    _func2(valid, _com, _key, type, msg)
   }
 }
 
 /**
  * 验证器内部函数2
  * @param {bool} valid 表示当前这条验证通过与否
- * @param {object} errors 包含了该组件所有的错误信息
+ * @param {vue} _com 表示当前组件
  * @param {string} _key 表示被验证的键值
  * @param {string} type 表示错误类型，如 'required'、'email'、'min' 等
  * @param {string} msg 表示验证不通过时显示的信息
  */
-const _func2 = (valid, errors, _key, type, msg) => {
+const _func2 = (valid, _com, _key, type, msg) => {
+  let errors = _com.errors
+  errors[_key] = errors[_key] || []
+  
   errors[_key] = errors[_key].filter(n => n.type !== type)
 
   if(!valid){
@@ -159,6 +158,8 @@ const _func2 = (valid, errors, _key, type, msg) => {
   }else{
     errors[_key + 'Msg'] = errors[_key][0].msg
   }
+
+  _com.errors = Object.assign({}, _com.errors)
 
   _func3(errors)
 }
