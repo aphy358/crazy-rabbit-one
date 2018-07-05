@@ -105,7 +105,7 @@ export const validator = (_com, _key, options) => {
           msg = msg || preset + '传真号码格式不正确'
           _func1(valid, _com, _key, msg, 'fax')
           break;
-          
+
         default:
           break;
       }
@@ -131,8 +131,6 @@ const _func1 = (valid, _com, _key, msg, type, callback2) => {
     type = 'remote'
 
     valid.then(function(res) {
-      console.log(res);
-      
       _func2(callback2(res), errors, _key, type, msg)
       _com.errors = Object.assign({}, _com.errors)
     })
@@ -161,4 +159,23 @@ const _func2 = (valid, errors, _key, type, msg) => {
   }else{
     errors[_key + 'Msg'] = errors[_key][0].msg
   }
+
+  _func3(errors)
+}
+
+// 计算 errors 最终验证结果，并以属性值 isValid 的形式体现，true 为通过，false 为不通过
+const _func3 = (errors) => {
+  let tmpValid = true
+
+  for (const key in errors) {
+    if (errors.hasOwnProperty(key)) {
+      // 只要包含带有 Msg 的属性，就说明验证有错误
+      if(~key.indexOf('Msg')){
+        tmpValid = false
+        break;
+      }
+    }
+  }
+
+  errors.isValid = tmpValid
 }

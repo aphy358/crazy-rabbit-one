@@ -53,6 +53,7 @@
       validateGuestSurname(){
         this.errors.validated = true;
         validator(this, 'guestSurname', {preset: '姓', rules: ['required']})
+        this.errors = Object.assign({}, this.errors)
   
         console.log(this.errors.guestSurnameMsg);
       }
