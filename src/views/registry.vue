@@ -3,20 +3,8 @@
 <template>
   <div class="registry-main-box">
       <div v-if="!registSuccess" class="main">
-          <div class="register-head clearfix">
-              <h5 class="register-title fl">注册账号</h5>
-              <div class="register-h-r fr">
-                  <p class="fl">已有房掌柜账号？</p>
-                  <router-link class="to-login fl" to="/registry">直接登录</router-link>
-              </div>
-          </div>
-
-          <div class="tips">
-              <i class="icon"></i>
-              <span class="tips-title">温馨提示：</span>
-              如您已在我司有合作，请先咨询注册组0755-33336999索要贵公司账号，无需重复注册，谢谢合作！
-          </div>
-
+          <!-- 头部 -->
+          <RegisterHeader />
 
           <div class="company-message">
               <h6 class="company-title">企业基本信息</h6>
@@ -37,32 +25,8 @@
                           <span class="item-title message-required">企业所在地</span>
                       </div>
                       <div class="item-r fl">
-                          <el-select v-model="selValue1" filterable @change="changeCountry" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.validated && selValue1 === '-1'}" >
-                            <el-option
-                              v-for="item in selOptions1"
-                              :key="item[1]"
-                              :label="item[2]"
-                              :value="item[1]">
-                            </el-option>
-                          </el-select>
-
-                          <el-select v-model="selValue2" filterable @change="changeState" style="width: 140px;margin-right: 20px;" :class="{'input-error': errors.validated && selValue2 === '-1'}">
-                            <el-option
-                              v-for="item in selOptions2"
-                              :key="item[1]"
-                              :label="item[2]"
-                              :value="item[1]">
-                            </el-option>
-                          </el-select>
-
-                          <el-select v-model="selValue3" filterable @change="changeCity" style="width: 140px;" :class="{'input-error': errors.validated && selValue3 === '-1'}">
-                            <el-option
-                              v-for="item in selOptions3"
-                              :key="item[1]"
-                              :label="item[2]"
-                              :value="item[1]">
-                            </el-option>
-                          </el-select>
+                          <!-- 国家省份城市选择器 -->
+                          <RegionSelector :validated="errors.validated" @regionChange="regionChange($event)" />
                       </div>
                       <p class="warning" v-show="errors.companyLocationMsg"><i class="icon-warning"></i>{{errors.companyLocationMsg}}</p>
                   </li>
@@ -238,27 +202,17 @@
           <el-button type="warning" style="font-size: 18px;letter-spacing: 18px;width: 300px;padding-left: 48px;margin: 50px auto;display: block;" @click="submitRegistry">提交</el-button>
       </div>
 
-      <div v-if="registSuccess" class="regist-success">
-          <div class="success-top">
-              <div class="success-img"></div>
-              <h6 class="submit-suc">提交成功</h6>
-          </div>
-          <p class="success-mid">
-              我们将在3个工作日内进行审核，如有任何疑问，请致电：
-              <span class="orange">0755-33336999</span>
-          </p>
-          <button class="success-bot">
-              <a href="#">知道了</a>
-          </button>
-      </div>
+      <!-- 注册成功 -->
+      <RegistSuccess v-if="registSuccess" />
   </div>
 </template>
 
 <script>
-import { area } from "../assets/area.js";
 import { validator } from "../components/validator.js";
 import { Message } from "element-ui"
-const { countrys, states, citys } = area
+import RegisterHeader from '../components/__Registry/RegisterHeader'
+import RegionSelector from '../components/__Registry/RegionSelector'
+import RegistSuccess from '../components/__Registry/RegistSuccess'
 
 export default {
   name: 'Registry',
@@ -271,17 +225,11 @@ export default {
       // 国家
       selValue1: '-1',
 
-      selOptions1: countrys,
-
       // 省份
       selValue2: '-1',
 
-      selOptions2: [["-1","-1","请选择省份"]],
-
       // 城市
       selValue3: '-1',
-
-      selOptions3: [["-1","-1","请选择城市"]],
 
       // 企业地址
       address: '',
@@ -373,37 +321,13 @@ export default {
     }
   },
 
-  props: {
-    
+  components: {
+    RegisterHeader,
+    RegionSelector,
+    RegistSuccess,
   },
 
-  computed: {
-    
-  },
-  
   methods: {
-
-    // 切换国家
-    changeCountry(e){
-      this.selOptions2 = states.filter(n => n[0] == e || n[0] == '-1')
-      this.selValue2 = this.selOptions2[0][1]
-      this.changeState(this.selValue2)
-
-      this.validateCompanyLocation()
-    },
-
-    // 切换省份
-    changeState(e){
-      this.selOptions3 = citys.filter(n => n[0] == e || n[0] == '-1')
-      this.selValue3 = this.selOptions3[0][1]
-
-      this.validateCompanyLocation()
-    },
-
-    // 切换城市
-    changeCity(e){
-      this.validateCompanyLocation()
-    },
 
     // 点击 '收单适用星期'
     toggleWeekSelect(index){
@@ -443,7 +367,7 @@ export default {
         _this,
         'companyLocation', 
         [{
-          callback: function(){ return _this.selValue1 != '-1' && _this.selValue2 != '-1' && _this.selValue3 != '-1' }, 
+          callback: function(){ return _this.selValue3 != '-1' }, 
           msg: '国家、省份、城市信息均为必填'
         }]
       )
@@ -677,6 +601,11 @@ export default {
           }
         })
       }
+    },
+
+    regionChange(param){
+      this[param.k] = param.v
+      this.validateCompanyLocation()
     }
   }
 }
@@ -734,45 +663,6 @@ export default {
     background-color: #fff;
     box-shadow: 0 0 10px #eeeeee;
     overflow: hidden;
-    
-    @at-root .register-head{
-      height: 60px;
-      line-height: 60px;
-      border-bottom: 1px solid #E3E3E3;
-      
-      .register-title{
-        font-size: 24px;
-        color: #666666;
-        margin-left: 30px;
-      }
-      
-      .register-h-r{
-        font-size: 16px;
-        margin-right: 30px;
-        
-        .to-login{
-          color: #3399ff;
-          text-decoration: underline;
-        }
-      }
-    }
-    
-    @at-root .tips{
-      margin-left: 30px;
-      height: 40px;
-      line-height: 40px;
-      font-size: 14px;
-      .icon{
-        display: inline-block;
-        vertical-align: middle;
-        @include jl_sprites;
-        @include trumpet;
-      }
-      .tips-title{
-        color: #ffa825;
-        margin-left: 10px;
-      }
-    }
   }
 }
 
@@ -929,71 +819,4 @@ export default {
   }
 }
 
-
-.regist-success{
-	width: 500px;
-	height: 280px;
-	margin: 120px auto 160px;
-	
-	
-	@at-root .success-top{
-		width: 220px;
-		height: 100px;
-		margin: 0 auto;
-		
-		.success-img{
-			@include jl_sprites;
-			@include submit_success;
-			float: left;
-			margin: 11px 0;
-		}
-		
-		.submit-suc{
-			float: left;
-			height: 100px;
-			line-height: 100px;
-			font-size: 26px;
-			margin-left: 30px;
-			font-weight: normal;
-		}
-	}
-	
-	@at-root .success-mid{
-		font-size: 14px;
-		text-align: center;
-		height: 74px;
-		line-height: 74px;
-		color: #999999;
-		
-		.orange{
-			color: #ffa825;
-		}
-	}
-	
-	@at-root .success-bot{
-		width: 300px;
-		height: 42px;
-		line-height: 42px;
-		background-color: #ffa825;
-		text-align: center;
-		display: block;
-		margin: 0 auto;
-		border-radius: 6px;
-		margin-top: 50px;
-		cursor: pointer;
-		
-		
-		>a{
-			display: block;
-			width: 100%;
-			height: 100%;
-			color: #ffffff;
-			font-size: 16px;
-			
-			&:hover{
-				text-decoration: none;
-			}
-		}
-	}
-}
 </style>
