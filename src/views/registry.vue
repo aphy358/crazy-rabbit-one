@@ -4,7 +4,7 @@
   <div class="registry-main-box">
       <div v-if="!registSuccess" class="main">
           <!-- 头部 -->
-          <RegisterHeader />
+          <RegistHeader />
 
           <div class="company-message">
               <h6 class="company-title">企业基本信息</h6>
@@ -210,7 +210,7 @@
 <script>
 import { validator } from "../components/validator.js";
 import { Message } from "element-ui"
-import RegisterHeader from '../components/__Registry/RegisterHeader'
+import RegistHeader from '../components/__Registry/RegistHeader'
 import RegionSelector from '../components/__Registry/RegionSelector'
 import RegistSuccess from '../components/__Registry/RegistSuccess'
 
@@ -322,7 +322,7 @@ export default {
   },
 
   components: {
-    RegisterHeader,
+    RegistHeader,
     RegionSelector,
     RegistSuccess,
   },
