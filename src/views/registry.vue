@@ -4,7 +4,7 @@
   <div class="registry-main-box">
       <div v-if="!registSuccess" class="main">
           <!-- 头部 -->
-          <RegisterHeader />
+          <RegistHeader />
 
           <div class="company-message">
               <h6 class="company-title">企业基本信息</h6>
@@ -16,7 +16,7 @@
                       </div>
                       <input v-model="companyName" type="text" class="fl submit-required" placeholder="请填写正确的公司名称全称" 
                         :class="{'input-error': errors.companyNameMsg}" 
-                        @input="validateCompanyName"/>
+                        @input="validateRules.validateCompanyName"/>
 
                       <p class="warning" v-show="errors.companyNameMsg"><i class="icon-warning"></i>{{errors.companyNameMsg}}</p>
                   </li>
@@ -36,7 +36,7 @@
                       </div>
                       <input v-model="address" type="text" class="fl submit-required" placeholder="请填写正确的公司办公地址" 
                         :class="{'input-error': errors.addressMsg}" 
-                        @input="validateAddress" />
+                        @input="validateRules.validateAddress" />
 
                       <p class="warning" v-show="errors.addressMsg"><i class="icon-warning"></i>{{errors.addressMsg}}</p>
                   </li>
@@ -46,7 +46,7 @@
                       </div>
                       <input v-model="telephone" type="text" class="fl" placeholder="请填写正确格式，如075533397777"
                         :class="{'input-error': errors.telephoneMsg}" 
-                        @input="validateTelephone" />
+                        @input="validateRules.validateTelephone" />
 
                       <p class="warning" v-show="errors.telephoneMsg"><i class="icon-warning"></i>{{errors.telephoneMsg}}</p>
                   </li>
@@ -56,7 +56,7 @@
                       </div>
                       <input v-model="fax" type="text" class="fl submit-required" placeholder="请填写正确格式，如075533397777" 
                         :class="{'input-error': errors.faxMsg}" 
-                        @input="validateFax"/>
+                        @input="validateRules.validateFax"/>
 
                       <p class="warning" v-show="errors.faxMsg"><i class="icon-warning"></i>{{errors.faxMsg}}</p>
                   </li>
@@ -123,7 +123,7 @@
                       </div>
                       <input v-model="userName" type="text" class="fl submit-required" placeholder="请设置用户名，由4至16位数字或英文字母组成"
                         :class="{'input-error': errors.userNameMsg}" 
-                        @input="validateUserName"/>
+                        @input="validateRules.validateUserName"/>
 
                       <p class="warning" v-show="errors.userNameMsg"><i class="icon-warning"></i>{{errors.userNameMsg}}</p>
                   </li>
@@ -133,7 +133,7 @@
                       </div>
                       <input v-model="password" type="password" class="fl submit-required" placeholder="请设置密码，由4至16位字符组成"
                         :class="{'input-error': errors.passwordMsg}" 
-                        @input="validatePassword"/>
+                        @input="validateRules.validatePassword"/>
 
                       <p class="warning" v-show="errors.passwordMsg"><i class="icon-warning"></i>{{errors.passwordMsg}}</p>
                   </li>
@@ -143,7 +143,7 @@
                       </div>
                       <input v-model="passwordConfirm" type="password" class="fl submit-required" placeholder="请再次输入密码" 
                         :class="{'input-error': errors.passwordConfirmMsg}" 
-                        @input="validatePasswordConfirm"/>
+                        @input="validateRules.validatePasswordConfirm"/>
 
                       <p class="warning" v-show="errors.passwordConfirmMsg"><i class="icon-warning"></i>{{errors.passwordConfirmMsg}}</p>
                   </li>
@@ -153,7 +153,7 @@
                       </div>
                       <input v-model="name" type="text" class="fl submit-required" placeholder="请填写您的真实姓名" 
                         :class="{'input-error': errors.nameMsg}" 
-                        @input="validateName"/>
+                        @input="validateRules.validateName"/>
 
                       <p class="warning" v-show="errors.nameMsg"><i class="icon-warning"></i>{{errors.nameMsg}}</p>
                   </li>
@@ -163,7 +163,7 @@
                       </div>
                       <input v-model="mobile" type="text" class="fl submit-required" placeholder="请填写您的手机号码" 
                         :class="{'input-error': errors.mobileMsg}" 
-                        @input="validateMobile"/>
+                        @input="validateRules.validateMobile"/>
 
                       <p class="warning" v-show="errors.mobileMsg"><i class="icon-warning"></i>{{errors.mobileMsg}}</p>
                   </li>
@@ -173,7 +173,7 @@
                       </div>
                       <input v-model="email" type="text" class="fl submit-required" placeholder="请填写您的邮箱地址" 
                         :class="{'input-error': errors.emailMsg}" 
-                        @input="validateEmail"/>
+                        @input="validateRules.validateEmail"/>
 
                       <p class="warning" v-show="errors.emailMsg"><i class="icon-warning"></i>{{errors.emailMsg}}</p>
                   </li>
@@ -190,7 +190,7 @@
                       <div class="item-r fl" style="margin-left: 0;">
                           <input v-model="verificationCode" type="text" class="fl submit-required" maxlength="4" placeholder="请输入验证码" style="width: 360px;margin-right: 18px;" 
                             :class="{'input-error': errors.verificationCodeMsg}" 
-                            @input="validateVerificationCode"/>
+                            @input="validateRules.validateVerificationCode"/>
 
                           <img class="yzm-img" :src="'/user/getCheckcodeImg.do?time=' + codeTimeStamp" @click="codeTimeStamp = +new Date()" />
                       </div>
@@ -210,7 +210,7 @@
 <script>
 import { validator } from "../components/validator.js";
 import { Message } from "element-ui"
-import RegisterHeader from '../components/__Registry/RegisterHeader'
+import RegistHeader from '../components/__Registry/RegistHeader'
 import RegionSelector from '../components/__Registry/RegionSelector'
 import RegistSuccess from '../components/__Registry/RegistSuccess'
 
@@ -316,15 +316,211 @@ export default {
         validated: false,
       },
 
-      registSuccess: false
+      registSuccess: false,
+
+      validateRules: {},
 
     }
   },
 
   components: {
-    RegisterHeader,
+    RegistHeader,
     RegionSelector,
     RegistSuccess,
+  },
+
+  created(){
+    let _this = this
+
+    this.validateRules = {
+      // 验证企业名称
+      validateCompanyName(){
+        validator(
+          _this,
+          'companyName', 
+          [
+            'required',
+            {
+              callback: function(){
+                return _this.$api.registry.registRemoteCheck({ key: 'allName', val: _this.companyName })
+              }, 
+              callback2: function(res){
+                return res.isSucc !== false || res.msg === "需要检查的值为空"
+              },
+              msg: '该企业名称已存在，请使用其他名称，或联系0755-33336999'
+            }
+          ]
+        )
+      },
+
+      // 验证国家省份城市必填
+      validateCompanyLocation(){
+        validator(
+          _this,
+          'companyLocation', 
+          [{
+            callback: function(){ return _this.selValue1 != '-1' && _this.selValue2 != '-1' && _this.selValue3 != '-1' }, 
+            msg: '国家、省份、城市信息均为必填'
+          }]
+        )
+      },
+
+      // 验证企业地址
+      validateAddress(){
+        validator(_this, 'address', {preset: '企业地址', rules: ['required']})
+      },
+
+      // 验证企业电话
+      validateTelephone(){
+        validator(
+          _this,
+          'telephone', 
+          [
+            'telephone',
+            {
+              callback: function(){
+                return _this.$api.registry.registRemoteCheck({ key: 'tel', val: _this.telephone })
+              }, 
+              callback2: function(res){
+                return res.isSucc !== false || res.msg === "需要检查的值为空"
+              },
+              msg: '该电话号已被注册，请使用其他号码，或联系0755-33336999'
+            }
+          ]
+        )
+      },
+
+      // 验证企业传真
+      validateFax(){
+        validator(
+          _this,
+          'fax', 
+          [
+            'required',
+            'fax',
+            {
+              callback: function(){
+                return _this.$api.registry.registRemoteCheck({ key: 'fax', val: _this.fax })
+              }, 
+              callback2: function(res){
+                return res.isSucc !== false || res.msg === "需要检查的值为空"
+              },
+              msg: '该传真号已被注册，请使用其他号码，或联系0755-33336999'
+            }
+          ]
+        )
+      },
+
+      // 验证 '收单适用星期'
+      validateWeekSelect(){
+        validator(
+          _this,
+          'selectedWeek', 
+          [{
+            callback: function(){ return _this.selectedWeek.filter(n => n).length > 0 }, 
+            msg: '适用星期不能为空'
+          }]
+        )
+      },
+
+      // 验证用户名
+      validateUserName(){
+        validator(
+          _this,
+          'userName', 
+          [
+            'required',
+            {
+              callback: function(){ return /^[a-zA-Z\d]{4,16}$/.test(_this.userName) || _this.userName === '' }, 
+              msg: '用户名必须由4至16位数字或英文字母组成'
+            }
+          ]
+        )
+      },
+
+      // 验证密码
+      validatePassword(){
+        validator(_this, 'password', {preset: '密码', rules: ['required', {'range': '4,16'}]})
+      },
+
+      // 验证确认密码
+      validatePasswordConfirm(){
+        validator(
+          _this,
+          'passwordConfirm', 
+          [
+            'required',
+            {
+              callback: function(){ return _this.passwordConfirm === _this.password }, 
+              msg: '确认密码必须和密码一致'
+            }
+          ]
+        )
+      },
+
+      // 验证姓名
+      validateName(){
+        validator(
+          _this,
+          'name', 
+          [
+            'required',
+            {
+              callback: function(){ return /^[\u4e00-\u9fa5_a-zA-Z]{1,}$/.test(_this.name) || _this.name === '' }, 
+              msg: '姓名格式不正确'
+            }
+          ]
+        )
+      },
+
+      // 验证手机
+      validateMobile(){
+        validator(
+          _this,
+          'mobile', 
+          [
+            'required',
+            'mobile',
+            {
+              callback: function(){
+                return _this.$api.registry.registRemoteCheck({ key: 'mobile', val: _this.mobile })
+              }, 
+              callback2: function(res){
+                return res.isSucc !== false || res.msg === "需要检查的值为空"
+              },
+              msg: '该手机号已被注册，请使用其他号码，或联系0755-33336999'
+            }
+          ]
+        )
+      },
+
+      // 验证邮箱
+      validateEmail(){
+        validator(
+          _this,
+          'email', 
+          [
+            'required',
+            'email',
+            {
+              callback: function(){
+                return _this.$api.registry.registRemoteCheck({ key: 'email', val: _this.email })
+              }, 
+              callback2: function(res){
+                return res.isSucc !== false || res.msg === "需要检查的值为空"
+              },
+              msg: '该邮箱已被注册，请使用其他邮箱，或联系0755-33336999'
+            }
+          ]
+        )
+      },
+
+      // 验证码
+      validateVerificationCode(){
+        validator(_this, 'verificationCode', ['required'])
+      },
+
+    }
   },
 
   methods: {
@@ -334,236 +530,27 @@ export default {
       this.selectedWeek[index] = !this.selectedWeek[index]
       this.selectedWeek = Object.assign([], this.selectedWeek)
 
-      this.validateWeekSelect()
+      this.validateRules.validateWeekSelect()
     },
 
-    // 验证企业名称
-    validateCompanyName(){
-      let _this = this
-
-      validator(
-        _this,
-        'companyName', 
-        [
-          'required',
-          {
-            callback: function(){
-              return _this.$api.registry.registRemoteCheck({ key: 'allName', val: _this.companyName })
-            }, 
-            callback2: function(res){
-              return res.isSucc !== false || res.msg === "需要检查的值为空"
-            },
-            msg: '该企业名称已存在，请使用其他名称，或联系0755-33336999'
-          }
-        ]
-      )
+    // 响应改变 国家、省份、城市 的事件
+    regionChange(param){
+      this[param.k] = param.v
+      this.validateRules.validateCompanyLocation()
     },
 
-    // 验证国家省份城市必填
-    validateCompanyLocation(){
-      let _this = this
-
-      validator(
-        _this,
-        'companyLocation', 
-        [{
-          callback: function(){ return _this.selValue3 != '-1' }, 
-          msg: '国家、省份、城市信息均为必填'
-        }]
-      )
-    },
-
-    // 验证企业地址
-    validateAddress(){
-      validator(this, 'address', {preset: '企业地址', rules: ['required']})
-    },
-
-    // 验证企业电话
-    validateTelephone(){
-      let _this = this
-
-      validator(
-        _this,
-        'telephone', 
-        [
-          'telephone',
-          {
-            callback: function(){
-              return _this.$api.registry.registRemoteCheck({ key: 'tel', val: _this.telephone })
-            }, 
-            callback2: function(res){
-              return res.isSucc !== false || res.msg === "需要检查的值为空"
-            },
-            msg: '该电话号已被注册，请使用其他号码，或联系0755-33336999'
-          }
-        ]
-      )
-    },
-
-    // 验证企业传真
-    validateFax(){
-      let _this = this
-
-      validator(
-        _this,
-        'fax', 
-        [
-          'required',
-          'fax',
-          {
-            callback: function(){
-              return _this.$api.registry.registRemoteCheck({ key: 'fax', val: _this.fax })
-            }, 
-            callback2: function(res){
-              return res.isSucc !== false || res.msg === "需要检查的值为空"
-            },
-            msg: '该传真号已被注册，请使用其他号码，或联系0755-33336999'
-          }
-        ]
-      )
-    },
-
-    // 验证 '收单适用星期'
-    validateWeekSelect(){
-      let _this = this
-      
-      validator(
-        _this,
-        'selectedWeek', 
-        [{
-          callback: function(){ return _this.selectedWeek.filter(n => n).length > 0 }, 
-          msg: '适用星期不能为空'
-        }]
-      )
-    },
-
-    // 验证用户名
-    validateUserName(){
-      let _this = this
-
-      validator(
-        _this,
-        'userName', 
-        [
-          'required',
-          {
-            callback: function(){ return /^[a-zA-Z\d]{4,16}$/.test(_this.userName) || _this.userName === '' }, 
-            msg: '用户名必须由4至16位数字或英文字母组成'
-          }
-        ]
-      )
-    },
-
-    // 验证密码
-    validatePassword(){
-      validator(this, 'password', {preset: '密码', rules: ['required', {'range': '4,16'}]})
-    },
-
-    // 验证确认密码
-    validatePasswordConfirm(){
-      let _this = this
-
-      validator(
-        _this,
-        'passwordConfirm', 
-        [
-          'required',
-          {
-            callback: function(){ return _this.passwordConfirm === _this.password }, 
-            msg: '确认密码必须和密码一致'
-          }
-        ]
-      )
-    },
-
-    // 验证姓名
-    validateName(){
-      let _this = this
-
-      validator(
-        _this,
-        'name', 
-        [
-          'required',
-          {
-            callback: function(){ return /^[\u4e00-\u9fa5_a-zA-Z]{1,}$/.test(_this.name) || _this.name === '' }, 
-            msg: '姓名格式不正确'
-          }
-        ]
-      )
-    },
-
-    // 验证手机
-    validateMobile(){
-      let _this = this
-
-      validator(
-        _this,
-        'mobile', 
-        [
-          'required',
-          'mobile',
-          {
-            callback: function(){
-              return _this.$api.registry.registRemoteCheck({ key: 'mobile', val: _this.mobile })
-            }, 
-            callback2: function(res){
-              return res.isSucc !== false || res.msg === "需要检查的值为空"
-            },
-            msg: '该手机号已被注册，请使用其他号码，或联系0755-33336999'
-          }
-        ]
-      )
-    },
-
-    // 验证邮箱
-    validateEmail(){
-      let _this = this
-
-      validator(
-        _this,
-        'email', 
-        [
-          'required',
-          'email',
-          {
-            callback: function(){
-              return _this.$api.registry.registRemoteCheck({ key: 'email', val: _this.email })
-            }, 
-            callback2: function(res){
-              return res.isSucc !== false || res.msg === "需要检查的值为空"
-            },
-            msg: '该邮箱已被注册，请使用其他邮箱，或联系0755-33336999'
-          }
-        ]
-      )
-    },
-
-    // 验证码
-    validateVerificationCode(){
-      validator(this, 'verificationCode', ['required'])
-    },
-
+    // 点击 '提交'
     submitRegistry(){
       // 先打开这个开关，开启验证
       this.errors.validated = true
 
-      this.validateCompanyName()
-      this.validateCompanyLocation()
-      this.validateAddress()
-      this.validateTelephone()
-      this.validateFax()
-      this.validateWeekSelect()
-      this.validateUserName()
-      this.validatePassword()
-      this.validatePasswordConfirm()
-      this.validateName()
-      this.validateMobile()
-      this.validateEmail()
-      this.validateVerificationCode()
-
+      for (const key in this.validateRules) {
+        if (this.validateRules.hasOwnProperty(key)) {
+          const element = this.validateRules[key];
+          element()
+        }
+      }
       
-      let _this = this
       if(this.errors.isValid){
         let params = {
           "registercountry"    : this.selValue1,
@@ -587,6 +574,7 @@ export default {
           "vcode"              : this.verificationCode
         };
 
+        let _this = this
         this.$api.registry.submitRegist(params).then(function(data){
           if(data.isSucc === true){
             _this.registSuccess = true
@@ -603,10 +591,6 @@ export default {
       }
     },
 
-    regionChange(param){
-      this[param.k] = param.v
-      this.validateCompanyLocation()
-    }
   }
 }
 </script>
@@ -663,6 +647,14 @@ export default {
     background-color: #fff;
     box-shadow: 0 0 10px #eeeeee;
     overflow: hidden;
+  }
+
+  .fl{
+    float: left;
+  }
+
+  .fr{
+    float: right;
   }
 }
 
