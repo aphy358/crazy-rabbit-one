@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-	<el-form-item label="加宽带信息">
+	<el-form-item label="加宽带信息" v-show="Object.keys(netData).length > 0">
 		<el-collapse>
 			<el-collapse-item>
 				<template slot="title">
@@ -53,6 +53,7 @@
         value8: '',
         dynamicTags: [],
         dateValue : [],
+        netData : this.$store.state.orderWrite.netData,
         dates : this.$store.state.orderWrite.netDates,
         numValue : '',
         nums : [],
@@ -79,7 +80,7 @@
       },
   
       getPrice : function () {
-        let arr = this.$store.state.orderWrite.netData[this.dateValue];
+        let arr = this.netData[this.dateValue];
         this.finalObj = arr[0];
       },
       

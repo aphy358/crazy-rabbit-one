@@ -8,6 +8,7 @@ export default {
   state : {
     checkin : '',
     checkout : '',
+    supplierId : '',
     roomNum : '',
     dateNum : 1,
     stock : 7,
@@ -38,6 +39,7 @@ export default {
       state.checkin = queryString("startDate");
       state.checkout = queryString("endDate");
       state.roomNum = queryString("roomNum");
+      state.supplierId = queryString("supplierId");
   
       let hotelPriceStrsKey = queryString("hotelPriceStrsKey");
       let hotelPriceStrs    = decodeURIComponent(sessionStorage.getItem(hotelPriceStrsKey));
@@ -46,7 +48,7 @@ export default {
         staticInfoId   : queryString("staticInfoId"),
         adultNum       : queryString("adultNum"),
         hotelId        : queryString("staticInfoId"),
-        supplierId     : queryString("supplierId"),
+        supplierId     : state.supplierId,
         roomId         : queryString("roomId"),
         startDate      : state.checkin,
         endDate        : state.checkout,
@@ -127,25 +129,28 @@ export default {
       };
   
       API.orderWrite.getExtraInfo(params).then(function (data) {
-        if (payload['typeId'] === 1){
-          dispatch('setExtraData', {
-            data : data.data,
-            dataIndex : 'breakfastData',
-            datesIndex : 'breakfastDates'
-          });
-        }else if (payload['typeId'] === 2){
-          dispatch('setExtraData', {
-            data : data.data,
-            dataIndex : 'bedData',
-            datesIndex : 'bedDates'
-          });
-        }else if (payload['typeId'] === 3){
-          dispatch('setExtraData', {
-            data : data.data,
-            dataIndex : 'netData',
-            datesIndex : 'netDates'
-          });
+        if (data.result === 'success'){
+          if (payload['typeId'] === 1){
+            dispatch('setExtraData', {
+              data : data.data,
+              dataIndex : 'breakfastData',
+              datesIndex : 'breakfastDates'
+            });
+          }else if (payload['typeId'] === 2){
+            dispatch('setExtraData', {
+              data : data.data,
+              dataIndex : 'bedData',
+              datesIndex : 'bedDates'
+            });
+          }else if (payload['typeId'] === 3){
+            dispatch('setExtraData', {
+              data : data.data,
+              dataIndex : 'netData',
+              datesIndex : 'netDates'
+            });
+          }
         }
+        
       })
     },
     
@@ -161,7 +166,8 @@ export default {
           label: k
         });
       }
-    }
+    },
+    
   },
   
   getters : {

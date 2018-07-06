@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-	<el-form-item label="加床信息">
+	<el-form-item label="加床信息" v-show="Object.keys(bedData).length > 0">
 		<el-collapse>
 			<el-collapse-item>
 				<template slot="title">
@@ -60,6 +60,7 @@
         roomNum: this.$store.state.orderWrite.roomNum,
         dynamicTags: [],
         dateValue : [],
+        bedData : this.$store.state.orderWrite.bedData,
         dates : this.$store.state.orderWrite.bedDates,
         typeValue : '',
         types : [],
@@ -78,7 +79,7 @@
     
     methods: {
       changeType : function (value) {
-        let arr = this.$store.state.orderWrite.bedData[value];
+        let arr = this.bedData[value];
         let _this = this;
         
         //清空原有的操作数据
@@ -96,7 +97,7 @@
       },
   
       changeNum : function (value) {
-        let arr = this.$store.state.orderWrite.bedData[this.dateValue];
+        let arr = this.bedData[this.dateValue];
         this.finalObj = arr.filter(v => v.type === value)[0];
   
         //清空原有的操作数据

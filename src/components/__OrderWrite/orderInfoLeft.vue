@@ -28,7 +28,7 @@
 			<add-network/>
 			<write-guest/>
 			<el-form-item label="个性化信息">
-				<el-checkbox-group>
+				<el-checkbox-group v-model="specialConditions">
 					<el-checkbox label="立即到店" name="type"></el-checkbox>
 					<el-checkbox label="原房续住" name="type"></el-checkbox>
 					<el-checkbox label="安静房间" name="type"></el-checkbox>
@@ -108,6 +108,8 @@
 		
 		<pay-warning/>
 		
+		
+		
 		<el-button type="success" class="go-to-pay">下一步，支付</el-button>
 	</div>
 </template>
@@ -174,6 +176,10 @@
         roomNum : this.$store.state.orderWrite.roomNum,
         dateNum : this.$store.state.orderWrite.dateNum,
         maxPersonNum : this.$store.state.orderWrite.maxPersonNum,
+  
+  
+        specialConditions: [],
+        checked: true
   
         
       };

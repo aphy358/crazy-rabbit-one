@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-	<el-form-item label="加早信息">
+	<el-form-item label="加早信息" v-show="Object.keys(breakfastData).length > 0">
 		<el-collapse>
 			<el-collapse-item>
 				<template slot="title">
@@ -52,6 +52,7 @@
     data() {
       return {
         dateValue : [],
+        breakfastData : this.$store.state.orderWrite.breakfastData,
         dates : this.$store.state.orderWrite.breakfastDates,
         typeValue : '',
         types: [],
@@ -70,7 +71,7 @@
     
     methods: {
       changeType : function (value) {
-        let arr = this.$store.state.orderWrite.breakfastData[value];
+        let arr = this.breakfastData[value];
         let _this = this;
     
         //清空原有的操作数据
@@ -86,7 +87,7 @@
       },
   
       getAim : function (value) {
-        let arr = this.$store.state.orderWrite.breakfastData[this.dateValue];
+        let arr = this.breakfastData[this.dateValue];
         this.finalObj = arr.filter(v => v.type === value)[0];
       },
   

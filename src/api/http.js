@@ -27,9 +27,16 @@ function _h(verb) {
   return function (restPath, params, loading, last) {
     //*** 先注释，用户验证什么的... */
     // http.defaults.headers['X-Authorization'] = "Bearer " + localStorage.token
-
-    // 用 qs 插件将参数由 json 格式转为字符串参数格式，如 'type=2&key=深圳'
-    params = qs.stringify(params)
+  
+  
+    if (verb === 'get'){
+      params = {
+        params : params
+      }
+    }else{
+      // 用 qs 插件将参数由 json 格式转为字符串参数格式，如 'type=2&key=深圳'
+      params = qs.stringify(params)
+    }
     
     // setting loading
     if (loading !== false) {
