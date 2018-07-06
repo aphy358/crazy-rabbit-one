@@ -159,9 +159,9 @@ const _func2 = (valid, _com, _key, type, msg) => {
     errors[_key + 'Msg'] = errors[_key][0].msg
   }
 
-  _com.errors = Object.assign({}, _com.errors)
-
   _func3(errors)
+
+  _com.errors = Object.assign({}, _com.errors)
 }
 
 // 计算 errors 最终验证结果，并以属性值 isValid 的形式体现，true 为通过，false 为不通过
