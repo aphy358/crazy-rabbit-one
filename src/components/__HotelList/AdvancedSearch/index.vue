@@ -65,7 +65,7 @@
                     </div>
 
                     <el-button type="primary" size="mini" class="no-limit" 
-                      style="float:right;margin: 9px 0 0 0;"
+                      style="float:right;margin: 10px 0 0 0;"
                       @click="customizedPriceRange">确定</el-button>
                 </div>
             
