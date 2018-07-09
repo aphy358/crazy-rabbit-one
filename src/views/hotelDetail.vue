@@ -96,6 +96,11 @@ export default {
 <style lang="scss">
 // icons
 @import "../assets/jl_sprites.scss";
+
+body{
+  background: #f6f6f6!important;
+}
+
 .hli-icon{
     @include jl_sprites;
     display: inline-block;
