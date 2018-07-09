@@ -6,7 +6,7 @@
         <SubSearchLine />
         <NoHotels v-if="pageRecordCount == 0" />
         <HotelList />
-        <Pagination @changePage="changePage" :pageNow="pageNow" :pageTotal="pageTotal" />
+        <Pagination @changePage="changePage" :pageNow="pageNowFake" :pageTotal="pageTotal" />
     </div>
 </template>
 
@@ -41,8 +41,8 @@ export default {
   },
 
   computed: {
-    pageNow() {
-      return +this.$store.state.hotelList.pageNow
+    pageNowFake() {
+      return +this.$store.state.hotelList.pageNowFake
     },
 
     pageTotal() {
@@ -62,6 +62,7 @@ export default {
 
   methods: {
     changePage($event){
+      this.$store.dispatch("hotelList/actionHotelList", {t: 'pageNowFake', v: $event});
       this.$store.dispatch("hotelList/actionHotelList", {t: 'pageNow', v: $event, api: this.$api});
     }
   }
