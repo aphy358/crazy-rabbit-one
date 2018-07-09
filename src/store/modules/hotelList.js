@@ -10,7 +10,9 @@ export default {
     keywords: '',
     cityId: '',
 
-    pageNow: '1',
+    
+    pageNow: '1',       // 用于查询酒店列表传参
+    pageNowFake: '1',   // 用于分页
     pageTotal: '1',
     pageRecordCount: '0',
     hotelList: [],
@@ -103,6 +105,11 @@ export default {
     // 设置状态的公共函数
     setCommonState(state, payload){
       _setCommonState(state, payload)
+
+      if(payload.t && payload.t != 'pageNow' && payload.t != 'pageNowFake' && payload.t != 'pageTotal' && payload.t != 'pageRecordCount' && payload.t != 'hotelList'){
+        // 更改查询条件之后，把当前页设置为 '1'
+        state.pageNow = '1'
+      }
     },
 
   },
@@ -140,8 +147,11 @@ export default {
       }
 
       API.hotelList.syncGetHotelList(params).then(res => {
+
+        commit('setCommonState', {t: 'pageNowFake', v: state.pageNow})
+
         if(res.returnCode === 1){
-          commit('setCommonState', {t: 'hotelList', v: res.dataList})
+          commit('setCommonState', {t: 'hotelList', v: (res.dataList || [])})
           commit('setCommonState', {t: 'pageRecordCount', v: res.data ? 0 : res.pageRecordCount})
           commit('setCommonState', {t: 'pageTotal', v: res.pageTotal})
         }
