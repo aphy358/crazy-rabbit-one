@@ -153,4 +153,12 @@ export default {
 .el-popper[x-placement^=bottom]{
   padding: 0;
 }
+
+.search-line-wrap{
+  .hotel-key-word-select{
+    .el-input__inner{
+      padding-left: 30px;
+    }
+  }
+}
 </style>

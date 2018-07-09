@@ -150,7 +150,12 @@ export default {
 
 <!-- 覆盖 element 原有样式，注意这里不能用 scoped 限定作用域 -->
 <style lang="scss">
+.el-popover{
+  padding: 0;
+}
+
 .search-line-wrap{
+
   .el-input__inner{
     font-size: 14px;
     padding: 3px 10px;

@@ -19,8 +19,12 @@
 .body-scroll{
   height: 100%;
 
-  .el-scrollbar__wrap{
+  > .el-scrollbar__wrap{
     overflow: auto;
+
+    > .el-scrollbar__view{
+      overflow-x: hidden;
+    }
   }
 }
 </style>

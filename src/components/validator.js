@@ -32,6 +32,7 @@ export const validator = (_com, _key, options) => {
     let msg
     let callback2
     let valid
+    let param   // 附带参数
 
     if(typeof element === 'object'){
       if(element.callback){
@@ -43,9 +44,18 @@ export const validator = (_com, _key, options) => {
       }else{
         // 说明该验证规则包含在一个普通对象里，用一个键值对表示
         // 一般会明确指定错误信息 msg 该怎么显示
-        for (const key in element) {
-          rule = key
-          msg = element[key]
+        if(element.rule){
+          // 如果该验证规则里明确定义了 'rule' 键，且有多个键值对，如 {'rule': 'range', param: '4,16', msg: '字符长度必须在4-16位之间'}
+          rule = element.rule
+          msg = element.msg
+          param = element.param
+        }else{
+          // 如果该验证规则里没有明确定义 'rule' 键，且只有一对键值对，如 {'range': '4,16'}，则默认 key 为规则，value 为错误信息
+          for (const key in element) {
+            rule = key
+            msg = element[key]
+            param = element[key]
+          }
         }
       }
     }else{
@@ -82,9 +92,9 @@ export const validator = (_com, _key, options) => {
           break;
 
         case 'range':
-          let lenArr = msg.split(',')
+          let lenArr = param.split(',')
           valid = ( value.length >= parseInt(lenArr[0]) && value.length <= parseInt(lenArr[1]) ) || value === ''
-          msg = preset + `字符长度必须为${lenArr[0]}-${lenArr[1]}位`
+          msg = msg || preset + `字符长度必须为${lenArr[0]}-${lenArr[1]}位`
           _func1(valid, _com, _key, msg, 'range')
           break;
 

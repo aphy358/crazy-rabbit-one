@@ -27,7 +27,7 @@
                       <dd class="link-item"><a href="#">入住须知</a></dd>
                   </dl>
               </li>
-              <li class="f-i-block f-i-block-4">
+              <li class="f-i-block f-i-block-4" style="position: absolute;right: -88px;">
                   <dl class="inner">
                       <dt class="title">联系我们</dt>
                       <dd class="link-item"><p>售后客服（7*24小时）</p></dd>
@@ -38,7 +38,7 @@
                       </dd>
                   </dl>
               </li>
-              <li class="f-i-block f-i-block-5">
+              <!-- <li class="f-i-block f-i-block-5">
                   <dl class="inner">
                       <dt class="title wechat-number">微信公众号</dt>
                       <dd class="erweima-wrap">
@@ -46,7 +46,7 @@
                       </dd>
                       <dd class="follow-weixin">关注微信 随时预订</dd>
                   </dl>
-              </li>
+              </li> -->
           </ul>
           <div class="footer-bottom">
               <ul class="sundry-link">
@@ -115,7 +115,7 @@ export default {};
       .f-i-block{
         float: left;
         *zoom: 1;
-        width: 20%;
+        width: 30%;
 
         @at-root .inner{
 
