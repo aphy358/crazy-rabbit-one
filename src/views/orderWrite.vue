@@ -40,12 +40,19 @@
   
       getOrderInfo : function () {
         this.$store.dispatch('orderWrite/getOrderInfo')
+      },
+  
+      getExtraInfo : function () {
+        this.$store.dispatch('orderWrite/getExtraInfo', {typeId : 1});
+        this.$store.dispatch('orderWrite/getExtraInfo', {typeId : 2});
+        this.$store.dispatch('orderWrite/getExtraInfo', {typeId : 3});
       }
     },
     
     created() {
       this.checkOrder();
       this.getOrderInfo();
+      this.getExtraInfo();
     }
   }
 </script>

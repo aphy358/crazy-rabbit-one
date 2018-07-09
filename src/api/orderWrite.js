@@ -15,3 +15,9 @@ export const getOrderInfo = (args, loading = true) => http.post("/order/write.do
 
 //杂费
 export const getExtraInfo = (args, loading = true) => http.post("/order/surchargeRoom.do", args, loading);
+
+//国籍联想
+export const getCountrySuggest = (args, loading = true) => http.post("/order/countrySuggest.do", args, loading);
+
+//国籍
+export const checkMarket = (args, loading = true) => http.get("/order/properMarket.do", args, loading);
