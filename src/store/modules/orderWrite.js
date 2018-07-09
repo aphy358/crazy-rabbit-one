@@ -19,7 +19,15 @@ export default {
     bedData : {},
     bedDates : [],
     netData : {},
-    netDates : []
+    netDates : [],
+  
+  
+    specialConditions : [],
+    confirmEmail : '',
+    confirmFax : '',
+    confirmPhone : '',
+    paymentType : 1,
+    paymentTerm : 1,
   },
   
   
@@ -111,6 +119,12 @@ export default {
         state.dateNum = data.content.dateNum;
         state.stock = data.content.stock;
         state.maxPersonNum = data.content.hotelPrice.maxPersonNum;
+        state.specialConditions = data.content.specialReq;
+        state.confirmEmail = data.content.distributor.email;
+        state.confirmFax = data.content.distributor.fax;
+        state.confirmPhone = data.content.distributor.phone;
+        state.paymentType = data.content.paymentType;
+        state.paymentTerm = data.content.distributor.paymentTerm;
       })
     },
     

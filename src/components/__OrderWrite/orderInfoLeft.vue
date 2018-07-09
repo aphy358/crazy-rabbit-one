@@ -1,7 +1,7 @@
 <!-- 组件说明 -->
 <template>
 	<div class="order-info-left fl">
-		<el-form :model="orderForm" :rules="rules" ref="orderForm" label-width="100px" class="demo-orderForm">
+		<el-form :model="orderForm" ref="orderForm" label-width="100px" class="demo-orderForm">
 			<el-form-item label="预订信息">
 				<p class="book-info">
 					<span>入离时间:</span>
@@ -28,53 +28,78 @@
 			<add-network/>
 			<write-guest/>
 			<el-form-item label="个性化信息">
-				<el-checkbox-group v-model="specialConditions">
-					<el-checkbox label="立即到店" name="type"></el-checkbox>
-					<el-checkbox label="原房续住" name="type"></el-checkbox>
-					<el-checkbox label="安静房间" name="type"></el-checkbox>
-					<el-checkbox label="吸烟楼层" name="type"></el-checkbox>
-					<el-checkbox label="连通房间" name="type"></el-checkbox>
-					<el-checkbox label="相同楼层" name="type"></el-checkbox>
-					<el-checkbox label="尽量有窗" name="type"></el-checkbox>
-					<el-checkbox label="尽量无烟楼层" name="type"></el-checkbox>
-					<el-checkbox label="尽量相邻房间" name="type"></el-checkbox>
-					<el-checkbox label="尽量高层楼房" name="type"></el-checkbox>
-					<el-checkbox label="残疾设施房间" name="type"></el-checkbox>
-					<el-checkbox label="尽量大床房" name="type"></el-checkbox>
-					<el-checkbox label="尽量双床房" name="type"></el-checkbox>
+				<el-checkbox-group v-model="specialConditions" @change="handSpecialReq">
+					<el-checkbox v-for="item in conditions" :label="item" name="type"></el-checkbox>
 				</el-checkbox-group>
 				<p class="orange">请直接勾选您的要求，我们会及时通知酒店并尽量协助安排，但要视酒店情况，不能确保满足</p>
 			</el-form-item>
 			<el-form-item label="确认方式">
-				<el-radio-group>
-					<el-radio label="在线确认"></el-radio>
-					<el-radio label="电子邮件确认"></el-radio>
-					<el-radio label="传真确认"></el-radio>
-					<el-radio label="短信确认"></el-radio>
+				<el-radio-group v-model="confirmWay" @change="handleConfirmWay">
+					<el-radio :label="9">在线确认</el-radio>
+					<el-radio :label="1">电子邮件确认</el-radio>
+					<el-radio :label="2">传真确认</el-radio>
+					<el-radio :label="3">短信确认</el-radio>
 				</el-radio-group>
 				<div class="confirm-way-info">
 					<span>Email</span>
-					<el-input placeholder="邮箱"></el-input>
+					<el-input
+							v-model="email"
+							@input="validate('email')"
+							placeholder="邮箱"
+							:value="confirmWay === 1 ? email = confirmEmail : email = ''"
+							:class="{'input-error': errors.emailMsg}"
+					></el-input>
+					<p class="warning" v-show="errors.emailMsg">
+						<i class="el-icon-warning"></i>
+						{{errors.emailMsg}}
+					</p>
 				</div>
 				<div class="confirm-way-info">
 					<span>传真</span>
-					<el-input placeholder="传真号码"></el-input>
+					<el-input
+							v-model="fax"
+							@input="validate('fax')" placeholder="传真号码"
+							:value="confirmWay === 2 ? fax = confirmFax : fax = ''"
+							:class="{'input-error': errors.faxMsg}"
+					></el-input>
+					<p class="warning" v-show="errors.faxMsg">
+						<i class="el-icon-warning"></i>
+						{{errors.faxMsg}}
+					</p>
 				</div>
 				<div class="confirm-way-info">
 					<span>手机</span>
-					<el-input placeholder="手机号码"></el-input>
+					<el-input
+							v-model="phone"
+							@input="validate('phone')"
+							placeholder="手机号码"
+							:value="confirmWay === 3 ? phone = confirmPhone : phone = ''"
+							:class="{'input-error': errors.phoneMsg}"
+					></el-input>
+					<p class="warning" v-show="errors.phoneMsg">
+						<i class="el-icon-warning"></i>
+						{{errors.phoneMsg}}
+					</p>
 				</div>
 			</el-form-item>
 			<el-form-item label="结算信息">
 				<div class="balance-info">
-					<span>结算方式</span>
-					<el-input></el-input>
+					<span>客户订单号</span>
+					<el-input
+							v-model="customerCode"
+							@input="validate('customerCode')"
+							:class="{'input-error': errors.customerCodeMsg}"
+					></el-input>
+					<p class="warning" v-show="errors.customerCodeMsg">
+						<i class="el-icon-warning"></i>
+						{{errors.customerCodeMsg}}
+					</p>
 				</div>
 				<div class="balance-info">
-					<span>客户订单号</span>
+					<span :paymenttype="paymentType" :paymentterm="paymentTerm">结算方式</span>
 					<el-select v-model="value9" placeholder="单结">
 						<el-option
-								v-for="item in balanceways"
+								v-for="item in balanceWay"
 								:key="item.value"
 								:label="item.label"
 								:value="item.value">
@@ -108,8 +133,6 @@
 		
 		<pay-warning/>
 		
-		
-		
 		<el-button type="success" class="go-to-pay">下一步，支付</el-button>
 	</div>
 </template>
@@ -120,6 +143,7 @@
     import addBed from './addBed.vue'
     import addNetwork from './addNetwork.vue'
 	import writeGuest from './writeGuest.vue'
+	import { validator } from '../../components/validator.js'
 	
   export default {
     data() {
@@ -134,40 +158,7 @@
           resource: '',
           desc: ''
         },
-        rules: {
-          name: [
-            {required: true, message: '请输入该信息', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
-          ],
-          region: [
-            {required: true, message: '请选择活动区域', trigger: 'change'}
-          ],
-          date1: [
-            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
-          ],
-          date2: [
-            {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
-          ],
-          type: [
-            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
-          ],
-          resource: [
-            {required: true, message: '请选择活动资源', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: '请填写活动形式', trigger: 'blur'}
-          ]
-        },
         options: [],
-        balanceways: [
-          {
-            value: '1',
-            label: '单结'
-          }, {
-            value: '2',
-            label: '月结'
-          }
-        ],
         value: this.$store.state.orderWrite.roomNum + '间',
         value9: '',
         
@@ -175,14 +166,74 @@
         checkout : this.$store.state.orderWrite.checkout,
         roomNum : this.$store.state.orderWrite.roomNum,
         dateNum : this.$store.state.orderWrite.dateNum,
-        maxPersonNum : this.$store.state.orderWrite.maxPersonNum,
   
   
-        specialConditions: [],
-        checked: true
+        specialConditions : [],
+        checked: true,
+        confirmWay : 9,
+        balanceWay: [],
+        
+        
+        email : '',
+        fax : '',
+        phone : '',
+        rules : {},
   
+        customerCode : '',
+        
+        
+        errors : {
+          validated: true,
+        },
         
       };
+    },
+  
+    created() {
+      let _this = this;
+    
+      this.rules = {
+        email: function (name) {
+          validator(
+            _this,
+            name,
+            [
+              'email',
+            ]
+          );
+        },
+        fax: function (name) {
+          validator(
+            _this,
+            name,
+            [
+              'fax',
+            ]
+          );
+        },
+        phone:function (name) {
+          validator(
+            _this,
+            name,
+            [
+              'mobile',
+            ]
+          );
+        },
+        customerCode:function (name) {
+          validator(
+            _this,
+            name,
+            [
+              {
+                byteRangeLength : [0,1],
+                msg: '最多允许输入64位字符'
+              }
+            ]
+          );
+        }
+      }
+    
     },
     
     computed: {
@@ -202,6 +253,53 @@
   
         return stock;
       },
+  
+      maxPersonNum : function () {
+        return this.$store.state.orderWrite.maxPersonNum;
+      },
+  
+      conditions : function () {
+        let specialConditions = this.$store.state.orderWrite.specialConditions;
+        let conditions = [];
+        specialConditions.forEach(function (v, i) {
+          conditions.push(v.optionname);
+        });
+        return conditions;
+      },
+      
+      confirmEmail : function () {
+        return this.$store.state.orderWrite.confirmEmail
+      },
+      confirmFax : function () {
+        return this.$store.state.orderWrite.confirmFax
+      },
+      confirmPhone : function () {
+        return this.$store.state.orderWrite.confirmPhone
+      },
+  
+  
+      paymentType : function () {
+        return this.$store.state.orderWrite.paymentType
+      },
+      paymentTerm : function () {
+        let paymentType = this.paymentType;
+        let paymentTerm = this.$store.state.orderWrite.paymentTerm;
+        this.balanceWay = [];
+        let paymentTermName = ["客人前台现付", '单结', '周结', '半月结', '月结', '不固定', '三日结', '十日结', '额度结'];
+        if (paymentType === 0){
+          this.balanceWay.push({
+            value: '0',
+            label: '单结'
+          });
+          if (paymentTerm !== 0){
+            this.balanceWay.push({
+              value: paymentTerm,
+              label: paymentTermName[paymentTerm + 1]
+            })
+          }
+        }
+        return paymentTerm
+      },
       
     },
     
@@ -219,9 +317,19 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-    },
-    
-    created: function () {
+  
+      handSpecialReq : function (value) {
+        this.specialConditions = value;
+      },
+  
+      handleConfirmWay : function (value) {
+        this.confirmWay = value;
+      },
+  
+  
+      validate : function (name) {
+        this.rules[name](name);
+      },
     },
   
     components: {
@@ -235,6 +343,14 @@
 </script>
 
 <style lang="scss">
+	.fl{
+		float: left;
+	}
+	
+	.fr{
+		float: right;
+	}
+	
 	.orange {
 		color: #ff6600;
 	}
@@ -327,6 +443,15 @@
 				color: #ffffff;
 			}
 		}
+		
+		.warning{
+			display: inline-block;
+			margin-left: 20px;
+			
+			.el-icon-warning{
+				color: red;
+			}
+		}
 	}
 	
 	.book-info {
@@ -404,7 +529,6 @@
 			display: inline-block;
 		}
 	}
-	
 	
 	.go-to-pay.el-button{
 		display: block;
