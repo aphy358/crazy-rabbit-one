@@ -94,7 +94,7 @@
     computed: {
       maxPersonNum() {
         //根据最大入住人数决定每间房可以填多少个住客信息
-        let maxPersonNum = this.$store.state.orderWrite.maxPersonNum;
+        let maxPersonNum = this.$store.state.orderWrite.hotelPrice.maxPersonNum;
         this.guestArr = [];
         for (let i = 0; i < maxPersonNum; i++) {
           this.guestArr.push(i);
@@ -184,7 +184,7 @@
   
       num(guest, room){
         //将每个输入框对应的索引部分依次赋值为0、1、2......以此类推
-        let maxPersonNum = this.$store.state.orderWrite.maxPersonNum;
+        let maxPersonNum = this.$store.state.orderWrite.hotelPrice.maxPersonNum;
         return guest + (room * maxPersonNum);
       },
       
@@ -196,7 +196,7 @@
         let flag = true;
         let _this = this;
         //当用户在非必填住客信息栏中某个输入框中输入信息时，那么该栏其他输入框也为必填，相反，当用户将在栏填入的信息全数删除时，则该栏所有项都不需要填
-        if (index !== 0 && index % this.$store.state.orderWrite.maxPersonNum !== 0){
+        if (index !== 0 && index % this.$store.state.orderWrite.hotelPrice.maxPersonNum !== 0){
           //要保证该栏中的所有输入框均无值
           this.keys.forEach(function (v, i) {
             if (_this.modelArr[v + index] !== ''){
@@ -249,7 +249,6 @@
         let index = _this.num(item.guest, item.room);
         
         let list = this.countryList;
-        console.log(list);
         list.forEach(function (v, i) {
           if (_this.modelArr['country' + index] === v.name.split('-')[1]) {
             _this.modelArr['countryId' + index] = v.countryid

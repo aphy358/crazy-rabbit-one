@@ -5,30 +5,36 @@
 			<el-card :body-style="{ padding: '0px' }">
 				<img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/13657610619700h4341.jpg" class="image">
 				<div class="my-choose">
-					<h6>扬州长乐客栈主题文化酒店</h6>
+					<h6>{{staticInfo.infoName}}</h6>
 					<p>
-						<el-tag size="mini">标准房</el-tag>
-						<el-tag size="mini" type="success">大床</el-tag>
-						<el-tag size="mini" type="danger">无餐</el-tag>
+						<el-tag size="mini">{{hotelPrice.roomName}}</el-tag>
+						<el-tag size="mini" type="success"
+						        v-show="hotelPrice.hasOwnProperty('breakFastName') && hotelPrice.breakFastName"
+						>
+							{{hotelPrice.breakFastName}}
+						</el-tag>
 					</p>
 					<p>入住日期 <span class="choose-date orange">{{checkin}}</span></p>
-					<p>退房日期 <span class="choose-date orange">2018-06-30</span></p>
+					<p>退房日期 <span class="choose-date orange">{{checkout}}</span></p>
 					
 					
 					<h6 class="need-pay">需支付</h6>
 					<p class="blue">
 						房费
-						<span class="fr">193</span>
+						<span class="fr">{{roomCost}}</span>
 					</p>
 					<p class="blue">
 						税和服务费
-						<span class="fr">0</span>
+						<span class="fr">{{taxesAndFeesRMB}}</span>
 					</p>
+					<span class="sales-tax"
+					      v-show="content.hasOwnProperty('isExpediaSupplier') && content.isExpediaSupplier == 1"
+					>（已包含的销售税：{{hotelPrice.salesTaxRMB }}）</span>
 					<p class="blue">
 						<span>总价</span>
 						<span class="fr">
 							RMB
-							<span class="total-pay red">193</span>
+							<span class="total-pay red">{{payTotalMoney + taxesAndFeesRMB}}</span>
 						</span>
 					</p>
 				</div>
@@ -43,7 +49,9 @@
   
     data() {
       return {
-        checkin: this.$store.state.orderWrite.checkin
+        checkin: this.$store.state.orderWrite.checkin,
+        checkout: this.$store.state.orderWrite.checkout,
+        
       };
     },
     
@@ -51,13 +59,40 @@
     
     components: {},
     
-    computed: {},
+    computed: {
+      staticInfo(){
+        return this.$store.state.orderWrite.staticInfo
+      },
+      hotelPrice(){
+        return this.$store.state.orderWrite.hotelPrice
+      },
+      content(){
+        return this.$store.state.orderWrite.content
+      },
+      roomCost(){
+        return this.$store.state.orderWrite.roomCost
+      },
+      taxesAndFeesRMB(){
+        let taxesAndFeesRMB = this.$store.state.orderWrite.taxesAndFeesRMB;
+        let bedTotalPrice = this.$store.state.orderWrite.bedTotalPrice;
+        let brefTotalPrice = this.$store.state.orderWrite.brefTotalPrice;
+        let netTotalPrice = this.$store.state.orderWrite.netTotalPrice;
+        return taxesAndFeesRMB + bedTotalPrice + brefTotalPrice + netTotalPrice
+      },
+      payTotalMoney(){
+        return this.$store.state.orderWrite.payTotalMoney
+      }
+    },
     
     methods: {}
   }
 </script>
 
 <style scoped lang="scss">
+	.red{
+		color: red;
+	}
+	
 	.order-info-right{
 		width: 310px;
 	}
@@ -110,6 +145,12 @@
 		
 		.total-pay{
 			font-size: 30px;
+		}
+		
+		.sales-tax{
+			display: block;
+			font-size: 12px;
+			color: #67c23a;
 		}
 	}
 </style>

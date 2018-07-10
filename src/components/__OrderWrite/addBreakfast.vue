@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-	<el-form-item label="加早信息" v-show="Object.keys(breakfastData).length > 0">
+	<el-form-item label="加早信息" v-show="Object.keys(breakfastData).length > 0" :roomnum="roomNum">
 		<el-collapse>
 			<el-collapse-item>
 				<template slot="title">
@@ -51,7 +51,7 @@
     
     data() {
       return {
-        dateValue : [],
+        dateValue : '',
         breakfastData : this.$store.state.orderWrite.breakfastData,
         dates : this.$store.state.orderWrite.breakfastDates,
         typeValue : '',
@@ -67,7 +67,17 @@
     
     components: {},
     
-    computed: {},
+    computed: {
+      roomNum(){
+        let roomNum = this.$store.state.orderWrite.roomNum;
+        this.dynamicTags = [];
+        this.totalAddNum = {};
+        this.numValue = 0;
+        this.typeValue = '';
+        this.dateValue = '';
+        return roomNum;
+      }
+    },
     
     methods: {
       changeType : function (value) {
@@ -112,8 +122,11 @@
             dateValue : this.dateValue,
             name : this.finalObj.name,
             numValue : this.numValue,
-            totalPrice : this.numValue * this.finalObj.price
+            totalPrice : this.numValue * this.finalObj.price,
+            typeValue : this.typeValue
           });
+          //改变store中的数据
+          this.dealSurchargeBref();
         }
     
     
@@ -121,6 +134,33 @@
       handleClose(tag) {
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         this.totalAddNum[tag.dateValue] -= tag.numValue;
+  
+        //改变store中的数据
+        this.dealSurchargeBref();
+      },
+  
+      dealSurchargeBref(){
+        let finalArr = [];
+        let price = 0;
+        this.dynamicTags.forEach(function (v, i) {
+          finalArr.push({
+            date : v.dateValue,
+            count : v.numValue,
+            type : v.typeValue,
+            name : v.name
+          });
+          price += v.totalPrice
+        });
+    
+        this.$store.commit('orderWrite/setCommonState', {
+          k : 'surchargeBref',
+          v : finalArr
+        });
+  
+        this.$store.commit('orderWrite/setCommonState', {
+          k : 'brefTotalPrice',
+          v : price
+        })
       }
     }
   }

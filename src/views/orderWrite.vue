@@ -63,7 +63,7 @@
 	}
 	
 	.main {
-		padding: 50px 0;
+		padding-bottom: 50px;
 		background-color: #fff !important;
 	}
 	
