@@ -36,7 +36,7 @@
     </div>
 
     <!-- 登录框 -->
-    <LoginBox v-if="showLoginDialog" @close="showLoginDialog = false" />
+    <LoginBox v-if="showLoginDialog" @close="closeLoginDialog" />
 
     <!-- 退出确认框 -->
     <Confirm v-if="showConfirmLogoutDialog" @confirm="logout" @close="showConfirmLogoutDialog = false">
@@ -54,7 +54,6 @@ export default {
   data() {
     return {
       user: null,
-      showLoginDialog: false,
       showConfirmLogoutDialog: false
     }
   },
@@ -63,8 +62,19 @@ export default {
     LoginBox,
     Confirm
   },
+
+  computed: {
+    showLoginDialog(){
+      return this.$store.state.showLoginDialog
+    }
+  },
   
   methods: {
+    // 关闭登录框
+    closeLoginDialog(){
+      this.$store.commit('setCommonState', {t: 'showLoginDialog', v: false})
+    },
+
     // 获取当前用户信息
     getCurrentUser(){
       let _this = this
@@ -91,7 +101,7 @@ export default {
 
     showLoginBox(){
       if(!this.user){
-        this.showLoginDialog = true
+        this.$store.commit('setCommonState', {t: 'showLoginDialog', v: true})
       }
     }
   },
