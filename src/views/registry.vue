@@ -440,7 +440,7 @@ export default {
 
       // 验证密码
       validatePassword(){
-        validator(_this, 'password', {preset: '密码', rules: ['required', {'range': '4,16'}]})
+        validator(_this, 'password', {preset: '密码', rules: ['required', {'range': [4,16]}]})
       },
 
       // 验证确认密码
