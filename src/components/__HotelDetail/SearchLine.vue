@@ -152,10 +152,13 @@ export default {
 <style lang="scss">
 .el-popover{
   padding: 0;
+
+  &.price-table-tip{
+    padding: 12px;
+  }
 }
 
 .search-line-wrap{
-
   .el-input__inner{
     font-size: 14px;
     padding: 3px 10px;
