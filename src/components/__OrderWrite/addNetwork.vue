@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-	<el-form-item label="加宽带信息" v-show="Object.keys(netData).length > 0">
+	<el-form-item label="加宽带信息" v-show="Object.keys(netData).length > 0" :roomnum="roomNum">
 		<el-collapse>
 			<el-collapse-item>
 				<template slot="title">
@@ -52,14 +52,14 @@
       return {
         value8: '',
         dynamicTags: [],
-        dateValue : [],
+        dateValue : '',
         netData : this.$store.state.orderWrite.netData,
         dates : this.$store.state.orderWrite.netDates,
         numValue : '',
         nums : [],
         finalObj : {},
         totalAddNum : {},
-        roomNum: this.$store.state.orderWrite.roomNum,
+//        roomNum: this.$store.state.orderWrite.roomNum,
       }
     },
     
@@ -67,11 +67,24 @@
     
     components: {},
     
-    computed: {},
+    computed: {
+      roomNum(){
+        let roomNum = this.$store.state.orderWrite.roomNum;
+        this.dynamicTags = [];
+        this.totalAddNum = {};
+        this.numValue = '';
+        this.dateValue = '';
+  
+        this.setNum(roomNum);
+        return roomNum;
+      }
+    },
     
     methods: {
-      setNum : function () {
-        for (let i = 0; i < this.roomNum; i++) {
+      setNum : function (num) {
+        this.nums = [];
+        let roomNum = num || this.roomNum;
+        for (let i = 0; i < roomNum; i++) {
           this.nums.push({
             value: i + 1,
             label: i + 1
@@ -103,6 +116,10 @@
               numValue : this.numValue,
               totalPrice : this.numValue * this.finalObj.price
             });
+  
+  
+            //改变store中的数据
+            this.dealSurchargeInternet();
         
           }else{
             this.totalAddNum[this.dateValue] -= this.numValue;
@@ -117,6 +134,34 @@
       handleClose(tag) {
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         this.totalAddNum[tag.dateValue] -= tag.numValue;
+  
+  
+        //改变store中的数据
+        this.dealSurchargeInternet();
+      },
+  
+      dealSurchargeInternet(){
+        let finalArr = [];
+        let price = 0;
+        this.dynamicTags.forEach(function (v, i) {
+          finalArr.push({
+            date : v.dateValue,
+            count : v.numValue,
+            type : '-1',
+            name : '宽带'
+          });
+          price += v.totalPrice
+        });
+    
+        this.$store.commit('orderWrite/setCommonState', {
+          k : 'surchargeInternet',
+          v : finalArr
+        });
+  
+        this.$store.commit('orderWrite/setCommonState', {
+          k : 'netTotalPrice',
+          v : price
+        })
       }
     },
     
