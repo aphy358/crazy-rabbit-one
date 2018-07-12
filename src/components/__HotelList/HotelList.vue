@@ -32,7 +32,7 @@
             
             <div class="hli-location">
               <label>位置：</label>
-              <a title="map" class="hli-open-map" href="javascript:;" >
+              <a title="map" class="hli-open-map" href="javascript:;" @click="popMap(o.infoName)">
                 <span class="hli-location-text">{{o.address.replace(/[： 。，！、:.!,]+$/g,'') || ''}}</span>
                 <i class="hli-icon icon-location2"></i>
               </a>
@@ -116,6 +116,10 @@ export default {
       return this.$store.getters["hotelList/getHotelList"];
     },
 
+    cityType(){
+      return this.$store.state.cityType
+    },
+
     queryStr(){
       let ch = this.$store.state.cityType
       let checkin = this.$store.state.checkin
@@ -174,6 +178,9 @@ export default {
           this.hotelsExpanded = Object.assign({}, this.hotelsExpanded)
         }
       }
+    },
+
+    popMap(hotelName){
     },
 
   },
