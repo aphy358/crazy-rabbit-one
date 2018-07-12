@@ -1,125 +1,37 @@
 <!-- 组件说明 -->
 <template>
 	<div class="order-info-left fl">
-		<el-form :model="orderForm" :rules="rules" ref="orderForm" label-width="100px" class="demo-orderForm">
-			<el-form-item label="预订信息">
-				<p class="book-info">
-					<span>入离时间:</span>
-					<span class="start-date">{{checkin}}</span>
-					<span>至</span>
-					<span class="end-date">{{checkout}}</span>
-					<span class="day-count">{{dateNum}}晚</span>
-				</p>
-				<div class="book-info">
-					<span>房间数量:</span>
-					<el-select popper-class="select-roomnum" v-model="value" placeholder="间数">
-						<el-option
-								v-for="item in options"
-								:key="item.value"
-								:label="item.label"
-								:value="item.value">
-						</el-option>
-					</el-select>
-					<span class="order-room-max">最多可预订{{stock}}间（该房型每间最多入住{{maxPersonNum}}人）</span>
-				</div>
-			</el-form-item>
+		<el-form :model="orderForm" label-width="100px" class="demo-orderForm">
+			<book-info/>
 			<add-breakfast/>
 			<add-bed/>
 			<add-network/>
-			<write-guest/>
-			<el-form-item label="个性化信息">
-				<el-checkbox-group v-model="specialConditions">
-					<el-checkbox label="立即到店" name="type"></el-checkbox>
-					<el-checkbox label="原房续住" name="type"></el-checkbox>
-					<el-checkbox label="安静房间" name="type"></el-checkbox>
-					<el-checkbox label="吸烟楼层" name="type"></el-checkbox>
-					<el-checkbox label="连通房间" name="type"></el-checkbox>
-					<el-checkbox label="相同楼层" name="type"></el-checkbox>
-					<el-checkbox label="尽量有窗" name="type"></el-checkbox>
-					<el-checkbox label="尽量无烟楼层" name="type"></el-checkbox>
-					<el-checkbox label="尽量相邻房间" name="type"></el-checkbox>
-					<el-checkbox label="尽量高层楼房" name="type"></el-checkbox>
-					<el-checkbox label="残疾设施房间" name="type"></el-checkbox>
-					<el-checkbox label="尽量大床房" name="type"></el-checkbox>
-					<el-checkbox label="尽量双床房" name="type"></el-checkbox>
-				</el-checkbox-group>
-				<p class="orange">请直接勾选您的要求，我们会及时通知酒店并尽量协助安排，但要视酒店情况，不能确保满足</p>
-			</el-form-item>
-			<el-form-item label="确认方式">
-				<el-radio-group>
-					<el-radio label="在线确认"></el-radio>
-					<el-radio label="电子邮件确认"></el-radio>
-					<el-radio label="传真确认"></el-radio>
-					<el-radio label="短信确认"></el-radio>
-				</el-radio-group>
-				<div class="confirm-way-info">
-					<span>Email</span>
-					<el-input placeholder="邮箱"></el-input>
-				</div>
-				<div class="confirm-way-info">
-					<span>传真</span>
-					<el-input placeholder="传真号码"></el-input>
-				</div>
-				<div class="confirm-way-info">
-					<span>手机</span>
-					<el-input placeholder="手机号码"></el-input>
-				</div>
-			</el-form-item>
-			<el-form-item label="结算信息">
-				<div class="balance-info">
-					<span>结算方式</span>
-					<el-input></el-input>
-				</div>
-				<div class="balance-info">
-					<span>客户订单号</span>
-					<el-select v-model="value9" placeholder="单结">
-						<el-option
-								v-for="item in balanceways"
-								:key="item.value"
-								:label="item.label"
-								:value="item.value">
-						</el-option>
-					</el-select>
-				</div>
-				<div class="balance-info">
-					<span>使用预收款</span>
-					<el-input></el-input>
-				</div>
-				<div class="balance-info">
-					<span>剩余预收款</span>
-					<p>RMB <span class="orange">99999999999</span> 元</p>
-				</div>
-			</el-form-item>
-			<el-form-item label="温馨提示">
-				<div class="kindly-tips">
-					<span>取消条款</span>
-					<p>入住前5天8点不可修改或取消，罚金为首晚</p>
-				</div>
-				<div class="kindly-tips">
-					<span>入住离店时间</span>
-					<p>酒店入住时间最早为14:00, 退房时间最晚为次日12:00</p>
-				</div>
-				<div class="kindly-tips">
-					<span>预订提示</span>
-					<p>此房价为2人入住价格，若多人入住，则需在酒店前台支付相应费用</p>
-				</div>
-			</el-form-item>
+			<write-guest ref="guestinfo"/>
+			<special-req/>
+			<confirm-way/>
+			<balance-info/>
+			<kindly-tips/>
+			<travel-tips/>
 		</el-form>
 		
 		<pay-warning/>
 		
-		
-		
-		<el-button type="success" class="go-to-pay">下一步，支付</el-button>
+		<el-button type="success" class="go-to-pay" @click="goPay">下一步，支付</el-button>
 	</div>
 </template>
 
 <script>
-	import payWarning from './payWarning.vue'
-    import addBreakfast from './addBreakfast.vue'
-    import addBed from './addBed.vue'
-    import addNetwork from './addNetwork.vue'
-	import writeGuest from './writeGuest.vue'
+  import payWarning from './payWarning.vue'
+  import addBreakfast from './addBreakfast.vue'
+  import addBed from './addBed.vue'
+  import addNetwork from './addNetwork.vue'
+  import writeGuest from './writeGuest.vue'
+  import confirmWay from './confirmWay.vue'
+  import balanceInfo from './balanceInfo.vue'
+  import kindlyTips from './kindlyTips.vue'
+  import travelTips from './travelTips.vue'
+  import bookInfo from './bookInfo.vue'
+  import specialReq from './specialReq.vue'
 	
   export default {
     data() {
@@ -134,75 +46,13 @@
           resource: '',
           desc: ''
         },
-        rules: {
-          name: [
-            {required: true, message: '请输入该信息', trigger: 'blur'},
-            {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
-          ],
-          region: [
-            {required: true, message: '请选择活动区域', trigger: 'change'}
-          ],
-          date1: [
-            {type: 'date', required: true, message: '请选择日期', trigger: 'change'}
-          ],
-          date2: [
-            {type: 'date', required: true, message: '请选择时间', trigger: 'change'}
-          ],
-          type: [
-            {type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change'}
-          ],
-          resource: [
-            {required: true, message: '请选择活动资源', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: '请填写活动形式', trigger: 'blur'}
-          ]
-        },
-        options: [],
-        balanceways: [
-          {
-            value: '1',
-            label: '单结'
-          }, {
-            value: '2',
-            label: '月结'
-          }
-        ],
-        value: this.$store.state.orderWrite.roomNum + '间',
-        value9: '',
         
-        checkin : this.$store.state.orderWrite.checkin,
-        checkout : this.$store.state.orderWrite.checkout,
         roomNum : this.$store.state.orderWrite.roomNum,
-        dateNum : this.$store.state.orderWrite.dateNum,
-        maxPersonNum : this.$store.state.orderWrite.maxPersonNum,
-  
-  
-        specialConditions: [],
-        checked: true
-  
-        
       };
     },
     
     computed: {
-  
-      stock : function(){
-        let stock = this.$store.state.orderWrite.stock;
-        let arr = [];
-  
-        for (let i = 0; i < stock; i++) {
-          arr.push({
-            value: i + 1,
-            label: (i + 1) + '间'
-          })
-        }
-        
-        this.options = arr;
-  
-        return stock;
-      },
-      
+    
     },
     
     methods: {
@@ -219,9 +69,10 @@
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
-    },
-    
-    created: function () {
+  
+      goPay : function () {
+        console.log(this.$refs.guestinfo.modelArr);
+      }
     },
   
     components: {
@@ -229,12 +80,26 @@
       addBed,
       addBreakfast,
       addNetwork,
-      writeGuest
+      writeGuest,
+      confirmWay,
+      balanceInfo,
+      kindlyTips,
+      travelTips,
+      bookInfo,
+      specialReq
     }
   }
 </script>
 
 <style lang="scss">
+	.fl{
+		float: left;
+	}
+	
+	.fr{
+		float: right;
+	}
+	
 	.orange {
 		color: #ff6600;
 	}
@@ -327,6 +192,17 @@
 				color: #ffffff;
 			}
 		}
+		
+		.inline-warning-module{
+			.warning{
+				display: inline-block;
+				margin-left: 20px;
+				
+				.el-icon-warning{
+					color: red;
+				}
+			}
+		}
 	}
 	
 	.book-info {
@@ -405,11 +281,24 @@
 		}
 	}
 	
-	
 	.go-to-pay.el-button{
 		display: block;
 		margin: 50px auto 0;
 	}
-
-
+	
+	//expedia供应商入住提示特殊样式
+	.expedia-tips-box{
+		padding: 0 20px 10px 0;
+		>p{
+			line-height: 30px;
+			>b{
+				line-height: 50px;
+			}
+		}
+		>ul{
+			>li{
+				line-height: 30px;
+			}
+		}
+	}
 </style>

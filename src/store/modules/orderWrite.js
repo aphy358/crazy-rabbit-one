@@ -9,17 +9,37 @@ export default {
     checkin : '',
     checkout : '',
     supplierId : '',
-    roomNum : '',
+    roomNum : 1,
     dateNum : 1,
     stock : 7,
-    maxPersonNum : 1,
+    roomCost : '',
+    taxesAndFeesRMB : 0,
+    payTotalMoney : 0,
+    balance : 0,
     
     breakfastData : {},
     breakfastDates : [],
     bedData : {},
     bedDates : [],
     netData : {},
-    netDates : []
+    netDates : [],
+  
+    surchargeBref : [],
+    surchargeBed : [],
+    surchargeInternet : [],
+    
+    bedTotalPrice : 0,
+    brefTotalPrice : 0,
+    netTotalPrice : 0,
+  
+  
+    content : {},
+    distributor : {},
+    hotelPrice : {},
+    staticInfo : {},
+  
+    specialReq : [],
+    paymentType : 1,
   },
   
   
@@ -78,6 +98,13 @@ export default {
     
     //查价
     getOrderInfo({ commit, state, dispatch }, payload){
+      let isRoomNumChange = 0;
+  
+      if (payload && payload.k === 'roomNum'){
+        commit('setCommonState', payload);
+    
+        isRoomNumChange = 1;
+      }
       //请求页面中用于显示信息的数据
       let hotelPriceStrsKey = queryString("hotelPriceStrsKey");
       let hotelPriceStrs    = decodeURIComponent(sessionStorage.getItem(hotelPriceStrsKey));
@@ -99,18 +126,24 @@ export default {
         roomId         : queryString('roomId'),
         staticInfoId   : queryString('staticInfoId'),
         isHasMarketing : queryString('isHasMarketing') || 0,
-        isRoomNumChange: 0
+        isRoomNumChange: isRoomNumChange
       };
-      
-      if (payload && payload.k === 'changeRoomNum'){
-        commit('setCommonState', payload);
-  
-        params.isRoomNumChange = 1;
-      }
       API.orderWrite.getOrderInfo(params).then(function (data) {
-        state.dateNum = data.content.dateNum;
-        state.stock = data.content.stock;
-        state.maxPersonNum = data.content.hotelPrice.maxPersonNum;
+        let content = data.content;
+        state.content = content;
+        state.hotelPrice = content.hotelPrice;
+        state.distributor = content.distributor;
+        state.staticInfo = content.staticInfo;
+        
+        state.dateNum = content.dateNum;
+        state.stock = content.stock;
+        state.specialReq = content.specialReq;
+        state.paymentType = content.paymentType;
+        state.taxesAndFeesRMB = content.taxesAndFeesRMB;
+        state.payTotalMoney = content.payTotalMoney;
+        state.balance = content.balance;
+  
+        state.roomCost = Math.round((content.payTotalMoney - content.taxesAndFeesRMB)*100)/100;
       })
     },
     
@@ -154,7 +187,7 @@ export default {
       })
     },
     
-    setExtraData : function ({ commit, state, dispatch }, payload) {
+    setExtraData({ commit, state, dispatch }, payload) {
       payload.data.forEach(function (v, i) {
         let key = v[0].date.split(' ')[0];
         state[payload.dataIndex][key] = v

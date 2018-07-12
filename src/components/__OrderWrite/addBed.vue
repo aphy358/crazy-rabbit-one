@@ -1,6 +1,6 @@
 <!-- 组件说明 -->
 <template>
-	<el-form-item label="加床信息" v-show="Object.keys(bedData).length > 0">
+	<el-form-item label="加床信息" v-show="Object.keys(bedData).length > 0" :roomnum="roomNum">
 		<el-collapse>
 			<el-collapse-item>
 				<template slot="title">
@@ -57,9 +57,8 @@
     
     data() {
       return {
-        roomNum: this.$store.state.orderWrite.roomNum,
         dynamicTags: [],
-        dateValue : [],
+        dateValue : '',
         bedData : this.$store.state.orderWrite.bedData,
         dates : this.$store.state.orderWrite.bedDates,
         typeValue : '',
@@ -75,7 +74,17 @@
     
     components: {},
     
-    computed: {},
+    computed: {
+      roomNum(){
+        let roomNum = this.$store.state.orderWrite.roomNum;
+        this.dynamicTags = [];
+        this.totalAddNum = {};
+        this.numValue = '';
+        this.typeValue = '';
+        this.dateValue = '';
+        return roomNum;
+      }
+    },
     
     methods: {
       changeType : function (value) {
@@ -133,8 +142,12 @@
               dateValue : this.dateValue,
               name : this.finalObj.name,
               numValue : this.numValue,
-              totalPrice : this.numValue * this.finalObj.price
+              totalPrice : this.numValue * this.finalObj.price,
+              typeValue : this.typeValue
             });
+            
+            //将添加的信息整合好放入store的surchargeBed中，以备提交订单时使用
+            this.dealSurchargeBed();
   
           }else{
             this.totalAddNum[this.dateValue] -= this.numValue;
@@ -149,6 +162,34 @@
       handleClose(tag) {
         this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
         this.totalAddNum[tag.dateValue] -= tag.numValue;
+  
+  
+        //更改store的surchargeBed中对应的数据，以备提交订单时使用
+        this.dealSurchargeBed();
+      },
+      
+      dealSurchargeBed(){
+        let finalArr = [];
+        let price = 0;
+        this.dynamicTags.forEach(function (v, i) {
+          finalArr.push({
+            date : v.dateValue,
+            count : v.numValue,
+            type : v.typeValue,
+            name : v.name
+          });
+          price += v.totalPrice
+        });
+  
+        this.$store.commit('orderWrite/setCommonState', {
+          k : 'surchargeBed',
+          v : finalArr
+        });
+        
+        this.$store.commit('orderWrite/setCommonState', {
+          k : 'bedTotalPrice',
+          v : price
+        })
       }
     }
   }
