@@ -62,7 +62,9 @@ export const throttle = function (func, option, timeGap, context) {
 	clearTimeout(func.tId);
 
 	func.tId = setTimeout(function () {
-		func.call(context, ...option);
+		option
+			? func.call(context, ...option)
+			: func.call(context);
 	}, timeGap);
 }
 

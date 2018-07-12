@@ -51,13 +51,31 @@ export const loginFirst = (_this) => {
 }
 
 
-// 远程加载 js，比如需要在页面加载完之后再加载 js 资源
-export const remoteJS = (src) => {
-  // 避免重复加载同一资源
-  if(Array.prototype.slice.call(document.scripts).filter(n => n.src === src).length > 0)  return;
-
+function addScript(src) {
   const s = document.createElement("script");
   s.type = "text/javascript";
   s.src = src
   document.body.appendChild(s);
 }
+
+
+// 远程加载 js，比如需要在页面加载完之后再加载 js 资源
+export const remoteJS = (srcs) => {
+  let scripts = Array.prototype.slice.call(document.scripts)
+
+  if(typeof srcs === 'object' && Array.isArray(srcs)){
+    srcs.forEach(src => {
+      // 避免重复加载同一资源
+      if(scripts.filter(n => n.src === src).length < 1){
+        addScript(src)
+      }
+    })
+  }else{
+    // 避免重复加载同一资源
+    if(scripts.filter(n => n.src === srcs).length < 1){
+      addScript(srcs)
+    }
+  }
+}
+
+
