@@ -30,6 +30,8 @@
 <script>
 import CitySelectPanel from './CitySelectPanel'
 import HotelSelectPanel from './HotelSelectPanel'
+import { loginFirst } from "../../util.js";
+
 
 export default {
   name: '',
@@ -92,7 +94,7 @@ export default {
         if(res.returnCode === 1 && res.dataList){
           this.cityList = this.setHighlightStr(res.dataList, param.keys, 'aname', 'cityStr')
         }else if(res.errcode == 'notLogin'){
-          
+          loginFirst(this)
         }
       })
 
@@ -103,6 +105,8 @@ export default {
       this.$api.hotelList.syncGetHotels(param).then(res => {
         if(res.returnCode === 1 && res.dataList){
           this.hotelList = this.setHighlightStr(res.dataList, param.keys, 'name', 'hotelStr')
+        }else if(res.errcode == 'notLogin'){
+          loginFirst(this)
         }
       })
 

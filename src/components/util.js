@@ -43,3 +43,9 @@ export const setHistory = (citytype, cityid, cityname) => {
 
   localStorage.setItem('kwcHistory', window.JSON.stringify(kwcHistory));
 }
+
+
+// 先登录
+export const loginFirst = (_this) => {
+  _this.$store.commit('setCommonState', {t: 'showLoginDialog', v: true})
+}
