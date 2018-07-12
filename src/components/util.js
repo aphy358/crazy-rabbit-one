@@ -53,6 +53,7 @@ export const loginFirst = (_this) => {
 
 // 远程加载 js，比如需要在页面加载完之后再加载 js 资源
 export const remoteJS = (src) => {
+  // 避免重复加载同一资源
   if(Array.prototype.slice.call(document.scripts).filter(n => n.src === src).length > 0)  return;
 
   const s = document.createElement("script");
