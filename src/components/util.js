@@ -79,3 +79,15 @@ export const remoteJS = (srcs) => {
 }
 
 
+// 打开地图
+export const openMap = (hotel) => {
+  sessionStorage.setItem('hotelMap', JSON.stringify(hotel))
+
+  let iTop = (window.screen.availHeight - 30 - 500) / 2
+  let iLeft = (window.screen.availWidth - 10 - 650) / 2
+  let _link = hotel.countryType == 0
+    ? '/baiduMap.html'
+    : '/googleMap.html'
+
+  window.open(_link, hotel.infoName, 'height=500,innerHeight=500,width=650,innerWidth=650,top=' + iTop + ',left=' + iLeft + ',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+}
