@@ -36,6 +36,8 @@
                 <span class="hli-location-text">{{o.address.replace(/[： 。，！、:.!,]+$/g,'') || ''}}</span>
                 <i class="hli-icon icon-location2"></i>
               </a>
+
+              <Map v-if="showMap" :hotelNameMap="hotelNameMap" @close="showMap = false" />
             </div>
             
             <div class="hli-notice-wrap">
@@ -94,6 +96,7 @@
 
 <script>
 import PriceList from "../common/PriceList";
+import Map from "../common/Map";
 import Velocity from 'velocity-animate';
 
 export default {
@@ -101,14 +104,18 @@ export default {
 
   data() {
     return {
-      hotelsExpanded: {}
+      hotelsExpanded: {},
+
+      showMap: false,
+      hotelNameMap: ''
     };
   },
 
   props: {},
 
   components: {
-    PriceList
+    PriceList,
+    Map
   },
 
   computed: {
@@ -181,6 +188,8 @@ export default {
     },
 
     popMap(hotelName){
+      this.showMap = true
+      this.hotelNameMap = hotelName
     },
 
   },
