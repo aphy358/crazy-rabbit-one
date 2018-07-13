@@ -14,15 +14,13 @@
                   </ul>
       
                   <div class="i-s-keyword">
-                      <i class="i-s-keyword-icon"></i>
-                      <input type="text" class="i-s-keyword-input" placeholder="城市/酒店名称" title="城市/酒店名称" data-track="公共_搜索栏_关键字">
+                    <KerywordSuggest extraStyle="width: 300px;" />
                   </div>
       
                   <div class="i-s-gap"></div>
       
                   <div class="i-s-dates">
-                      <i class="i-s-dates-icon"></i>
-                      <input type="text" class="i-s-dates-input my-calendar-input" placeholder="入住离店日期" unselectable='on' readonly title="入住离店日期">
+                    <DateRange />
                   </div>
       
                   <button class="i-s-search-btn" data-track="公共_搜索栏_搜索">搜索</button>
@@ -35,7 +33,7 @@
                   <div class="i-s-label-pair">
                       <label>间数</label>
                       <div class="drag-down-wrap">
-                          <my-select class="i-s-room-num" unselectable="on" data-value="1" data-track="公共_搜索栏_间数">1间</my-select>
+                          <div class="i-s-room-num" unselectable="on" data-value="1" data-track="公共_搜索栏_间数">1间</div>
                           <i class="drag-down"></i>
                       </div>
                   </div>
@@ -265,30 +263,20 @@ export default {
 
         @at-root .i-s-keyword{
             float: left;
+            padding-left: 15px;
 
-            >*{
-                float: left;
+            .el-input__prefix{
+              font-size: 16px;
             }
 
-            @at-root .i-s-keyword-icon{
-                @include jl_sprites;
-                @include location;
-                margin: 16px 12px 0 32px;
+            .el-input__inner{
+              border: none;
+              height: 50px;
+              font-size: 16px;
+              padding-left: 35px;
             }
 
-            @at-root .i-s-keyword-input{
-                border: none;
-                height: 50px;
-                line-height: 50px;
-                font-size: 16px;
-                width: 290px;
-                padding-right: 5px;
-                box-sizing: border-box;
 
-                &.error{
-                    background: rgb(249, 144, 144);
-                }
-            }
         }
 
         @at-root .i-s-gap{
@@ -300,24 +288,15 @@ export default {
 
         @at-root .i-s-dates{
             float: left;
+            padding-left: 15px;
 
-            >*{
-                float: left;
+            .el-range-editor--small.el-input__inner{
+              border: none;
+              height: 50px;
             }
 
-            @at-root .i-s-dates-icon{
-                @include jl_sprites;
-                @include datelogo;
-                margin: 17px 12px 0 32px;
-            }
-
-            @at-root .i-s-dates-input{
-                border: none;
-                height: 50px;
-                line-height: 50px;
-                font-size: 16px;
-                width: 190px;
-                cursor: context-menu;
+            .el-range-editor--small .el-range-separator{
+              line-height: 44px;
             }
         }
 

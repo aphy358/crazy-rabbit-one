@@ -4,6 +4,7 @@
   <el-popover
     :width="getShowPanel == 1 ? 550 : 390"
     style="width:260px;display: inline-block;"
+    :style="extraStyle"
     trigger="focus"
     placement="bottom-start"
     v-model="visible">
@@ -44,7 +45,7 @@ export default {
     }
   },
 
-  props: [],
+  props: ['extraStyle'],
 
   components: {
     CitySelectPanel,
