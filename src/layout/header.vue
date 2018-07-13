@@ -120,7 +120,7 @@ export default {
 .index-top-nav {
   position: relative;
   height: 60px;
-  //   z-index: 99;
+  z-index: 99;
 
   @at-root .i-t-n-bg {
     height: 100%;
