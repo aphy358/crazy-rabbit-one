@@ -20,7 +20,7 @@
                   <div class="i-s-gap"></div>
       
                   <div class="i-s-dates">
-                    <DateRange />
+                    <DateRange extraStyle="width: 280px;" />
                   </div>
       
                   <button class="i-s-search-btn" data-track="公共_搜索栏_搜索">搜索</button>
@@ -290,6 +290,10 @@ export default {
             float: left;
             padding-left: 15px;
 
+            .date-range-picker.el-range-editor--small .el-range-input{
+              font-size: 16px;
+            }
+
             .el-range-editor--small.el-input__inner{
               border: none;
               height: 50px;
@@ -297,6 +301,12 @@ export default {
 
             .el-range-editor--small .el-range-separator{
               line-height: 44px;
+              font-size: 16px;
+              width: 20px;
+            }
+
+            .el-date-editor .el-range__icon{
+              font-size: 16px;
             }
         }
 
