@@ -56,6 +56,10 @@ export default {
     margin-top: -60px;
     overflow-x: inherit;
 
+    img{
+      width: 100%;
+    }
+
     .el-carousel__indicators{
       display: none
     }
