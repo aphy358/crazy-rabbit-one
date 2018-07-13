@@ -59,7 +59,6 @@
         nums : [],
         finalObj : {},
         totalAddNum : {},
-//        roomNum: this.$store.state.orderWrite.roomNum,
       }
     },
     

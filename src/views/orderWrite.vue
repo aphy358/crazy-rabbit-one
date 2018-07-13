@@ -35,7 +35,7 @@
     
     methods: {
       checkOrder : function () {
-        this.$store.dispatch('orderWrite/checkOrder')
+        this.$store.dispatch('orderWrite/checkOrder', this)
       },
   
       getOrderInfo : function () {
@@ -51,7 +51,7 @@
     
     created() {
       this.checkOrder();
-      this.getOrderInfo();
+//      this.getOrderInfo();
       this.getExtraInfo();
     }
   }

@@ -16,6 +16,7 @@ export default {
     taxesAndFeesRMB : 0,
     payTotalMoney : 0,
     balance : 0,
+    willUsedBalance: 0,
     
     breakfastData : {},
     breakfastDates : [],
@@ -37,9 +38,16 @@ export default {
     distributor : {},
     hotelPrice : {},
     staticInfo : {},
+    isHasMarketing : 0,
+    marketing : {},
   
+    specialConditions : [],
     specialReq : [],
     paymentType : 1,
+  
+    dialogTableVisible : false,
+  
+    orderInfo : {},
   },
   
   
@@ -55,7 +63,6 @@ export default {
   actions : {
     //验价
     checkOrder({ commit, state, dispatch }, payload){
-      // commit('setCommonState', payload)
       state.checkin = queryString("startDate");
       state.checkout = queryString("endDate");
       state.roomNum = queryString("roomNum");
@@ -82,7 +89,7 @@ export default {
   
       let isHasMarketing = queryString("isHasMarketing") || 0;
   
-      if(isHasMarketing === 1){
+      if(isHasMarketing === '1'){
         params['marketing.marketingPrice'] = queryString('marketingPrice') || 0;
         params['marketing.startTime']      = queryString('startTime').replace(/\s+/g, ' ');
         params['marketing.endTime']        = queryString('endTime').replace(/\s+/g, ' ');
@@ -93,6 +100,42 @@ export default {
       if (queryString("rateType")) params['rateType'] = queryString("rateType");
       
       API.orderWrite.checkOrder(params).then(function (data) {
+        if (typeof data === 'string') {
+          data = window.JSON.parse(data);
+        }
+  
+        if (data.success) {
+          //如果有错误信息，则提示用户
+          if (data.content.result !== 'success') {
+            payload.$alert(data.content.errinfo, '系统提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                payload.$router.push('hotelList')
+              }
+            });
+          }else{
+            dispatch('getOrderInfo');
+          }
+    
+        } else {
+          //用户登录状态已丢失时，提示用户
+          if (data.errcode === 'notLogin') {
+            payload.$alert('请先登录', '系统提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                payload.$router.push('home')
+              }
+            });
+          } else {
+            //提示用户错误信息，然后跳转到酒店详情页面
+            payload.$alert(data.errinfo, '系统提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                payload.$router.push('hotelList')
+              }
+            });
+          }
+        }
       })
     },
     
@@ -128,22 +171,71 @@ export default {
         isHasMarketing : queryString('isHasMarketing') || 0,
         isRoomNumChange: isRoomNumChange
       };
+      
+      if (params.isHasMarketing === '1'){
+        params['marketing.marketingPrice'] = queryString('marketingPrice');
+        params['marketing.startTime'] = queryString('startTime').replace(/\s+/g, ' ');
+        params['marketing.endTime'] = queryString('endTime').replace(/\s+/g, ' ');
+      }
+      
       API.orderWrite.getOrderInfo(params).then(function (data) {
-        let content = data.content;
-        state.content = content;
-        state.hotelPrice = content.hotelPrice;
-        state.distributor = content.distributor;
-        state.staticInfo = content.staticInfo;
-        
-        state.dateNum = content.dateNum;
-        state.stock = content.stock;
-        state.specialReq = content.specialReq;
-        state.paymentType = content.paymentType;
-        state.taxesAndFeesRMB = content.taxesAndFeesRMB;
-        state.payTotalMoney = content.payTotalMoney;
-        state.balance = content.balance;
+        if (data.success === true) {
+          //如果请求成功，先判断content有没有报错信息
+          if (data.content.errorMsg) {
+            payload.$alert(data.errinfo, '系统提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                payload.$router.push('hotelList')
+              }
+            });
+          }else if (data.content.hasOwnProperty('isAveragePriceRMBChange') && data.content.isAveragePriceRMBChange === 1){
+            //价格有变动时提醒客户（特殊情况（查价接口没有错误信息返回，但属于提示的一种，且不是弹出框，而是确认框））
+            payload.$alert('最新价格为：￥' + data.content.payTotalMoney + '，是否需要继续预订？', '系统提示', {
+              confirmButtonText: '确定',
+            });
+          }
+    
+          //再判断酒店是否为客人前台现付方式，如果是，不让客户进入页面
+          if (data.content.paymentType === 1) {
+            payload.$alert('该产品已下线，请选择其他产品', '系统提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                payload.$router.push('hotelList')
+              }
+            });
+          }
   
-        state.roomCost = Math.round((content.payTotalMoney - content.taxesAndFeesRMB)*100)/100;
+  
+          let content = data.content;
+          state.content = content;
+          state.hotelPrice = content.hotelPrice;
+          state.distributor = content.distributor;
+          state.staticInfo = content.staticInfo;
+  
+          state.dateNum = content.dateNum;
+          state.stock = content.stock;
+          state.specialConditions = content.specialReq;
+          state.paymentType = content.paymentType;
+          state.taxesAndFeesRMB = content.taxesAndFeesRMB;
+          state.payTotalMoney = content.payTotalMoney;
+          state.balance = content.balance;
+  
+          state.roomCost = Math.round((content.payTotalMoney - content.taxesAndFeesRMB)*100)/100;
+          
+          if (content.hasOwnProperty('isHasMarketing') && content.isHasMarketing === '1'){
+            state.isHasMarketing = 1;
+            state.marketing = content.marketing;
+          }
+          
+        } else {
+          payload.$alert(data.errinfo, '系统提示', {
+            confirmButtonText: '确定',
+            callback: action => {
+              payload.$router.push('hotelList')
+            }
+          });
+        }
+        
       })
     },
     
@@ -200,6 +292,25 @@ export default {
         });
       }
     },
+    
+    //确认订单信息
+    confirmOrderInfo({ commit, state, dispatch }, payload){
+      if (payload){
+        commit('setCommonState', payload);
+  
+        commit('setCommonState', {
+          k : 'dialogTableVisible',
+          v : true
+        });
+      }
+    },
+    
+    //成单
+    saveOrder({ commit, state, dispatch }, payload){
+      API.orderWrite.saveOrder(state.orderInfo).then(function (data) {
+        console.log(data);
+      })
+    }
     
   },
   
