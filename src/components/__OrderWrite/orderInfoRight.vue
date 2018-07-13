@@ -44,6 +44,8 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	
   export default {
     name: '',
   
@@ -59,19 +61,12 @@
     
     components: {},
     
-    computed: {
-      staticInfo(){
-        return this.$store.state.orderWrite.staticInfo
-      },
-      hotelPrice(){
-        return this.$store.state.orderWrite.hotelPrice
-      },
-      content(){
-        return this.$store.state.orderWrite.content
-      },
-      roomCost(){
-        return this.$store.state.orderWrite.roomCost
-      },
+    computed: mapState({
+      staticInfo : state => state.orderWrite.staticInfo,
+      hotelPrice : state => state.orderWrite.hotelPrice,
+      content : state => state.orderWrite.content,
+      roomCost : state => state.orderWrite.roomCost,
+      payTotalMoney : state => state.orderWrite.payTotalMoney,
       taxesAndFeesRMB(){
         let taxesAndFeesRMB = this.$store.state.orderWrite.taxesAndFeesRMB;
         let bedTotalPrice = this.$store.state.orderWrite.bedTotalPrice;
@@ -79,10 +74,7 @@
         let netTotalPrice = this.$store.state.orderWrite.netTotalPrice;
         return taxesAndFeesRMB + bedTotalPrice + brefTotalPrice + netTotalPrice
       },
-      payTotalMoney(){
-        return this.$store.state.orderWrite.payTotalMoney
-      }
-    },
+    }),
     
     methods: {}
   }

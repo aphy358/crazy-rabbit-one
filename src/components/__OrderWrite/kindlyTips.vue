@@ -26,6 +26,8 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	
   export default {
     name: '',
     
@@ -37,17 +39,11 @@
     
     components: {},
     
-    computed: {
-      content : function () {
-        return this.$store.state.orderWrite.content
-      },
-      hotelPrice : function () {
-        return this.$store.state.orderWrite.hotelPrice
-      },
-      staticInfo : function () {
-        return this.$store.state.orderWrite.staticInfo
-      },
-    },
+    computed : mapState('orderWrite', [
+      'content',
+      'hotelPrice',
+      'staticInfo',
+    ]),
     
     methods: {}
   }

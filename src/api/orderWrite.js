@@ -21,3 +21,6 @@ export const getCountrySuggest = (args, loading = true) => http.post("/order/cou
 
 //国籍
 export const checkMarket = (args, loading = true) => http.get("/order/properMarket.do", args, loading);
+
+//成单
+export const saveOrder = (args, loading = true) => http.post("/order/saveOrder.do", args, loading);
