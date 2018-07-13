@@ -98,7 +98,7 @@ export default {};
     width: 1220px;
     height: 1px;
     background-color: #3b3b3b;
-    top: 230px;
+    top: 215px;
     left: 50%;
     margin-left: -610px;
   }
@@ -181,7 +181,8 @@ export default {};
       width: 100%;
 
       @at-root .sundry-link{
-        margin: 10px 0;
+        margin: 0;
+        padding-left: 300px;
 
         .hot-city,.friendly-link{
           width: 100%;

@@ -32,7 +32,7 @@
             
             <div class="hli-location">
               <label>位置：</label>
-              <a title="map" class="hli-open-map" href="javascript:;" >
+              <a title="map" class="hli-open-map" href="javascript:;" @click="popMap(o)">
                 <span class="hli-location-text">{{o.address.replace(/[： 。，！、:.!,]+$/g,'') || ''}}</span>
                 <i class="hli-icon icon-location2"></i>
               </a>
@@ -95,25 +95,30 @@
 <script>
 import PriceList from "../common/PriceList";
 import Velocity from 'velocity-animate';
+import { openMap } from "../util.js";
 
 export default {
   name: "",
 
   data() {
     return {
-      hotelsExpanded: {}
+      hotelsExpanded: {},
     };
   },
 
   props: {},
 
   components: {
-    PriceList
+    PriceList,
   },
 
   computed: {
     hotelList() {
       return this.$store.getters["hotelList/getHotelList"];
+    },
+
+    cityType(){
+      return this.$store.state.cityType
     },
 
     queryStr(){
@@ -176,6 +181,9 @@ export default {
       }
     },
 
+    popMap(hotel){
+      openMap(hotel)
+    }
   },
 
   mounted(){

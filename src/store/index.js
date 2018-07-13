@@ -20,6 +20,8 @@ export default new Vuex.Store({
     childrenStr: '',
     checkin: addDays(new Date),
     checkout: addDays(new Date, 1),
+
+    showLoginDialog: false,     // 是否显示登录框
   },
 
   mutations: {
