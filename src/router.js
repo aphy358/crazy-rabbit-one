@@ -24,6 +24,15 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'home',
+      components: {
+        default: home,
+        // header: Header,
+        footer: Footer
+      }
+    },
+    {
+      path: '/hotelList',
       name: 'hotelList',
       components: {
         default: hotelList,
@@ -50,17 +59,8 @@ export default new Router({
       }
     },
     {
-      path: '/home',
-      name: 'home',
-      components: {
-        default: home,
-        header: Header,
-        footer: Footer
-      }
-    },
-    {
       path: '/orderWrite',
-      name: '/orderWrite',
+      name: 'orderWrite',
       components: {
         default: orderWrite,
         header: Header,
@@ -76,6 +76,5 @@ export default new Router({
         footer : Footer
       }
     }
-  
   ]
 })
