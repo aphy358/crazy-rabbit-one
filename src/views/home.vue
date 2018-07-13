@@ -5,6 +5,9 @@
 
     <!-- banner 轮播 -->
     <Banner />
+
+    <!-- 搜索栏 -->
+    <SearchLine />
     
   </div>
 </template>
@@ -39,6 +42,7 @@ export default {
 @import '../assets/jl_sprites.scss';
 
 .home-page{
+  position: relative;
 
   .i-t-n-bg{
     background: #000!important;
