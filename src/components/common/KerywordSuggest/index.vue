@@ -30,6 +30,8 @@
 <script>
 import CitySelectPanel from './CitySelectPanel'
 import HotelSelectPanel from './HotelSelectPanel'
+import { loginFirst } from "../../util.js";
+
 
 export default {
   name: '',
@@ -88,9 +90,11 @@ export default {
 
     // 查城市
     getCityList(param){
-      this.$api.hotelList.syncGetCity(param).then(res_city => {
-        if(res_city.returnCode === 1 && res_city.dataList){
-          this.cityList = this.setHighlightStr(res_city.dataList, param.keys, 'aname', 'cityStr')
+      this.$api.hotelList.syncGetCity(param).then(res => {
+        if(res.returnCode === 1 && res.dataList){
+          this.cityList = this.setHighlightStr(res.dataList, param.keys, 'aname', 'cityStr')
+        }else if(res.errcode == 'notLogin'){
+          loginFirst(this)
         }
       })
 
@@ -98,9 +102,11 @@ export default {
 
     // 查酒店列表
     getHotelList(param){
-      this.$api.hotelList.syncGetHotels(param).then(res_hotel => {
-        if(res_hotel.returnCode === 1 && res_hotel.dataList){
-          this.hotelList = this.setHighlightStr(res_hotel.dataList, param.keys, 'name', 'hotelStr')
+      this.$api.hotelList.syncGetHotels(param).then(res => {
+        if(res.returnCode === 1 && res.dataList){
+          this.hotelList = this.setHighlightStr(res.dataList, param.keys, 'name', 'hotelStr')
+        }else if(res.errcode == 'notLogin'){
+          loginFirst(this)
         }
       })
 

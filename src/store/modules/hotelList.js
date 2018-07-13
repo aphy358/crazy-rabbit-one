@@ -154,6 +154,7 @@ export default {
           commit('setCommonState', {t: 'hotelList', v: (res.dataList || [])})
           commit('setCommonState', {t: 'pageRecordCount', v: res.data ? 0 : res.pageRecordCount})
           commit('setCommonState', {t: 'pageTotal', v: res.pageTotal})
+        }else if(res.errcode == 'notLogin'){
         }
   
         // 查价格列表

@@ -20,7 +20,7 @@
       
       <div class="hdi-location">
         <label>位置：</label>
-        <a title="map" class="hdi-open-map" href="javascript:;" >
+        <a title="map" class="hdi-open-map" href="javascript:;" @click="popMap(hotelInfo)">
           <span class="hdi-location-text">{{ hotelInfo.address.replace(/[： 。，！、:.!,]+$/g,'') || '' }}</span>
           <i class="hli-icon icon-location2"></i>
         </a>
@@ -89,6 +89,8 @@
 </template>
 
 <script>
+import { openMap } from "../util.js";
+
 export default {
   name: '',
 
@@ -115,6 +117,10 @@ export default {
     clickHotelImg(pic, i){
       this.picSrc = pic
       this.currentImgIndex = i
+    },
+
+    popMap(hotel){
+      openMap(hotel)
     }
 
   }

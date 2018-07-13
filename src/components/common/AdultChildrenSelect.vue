@@ -264,6 +264,7 @@ export default {
     font-size: 14px;
     min-width: 376px;
     min-width: 386px\9;
+    max-height: 137px;
     background: white;
     box-shadow: 0 1px 5px #ababab;
     overflow: hidden;
