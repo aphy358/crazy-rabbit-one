@@ -1,7 +1,7 @@
 
 <!-- 首页 banner -->
 <template>
-  <el-carousel trigger="click" height="500px">
+  <el-carousel class="home-page-banner" trigger="click" height="500px">
     <el-carousel-item v-for="item in bannerAds" :key="item.adId">
       <img alt="" :src="item.adImg">
     </el-carousel-item>
@@ -49,5 +49,38 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+.home-page-banner{
+
+  &.el-carousel{
+    margin-top: -60px;
+    overflow-x: inherit;
+
+    .el-carousel__indicators{
+      display: none
+    }
+
+    .el-carousel__arrow{
+      width: 70px;
+      height: 70px;
+      background-color: rgba(0, 0, 0, 0.4);
+
+      &:hover{
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    .el-carousel__arrow i{
+      font-size: 40px;
+    }
+
+    .el-carousel__arrow--left{
+      left: 50px;
+    }
+
+    .el-carousel__arrow--right{
+      right: 50px;
+    }
+  }
+}
 </style>
