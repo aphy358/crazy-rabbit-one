@@ -53,7 +53,6 @@ import Confirm from "../components/common/Confirm"
 export default {
   data() {
     return {
-      user: null,
       showConfirmLogoutDialog: false
     }
   },
@@ -66,6 +65,10 @@ export default {
   computed: {
     showLoginDialog(){
       return this.$store.state.showLoginDialog
+    },
+
+    user(){
+      return this.$store.state.user
     }
   },
   
@@ -81,16 +84,16 @@ export default {
 
       this.$api.home.getCurrentUser().then(function(res) {
         if (res.returnCode == 1) {
-          _this.user = res.data.user
+          _this.$store.commit('setCommonState', {t: 'user', v: res.data.user})
         } else {
-          _this.user = null
+          _this.$store.commit('setCommonState', {t: 'user', v: null})
         }
       })
     },
 
     logout() {
       this.$api.home.syncLogout().then(res => {
-        this.user = null
+        this.$store.commit('setCommonState', {t: 'user', v: null})
 
         if (res.returnCode != 1) {
         } else {

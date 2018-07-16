@@ -132,11 +132,11 @@ export default {
       this.isSearchLineTwoShow = !this.isSearchLineTwoShow
 
       if(this.isSearchLineTwoShow){
-        Velocity(elem1, { height: '80px' })
-        Velocity(elem2, { height: '580px' })
+        Velocity(elem1, { height: '80px' }, { duration: 300 })
+        Velocity(elem2, { height: '580px' }, { duration: 300 })
       }else{
-        Velocity(elem1, { height: '0' })
-        Velocity(elem2, { height: '500px' })
+        Velocity(elem1, { height: '0' }, { duration: 300 })
+        Velocity(elem2, { height: '500px' }, { duration: 300 })
       }
     },
 

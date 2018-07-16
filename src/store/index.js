@@ -14,6 +14,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    user: null,   // 当前用户
+
     cityType: '0',
     roomNum: '1',
     adultNum: '2',
