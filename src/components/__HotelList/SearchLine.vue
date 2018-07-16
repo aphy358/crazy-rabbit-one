@@ -3,7 +3,7 @@
     <div class="search-line-outer" :class="fixTop === true ? 'fix-top' : ''">
         <div class="search-line-wrap">
             <CityTypeSelect />
-            <KerywordSuggest />
+            <KerywordSuggest page="hotelList" />
             <DateRange />
             <RoomNumSelect :page="'hotelList'" />
             <AdultChildrenSelect v-if="getCityType != 0" />

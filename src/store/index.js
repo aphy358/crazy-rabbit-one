@@ -26,6 +26,18 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    // 重置所有查询条件
+    resetQueryParams(state){
+      let cityType = state.cityType
+
+      // state.roomNum = '1'
+      state.adultNum = '2'
+      state.childrenNum = '0'
+      state.childrenStr = ''
+      state.checkin = cityType == '3' ? addDays(new Date, 1) : addDays(new Date)
+      state.checkout = cityType == '3' ? addDays(new Date, 2) : addDays(new Date, 1)
+    },
+
     // 设置城市类型，如：'国内'、'港澳台'、'国外'
     setCityType(state, cityType){
       state.cityType = cityType

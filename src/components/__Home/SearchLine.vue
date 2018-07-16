@@ -18,7 +18,7 @@
                   </ul>
       
                   <div class="i-s-keyword">
-                    <KerywordSuggest extraStyle="width: 300px;" />
+                    <KerywordSuggest extraStyle="width: 300px;" page="home" />
                   </div>
       
                   <div class="i-s-gap"></div>
@@ -44,7 +44,7 @@
                       <StarSelect page="home" />
                   </ul>
                   
-                  <div class="i-s-label-pair" id="index-adult-children">
+                  <div class="i-s-label-pair" v-if="cityType != 0">
                       <label>入住人数</label>
                       <AdultChildrenSelect />
                   </div>
@@ -144,6 +144,8 @@ export default {
     setCityType(type, e){
       if(!e.target.getAttribute('checked')){
         this.$store.commit('setCommonState', {t: 'cityType', v: type})
+        this.$store.commit('resetQueryParams')
+        this.$store.commit('home/resetQueryParams')
       }
     }
     

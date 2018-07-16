@@ -45,7 +45,8 @@ export default {
     }
   },
 
-  props: ['extraStyle'],
+  // 'page' 是针对不同页面有不同的处理
+  props: ['extraStyle', 'page'],
 
   components: {
     CitySelectPanel,
@@ -56,13 +57,13 @@ export default {
     // 获取关键字
     getKeyword: {
       get: function () {
-        return this.$store.state.hotelList.keyword
+        return this.$store.state[this.page].keyword
       },
       set: function (newValue) {
-        this.$store.commit('hotelList/setCommonState', {t: 'keyword', v: newValue})
+        this.$store.commit(`${this.page}/setCommonState`, {t: 'keyword', v: newValue})
 
         // 当关键字是通过输入获取的，则只将其当做关键字（所以这里把城市 ID 设置为 null），除非是通过点击某个城市才当做是城市
-        this.$store.commit('hotelList/setCommonState', {t: 'cityId', v: null})
+        this.$store.commit(`${this.page}/setCommonState`, {t: 'cityId', v: null})
       }
     },
 
@@ -94,6 +95,7 @@ export default {
       this.$api.hotelList.syncGetCity(param).then(res => {
         if(res.returnCode === 1 && res.dataList){
           this.cityList = this.setHighlightStr(res.dataList, param.keys, 'aname', 'cityStr')
+          console.log(this.cityList);
         }else if(res.errcode == 'notLogin'){
           loginFirst(this)
         }
@@ -145,12 +147,12 @@ export default {
     // 接收子组件发送过来的事件（当选中某个城市或者点击了某个酒店时）
     pickvalue(event){
       this.visible = false
-      this.$store.commit('hotelList/setCommonState', {t: 'keyword', v: event.n})
-      this.$store.commit('hotelList/setCommonState', {t: 'cityId', v: event.i})
+      this.$store.commit(`${this.page}/setCommonState`, {t: 'keyword', v: event.n})
+      this.$store.commit(`${this.page}/setCommonState`, {t: 'cityId', v: event.i})
     },
 
     queryHotelList(){
-      this.$store.dispatch("hotelList/actionHotelList", { api: this.$api })
+      this.$store.dispatch(`${this.page}/actionHotelList`, { api: this.$api })
     }
   }
 }
