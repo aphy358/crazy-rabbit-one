@@ -68,7 +68,7 @@ export default {
     },
 
     getShowPanel(){
-      return this.$store.state.hotelList.keyword === '' ? '1' : '2'
+      return this.$store.state[this.page].keyword === '' ? '1' : '2'
     }
   },
 
