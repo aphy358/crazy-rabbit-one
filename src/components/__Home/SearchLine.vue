@@ -8,9 +8,9 @@
               <div class="i-s-row-one">
 
                   <ul class="i-s-origin-group">
-                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-0" data-val="0" checked>国内</span></li>
-                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-2" data-val="2">港澳台</span></li>
-                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-3" data-val="3">境外</span></li>
+                      <li><span class="i-s-origin-switch" data-src="kwc-block-0" data-val="0" checked>国内</span></li>
+                      <li><span class="i-s-origin-switch" data-src="kwc-block-2" data-val="2">港澳台</span></li>
+                      <li><span class="i-s-origin-switch" data-src="kwc-block-3" data-val="3">境外</span></li>
                   </ul>
       
                   <div class="i-s-keyword">
@@ -262,7 +262,7 @@ export default {
                 margin: 0 20px;
                 cursor: context-menu;
                 
-                @at-root span[name="i-s-origin-switch"]{
+                @at-root span.i-s-origin-switch{
                     font-size: 16px;
                     font-weight: bold;
                     color: #666666;

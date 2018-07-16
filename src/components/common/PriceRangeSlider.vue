@@ -4,7 +4,7 @@
   <el-slider
     v-model="priceRange"
     class="price-range-slider"
-    @format-tooltip="formatTooltip"
+    :format-tooltip="formatTooltip"
     range
     :max="3000">
   </el-slider>
@@ -35,8 +35,13 @@ export default {
 
   methods: {
     formatTooltip(value){
-      debugger
+      if(value != null){
+        if(value >= 3000){
+          return '3000 元以上'
+        }
 
+        return `${value} 元`
+      }
     }
   }
 }
