@@ -8,9 +8,13 @@
               <div class="i-s-row-one">
 
                   <ul class="i-s-origin-group">
-                      <li><span class="i-s-origin-switch" data-src="kwc-block-0" data-val="0" checked>国内</span></li>
-                      <li><span class="i-s-origin-switch" data-src="kwc-block-2" data-val="2">港澳台</span></li>
-                      <li><span class="i-s-origin-switch" data-src="kwc-block-3" data-val="3">境外</span></li>
+                      <li v-for="type in cityTypes" :key="type.value">
+                        <span class="i-s-origin-switch" 
+                          :checked="type.value == cityType" 
+                          @click="setCityType(type.value, $event)">
+                          {{type.label}}
+                        </span>
+                      </li>
                   </ul>
       
                   <div class="i-s-keyword">
@@ -58,7 +62,7 @@
 
           <div class="i-s-row-slide-bar-wrap">
               <div class="i-s-row-slide-bar-bg"></div>
-              <div class="i-s-row-slide-bar" @click="showSearchLineTwo">
+              <div class="i-s-row-slide-bar" @click="toggleSearchLineTwo">
                   高级搜索条件
                   <i class="slide-bar" :class="isSearchLineTwoShow ? 'up' : 'down'"></i>
               </div>
@@ -83,6 +87,11 @@ export default {
   data() {
     return {
       isSearchLineTwoShow: false,
+      cityTypes: [
+        {value: '0', label: '国内'},
+        {value: '2', label: '港澳台'},
+        {value: '3', label: '境外'},
+      ]
     }
   },
 
@@ -96,6 +105,10 @@ export default {
       set: function (newValue) {
         this.$store.commit(`home/setCommonState`, {t: 'checkedConfirmType', v: newValue})
       }
+    },
+
+    cityType(){
+      return this.$store.state.cityType
     },
     
   },
@@ -111,7 +124,8 @@ export default {
   },
 
   methods: {
-    showSearchLineTwo(){
+    // 切换 '高级搜索' 的显示
+    toggleSearchLineTwo(){
       let elem1 = document.querySelector('.i-s-row-two-wrap')
       let elem2 = document.querySelector('.home-page .el-carousel__container')
 
@@ -125,6 +139,13 @@ export default {
         Velocity(elem2, { height: '500px' })
       }
     },
+
+    // 设置城市类型
+    setCityType(type, e){
+      if(!e.target.getAttribute('checked')){
+        this.$store.commit('setCommonState', {t: 'cityType', v: type})
+      }
+    }
     
   },
 

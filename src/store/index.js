@@ -14,7 +14,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    cityType: '2',
+    cityType: '0',
     roomNum: '1',
     adultNum: '2',
     childrenNum: '0',
