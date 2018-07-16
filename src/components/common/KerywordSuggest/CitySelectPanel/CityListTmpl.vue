@@ -40,15 +40,9 @@ export default {
   props: ['cityList', 'blockKey'],
 
   computed: {
-    
   },
 
   methods: {
-    switchBlock(key1){
-      this._blockKey = key1
-      this.$data._blockKey = key1
-    },
-
     checkOneCity(t, i, n){
       this.$emit('pickvalue', {t, i, n})
     },    
