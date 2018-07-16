@@ -95,7 +95,6 @@ export default {
       this.$api.hotelList.syncGetCity(param).then(res => {
         if(res.returnCode === 1 && res.dataList){
           this.cityList = this.setHighlightStr(res.dataList, param.keys, 'aname', 'cityStr')
-          console.log(this.cityList);
         }else if(res.errcode == 'notLogin'){
           loginFirst(this)
         }
