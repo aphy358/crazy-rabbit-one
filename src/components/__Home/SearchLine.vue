@@ -8,9 +8,9 @@
               <div class="i-s-row-one">
 
                   <ul class="i-s-origin-group">
-                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-0" data-val="0" data-track="公共_搜索栏_区域_国内" checked>国内</span></li>
-                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-2" data-val="2" data-track="公共_搜索栏_区域_港澳台">港澳台</span></li>
-                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-3" data-val="3" data-track="公共_搜索栏_区域_境外">境外</span></li>
+                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-0" data-val="0" checked>国内</span></li>
+                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-2" data-val="2">港澳台</span></li>
+                      <li><span switch name="i-s-origin-switch" class="i-s-origin-switch" data-src="kwc-block-3" data-val="3">境外</span></li>
                   </ul>
       
                   <div class="i-s-keyword">
@@ -23,53 +23,44 @@
                     <DateRange extraStyle="width: 280px;" />
                   </div>
       
-                  <button class="i-s-search-btn" data-track="公共_搜索栏_搜索">搜索</button>
+                  <button class="i-s-search-btn">搜索</button>
               </div>
           </div>
 
-          <div class="i-s-row-two-wrap hidden">
+          <div class="i-s-row-two-wrap">
               <div class="i-s-bg-two"></div>
               <div class="i-s-row-two">
                   <div class="i-s-label-pair">
                       <label>间数</label>
-                      <div class="drag-down-wrap">
-                          <div class="i-s-room-num" unselectable="on" data-value="1" data-track="公共_搜索栏_间数">1间</div>
-                          <i class="drag-down"></i>
-                      </div>
+                      <RoomNumSelect />
                   </div>
 
                   <ul class="i-s-label-pair">
                       <label>酒店等级</label>
-                      <div class="drag-down-wrap">
-                          <input type="text" class="i-s-star" placeholder="酒店等级" unselectable='on' readonly data-track="公共_酒店等级">
-                          <i class="drag-down"></i>
-                      </div>
+                      <StarSelect page="home" />
                   </ul>
                   
-                  <div class="i-s-label-pair hidden" id="index-adult-children">
+                  <div class="i-s-label-pair" id="index-adult-children">
                       <label>入住人数</label>
-                      <div class="drag-down-wrap">
-                          <input type="text" class="i-s-adult-children" value="2成人，0小孩" unselectable='on' readonly>
-                          <i class="drag-down"></i>
-                      </div>
+                      <AdultChildrenSelect />
                   </div>
                   
                   <div class="i-s-label-pair">
-                      <label>价格区间</label>
-                      <div class="i-s-range-outer"></div>
+                      <label style="margin-right: 20px;">价格区间</label>
+                      <PriceRangeSlider page="home" />
                   </div>
                   
                   <div class="i-s-label-pair" lastChild>
-                      <label><input type="checkbox" class="i-s-confirm-now" data-track="公共_搜索栏_立即确认"><span>立即确认</span></label>
+                      <el-checkbox v-model="checkedConfirmType" key="XS-1">立即确认</el-checkbox>
                   </div>
               </div>
           </div>
 
           <div class="i-s-row-slide-bar-wrap">
               <div class="i-s-row-slide-bar-bg"></div>
-              <div class="i-s-row-slide-bar" data-track="公共_搜索栏_高级搜索条件">
+              <div class="i-s-row-slide-bar" @click="showSearchLineTwo">
                   高级搜索条件
-                  <i class="slide-bar down"></i>
+                  <i class="slide-bar" :class="isSearchLineTwoShow ? 'up' : 'down'"></i>
               </div>
           </div>
       </div>
@@ -82,18 +73,30 @@ import RoomNumSelect from '../common/RoomNumSelect'
 import DateRange from '../common/DateRange'
 import KerywordSuggest from '../common/KerywordSuggest'
 import AdultChildrenSelect from '../common/AdultChildrenSelect'
+import StarSelect from '../common/StarSelect'
+import PriceRangeSlider from '../common/PriceRangeSlider'
+import Velocity from 'velocity-animate';
 
 export default {
   name: 'SearchLine',
 
   data() {
     return {
+      isSearchLineTwoShow: false,
     }
   },
 
   props: [],
 
   computed: {
+    checkedConfirmType: {
+      get: function () {
+        return this.$store.state.home.checkedConfirmType
+      },
+      set: function (newValue) {
+        this.$store.commit(`home/setCommonState`, {t: 'checkedConfirmType', v: newValue})
+      }
+    },
     
   },
 
@@ -102,10 +105,26 @@ export default {
     RoomNumSelect,
     DateRange,
     KerywordSuggest,
-    AdultChildrenSelect
+    AdultChildrenSelect,
+    StarSelect,
+    PriceRangeSlider
   },
 
   methods: {
+    showSearchLineTwo(){
+      let elem1 = document.querySelector('.i-s-row-two-wrap')
+      let elem2 = document.querySelector('.home-page .el-carousel__container')
+
+      this.isSearchLineTwoShow = !this.isSearchLineTwoShow
+
+      if(this.isSearchLineTwoShow){
+        Velocity(elem1, { height: '80px' })
+        Velocity(elem2, { height: '580px' })
+      }else{
+        Velocity(elem1, { height: '0' })
+        Velocity(elem2, { height: '500px' })
+      }
+    },
     
   },
 
@@ -120,6 +139,20 @@ export default {
 <style lang="scss">
 @import '../../assets/jl_sprites.scss';
 
+.i-s-row-two-wrap {
+    .el-input__inner{
+      font-size: 14px;
+      height: 40px;
+      padding: 3px 10px;
+      border: none;
+      border-radius: 2px;
+    }
+
+    .el-checkbox__label{
+      padding-left: 4px
+    }
+}
+
 .search-outer{
     position: absolute;
     top: 360px;
@@ -128,24 +161,6 @@ export default {
     margin-left: -520px;
     user-select: none;
     
-    @at-root .let-me-fly{
-        position: relative;
-        margin: 0 auto;
-        padding: 120px 0 60px;
-        width: 564px;
-
-        @at-root .l-m-f-icon{
-            @include jl_sprites;
-            @include letmefly;
-            display: block;
-        }
-
-        &.visible-hidden{
-            visibility: hidden;
-            position: static;
-        }
-    }
-
     @at-root .index-search-wrap{
         width: 1040px;
         margin: auto;
@@ -330,9 +345,10 @@ export default {
 }
 
 
-
 // 顶部搜索栏第二行样式
 .i-s-row-two-wrap{
+    height: 0;
+    overflow: hidden;
 
     &:after{
         content: '';
@@ -375,38 +391,6 @@ export default {
                 font-size: 14px;
                 color: #333;
                 line-height: 40px;
-            }
-
-            select{
-                height: 40px;
-                line-height: 40px;
-                font-size: 14px;
-                background: white;
-                border: none;
-                border-radius: 3px;
-                padding: 10px 5px;
-                color: #333;
-            }           
-            
-            @at-root .i-s-confirm-now{
-                float: left;
-                margin: 14px 2px;
-                background: none!important;
-                padding: 0!important;
-            }
-
-            @at-root .i-s-room-num{
-                width: 50px;
-            }
-
-            @at-root .i-s-adult-children{
-                width: 115px;
-                cursor: context-menu;
-            }
-
-            .i-s-star{
-                width: 180px;
-                cursor: context-menu;
             }
         }
     }

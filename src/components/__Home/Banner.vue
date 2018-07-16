@@ -35,8 +35,6 @@ export default {
       this.$api.home.syncGetCarouselList({channel:1, block:0, pageSize: 100}).then(res => {
         if(res.returnCode === 1 && res.dataList){
           this.bannerAds = res.dataList
-          console.log(this.bannerAds );
-          
         }else if(res.errcode == 'notLogin'){
         }
       })

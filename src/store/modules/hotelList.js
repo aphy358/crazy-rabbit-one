@@ -1,4 +1,3 @@
-import { addDays } from "../../util.js"
 import { _queryHotelPriceList, _scrollTop, _setCommonState } from "../util.js"
 import API from '../../api'
 
@@ -9,7 +8,6 @@ export default {
     keyword: '',
     keywords: '',
     cityId: '',
-
     
     pageNow: '1',       // 用于查询酒店列表传参
     pageNowFake: '1',   // 用于分页
