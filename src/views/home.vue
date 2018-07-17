@@ -8,6 +8,15 @@
 
     <!-- 搜索栏 -->
     <SearchLine />
+
+    <!-- 重要通知 -->
+    <Notice />
+
+    <!-- 我的关注、我的订单 -->
+    <ConcernAndOrder />
+
+    <!-- 今日主推 -->
+    <RecommendToday />
     
   </div>
 </template>
@@ -15,20 +24,29 @@
 import Header from '../layout/header'
 import Banner from '../components/__Home/Banner'
 import SearchLine from '../components/__Home/SearchLine.vue'
+import Notice from '../components/__Home/Notice.vue'
+import ConcernAndOrder from '../components/__Home/ConcernAndOrder'
+import RecommendToday from '../components/__Home/RecommendToday'
 
 export default {
   data() {
     return {
     }
   },
+
   components: {
     Header,
     Banner,
     SearchLine,
+    Notice,
+    ConcernAndOrder,
+    RecommendToday,
   },
+
   methods: {
     
   },
+
   computed: {},
 
   mounted() {
@@ -43,6 +61,7 @@ export default {
 
 .home-page{
   position: relative;
+  background: #f6f6f6!important;
 
   .i-t-n-bg{
     background: #000!important;
