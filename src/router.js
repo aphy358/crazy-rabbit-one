@@ -17,6 +17,8 @@ const personalCenter = resolve => require(['./views/personalCenter.vue'], resolv
 const registry = resolve => require(['./views/registry.vue'], resolve)
 const home = resolve => require(['./views/home.vue'], resolve)
 const orderWrite = resolve => require(['./views/orderWrite.vue'], resolve)
+const orderPay = resolve => require(['./views/orderPay.vue'], resolve)
+const paySuccess = resolve => require(['./views/paySuccess.vue'], resolve)
 
 Vue.use(Router)
 
@@ -68,12 +70,29 @@ export default new Router({
       }
     },
     {
+      path: '/orderPay',
+      name: '/orderPay',
+      components: {
+        default: orderPay,
+        header: Header,
+        footer: Footer
+      }
+    },
+    {
       path: '/registry',
       name: 'registry',
       components: {
         default : registry,
         header : Header,
         footer : Footer
+      }
+    },
+    {
+      path: '/paySuccess',
+      name: 'paySuccess',
+      components: {
+        default : paySuccess,
+        header : Header,
       }
     }
   

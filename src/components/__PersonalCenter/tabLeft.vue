@@ -1,8 +1,8 @@
 <!-- 组件说明 -->
 <template>
-	<div class="fl">
+	<div class="fl" :tabindex="tabindex">
 		<el-menu
-				default-active="1"
+				:default-active="tabindex"
 				class="el-menu-vertical-demo"
 				@open="handleOpen"
 				@close="handleClose"
@@ -60,34 +60,44 @@
 </template>
 
 <script>
-	export default {
-		data(){
-			return{
-			
-			}
-		},
-		methods: {
-			handleOpen(key, keyPath) {
+  import {queryString} from '../../util.js'
+  
+  export default {
+    data() {
+      return {}
+    },
+    methods: {
+      handleOpen(key, keyPath) {
 //				console.log(key, keyPath);
-			},
-			handleClose(key, keyPath) {
+      },
+      handleClose(key, keyPath) {
 //				console.log(key, keyPath);
-			},
-		    switchleft(index){
-		      this.$store.commit("personalCenter/setCommonState", {k: 'tabindex', v: index})
-		    }
-		}
-	}
+      },
+      switchleft(index) {
+        this.$store.commit("personalCenter/setCommonState", {k: 'tabindex', v: index})
+      }
+    },
+    
+    computed: {
+      tabindex() {
+        if (queryString('tabindex')){
+          this.$store.commit("personalCenter/setCommonState", {k: 'tabindex', v: +queryString('tabindex')})
+        }
+        return queryString('tabindex') || String(this.$store.state.personalCenter.tabindex);
+      }
+    }
+  }
 </script>
 
 <style lang="scss">
 	@import "../../assets/font/iconfont.css";
-	.iconfont-icons{
+	
+	.iconfont-icons {
 		margin-right: 10px;
 	}
 	
-	body{
-		.el-menu{
+	body {
+		.el-menu {
 			width: 230px;
 			/*border: 1px solid #e6e6e6;*/
 			border: none;
