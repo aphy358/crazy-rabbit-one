@@ -13,10 +13,13 @@
     <Notice />
 
     <!-- 我的关注、我的订单 -->
-    <ConcernAndOrder />
+    <ConcernAndOrder v-if="user" />
 
     <!-- 今日主推 -->
     <RecommendToday />
+
+    <!-- 热门推荐 -->
+    <RecommendHot />
     
   </div>
 </template>
@@ -27,6 +30,7 @@ import SearchLine from '../components/__Home/SearchLine.vue'
 import Notice from '../components/__Home/Notice.vue'
 import ConcernAndOrder from '../components/__Home/ConcernAndOrder'
 import RecommendToday from '../components/__Home/RecommendToday'
+import RecommendHot from '../components/__Home/RecommendHot'
 
 export default {
   data() {
@@ -41,13 +45,18 @@ export default {
     Notice,
     ConcernAndOrder,
     RecommendToday,
+    RecommendHot,
   },
 
   methods: {
     
   },
 
-  computed: {},
+  computed: {
+    user(){
+      return this.$store.state.user
+    },
+  },
 
   mounted() {
     

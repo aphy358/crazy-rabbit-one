@@ -18,8 +18,8 @@
           </li>
         </ul>
 
-        <el-carousel v-for="o in mainPushCityDtoList" :key="o.infoId" class="main-push-carousel-block" 
-          arrow="always" indicator-position="none" height="325px" :autoplay="false">
+        <el-carousel v-for="o in mainPushCityDtoList" :key="o.infoId" class="main-push-carousel-block" v-if="o.cityName == checkedCity"
+          :arrow="o.groupedProductDtoList.length > 1 ? 'always' : 'never'" indicator-position="none" height="325px" :autoplay="false">
 
           <el-carousel-item v-for="(p, i) in o.groupedProductDtoList" :key="i">
             <ul class="i-r-t-hotel-group">
@@ -208,6 +208,7 @@ export default {
         }
 
         @at-root .main-push-carousel-block{
+            display: block;
             width: 1340px;
             margin-left: -70px;
 
@@ -370,7 +371,7 @@ export default {
 
         @at-root .i-recommend-btn{
             text-align: center;
-            min-height: 70px;
+            min-height: 50px;
 
             a{
                 display: inline-block;
