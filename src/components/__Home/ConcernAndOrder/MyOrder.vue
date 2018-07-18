@@ -5,7 +5,7 @@
     <div class="i-c-o-title">
       <i class="i-c-o-icon order"></i>
       <h1>订单管理</h1>
-      <a href="/myinfo/myOrder.do" target="_blank">查看全部</a>
+      <router-link target="_blank" to="personalCenter?tabindex=2">查看全部</router-link>
       <button class="i-c-order-btn" @click="searchOrderList">搜索</button>
       <input type="text" placeholder="请输入订单号/酒店名称" ref="orderListInput" title="请输入订单号/酒店名称">
     </div>
