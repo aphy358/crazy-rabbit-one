@@ -5,6 +5,7 @@
       v-model="getDateRange"
       class="date-range-picker"
       style="width:260px;padding-right:0;"
+      :style="extraStyle"
       size="small" 
       :clearable=false
       type="daterange"
@@ -30,7 +31,7 @@ export default {
     }
   },
 
-  props: [],
+  props: ['extraStyle'],
 
   computed: {
     // 获取入离日期
@@ -89,14 +90,17 @@ export default {
 </script>
 
 <style lang="scss">
-.el-range-editor--small .el-range-input{
-  font-size: 14px!important;
-}
-.el-range-editor--small .el-range-separator{
-  font-size: 14px!important;
-}
+.date-range-picker{
 
-.el-date-editor .el-range__close-icon{
-  display: none!important;
+  &.el-range-editor--small .el-range-input{
+    font-size: 14px;
+  }
+  &.el-range-editor--small .el-range-separator{
+    font-size: 14px;
+  }
+  
+  .el-date-editor .el-range__close-icon{
+    display: none!important;
+  }
 }
 </style>

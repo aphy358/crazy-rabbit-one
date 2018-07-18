@@ -14,17 +14,17 @@
 
             <!-- 港澳台城市 -->
             <div v-show="getCityType == 2" class="kwc-block-outer">
-              <CityListTmpl :cityList="cityList_gat" :blockKey="getKey" @pickvalue="pickvalue($event)" />
+              <CityListTmpl :cityList="cityList_gat" blockKey="港澳台" @pickvalue="pickvalue($event)" />
             </div>
             
             <!-- 国外城市 -->
             <div v-show="getCityType == 3" class="kwc-block-outer">
-              <CityListTmpl :cityList="cityList_external" :blockKey="getKey" @pickvalue="pickvalue($event)" />
+              <CityListTmpl :cityList="cityList_external" blockKey="热门" @pickvalue="pickvalue($event)" />
             </div>
 
             <!-- 国内城市 -->
             <div v-show="getCityType == 0" class="kwc-block-outer">
-              <CityListTmpl :cityList="cityList_internal" :blockKey="getKey" @pickvalue="pickvalue($event)" />
+              <CityListTmpl :cityList="cityList_internal" blockKey="热门" @pickvalue="pickvalue($event)" />
             </div>
         </div>
     </section>
@@ -52,10 +52,6 @@ export default {
   props: [],
 
   computed: {
-    getKey(){
-      return this.$store.state.cityType == 2 ? '港澳台' : '热门'
-    },
-
     getCityType(){
 			let cityType = this.$store.state.cityType
 			this.getHistoryCity(cityType)

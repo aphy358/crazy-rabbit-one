@@ -4,6 +4,7 @@ import { addDays } from "../util.js"
 import { _queryHotelPriceList, _scrollTop, _setCommonState } from "./util.js"
 
 // 引入各个子模块
+import home from './modules/home'
 import hotelList from './modules/hotelList'
 import hotelDetail from './modules/hotelDetail'
 import personalCenter from './modules/personalCenter'
@@ -13,7 +14,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    cityType: '2',
+    user: null,   // 当前用户
+
+    cityType: '0',
     roomNum: '1',
     adultNum: '2',
     childrenNum: '0',
@@ -25,6 +28,18 @@ export default new Vuex.Store({
   },
 
   mutations: {
+    // 重置所有查询条件
+    resetQueryParams(state){
+      let cityType = state.cityType
+
+      // state.roomNum = '1'
+      state.adultNum = '2'
+      state.childrenNum = '0'
+      state.childrenStr = ''
+      state.checkin = cityType == '3' ? addDays(new Date, 1) : addDays(new Date)
+      state.checkout = cityType == '3' ? addDays(new Date, 2) : addDays(new Date, 1)
+    },
+
     // 设置城市类型，如：'国内'、'港澳台'、'国外'
     setCityType(state, cityType){
       state.cityType = cityType
@@ -60,6 +75,7 @@ export default new Vuex.Store({
   },
 
   modules: {
+    home,
     hotelList,
     hotelDetail,
 	  personalCenter,

@@ -48,8 +48,8 @@
 						</div>
 					</td>
 					<td>
-						<div>
-							<span>{{priceRow.rateTypeName || ''}}</span>
+						<div class="hotel-price-rate-type-name" >
+							<span :title="priceRow.rateTypeName">{{priceRow.rateTypeName || ''}}</span>
 							<el-popover v-if="priceRow.isHasMarketing" placement="top-start" width="200" trigger="hover"
 							            popper-class="price-table-tip">
 								<span class="hli-tip-style">{{priceRow.marketingInfo}}</span>
@@ -917,6 +917,23 @@
 							height: auto !important;
 							line-height: initial !important;
 						}
+
+            &.hotel-price-rate-type-name{
+              overflow: hidden;
+
+              > span{
+                float: left;
+
+                &:first-child{
+                  cursor: context-menu;
+                  max-width: 170px;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  overflow: hidden;
+                }
+              }
+              
+            }
 					}
 					
 					&.first-td {

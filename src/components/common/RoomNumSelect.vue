@@ -4,8 +4,7 @@
     <el-select 
       class="room-num-select"
       v-model="getRoomNum" 
-      size="small" 
-      placeholder="请选择城市类型" >
+      size="small" >
         <el-option
           v-for="item in options"
           :key="item.value"
