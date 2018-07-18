@@ -13,7 +13,7 @@
     <Notice />
 
     <!-- 我的关注、我的订单 -->
-    <ConcernAndOrder />
+    <ConcernAndOrder v-if="user" />
 
     <!-- 今日主推 -->
     <RecommendToday />
@@ -52,7 +52,11 @@ export default {
     
   },
 
-  computed: {},
+  computed: {
+    user(){
+      return this.$store.state.user
+    },
+  },
 
   mounted() {
     
