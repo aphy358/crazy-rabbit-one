@@ -17,6 +17,7 @@
       slot="reference"
       placeholder="城市/酒店"
       class="hotel-key-word-select"
+      :class="extraClass"
       prefix-icon="el-icon-search"
       v-model="getKeyword"
       @input="queryCityAndHotels"
@@ -46,7 +47,7 @@ export default {
   },
 
   // 'page' 是针对不同页面有不同的处理
-  props: ['extraStyle', 'page'],
+  props: ['extraStyle', 'page', 'extraClass'],
 
   components: {
     CitySelectPanel,
@@ -169,4 +170,13 @@ export default {
     }
   }
 }
+
+.hotel-key-word-select{
+  &.no-keyword{
+    .el-input__inner{
+      background: orangered;
+    }
+  }
+}
+
 </style>
