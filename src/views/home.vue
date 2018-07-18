@@ -21,6 +21,9 @@
     <!-- 热门推荐 -->
     <RecommendHot />
     
+    <!-- 侧边栏 -->
+    <Sidebar/>
+    
   </div>
 </template>
 <script>
@@ -31,6 +34,7 @@ import Notice from '../components/__Home/Notice.vue'
 import ConcernAndOrder from '../components/__Home/ConcernAndOrder'
 import RecommendToday from '../components/__Home/RecommendToday'
 import RecommendHot from '../components/__Home/RecommendHot'
+import Sidebar from '../components/common/Sidebar'
 
 export default {
   data() {
@@ -46,6 +50,7 @@ export default {
     ConcernAndOrder,
     RecommendToday,
     RecommendHot,
+    Sidebar,
   },
 
   methods: {
