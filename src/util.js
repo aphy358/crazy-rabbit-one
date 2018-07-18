@@ -31,7 +31,9 @@ export const queryString = function (name, targetStr) {
 		if(window.location.search){
 			r = window.location.search.substr(1).match(reg);
 		}else if(window.location.hash){
-			r = window.location.hash.split('?')[1].match(reg);
+			if (window.location.hash.indexOf('?') !== -1){
+        r = window.location.hash.split('?')[1].match(reg);
+      }
 		}
 	} else {
 		r = targetStr.match(reg);

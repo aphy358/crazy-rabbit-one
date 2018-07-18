@@ -2,7 +2,7 @@
 <template>
 	<el-form-item label="个性化信息">
 		<el-checkbox-group v-model="specialReq" @change="handSpecialReq">
-			<el-checkbox v-for="item in conditions" :label="item" name="type"></el-checkbox>
+			<el-checkbox v-for="(item, i) in conditions" :key="i" :label="item" name="type"></el-checkbox>
 		</el-checkbox-group>
 		<p style="color: #ff6600;">请直接勾选您的要求，我们会及时通知酒店并尽量协助安排，但要视酒店情况，不能确保满足</p>
 	</el-form-item>
