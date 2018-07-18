@@ -65,6 +65,13 @@ export default {
       this.$store.dispatch("hotelList/actionHotelList", {t: 'pageNowFake', v: $event});
       this.$store.dispatch("hotelList/actionHotelList", {t: 'pageNow', v: $event, api: this.$api});
     }
+  },
+
+  created(){
+    let initialHotelListParams = sessionStorage.getItem("initialHotelListParams")
+    if(initialHotelListParams){
+      initialHotelListParams = JSON.parse(initialHotelListParams)
+    }
   }
   
 }

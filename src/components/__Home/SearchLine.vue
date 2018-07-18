@@ -173,7 +173,7 @@ export default {
         "adultNum":           rootState.adultNum,
         "childrenNum":        rootState.childrenNum,
         "childrenStr":        rootState.childrenStr,
-        "checkedConfirmType": state.checkedConfirmType,
+        "checkedConfirmType": state.checkedConfirmType ? 'XS-1' : '',
         "priceRange":         state.priceRange,
       }
 
