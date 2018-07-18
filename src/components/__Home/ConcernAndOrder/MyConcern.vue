@@ -94,7 +94,7 @@ export default {
 
   created(){
     // 查询关注列表
-    this.$api.home.syncGetFavoriteList({ categoryId: 0, pageNum: 1, pageSize: 5 }).then(res => {
+    this.$api.common.syncGetFavoriteList({ categoryId: 0, pageNum: 1, pageSize: 5 }).then(res => {
       if(res.returnCode === 1 && res.dataList){
         this.favoriteList = res.dataList
         this.getMinPrice()

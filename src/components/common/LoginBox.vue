@@ -86,7 +86,7 @@ export default {
         rememberMe: false
       }
 
-      this.$api.home.syncLogin(params).then(res => {
+      this.$api.common.syncLogin(params).then(res => {
         if (res.returnCode != 1) {
           this.errinfo = '* ' + res.errinfo
           this.codeTimeStamp = +new Date

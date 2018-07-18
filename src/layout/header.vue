@@ -92,7 +92,7 @@ export default {
     },
 
     logout() {
-      this.$api.home.syncLogout().then(res => {
+      this.$api.common.syncLogout().then(res => {
         this.$store.commit('setCommonState', {t: 'user', v: null})
 
         if (res.returnCode != 1) {

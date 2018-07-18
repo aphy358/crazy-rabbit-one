@@ -1,3 +1,4 @@
+import * as common from './common'
 import * as hotelList from './hotelList'
 import * as hotelDetail from './hotelDetail'
 import * as personalCenter from './personalCenter'
@@ -6,6 +7,7 @@ import * as orderWrite from './orderWrite'
 import * as registry from './registry'
 
 const api = {
+  common,
   hotelList,
   hotelDetail,
 	personalCenter,

@@ -7,7 +7,6 @@
         <NoHotels v-if="pageRecordCount == 0" />
         <HotelList />
         <Pagination @changePage="changePage" :pageNow="pageNowFake" :pageTotal="pageTotal" />
-        <Sidebar/>
     </div>
 </template>
 
@@ -19,7 +18,6 @@ import SubSearchLine from '../components/__HotelList/SubSearchLine'
 import NoHotels from '../components/__HotelList/NoHotels'
 import HotelList from '../components/__HotelList/HotelList'
 import Pagination from '../components/common/Pagination'
-import Sidebar from '../components/common/Sidebar'
 
 export default {
   name: 'hotelList',
@@ -40,7 +38,6 @@ export default {
     NoHotels,
     HotelList,
     Pagination,
-    Sidebar,
   },
 
   computed: {
