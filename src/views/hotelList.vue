@@ -70,7 +70,21 @@ export default {
   created(){
     let initialHotelListParams = sessionStorage.getItem("initialHotelListParams")
     if(initialHotelListParams){
-      initialHotelListParams = JSON.parse(initialHotelListParams)
+      initialHotelListParams = window.JSON.parse(initialHotelListParams)
+
+      this.$store.commit('setCommonState', {t: 'checkin', v: initialHotelListParams.checkin})
+      this.$store.commit('setCommonState', {t: 'checkout', v: initialHotelListParams.checkout})
+      this.$store.commit('setCommonState', {t: 'adultNum', v: initialHotelListParams.adultNum})
+      this.$store.commit('setCommonState', {t: 'childrenNum', v: initialHotelListParams.childrenNum})
+      this.$store.commit('setCommonState', {t: 'childrenStr', v: initialHotelListParams.childrenStr})
+      this.$store.commit('setCommonState', {t: 'roomNum', v: initialHotelListParams.roomNum})
+      this.$store.commit('setCommonState', {t: 'cityType', v: initialHotelListParams.cityType})
+      
+      this.$store.commit('hotelList/setCommonState', {t: 'keyword', v: initialHotelListParams.keyword})
+      this.$store.commit('hotelList/setCommonState', {t: 'cityId', v: initialHotelListParams.cityId})
+      this.$store.commit('hotelList/setCommonState', {t: 'checkedConfirmType', v: initialHotelListParams.checkedConfirmType})
+      this.$store.commit('hotelList/setCommonState', {t: 'checkedPriceRange', v: initialHotelListParams.checkedPriceRange})
+      this.$store.commit('hotelList/setCommonState', {t: 'checkedStar', v: initialHotelListParams.checkedStar})
     }
   }
   

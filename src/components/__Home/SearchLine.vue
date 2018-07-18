@@ -162,10 +162,16 @@ export default {
       let rootState = this.$store.state
       let state = this.$store.state.home
 
+      let p1 = parseInt(state.priceRange[0])
+      let p2 = parseInt(state.priceRange[1])
+      let checkedPriceRange = p1 === 0
+        ? (p2 === 3000 ? '' : `0-${p2}_${p2}元以下`)
+        : (p2 === 3000 ? `${p1}-29999_${p1}元以上` : `${p1}-${p2}_${p1}-${p2}元`)
+
       let params = {
         "cityType":           rootState.cityType,
         "cityId":             state.cityId,
-        "checkedStar":        state.checkedStar.join(','),
+        "checkedStar":        state.checkedStar,
         "checkin":            rootState.checkin,
         "checkout":           rootState.checkout,
         "keyword":            state.keyword.replace(/^\s+|\s+$/g, ''),
@@ -173,8 +179,8 @@ export default {
         "adultNum":           rootState.adultNum,
         "childrenNum":        rootState.childrenNum,
         "childrenStr":        rootState.childrenStr,
-        "checkedConfirmType": state.checkedConfirmType ? 'XS-1' : '',
-        "priceRange":         state.priceRange,
+        "checkedConfirmType": state.checkedConfirmType ? ['XS-1_立即确认'] : [],
+        "checkedPriceRange":  checkedPriceRange,
       }
 
       if(params.keyword === ''){
@@ -187,6 +193,9 @@ export default {
         });
         return
       }
+
+      console.log(params);
+      
 
       sessionStorage.setItem("initialHotelListParams",  window.JSON.stringify(params));
 
