@@ -25,16 +25,16 @@ export default {
   data(){
     return {
       options: [{
-        value: '10,15,20,25',
+        value: '10,15,20,25_二星级及以下/经济',
         label: '二星级及以下/经济'
       }, {
-        value: '30,35',
+        value: '30,35_三星级/舒适',
         label: '三星级/舒适'
       }, {
-        value: '40,45',
+        value: '40,45_四星级/高档',
         label: '四星级/高档'
       }, {
-        value: '50,55',
+        value: '50,55_五星级/豪华',
         label: '五星级/豪华'
       }],
     }

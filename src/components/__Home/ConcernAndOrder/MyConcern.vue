@@ -16,7 +16,7 @@
           <tbody>
             <tr v-for="o in favoriteList" :key="o.infoId" v-if="o.infoName">
                 <td>
-                    <a :href="o.detailLink"
+                    <a :href="'#/hotelDetail?' + o.detailLink.split('?')[1]"
                       target="_blank"
                       class="i-c-o-link-item index-concern-link"
                       :class="{'hotel-no-link': o.hasOwnProperty('detailLink')}" >

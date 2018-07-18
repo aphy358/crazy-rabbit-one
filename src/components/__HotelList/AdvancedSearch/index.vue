@@ -452,6 +452,12 @@ export default {
 
       this.clearPriceRangeInput();
     }
+  },
+
+  mounted(){
+    if(this.getCityId){
+      this.getZoneData({ cityid: this.getCityId });
+    }
   }
 };
 </script>

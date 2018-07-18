@@ -18,7 +18,7 @@
                   </ul>
       
                   <div class="i-s-keyword">
-                    <KerywordSuggest extraStyle="width: 300px;" page="home" />
+                    <KerywordSuggest extraStyle="width: 300px;" page="home" :extraClass="keywordclass" />
                   </div>
       
                   <div class="i-s-gap"></div>
@@ -27,7 +27,7 @@
                     <DateRange extraStyle="width: 280px;" />
                   </div>
       
-                  <button class="i-s-search-btn">搜索</button>
+                  <button class="i-s-search-btn" @click="toHotelListPage">搜索</button>
               </div>
           </div>
 
@@ -87,11 +87,14 @@ export default {
   data() {
     return {
       isSearchLineTwoShow: false,
+
       cityTypes: [
         {value: '0', label: '国内'},
         {value: '2', label: '港澳台'},
         {value: '3', label: '境外'},
-      ]
+      ],
+
+      keywordclass: '',
     }
   },
 
@@ -147,6 +150,57 @@ export default {
         this.$store.commit('resetQueryParams')
         this.$store.commit('home/resetQueryParams')
       }
+    },
+
+    toHotelListPage(){
+      // 如果未登录，则弹出登录框
+      if(!this.$store.state.user){
+        this.$store.commit('setCommonState', {t: 'showLoginDialog', v: true})
+        return
+      }
+
+      let rootState = this.$store.state
+      let state = this.$store.state.home
+
+      let p1 = parseInt(state.priceRange[0])
+      let p2 = parseInt(state.priceRange[1])
+      let checkedPriceRange = p1 === 0
+        ? (p2 === 3000 ? '' : `0-${p2}_${p2}元以下`)
+        : (p2 === 3000 ? `${p1}-29999_${p1}元以上` : `${p1}-${p2}_${p1}-${p2}元`)
+
+      let params = {
+        "cityType":           rootState.cityType,
+        "cityId":             state.cityId,
+        "checkedStar":        state.checkedStar,
+        "checkin":            rootState.checkin,
+        "checkout":           rootState.checkout,
+        "keyword":            state.keyword.replace(/^\s+|\s+$/g, ''),
+        "roomNum":            rootState.roomNum,
+        "adultNum":           rootState.adultNum,
+        "childrenNum":        rootState.childrenNum,
+        "childrenStr":        rootState.childrenStr,
+        "checkedConfirmType": state.checkedConfirmType ? ['XS-1_立即确认'] : [],
+        "checkedPriceRange":  checkedPriceRange,
+      }
+
+      if(params.keyword === ''){
+        this.keywordclass = 'no-keyword'
+        this.$alert('请输入酒店名或关键字！', '', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.keywordclass = ''
+          }
+        });
+        return
+      }
+
+      console.log(params);
+      
+
+      sessionStorage.setItem("initialHotelListParams",  window.JSON.stringify(params));
+
+      window.open('#/hotelList')
+
     }
     
   },

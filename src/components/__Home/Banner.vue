@@ -3,7 +3,9 @@
 <template>
   <el-carousel class="home-page-banner" trigger="click" height="500px">
     <el-carousel-item v-for="item in bannerAds" :key="item.adId">
-      <img alt="" :src="item.adImg">
+      <a :href="'#/hotelDetail?' + item.adLink.split('?')[1]" target="_blank">
+        <img alt="" :src="item.adImg">
+      </a>
     </el-carousel-item>
   </el-carousel>
 </template>
