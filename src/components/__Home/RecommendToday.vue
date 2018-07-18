@@ -24,7 +24,7 @@
           <el-carousel-item v-for="(p, i) in o.groupedProductDtoList" :key="i">
             <ul class="i-r-t-hotel-group">
               <li v-for="(q, j) in p" :key="j" class="i-r-t-hotel-item">
-                <a :href="q.detailLink" target="_blank">
+                <a :href="'#/hotelDetail?' + q.detailLink.split('?')[1]" target="_blank">
                   <div class="irt-img-wrap">
                     <img :src="q.picSrc" alt="" :class="{'noPic': q.picSrc === '/common/images/nopic.png'}" >
                     <i class="irt-gz-icon"></i>
@@ -40,7 +40,7 @@
         </el-carousel>        
 
         <div class="i-recommend-btn">
-          <a href="/mainPush/toTodayPush.do" target="_blank" class="">查看全部<i class="i-check-more-icon"></i></a>
+          <!-- <a href="/mainPush/toTodayPush.do" target="_blank" class="">查看全部<i class="i-check-more-icon"></i></a> -->
         </div>
 
       </div>
@@ -371,7 +371,7 @@ export default {
 
         @at-root .i-recommend-btn{
             text-align: center;
-            min-height: 50px;
+            min-height: 20px;
 
             a{
                 display: inline-block;

@@ -26,7 +26,9 @@
         <tbody>
           <tr v-for="(o, i) in myOrderList" :key="i">
             <td><a :href="o.orderLink" target="_blank" class="i-c-o-link-item">{{o.orderCode}}</a></td>
-            <td><a :href="o.link || 'javascript:;'" target="_blank" class="i-c-o-link-item index-order-hotel-link">{{o.itemName}}</a></td>
+            <td>
+              <router-link :to="o.link2" target="_blank" class="i-c-o-link-item index-order-hotel-link">{{o.itemName}}</router-link>
+            </td>
             <td>{{o.beginDate}} - {{o.endDate}}</td>
             <td>
               {{o.innerStatusText}} / {{o.paymentStatusText}}
@@ -92,7 +94,11 @@ export default {
             }
             
             o.innerStatusText =
-                o.innerStatus === -1 ? '待确认' : o.innerStatus === 0 ? '已确认' : o.innerStatus === 1 ? '已拒单' : o.innerStatus === 2 ? '申请取消中' : o.innerStatus === 3 ? '不能取消' : '已取消'
+                o.innerStatus === -1 ? '待确认' : 
+                o.innerStatus === 0 ? '已确认' : 
+                o.innerStatus === 1 ? '已拒单' : 
+                o.innerStatus === 2 ? '申请取消中' : 
+                o.innerStatus === 3 ? '不能取消' : '已取消'
             
             if (o.paymentTerm === 0 && o.refunded != null) {
                 o.paymentStatusText =
@@ -111,6 +117,12 @@ export default {
                     o.paymentStatus === 0 ? '已支付' : 
                     o.paymentStatus === 1 ? '未支付' : 
                     o.paymentStatus === 2 ? '挂账' : ''
+            }
+
+            if(o.link){
+              o.link2 = 'hotelDetail?' + o.link.split('?')[1]
+            }else{
+              o.link2 = 'javascript:;'
             }
         }
     },
