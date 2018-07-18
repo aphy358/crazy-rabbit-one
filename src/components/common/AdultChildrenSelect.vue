@@ -217,6 +217,12 @@ export default {
 
 <!-- 覆盖 element 原有样式，注意这里不能用 scoped 限定作用域 -->
 <style lang="scss">
+.adult-children-input{
+  .el-input__inner{
+    cursor: pointer;
+  }
+}
+
 .ac-select-wrap{
   .el-input__inner{
     font-size: 14px;
