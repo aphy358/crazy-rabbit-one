@@ -120,6 +120,12 @@ export default {
 <style lang="scss">
 @import '../assets/jl_sprites.scss';
 
+// .home-page{
+//   .index-top-nav{
+//     z-index: 9999;
+//   }
+// }
+
 .index-top-nav {
   position: relative;
   height: 60px;

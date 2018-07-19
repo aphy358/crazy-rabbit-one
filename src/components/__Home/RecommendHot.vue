@@ -13,7 +13,7 @@
         
         <ul class="i-r-t-hotel-group">
           <li v-for="(o, i) in recommendHotList" :key="i" class="i-r-h-hotel-item">
-            <a :href="o.adLink" target="_blank">
+            <a :href="'#/hotelDetail?' + o.adLink.split('?')[1]" target="_blank">
               <div class="irt-img-wrap">
                 <img :src="o.adImg">
                 <i class="irt-gz-icon"></i>
