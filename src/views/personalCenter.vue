@@ -4,12 +4,15 @@
 		<pcHead/>
 		
 		<pcMain/>
+		
+		<Sidebar/>
 	</div>
 </template>
 
 <script>
 	import pcHead from '../components/__PersonalCenter/pcHead.vue'
 	import pcMain from '../components/__PersonalCenter/pcMain.vue'
+	import Sidebar from '../components/common/Sidebar'
 	export default {
 		name: '',
 		
@@ -21,7 +24,8 @@
 		
 		components: {
 		  pcHead,
-		  pcMain
+		  pcMain,
+          Sidebar
 		},
 		
 		computed: {},

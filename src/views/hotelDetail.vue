@@ -5,6 +5,7 @@
     <SearchLine />
     <PriceTable />
     <HotelDetailInfo2 />
+    <Sidebar/>
   </div>
 </template>
 
@@ -14,6 +15,7 @@ import HotelDetailInfo1 from '../components/__HotelDetail/HotelDetailInfo1'
 import SearchLine from '../components/__HotelDetail/SearchLine'
 import PriceTable from '../components/__HotelDetail/PriceTable'
 import HotelDetailInfo2 from '../components/__HotelDetail/HotelDetailInfo2'
+import Sidebar from '../components/common/Sidebar'
 import { queryString, addDays } from "../util.js"
 
 export default {
@@ -30,6 +32,7 @@ export default {
     SearchLine,
     PriceTable,
     HotelDetailInfo2,
+    Sidebar,
   },
 
   computed: {

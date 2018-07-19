@@ -3,7 +3,7 @@
   <header class="index-top-nav">
     <div class="i-t-n-bg"></div>
     <div class="i-t-n-wrap">
-      <a href="#">
+      <a href="/#/">
         <i class="jl-logo"></i>
       </a>
 
@@ -14,7 +14,7 @@
           <div>您好，{{user ? user.loginName : '请登录'}}</div>
           <ul class="i-t-n-drop" v-show="user">
             <li>
-              <a href="#">个人中心</a>
+              <a href="/#/personalCenter">个人中心</a>
             </li>
             <!-- <li>
               <a href="#">酒店订单</a>
@@ -92,7 +92,7 @@ export default {
     },
 
     logout() {
-      this.$api.common.syncLogout().then(res => {
+      this.$api.home.syncLogout().then(res => {
         this.$store.commit('setCommonState', {t: 'user', v: null})
 
         if (res.returnCode != 1) {
@@ -119,12 +119,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import '../assets/jl_sprites.scss';
-
-// .home-page{
-//   .index-top-nav{
-//     z-index: 9999;
-//   }
-// }
 
 .index-top-nav {
   position: relative;
