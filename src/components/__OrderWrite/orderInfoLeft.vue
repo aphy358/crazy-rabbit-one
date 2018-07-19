@@ -38,6 +38,7 @@
   
   import API from '../../api'
   import { mapState } from 'vuex'
+  import Velocity from 'velocity-animate'
   
   import {_scrollTop} from '../../store/util.js'
   
@@ -64,7 +65,7 @@
         let inputError = document.querySelector('.input-error');
         
         if (!!inputError || guestFlag === false) {
-          _scrollTop()
+          Velocity(document.querySelector('.el-scrollbar__view'), 'scroll', {container: document.querySelector('.el-scrollbar__wrap')})
         } else {
           //获取信息
           let confirmway = this.$refs.confirmway;
