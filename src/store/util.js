@@ -129,16 +129,16 @@ export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel
 
 // 重新查询酒店列表后，触发页面滚动到顶部
 export const _scrollTop = () => {
-  let elem = document.querySelector('.index-top-nav')
+  let elem = document.querySelector('main')
   if(!elem) return;
   let container = document.querySelector('.el-scrollbar__wrap')
 
   if(elem && container){
     let fixTop = document.querySelector('.search-line-outer.fix-top')
     fixTop
-      ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
+      ? Velocity(elem, 'scroll', {container: container, offset: '185px'})
       : Velocity(elem, 'scroll', {container: container})
-    
+
     Velocity(elem, 'finish')
   }
 }
