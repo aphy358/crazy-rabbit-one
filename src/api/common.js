@@ -29,3 +29,7 @@ export const syncSaveFavorite = (args, loading = true) => http.post("/fzgCustome
 
 // 取消喜欢
 export const syncRemoveFavorite = (args, loading = true) => http.post("/fzgCustomerFavorite/removeFavorite.do", args, loading)
+
+
+// 查询酒店价格，(实查)
+export const syncGetHotelPriceList = (args, loading = true) => http.post("/hotel/getHotelPriceList.do", args, loading)
