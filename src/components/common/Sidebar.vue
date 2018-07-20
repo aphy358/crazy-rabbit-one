@@ -20,7 +20,7 @@
 						<div class="sidebar-gz-list" v-else>
 							
 							<el-scrollbar style="height: 100%;">
-								<div class="sidebar-gz-item" v-for="o in concernList">
+								<div class="sidebar-gz-item" v-for="o in concernList" :key="o.infoId">
 									<el-card shadow="hover" :data-hotelid="o.infoId" :body-style="{ padding: '16px 10px',borderBottom: '1px dashed gainsboro'}">
 										<a :href="'/#/hotelDetail?' + o.detailLink.split('?')[1]" target="_blank" class="sidebar-hotel-link">
 											<div class="sidebar-gz-img">
