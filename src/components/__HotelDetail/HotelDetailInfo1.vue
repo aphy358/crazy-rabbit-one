@@ -28,13 +28,9 @@
       
       <div class="hdi-lowest-wrap">
         <div class="hdi-gz-wrap">
-          <div class="hdi-gz-inner" v-if="hotelInfo.hasOwnProperty('isMyFavorite') && hotelInfo.isMyFavorite === 1">
-            <p><i class="hli-icon icon-gz-on"></i></p>
-            <p class="icon-gz-on-tips">已关注</p>
-          </div>
-          <div class="hdi-gz-inner" v-else>
-            <p><i class="hli-icon icon-gz-off"></i></p>
-            <p class="icon-gz-on-tips">未关注</p>
+          <div class="hdi-gz-inner">
+            <p><i class="hli-icon" :class="hotelInfo.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'" @click="switchHeart"></i></p>
+            <p class="icon-gz-on-tips">{{hotelInfo.isMyFavorite == 1 ? '已关注' : '未关注'}}</p>
           </div>
         </div>
       </div>
@@ -102,14 +98,19 @@ export default {
   },
 
   computed: {
-    hotelInfo: function(){
-      let hotelInfo = this.$store.getters["hotelDetail/getHotelInfo"]
+    hotelInfo: {
+      get: function () {
+        let hotelInfo = this.$store.getters["hotelDetail/getHotelInfo"]
 
-      if(hotelInfo){
-        this.picSrc = hotelInfo.picSrc
+        if(hotelInfo){
+          this.picSrc = hotelInfo.picSrc
+        }
+
+        return hotelInfo
+      },
+      set: function (newValue) {
+        this.$store.commit(`hotelDetail/setCommonState`, {t: 'hotel', v: newValue})
       }
-
-      return hotelInfo
     }
   },
   
@@ -121,9 +122,40 @@ export default {
 
     popMap(hotel){
       openMap(hotel)
-    }
+    },
 
-  }
+    switchHeart(){
+      let params = {
+        categoryId: 0,
+        infoId: this.hotelInfo.infoId
+      }
+      let _this = this
+      let isMyFavorite = this.hotelInfo.isMyFavorite
+
+      if(isMyFavorite == 1){
+        // 如果已经关注，则取消关注
+        this.$api.common.syncRemoveFavorite(params).then(res => {
+          if (res.returnCode === 1){
+            _this.hotelInfo.isMyFavorite = -1
+            _this.hotelInfo = Object.assign([], _this.hotelInfo)
+          }else{
+            _this.$message.error(res.returnMsg);
+          }
+        })
+      }else{
+        // 如果还没有关注，则关注
+        this.$api.common.syncSaveFavorite(params).then(res => {
+          if (res.returnCode === 1){
+            _this.hotelInfo.isMyFavorite = 1
+            _this.hotelInfo = Object.assign([], _this.hotelInfo)
+          }else{
+            _this.$message.error(res.returnMsg);
+          }
+        });
+      }
+    }
+  },
+
 }
 </script>
 
