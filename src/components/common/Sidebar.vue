@@ -188,7 +188,8 @@
       },
   
       toTop(){
-        Velocity(document.querySelector('.el-scrollbar__view'), 'scroll', {container: document.querySelector('.el-scrollbar__wrap')})
+//        Velocity(document.querySelector('.el-scrollbar__view'), 'scroll', {container: document.querySelector('.el-scrollbar__wrap')})
+        _scrollTop();
       }
     }
   }
