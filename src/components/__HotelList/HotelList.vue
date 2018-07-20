@@ -49,7 +49,7 @@
           </div>
           
           <div class="hli-check-detail">
-            <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'"></i>
+            <i class="hli-check-gz-icon" :class="o.isMyFavorite == 1 ? 'icon-gz-on' : 'icon-gz-off'" @click="switchHeart(o.infoId)"></i>
             <span class="hli-lowest-price-wrap" v-html="o.minPriceText"></span>
             <router-link target="_blank" :to="queryStr + o.infoId" style="position: absolute;right: 0;top: 75px;">
               <el-button type="primary" class="hli-check-detail-btn" size="small" plain style="font-size: 16px;padding: 9px;" icon="el-icon-document">
@@ -113,8 +113,13 @@ export default {
   },
 
   computed: {
-    hotelList() {
-      return this.$store.getters["hotelList/getHotelList"];
+    hotelList: {
+      get: function () {
+        return this.$store.getters["hotelList/getHotelList"]
+      },
+      set: function (newValue) {
+        this.$store.commit(`hotelList/setCommonState`, {t: 'hotelList', v: newValue})
+      }
     },
 
     cityType(){
@@ -183,6 +188,39 @@ export default {
 
     popMap(hotel){
       openMap(hotel)
+    },
+
+    // 切换关注
+    switchHeart(infoId){
+      let params = {
+        categoryId: 0,
+        infoId: infoId
+      }
+      let _this = this
+      let _thisHotel = _this.hotelList.filter(n => n.infoId == infoId)[0]
+      let isMyFavorite = _thisHotel.isMyFavorite
+
+      if(isMyFavorite == 1){
+        // 如果已经关注，则取消关注
+        this.$api.common.syncRemoveFavorite(params).then(res => {
+          if (res.returnCode === 1){
+            _thisHotel.isMyFavorite = -1
+            _this.hotelList = Object.assign([], _this.hotelList)
+          }else{
+            _this.$message.error(res.returnMsg);
+          }
+        })
+      }else{
+        // 如果还没有关注，则关注
+        this.$api.common.syncSaveFavorite(params).then(res => {
+          if (res.returnCode === 1){
+            _thisHotel.isMyFavorite = 1
+            _this.hotelList = Object.assign([], _this.hotelList)
+          }else{
+            _this.$message.error(res.returnMsg);
+          }
+        });
+      }
     }
   },
 

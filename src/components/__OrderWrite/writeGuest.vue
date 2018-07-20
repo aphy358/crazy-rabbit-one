@@ -2,8 +2,8 @@
 <template>
 	<el-form-item label="入住信息">
 		<div class="guest-outer" :roomNum="roomNum">
-			<div class="guest-group" :maxPersonNum="maxPersonNum" v-for="room in roomArr">
-				<div class="guest-box" v-for="guest in guestArr">
+			<div class="guest-group" :maxPersonNum="maxPersonNum" v-for="(room, i) in roomArr" :key="i">
+				<div class="guest-box" v-for="(guest, j) in guestArr" :key="j">
 					<div class="guest guest-required clearfix">
 						<span class="guest-label">住客{{guest + 1}}：</span>
 						<div class="guest-info-box">

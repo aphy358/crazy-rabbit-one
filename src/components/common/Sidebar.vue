@@ -20,7 +20,7 @@
 						<div class="sidebar-gz-list" v-else>
 							
 							<el-scrollbar style="height: 100%;">
-								<div class="sidebar-gz-item" v-for="o in concernList">
+								<div class="sidebar-gz-item" v-for="o in concernList" :key="o.infoId">
 									<el-card shadow="hover" :data-hotelid="o.infoId" :body-style="{ padding: '16px 10px',borderBottom: '1px dashed gainsboro'}">
 										<a :href="'/#/hotelDetail?' + o.detailLink.split('?')[1]" target="_blank" class="sidebar-hotel-link">
 											<div class="sidebar-gz-img">
@@ -35,7 +35,7 @@
 													<span v-if="!priceList.hasOwnProperty(o.infoId)"><i class="el-icon-loading"></i>加载中</span>
 													<span v-else>{{ priceList[o.infoId] === '暂无价格' ? priceList[o.infoId] : '￥' + priceList[o.infoId] + '起' }}</span>
 												</p>
-												<i :class="!heartList.hasOwnProperty(o.infoId) || heartList[o.infoId] === 1 ? 'icon-gz-on sidebar-gz-icon iconfont-icons iconfont-xinzang' : 'icon-gz-off sidebar-gz-icon iconfont-icons iconfont-xinzang'" :key="o.infoId" @click.prevent.prevent.self="switchHeart(o.infoId)"></i>
+												<i :class="!heartList.hasOwnProperty(o.infoId) || heartList[o.infoId] === 1 ? 'icon-gz-on sidebar-gz-icon iconfont-icons iconfont-xinzang' : 'icon-gz-off sidebar-gz-icon iconfont-icons iconfont-xinzang'" :key="o.infoId" @click.prevent.self="switchHeart(o.infoId)"></i>
 											</div>
 										</a>
 									</el-card>

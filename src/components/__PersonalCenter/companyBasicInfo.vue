@@ -46,7 +46,7 @@
 						<th class="th-option">操作</th>
 					</tr>
 					</thead>
-					<tbody class="list-tbody way-tbody" v-for="o in wayList">
+					<tbody class="list-tbody way-tbody" v-for="(o, i) in wayList" :key="i">
 					
 					<tr class="per-line">
 						<td class="tb-starttime">
@@ -145,7 +145,7 @@
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-				<el-button @click="">取消</el-button>
+				<el-button>取消</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
