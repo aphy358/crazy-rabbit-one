@@ -15,7 +15,7 @@
 							<i class="sidebar-gz-icon-hide el-icon-arrow-right" @click="hideConcern"></i>
 						</div>
 						
-						<div class="sidebar-gz-no-content" v-if="concernList.length <= 0"></div>
+						<div class="sidebar-gz-no-content" v-if="concernList.length <= 0" v-loading="loading"></div>
 						
 						<div class="sidebar-gz-list" v-else>
 							
@@ -80,6 +80,8 @@
         heartList: {},
         
         priceList: {},
+  
+        loading: true,
       }
     },
     
@@ -138,6 +140,7 @@
       },
       
       getMyConcernList(){
+        this.loading = true;
         let params = {
           categoryId: 0,
           pageNum: this.pageNum + 1,
@@ -149,6 +152,8 @@
         this.$api.common.syncGetFavoriteList(params).then(res => {
           _this.concernList = _this.concernList.concat(res.dataList);
           _this.pageTotal = res.pageTotal;
+  
+          _this.loading = false;
           
           _this.getPrice();
         })
@@ -207,9 +212,11 @@
 		}
 	}
 	
-	.el-scrollbar__wrap {
+	
+	.sidebar-gz-list .el-scrollbar__wrap {
 		overflow-x: hidden;
 	}
+	
 </style>
 <style scoped lang="scss">
 	@import "../../assets/jl_sprites";
