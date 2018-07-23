@@ -123,7 +123,7 @@ export default {
             payload.$alert('请先登录', '系统提示', {
               confirmButtonText: '确定',
               callback: action => {
-                payload.$router.push('home')
+                payload.$router.push('/')
               }
             });
           } else {

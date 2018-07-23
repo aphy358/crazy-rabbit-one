@@ -17,7 +17,7 @@
 						
 						<div class="sidebar-gz-no-content" v-if="concernList.length <= 0" v-loading="loading"></div>
 						
-						<div class="sidebar-gz-list" v-else>
+						<div class="sidebar-gz-list" v-else v-loading="loading">
 							
 							<el-scrollbar style="height: 100%;">
 								<div class="sidebar-gz-item" v-for="o in concernList" :key="o.infoId">
@@ -62,8 +62,7 @@
 
 <script>
   import Velocity from 'velocity-animate'
-  import { addDays } from '../../util.js'
-  import { _scrollTop } from '../../store/util.js'
+  import { addDays, _scrollTop } from '../../util.js'
   
   export default {
     name: '',
