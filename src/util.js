@@ -134,8 +134,7 @@ export const _scrollTop = () => {
   let container = document.querySelector('.el-scrollbar__wrap')
   
   if(elem && container){
-    let fixTop = document.querySelector('.search-line-outer.fix-top')
-    fixTop
+    document.querySelector('.search-line-outer.fix-top')
       ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
       : Velocity(elem, 'scroll', {container: container})
     
