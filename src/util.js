@@ -6,7 +6,6 @@ export const isIE = function () {
 //判断浏览器版本是否低于IE9
 export const ltIE9 = function () {
 	var
-		browser = navigator.appName,
 		b_version = navigator.appVersion,
 		version = b_version.split(";");
 
@@ -32,8 +31,8 @@ export const queryString = function (name, targetStr) {
 			r = window.location.search.substr(1).match(reg);
 		}else if(window.location.hash){
 			if (window.location.hash.indexOf('?') !== -1){
-        r = window.location.hash.split('?')[1].match(reg);
-      }
+				r = window.location.hash.split('?')[1].match(reg);
+			}
 		}
 	} else {
 		r = targetStr.match(reg);
@@ -81,19 +80,30 @@ export const formatOne = function (str) {
 }
 
 // 深拷贝
-export const deepCopy = function (p, c) {
-	var i;
-	c = c || {};
-	for (i in p) {
-		if (p.hasOwnProperty(i)) {
-			if (typeof (p[i]) === "object") {
-				c[i] = Array.isArray(p[i]) ? [] : {};
-				deepCopy(p[i], c[i]);
-			} else {
-				c[i] = p[i];
+export const deepCopy = function (p) {
+	let i;
+	let c = Array.isArray(p) ? [] : {}
+
+	if(typeof p === 'object'){
+		if(Array.isArray(p)){
+			for (let i = 0; i < p.length; i++) {
+				c[i] = typeof (p[i]) === "object" 
+					? deepCopy(p[i]) 
+					: p[i]
+			}
+		}else{
+			for (i in p) {
+				if (p.hasOwnProperty(i)) {
+					c[i] = typeof (p[i]) === "object" 
+						? deepCopy(p[i]) 
+						: p[i]
+				}
 			}
 		}
+	}else{
+		c = p
 	}
+	
 	return c;
 }
 
