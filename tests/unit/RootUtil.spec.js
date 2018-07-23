@@ -52,7 +52,26 @@ describe('根目录下的 util.js', () => {
   })
 
 
-  it('throttle 方法', () => {
+  it('throttle 方法', (done) => {
+    let counter = 1
+    let func = function(added){
+      added = added || 0
+      counter += added
+    }
+    
+    throttle(func, 1)
+    throttle(func, 9)
+    throttle(func, 2)
+
+    setTimeout(() => {
+      expect(counter).to.equal(3)
+      throttle(func, 5)
+
+      setTimeout(() => {
+        expect(counter).to.equal(8)
+        done()
+      }, 300)
+    }, 300)
   })
 })
 
