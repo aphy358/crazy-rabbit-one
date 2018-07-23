@@ -1,3 +1,6 @@
+
+import Velocity from 'velocity-animate';
+
 //判断是否是IE浏览器
 export const isIE = function () {
   return !!window.ActiveXObject || "ActiveXObject" in window;
