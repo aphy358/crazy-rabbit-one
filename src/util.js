@@ -1,4 +1,3 @@
-
 import Velocity from 'velocity-animate';
 
 //判断是否是IE浏览器
