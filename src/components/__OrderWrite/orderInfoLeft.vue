@@ -36,11 +36,8 @@
   import specialReq from './specialReq.vue'
   import confirmOrder from './confirmOrder.vue'
   
-  import API from '../../api'
   import { mapState } from 'vuex'
   import Velocity from 'velocity-animate'
-  
-  import {_scrollTop} from '../../store/util.js'
   
   export default {
     data() {

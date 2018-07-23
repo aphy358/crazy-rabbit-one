@@ -127,22 +127,6 @@ export const _queryHotelPriceList = ({ commit, state, dispatch }, payload, hotel
   queryPriceList({ commit, state, dispatch }, {params: params, hotel: hotel})
 }
 
-// 重新查询酒店列表后，触发页面滚动到顶部
-export const _scrollTop = () => {
-  let elem = document.querySelector('.el-scrollbar__view')
-  if(!elem) return;
-  let container = document.querySelector('.el-scrollbar__wrap')
-
-  if(elem && container){
-    let fixTop = document.querySelector('.search-line-outer.fix-top')
-    fixTop
-      ? Velocity(elem, 'scroll', {container: container, offset: '205px'})
-      : Velocity(elem, 'scroll', {container: container})
-
-    Velocity(elem, 'finish')
-  }
-}
-
 // 设置状态的公共函数
 export const _setCommonState = (state, payload) => {
   if(payload.t){

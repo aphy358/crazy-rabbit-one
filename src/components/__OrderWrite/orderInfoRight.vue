@@ -3,7 +3,7 @@
 	<div class="order-info-right fl">
 		<el-row>
 			<el-card :body-style="{ padding: '0px' }">
-				<img src="https://qnb.oss-cn-shenzhen.aliyuncs.com/13657610619700h4341.jpg" class="image">
+				<img :style="content.picSrcThumb === '/common/images/nopic.png' ? { padding: '20px',borderBottom: '1px dashed #ffa825' } : { padding: '0px' }" :src="content.picSrcThumb" class="image">
 				<div class="my-choose">
 					<h6>{{staticInfo.infoName}}</h6>
 					<p>
@@ -107,6 +107,7 @@
 	.image {
 		width: 100%;
 		display: block;
+		box-sizing: border-box;
 	}
 	
 	.my-choose{

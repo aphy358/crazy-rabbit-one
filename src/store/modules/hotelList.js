@@ -1,4 +1,5 @@
-import { _queryHotelPriceList, _scrollTop, _setCommonState } from "../util.js"
+import { _queryHotelPriceList, _setCommonState } from "../util.js"
+import { _scrollTop } from "../../util.js"
 import API from '../../api'
 
 export default {
