@@ -4,6 +4,13 @@ import Vuex from 'vuex'
 import home from '@/store/modules/home'
 import Header from '@/layout/header.vue'
 
+import { addDays } from "@/util.js"
+import { _setCommonState } from "@/store/util.js"
+
+import Vue from 'vue'
+import api from "@/api"
+Vue.use(api)
+
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
@@ -31,16 +38,14 @@ describe('layout 目录下的 header.vue', () => {
     store = new Vuex.Store({
       state: state,
       modules: {
-        myModule: {
-          getters: myModule.getters
-        }
+        home
       }
     })
 
   })
 
   it('方法', () => {
-    const wrapper = shallowMount(Header)
+    const wrapper = shallowMount(Header, { store, localVue })
     // wrapper.find('.i-t-n-user-wrap').trigger('click')
     
   })

@@ -53,11 +53,7 @@ function _h(verb) {
     let _restPath = restPath;
     let _params = params || {};
     let _loginurl = '/userlogin'
-    if (localStorage.loginurl) {
-      _loginurl = localStorage.loginurl
-    } else if (location.href.indexOf('/admin') > 0) {
-      _loginurl = '/admin/login'
-    }
+    
 
     return http[verb](_restPath, _params)
       .then(response => {
@@ -80,7 +76,6 @@ function _h(verb) {
           } else {
             window.location.href = _loginurl
           }
-          localStorage.clear()
           return Promise.reject({
             code: 401,
             message: "登录超时,请重新登录!"
