@@ -130,7 +130,16 @@ export const validator = (_com, _key, options) => {
  * @param {string} type 表示错误类型，如 'required'、'email'、'min' 等
  * @param {function} callback2 表示异步验证的回调函数，可为空
  */
-const _func1 = (valid, _com, _key, msg, type, callback2) => {  
+const _func1 = (valid, _com, _key, msg, type, callback2) => {
+  if(Array.isArray(valid)){
+    callback2 = valid[5]
+    type = valid[4]
+    msg = valid[3]
+    _key = valid[2]
+    _com = valid[1]
+    valid = valid[0]
+  }
+  
   if(Object.prototype.toString.call(valid) === '[object Promise]' && callback2){
     // 如果有第二个回调函数 callback2，则说明验证类型是异步验证
     type = 'remote'
