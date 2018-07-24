@@ -28,6 +28,8 @@
 单元测试：
 
 参考：https://blog.csdn.net/u014196765/article/details/79818042
+https://github.com/vuejs/vue-test-utils-mocha-webpack-example
+
 
 1、安装依赖：cnpm i -D karma karma-webpack phantomjs-prebuilt karma-phantomjs-launcher karma-phantomjs-shim karma-chrome-launcher karma-sourcemap-loader mocha karma-mocha sinon chai sinon-chai karma-sinon-chai karma-spec-reporter karma-coverage
 

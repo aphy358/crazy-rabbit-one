@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Tue Jul 24 2018 16:04:01 GMT+0800 (中国标准时间)
-// var webpack = require('webpack');
-// var webpackConfig = require('./node_modules/@vue/cli-service/webpack.config')
+// "unit": "karma start"
+var webpackConfig = require('./webpack.config.js')
 
 module.exports = function(config) {
   config.set({
@@ -32,27 +32,11 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'tests/unit_karma/**/*.spec.js': ['babel']
+      'tests/unit_karma/**/*.spec.js': ['webpack', 'sourcemap']
     },
 
 
-    webpack: {
-      resolve: {
-        root: __dirname + "/src"
-      },
-      module: {
-        loaders: [{
-          test: /\.vue$/,
-          exclude: [/node_modules/, __dirname + "xxx/xxx/lib"],
-          loader: "babel-loader",
-          query: {
-            compact: false,
-            presets: ["es2015"],
-            plugins: ["es6-promise"]
-          }
-        }]
-      }
-    },
+    webpack: webpackConfig,
 
 
     // test results reporter to use
@@ -78,9 +62,9 @@ module.exports = function(config) {
     autoWatch: false,
 
 
-    // start these browsers
+    // start these browsers Chrome
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['Phantomjs'],
 
 
     // Continuous Integration mode
