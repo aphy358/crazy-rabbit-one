@@ -5,22 +5,6 @@ export const isIE = function () {
   return !!window.ActiveXObject || "ActiveXObject" in window;
 }
 
-//判断浏览器版本是否低于IE9
-export const ltIE9 = function () {
-  var
-    b_version = navigator.appVersion,
-    version = b_version.split(";");
-
-  if (version.length > 1) {
-    var trim_Version = parseInt(version[1].replace(/[ ]/g, "").replace(/MSIE/g, ""));
-    if (trim_Version < 9) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 /**
  * 获取指定的url参数值
  * @param {指定的url参数名} name
