@@ -17,11 +17,18 @@ const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-
 // Date.prototype.Format=function(fmt){var o={"M+":this.getMonth()+1,"d+":this.getDate(),"h+":this.getHours(),"m+":this.getMinutes(),"s+":this.getSeconds(),"q+":Math.floor((this.getMonth()+3)/3),"S":this.getMilliseconds()};if(/(y+)/.test(fmt)){fmt=fmt.replace(RegExp.$1,(this.getFullYear()+"").substr(4-RegExp.$1.length))}for(var k in o){if(new RegExp("("+k+")").test(fmt)){fmt=fmt.replace(RegExp.$1,(RegExp.$1.length==1)?(o[k]):(("00"+o[k]).substr((""+o[k]).length)))}}return fmt};
 
 
 describe('layout 目录下的 header.vue', () => {
+
+  // before(function () {
+  //   this.jsdom = require('jsdom-global')()
+  // })
+
+  // after(function () {
+  //   this.jsdom()
+  // })
 
   let state
   let store
@@ -57,7 +64,9 @@ describe('layout 目录下的 header.vue', () => {
   })
 
   it('方法', (done) => {
-    const wrapper = shallowMount(Header, { store, localVue })
+    // const wrapper = shallowMount(Header, { store, localVue })
+
+    
     // wrapper.find('.i-t-n-user-wrap').trigger('click')
 
     // wrapper.vm.$nextTick(() => {
@@ -66,4 +75,5 @@ describe('layout 目录下的 header.vue', () => {
 
     done()
   })
+
 })

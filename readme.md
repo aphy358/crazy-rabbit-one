@@ -25,4 +25,11 @@
 5、将打包好的这个 dist 文件夹整个替换掉我们原有项目下的 ./node_modules/element-ui/lib 文件夹，这样就可以了，生不生效全凭运气了。
 
 
-6
+单元测试：
+
+参考：https://blog.csdn.net/u014196765/article/details/79818042
+
+1、安装依赖：cnpm i -D karma karma-webpack phantomjs-prebuilt karma-phantomjs-launcher karma-phantomjs-shim karma-chrome-launcher karma-sourcemap-loader mocha karma-mocha sinon chai sinon-chai karma-sinon-chai karma-spec-reporter karma-coverage
+
+2、初始化 karma 配置文件（karma.conf.js）：karma init，注意，这里要用 windows自带的终端执行，否则会报错
+
