@@ -1,5 +1,7 @@
 // Karma configuration
 // Generated on Tue Jul 24 2018 16:04:01 GMT+0800 (中国标准时间)
+// var webpack = require('webpack');
+// var webpackConfig = require('./node_modules/@vue/cli-service/webpack.config')
 
 module.exports = function(config) {
   config.set({
@@ -30,7 +32,26 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'tests/unit_karma/**/*.spec.js': ['webpack', 'sourcemap']
+      'tests/unit_karma/**/*.spec.js': ['babel']
+    },
+
+
+    webpack: {
+      resolve: {
+        root: __dirname + "/src"
+      },
+      module: {
+        loaders: [{
+          test: /\.vue$/,
+          exclude: [/node_modules/, __dirname + "xxx/xxx/lib"],
+          loader: "babel-loader",
+          query: {
+            compact: false,
+            presets: ["es2015"],
+            plugins: ["es6-promise"]
+          }
+        }]
+      }
     },
 
 
