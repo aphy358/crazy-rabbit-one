@@ -3,6 +3,7 @@ node_modules
 /dist
 coverage
 /coverage
+coverage/*
 .nyc_output
 npm-debug.log
 yarn-error.log
