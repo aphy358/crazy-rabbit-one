@@ -24,6 +24,29 @@ module.exports = function(config) {
       ]
     },
 
+
+    // web server port
+    port: 9876,
+
+
     browsers: ['Chrome'],
+
+
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch: true,
+
+
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
+
+
+    // Continuous Integration mode
+    // if true, Karma captures browsers, runs the tests and exits
+    singleRun: false,
+
+
+    // Concurrency level
+    // how many browser should be started simultaneous
+    concurrency: Infinity
   })
 }

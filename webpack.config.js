@@ -77,3 +77,8 @@ if (process.env.NODE_ENV === 'production') {
     })
   ])
 }
+
+
+// test specific setups
+// module.exports.externals = [require('webpack-node-externals')()]
+// module.exports.devtool = 'eval'
