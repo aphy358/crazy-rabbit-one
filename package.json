@@ -7,7 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "vue-cli-service test:unit",
-    "unit": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text mocha-webpack --webpack-config webpack.config.js --require tests/setup.js tests/**/*.spec.js"
+    "unit": "cross-env BABEL_ENV=test karma start --single-run"
   },
   "dependencies": {
     "vue": "^2.5.16",
@@ -25,6 +25,7 @@
     "babel-loader": "^7.1.4",
     "babel-plugin-istanbul": "^4.1.6",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
     "chai": "^4.1.2",
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.2",
@@ -53,6 +54,7 @@
     "sass-loader": "^7.0.1",
     "sinon": "^6.1.4",
     "sinon-chai": "^3.2.0",
+    "style-loader": "^0.21.0",
     "velocity-animate": "^1.5.1",
     "vue-loader": "^15.2.6",
     "vue-style-loader": "^4.1.0",
