@@ -1,7 +1,5 @@
 var path = require('path')
 var webpack = require('webpack')
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
-
 
 module.exports = {
   entry: './src/main.js',
@@ -10,22 +8,18 @@ module.exports = {
     publicPath: '/dist/',
     filename: 'build.js'
   },
-  resolve: {
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': path.resolve(__dirname, 'src')
-    }
-  },
-  plugins: [
-    // make sure to include the plugin for the magic
-    new VueLoaderPlugin()
-  ],
-  mode: 'development',
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+        ],
+      },      
+      {
         test: /\.vue$/,
-        loader: 'vue-loader'
+        loader: 'vue-loader',
       },
       {
         test: /\.js$/,
@@ -38,12 +32,24 @@ module.exports = {
         options: {
           name: '[name].[ext]?[hash]'
         }
-      }
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        loader: 'file-loader'
+      },
     ]
+  },
+  resolve: {
+    alias: {
+      'vue$': 'vue/dist/vue.esm.js',
+      '@': path.resolve(__dirname, 'src')
+    },
+    extensions: ['*', '.js', '.vue', '.json', '.scss']
   },
   devServer: {
     historyApiFallback: true,
-    noInfo: true
+    noInfo: true,
+    overlay: true
   },
   performance: {
     hints: false
@@ -53,6 +59,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
+  // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
@@ -71,8 +78,7 @@ if (process.env.NODE_ENV === 'production') {
   ])
 }
 
+
 // test specific setups
-if (process.env.NODE_ENV === 'test') {
-  module.exports.externals = [require('webpack-node-externals')()]
-  module.exports.devtool = 'eval'
-}
+// module.exports.externals = [require('webpack-node-externals')()]
+// module.exports.devtool = 'eval'

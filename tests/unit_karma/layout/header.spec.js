@@ -22,15 +22,6 @@ Date.prototype.Format=function(fmt){var o={"M+":this.getMonth()+1,"d+":this.getD
 
 describe('layout 目录下的 header.vue', () => {
 
-
-  // before(function () {
-  //   this.jsdom = require('jsdom-global')()
-  // })
-
-  // after(function () {
-  //   this.jsdom()
-  // })
-
   let state
   let store
 
@@ -65,10 +56,9 @@ describe('layout 目录下的 header.vue', () => {
   })
 
   it('方法', (done) => {
-    // const wrapper = shallowMount(Header, { store, localVue })
+    const wrapper = shallowMount(Header, { store, localVue })
 
-    
-    // wrapper.find('.i-t-n-user-wrap').trigger('click')
+    wrapper.find('.i-t-n-user-wrap').trigger('click')
 
     // wrapper.vm.$nextTick(() => {
     //   done()

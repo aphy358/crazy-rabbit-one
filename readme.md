@@ -35,3 +35,5 @@ https://github.com/vuejs/vue-test-utils-mocha-webpack-example
 
 2、初始化 karma 配置文件（karma.conf.js）：karma init，注意，这里要用 windows自带的终端执行，否则会报错
 
+3、"vue-loader": "^13.0.5", "webpack": "^3.6.0",
+
