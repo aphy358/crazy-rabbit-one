@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)](https://travis-ci.org/aphy358/crazy-rabbit-one)
+
 
 项目创建步骤：
 
