@@ -29,15 +29,14 @@ module.exports = function(config) {
     port: 9876,
 
 
-    browsers: ['Chrome', 'ChromeHeadless', 'ChromeHeadlessNoSandbox'],
-
-
-    customLaunchers: {
-      ChromeHeadlessNoSandbox: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
-      }
-    },
+    // 'ChromeHeadless', 'ChromeHeadlessNoSandbox'
+    browsers: ['Chrome'],
+    // customLaunchers: {
+    //   ChromeHeadlessNoSandbox: {
+    //     base: 'ChromeHeadless',
+    //     flags: ['--no-sandbox']
+    //   }
+    // },
 
 
     // enable / disable watching file and executing tests whenever any file changes
