@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "vue-cli-service test:unit",
-    "unit": "cross-env BABEL_ENV=test karma start"
+    "unit": "cross-env BABEL_ENV=test karma start",
+    "cover_test": "find coverage -name lcov.info -print0 | xargs -0 cat | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "dependencies": {
     "vue": "^2.5.16",
@@ -27,6 +28,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
     "chai": "^4.1.2",
+    "coveralls": "^3.0.2",
     "cross-env": "^5.2.0",
     "css-loader": "^1.0.0",
     "element-ui": "^2.4.2",

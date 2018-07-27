@@ -16,3 +16,5 @@ script: npm run unit
 before_install:
   npm install karma-cli coveralls -g
 
+after_success:
+  npm run cover_test
