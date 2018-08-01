@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)](https://travis-ci.org/aphy358/crazy-rabbit-one) [![Coverage Status](https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg)](https://coveralls.io/github/aphy358/crazy-rabbit-one)
+
 
 项目创建步骤：
 
@@ -25,15 +27,21 @@
 5、将打包好的这个 dist 文件夹整个替换掉我们原有项目下的 ./node_modules/element-ui/lib 文件夹，这样就可以了，生不生效全凭运气了。
 
 
+
 单元测试：
 
-参考：https://blog.csdn.net/u014196765/article/details/79818042
-https://github.com/vuejs/vue-test-utils-mocha-webpack-example
-
+参考：https://github.com/vuejs/vue-test-utils-mocha-webpack-example
 
 1、安装依赖：cnpm i -D karma karma-webpack phantomjs-prebuilt karma-phantomjs-launcher karma-phantomjs-shim karma-chrome-launcher karma-sourcemap-loader mocha karma-mocha sinon chai sinon-chai karma-sinon-chai karma-spec-reporter karma-coverage
 
 2、初始化 karma 配置文件（karma.conf.js）：karma init，注意，这里要用 windows自带的终端执行，否则会报错
 
-3、"vue-loader": "^13.0.5", "webpack": "^3.6.0",
+3、"webpack": "^3.6.0", 版本不能太高，不然会报错
+
+4、"vue-loader": "^15.2.6", 必须在 webpack.config.js 加上 const VueLoaderPlugin = require('vue-loader/lib/plugin') ,
+    plugins: [  new VueLoaderPlugin()  ], 并加上 scss 的转义： test: /\.scss$/,
+
+5、如果你尝试着重新安装依赖 cnpm i，但是怎么样都还是没用的话，试着把 npm 的缓存文件删掉然后再重新安装，缓存文件所在目录类似 npmcache 。
+
+6、coveralls，用 GitHub 账号登录 coveralls 网站，然后关联你的项目（和 Travis CI 类似的操作）
 

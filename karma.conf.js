@@ -28,8 +28,20 @@ module.exports = function(config) {
     // web server port
     port: 9876,
 
+    urlRoot: '192.168.2.9:6061',
+    proxies: {
+      '/': 'http://192.168.2.9:6061',
+    },
 
+
+    // 'ChromeHeadless', 'ChromeHeadlessNoSandbox'
     browsers: ['Chrome'],
+    // customLaunchers: {
+    //   ChromeHeadlessNoSandbox: {
+    //     base: 'ChromeHeadless',
+    //     flags: ['--no-sandbox']
+    //   }
+    // },
 
 
     // enable / disable watching file and executing tests whenever any file changes

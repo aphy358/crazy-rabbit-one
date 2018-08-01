@@ -55,16 +55,23 @@ describe('layout 目录下的 header.vue', () => {
 
   })
 
-  it('方法', (done) => {
+  it('header vue组件', (done) => {
     const wrapper = shallowMount(Header, { store, localVue })
-
+    
     wrapper.find('.i-t-n-user-wrap').trigger('click')
+    expect(store.state.showLoginDialog).to.be.true
 
-    // wrapper.vm.$nextTick(() => {
-    //   done()
-    // })
+    // wrapper.find('.')
+    
+    
+    
 
     done()
   })
 
 })
+
+
+// wrapper.vm.$nextTick(() => {
+//   done()
+// })

@@ -1,5 +1,5 @@
 TN:
-SF:D:\codes\crazy-rabbit-one\src\util.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\util.js
 FN:4,(anonymous_0)
 FN:12,(anonymous_1)
 FN:30,(anonymous_2)
@@ -130,7 +130,7 @@ BRF:46
 BRH:22
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\http.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\http.js
 FN:11,(anonymous_0)
 FN:26,_h
 FN:27,(anonymous_2)
@@ -248,7 +248,7 @@ BRF:52
 BRH:4
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\common.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\common.js
 FN:11,(anonymous_0)
 FN:15,(anonymous_1)
 FN:19,(anonymous_2)
@@ -285,7 +285,7 @@ BRF:7
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\hotelList.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\hotelList.js
 FN:10,(anonymous_0)
 FN:14,(anonymous_1)
 FN:18,(anonymous_2)
@@ -322,7 +322,7 @@ BRF:7
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\hotelDetail.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\hotelDetail.js
 FN:5,(anonymous_0)
 FN:9,(anonymous_1)
 FN:13,(anonymous_2)
@@ -343,7 +343,7 @@ BRF:3
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\personalCenter.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\personalCenter.js
 FN:11,(anonymous_0)
 FN:14,(anonymous_1)
 FN:17,(anonymous_2)
@@ -364,7 +364,7 @@ BRF:3
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\home.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\home.js
 FN:5,(anonymous_0)
 FN:9,(anonymous_1)
 FN:13,(anonymous_2)
@@ -393,7 +393,7 @@ BRF:5
 BRH:1
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\orderWrite.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\orderWrite.js
 FN:11,(anonymous_0)
 FN:14,(anonymous_1)
 FN:17,(anonymous_2)
@@ -426,7 +426,7 @@ BRF:6
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\registry.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\registry.js
 FN:5,(anonymous_0)
 FN:9,(anonymous_1)
 FNF:2
@@ -443,7 +443,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\api\index.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\api\index.js
 FN:24,(anonymous_0)
 FNF:1
 FNH:1
@@ -458,7 +458,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\store\util.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\store\util.js
 FN:9,(anonymous_0)
 FN:24,(anonymous_1)
 FN:40,(anonymous_2)
@@ -551,7 +551,7 @@ BRF:12
 BRH:1
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\store\modules\home.js
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\store\modules\home.js
 FNF:0
 FNH:0
 DA:26,0
@@ -563,7 +563,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\components\common\LoginBox.vue
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\components\common\LoginBox.vue
 FN:89,(anonymous_0)
 FNF:1
 FNH:0
@@ -620,7 +620,7 @@ BRF:20
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\components\common\Confirm.vue
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\components\common\Confirm.vue
 FNF:0
 FNH:0
 DA:18,0
@@ -634,7 +634,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:D:\codes\crazy-rabbit-one\src\layout\header.vue
+SF:C:\Users\Administrator\Desktop\crazy-rabbit-one2\src\layout\header.vue
 FN:85,(anonymous_0)
 FN:95,(anonymous_1)
 FNF:2
