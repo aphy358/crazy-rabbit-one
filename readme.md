@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)](https://travis-ci.org/aphy358/crazy-rabbit-one)
+[![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)](https://travis-ci.org/aphy358/crazy-rabbit-one) [![Coverage Status](https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg)](https://coveralls.io/github/aphy358/crazy-rabbit-one)
 
 
 项目创建步骤：
@@ -42,4 +42,6 @@
     plugins: [  new VueLoaderPlugin()  ], 并加上 scss 的转义： test: /\.scss$/,
 
 5、如果你尝试着重新安装依赖 cnpm i，但是怎么样都还是没用的话，试着把 npm 的缓存文件删掉然后再重新安装，缓存文件所在目录类似 npmcache 。
+
+6、coveralls，用 GitHub 账号登录 coveralls 网站，然后关联你的项目（和 Travis CI 类似的操作）
 
