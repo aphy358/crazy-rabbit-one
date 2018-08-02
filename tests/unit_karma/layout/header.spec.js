@@ -1,4 +1,4 @@
-// import { expect } from 'chai'
+import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import store from '@/store'
@@ -34,7 +34,7 @@ describe('layout 目录下的 header.vue', () => {
     const wrapper = shallowMount(Header, { store, localVue })
     
     wrapper.find('.i-t-n-user-wrap').trigger('click')
-    expect(store.state.showLoginDialog).toBe(true)
+    expect(store.state.showLoginDialog).to.be(true)
 
   })
 

@@ -2,7 +2,7 @@
 <template>
 	<div class="sidebar">
 		<div class="sidebar-btn">
-			<el-button type="warning" icon="el-icon-star-off" circle @click="myConcern"></el-button>
+			<el-button type="warning" icon="el-icon-star-off gz" circle @click="myConcern"></el-button>
 			<el-button type="danger" icon="el-icon-arrow-up" circle @click="toTop"></el-button>
 		</div>
 		
