@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { isIE, addDays, queryString, formatOne, deepCopy, throttle } from '@/util'
+import { isIE, addDays, queryString, formatOne, deepCopy, throttle } from '@/utils/util'
 
 
 describe('根目录下的 util.js', () => {
