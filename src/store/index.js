@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { addDays } from "../util.js"
-import { _queryHotelPriceList, _setCommonState } from "./util.js"
+import { addDays } from "../utils/util"
+import { _setCommonState } from "./util_store"
 
 // 引入各个子模块
 import home from './modules/home'
