@@ -3,7 +3,6 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import store from '@/store'
 
-
 import Header from '@/layout/header.vue'
 
 import Vue from 'vue'
@@ -15,10 +14,6 @@ localVue.use(Vuex)
 
 
 describe('layout 目录下的 header.vue', () => {
-
-  beforeEach(() => {
-    
-  })
 
   it('header vue组件', () => {
     const wrapper = shallowMount(Header, { store, localVue })
