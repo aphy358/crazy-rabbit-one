@@ -5,7 +5,7 @@ import qs from 'qs'
 import { Message, Loading } from "element-ui"
 
 // https://github.com/rstacruz/nprogress
-import "nprogress/nprogress.css"
+// import "nprogress/nprogress.css"
 import NProgress from "nprogress"
 
 const printErrorInfo = info => {

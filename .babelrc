@@ -5,7 +5,10 @@
   ],
   "env": {
     "test": {
-      "plugins": ["istanbul"]
+      "plugins": ["istanbul"],
+      "presets": [
+        ["env", { "targets": { "node": "current" }}]
+      ]
     }
   }
 }
