@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import api from "./api"
 
+import "nprogress/nprogress.css"
 import './assets/reset.css'
 
 // 引入 element-ui 和其样式
