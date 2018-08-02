@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import LoginBox from "../components/common/LoginBox"
-import Confirm from "../components/common/Confirm"
+import LoginBox from "../components/LoginBox"
+import Confirm from "../components/Confirm"
 
 export default {
   data() {

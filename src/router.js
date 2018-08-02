@@ -4,21 +4,14 @@ import Router from 'vue-router'
 import Header from './layout/header.vue'
 import Footer from './layout/footer.vue'
 
-// import hotelDetail from './views/hotelDetail.vue'
-// import hotelList from './views/hotelList.vue'
-// import personalCenter from './views/personalCenter.vue'
-// import registry from './views/registry.vue'
-// import home from './views/home.vue'
-// import orderWrite from './views/orderWrite.vue'
-
-const hotelDetail = resolve => require(['./views/hotelDetail.vue'], resolve)
-const hotelList = resolve => require(['./views/hotelList.vue'], resolve)
-const personalCenter = resolve => require(['./views/personalCenter.vue'], resolve)
-const registry = resolve => require(['./views/registry.vue'], resolve)
-const home = resolve => require(['./views/home.vue'], resolve)
-const orderWrite = resolve => require(['./views/orderWrite.vue'], resolve)
-const orderPay = resolve => require(['./views/orderPay.vue'], resolve)
-const paySuccess = resolve => require(['./views/paySuccess.vue'], resolve)
+const hotelDetail = resolve => require(['./views/hotelDetail/index.vue'], resolve)
+const hotelList = resolve => require(['./views/hotelList/index.vue'], resolve)
+const personalCenter = resolve => require(['./views/personalCenter/index.vue'], resolve)
+const registry = resolve => require(['./views/registry/index.vue'], resolve)
+const home = resolve => require(['./views/home/index.vue'], resolve)
+const orderWrite = resolve => require(['./views/orderWrite/index.vue'], resolve)
+const orderPay = resolve => require(['./views/orderPay/index.vue'], resolve)
+const paySuccess = resolve => require(['./views/paySuccess/index.vue'], resolve)
 
 Vue.use(Router)
 

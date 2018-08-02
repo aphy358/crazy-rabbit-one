@@ -26,7 +26,7 @@ module.exports = {
 
   // babel-loader skips `node_modules` deps by default.
   // explicitly transpile a dependency with this option.
-  transpileDependencies: [/* string or regex */],
+  transpileDependencies: [ /* string or regex */ ],
 
   // generate sourceMap for production build?
   productionSourceMap: true,
@@ -71,7 +71,7 @@ module.exports = {
     https: false,
     hotOnly: false,
     // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
-    proxy: 'https://jlfzg.com', // 'http://localhost:8083', 'https://jlfzg.com'  http://192.168.2.9:6061
+    proxy: 'http://192.168.2.9:6061', // 'http://localhost:8083', 'https://jlfzg.com'  http://192.168.2.9:6061
     before: app => {}
   },
 
