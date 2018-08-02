@@ -59,7 +59,7 @@
 						<th class="th-option">操作</th>
 					</tr>
 					</thead>
-					<tbody class="list-tbody order-tbody" v-for="o in orderList">
+					<tbody class="list-tbody order-tbody" v-for="(o, i) in orderList" :key="i">
 					<tr class="per-line">
 						<td class="tb-code">
 							<span>{{ o.orderCode }}</span>
