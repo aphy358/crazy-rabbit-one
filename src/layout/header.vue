@@ -1,6 +1,6 @@
 <template>
   <!-- 顶部导航栏 -->
-  <header class="index-top-nav">
+  <header class="index-top-nav" :class="{'high-zindex': showLoginDialog}">
     <div class="i-t-n-bg"></div>
     <div class="i-t-n-wrap">
       <a href="/#/">
@@ -123,7 +123,11 @@ export default {
 .index-top-nav {
   position: relative;
   height: 60px;
-  z-index: 9999;
+  z-index: 99;
+
+  &.high-zindex{
+    z-index: 9999;
+  }
 
   @at-root .i-t-n-bg {
     height: 100%;

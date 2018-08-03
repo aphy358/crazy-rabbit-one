@@ -133,6 +133,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .el-dialog__headerbtn{
   font-size: 20px!important;
   z-index: 99;
@@ -141,6 +142,7 @@ export default {
 .forget-pwd{
   &.el-tooltip__popper.is-dark{
     background: #7ea5f4;
+    z-index: 9999!important;
   }
 
   &.el-tooltip__popper[x-placement^=right] .popper__arrow, &.el-tooltip__popper[x-placement^=right] .popper__arrow::after{
