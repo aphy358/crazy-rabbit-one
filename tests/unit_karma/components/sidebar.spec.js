@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import Vue from 'vue'
+// import Vue from 'vue'
 import ElementUI from 'element-ui'
 import { mount, createLocalVue  } from '@vue/test-utils'
 import Sidebar from '@/components/Sidebar.vue'
@@ -8,13 +8,20 @@ import Router from 'vue-router'
 import Vuex from 'vuex'
 
 const localVue = createLocalVue();
-Vue.use(api)
-Vue.use(ElementUI)
+// Vue.use(api)
+// Vue.use(ElementUI)
+// Vue.use(Vuex)
 
 localVue.use(Router)
-localVue.use(Vuex)
+// localVue.use(Vuex)
+localVue.use(ElementUI)
+localVue.use(api)
 
 describe('公共组件-侧边栏', () => {
+  const wrapper = mount(Sidebar,{
+    sync : true,
+    localVue
+  });
   
   before(() => {
     api.common.syncCheckcode().then(res => {
@@ -29,62 +36,64 @@ describe('公共组件-侧边栏', () => {
       
       api.common.syncLogin(params).then(res => {
       
-      }).catch(error => {
-      
       })
-    }).catch(error => {
-    
     });
     
   });
   
   
   it('加载关注版面', (done) => {
-    const wrapper = mount(Sidebar,{
-      sync : true,
-      localVue
-    });
     expect(wrapper.vm.isShowConcern).to.equal(false);
     wrapper.find('.gz').trigger('click');
     
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.isShowConcern).to.equal(true);
       done()
-      // console.log(wrapper.vm.isShowConcern);
-      //关注与取消关注事件
-      // wrapper.find('.sidebar-gz-icon').trigger('click', {
-      //   1 : 1
-      // });
-      //
-      // wrapper.vm.$nextTick(() => {
-      //
-      //   expect(wrapper.vm.heartList['1']).to.equal(0)
-      // });
-      
-      
     })
   });
+  
   it('收起关注版面', (done) => {
-    const wrapper = mount(Sidebar,{
-      sync : true,
-      localVue
-    });
     wrapper.find('.gz').trigger('click');
     
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.isShowConcern).to.equal(true);
       //收起关注版面
       wrapper.find('.sidebar-gz-icon-hide').trigger('click');
-      // expect(wrapper.vm.isShowConcern).to.equal('fsgasghg');
       
       wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.isShowConcern).to.equal(false)
-  
-        // expect(wrapper.vm.isShowConcern).to.equal('fjaskhs')
+        expect(wrapper.vm.isShowConcern).to.equal(false);
         done()
       })
       
       done()
     })
-  })
+  });
+  
+  it('点击遮罩层收起关注版面', (done) => {
+    wrapper.find('.gz').trigger('click');
+    
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.isShowConcern).to.equal(true);
+      //收起关注版面
+      wrapper.find('.sidebar-gz-mask').trigger('click');
+      
+      wrapper.vm.$nextTick(() => {
+        expect(wrapper.vm.isShowConcern).to.equal(false);
+        done()
+      })
+      
+      done()
+    })
+  });
+  
+  // it('回到顶部', () => {
+  //   console.log(wrapper.find('.el-scrollbar__thumb'));
+  //   wrapper.find('.to-top').trigger('click');
+  //
+  //   const top = wrapper.find('.el-scrollbar__thumb').attributes().style;
+  //   console.log(top);
+  //
+  //   expect(top).to.have.string('transform: translateY(0%)')
+  // });
+  
 });
