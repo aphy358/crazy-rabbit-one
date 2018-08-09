@@ -64,11 +64,9 @@ describe('layout 目录下的 header.vue', () => {
         let confirm = wrapper.vm.$children[0]
   
         confirm.$emit('close')
-        expect( wrapper.vm.showConfirmLogoutDialog ).to.be.true
+        expect( wrapper.vm.showConfirmLogoutDialog ).to.be.false
       }
-      
     }, 2000)
-
   })
 
 })
