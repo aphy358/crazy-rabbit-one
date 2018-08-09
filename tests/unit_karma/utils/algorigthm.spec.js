@@ -3,7 +3,8 @@ import {
   twoSum,
   bigNumSum,
   bubbleSort,
-  quickSort
+  quickSort,
+  mergeSort
 } from '@/utils/algorigthm'
 
 
@@ -26,11 +27,17 @@ describe('测试 algorigthm.js', () => {
   
   it('冒泡排序', () => {
     expect( bubbleSort([5, 4, 9, 0, 11, 234, 100, 99, 112]) ).to.deep.equal([0, 4, 5, 9, 11, 99, 100, 112, 234])
+    expect( quickSort([5, 4, 9, 0, 11, 2.34, 99, -112]) ).to.deep.equal([-112, 0, 2.34, 4, 5, 9, 11, 99])
   })
 
   it('快速排序', () => {
     expect( quickSort([5, 4, 9, 0, 11, 234, 100, 99, 112]) ).to.deep.equal([0, 4, 5, 9, 11, 99, 100, 112, 234])
     expect( quickSort([5, 4, 9, 0, 11, 2.34, 99, -112]) ).to.deep.equal([-112, 0, 2.34, 4, 5, 9, 11, 99])
+  })
+
+  it('归并排序', () => {
+    expect( mergeSort([5, 4, 9, 0, 11, 234, 100, 99, 112]) ).to.deep.equal([0, 4, 5, 9, 11, 99, 100, 112, 234])
+    expect( mergeSort([5, 4, 9, 0, 11, 2.34, 99, -112]) ).to.deep.equal([-112, 0, 2.34, 4, 5, 9, 11, 99])
   })
 
 })

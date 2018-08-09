@@ -60,6 +60,7 @@ export const bubbleSort = function (nums) {
   return nums
 }
 
+
 // 快速排序
 export const quickSort = function (nums) {
   function sort(low, high) {
@@ -89,4 +90,10 @@ export const quickSort = function (nums) {
   sort(0, nums.length - 1)
 
   return nums
+}
+
+
+// 归并排序
+export const mergeSort = function (nums) {
+
 }
