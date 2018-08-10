@@ -15,42 +15,6 @@ describe('公共组件-侧边栏', () => {
     localVue
   });
   
-  before((done) => {
-    // wrapper.vm.$nextTick().then(promise => {
-    //   console.log(promise);
-    // })
-    api.common.syncCheckcode().then(res => {
-      let params = {
-        accountCode: 'cz135178',
-        username: 'huangqian',
-        password: '1',
-        checkcode: '8998',
-        rememberMe: false
-      };
-
-      api.common.syncLogin(params).then(res => {
-        done()
-      })
-    });
-
-  });
-  // it("登录'", (done) => {
-  //   api.common.syncCheckcode().then(res => {
-  //     let params = {
-  //       accountCode: 'cz135178',
-  //       username: 'huangqian',
-  //       password: '1',
-  //       checkcode: '8998',
-  //       rememberMe: false
-  //     };
-  //
-  //     api.common.syncLogin(params).then(res => {
-  //       done()
-  //     })
-  //     done()
-  //   })
-  // })
-  
   
   it('加载关注版面', (done) => {
     expect(wrapper.vm.isShowConcern).to.equal(false);

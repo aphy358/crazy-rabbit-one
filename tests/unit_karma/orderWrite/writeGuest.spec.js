@@ -16,14 +16,14 @@ localVue.use(Vuex);
 const router = new Router();
 
 describe('订单填写页>入住信息', () => {
-  const wrapper = mount(WriteGuest, {
-    localVue,
-    router,
-    store
-  });
-  
-  it('同一入住人填入一项，其他项也必填', () => {
-    wrapper.vm.modelArr['surname0'] = 'e';
-    expect(wrapper.vm.error['surname0Msg']).to.equal('不能为空');
-  })
+  // const wrapper = mount(WriteGuest, {
+  //   localVue,
+  //   router,
+  //   store
+  // });
+  //
+  // it('同一入住人填入一项，其他项也必填', () => {
+  //   wrapper.vm.modelArr['surname0'] = 'e';
+  //   expect(wrapper.vm.error['surname0Msg']).to.equal('不能为空');
+  // })
 })

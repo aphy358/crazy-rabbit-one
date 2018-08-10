@@ -32,7 +32,7 @@
               <div slot="content">请联系账户管理员或致电<b class="jl-phone">0755-33336999</b></div>
               <a class="find-password" href="#">忘记密码？</a>
             </el-tooltip>
-            <router-link class="register" to="/registry" @click.native="visible = false">免费注册</router-link>
+            <a href="#/registry" class="register" @click.native="visible = false">免费注册</a>
           </div>
         </form>
       </div>
@@ -133,6 +133,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .el-dialog__headerbtn{
   font-size: 20px!important;
   z-index: 99;
@@ -141,6 +142,7 @@ export default {
 .forget-pwd{
   &.el-tooltip__popper.is-dark{
     background: #7ea5f4;
+    z-index: 9999!important;
   }
 
   &.el-tooltip__popper[x-placement^=right] .popper__arrow, &.el-tooltip__popper[x-placement^=right] .popper__arrow::after{

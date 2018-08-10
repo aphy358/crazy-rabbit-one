@@ -232,7 +232,7 @@
 		position: fixed;
 		bottom: 120px;
 		right: 20px;
-		z-index: 10000;
+		z-index: 1000;
 	}
 	
 	.sidebar-btn{
