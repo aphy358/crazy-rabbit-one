@@ -64,18 +64,20 @@ export const bubbleSort = function (nums) {
 // 快速排序
 export const quickSort = function (nums) {
   function sort(low, high) {
-    let i = low, j = high, elem = nums[low]
+    let i = low,
+      j = high,
+      elem = nums[low]
 
-    if(j > i){
+    if (j > i) {
       for (; j > i; j--) {
-        if(nums[j] < elem){
+        if (nums[j] < elem) {
           nums[i++] = nums[j]
           break;
         }
       }
 
       for (; i < j; i++) {
-        if(nums[i] > elem){
+        if (nums[i] > elem) {
           nums[j] = nums[i]
           break;
         }
@@ -94,6 +96,26 @@ export const quickSort = function (nums) {
 
 
 // 归并排序
-export const mergeSort = function (nums) {
+export const mergeSort = function(nums){
+  function merge(left, right){
+    var result = []
+  
+    while(left.length > 0 && right.length > 0){
+      left[0] > right[0]
+        ? result.push(right.shift())
+        : result.push(left.shift())
+    }
+  
+    return result.concat(left).concat(right)
+  }
 
+  if(nums.length < 2){
+    return nums
+  }
+
+  let middle = parseInt(nums.length / 2)
+  let left = nums.slice(0, middle)
+  let right = nums.slice(middle)
+
+  return merge(mergeSort(left), mergeSort(right))
 }
