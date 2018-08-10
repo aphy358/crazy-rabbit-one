@@ -13,10 +13,10 @@ localVue.use(ElementUI)
 localVue.use(Vuex)
 
 describe('layout 目录下的 header.vue', () => {
-
+  
   before(() => {
   });
-
+  
   it("点击了 '您好，请登录'", () => {
     let wrapper = mount(Header, { localVue, store })
     expect(wrapper.vm.$data.showConfirmLogoutDialog).to.be.false
@@ -26,17 +26,17 @@ describe('layout 目录下的 header.vue', () => {
     expect( store.state.showLoginDialog ).to.be.true
     expect( wrapper.find('.index-top-nav.high-zindex') ).not.to.be.null
   })
-
-
+  
+  
   it("关闭登录框", () => {
     let wrapper = mount(Header, { localVue, store })
     let loginBox = wrapper.vm.$children[0]
-
+    
     loginBox.$emit('close')
     expect( store.state.showLoginDialog ).to.be.false
   })
-
-
+  
+  
   it('登录', () => {
     api.common.syncCheckcode().then(res => {
       let params = {
@@ -46,27 +46,27 @@ describe('layout 目录下的 header.vue', () => {
         checkcode: '8998',
         rememberMe: false
       };
-
+      
       api.common.syncLogin(params).then(res => {
       })
     })
   })
-
-
+  
+  
   it('登录后的状态', () => {
     let wrapper = mount(Header, { localVue, store })
     
     setTimeout(() => {
       if(wrapper.vm.user){
         expect( wrapper.vm.user.loginName ).to.equal('fenghan')
-  
+        
         wrapper.find('.log-out-btn').trigger('click')
         let confirm = wrapper.vm.$children[0]
-  
+        
         confirm.$emit('close')
         expect( wrapper.vm.showConfirmLogoutDialog ).to.be.false
       }
     }, 2000)
   })
-
+  
 })

@@ -2,8 +2,8 @@
 <template>
 	<div class="sidebar">
 		<div class="sidebar-btn">
-			<el-button type="warning" icon="el-icon-star-off" circle @click="myConcern"></el-button>
-			<el-button type="danger" icon="el-icon-arrow-up" circle @click="toTop"></el-button>
+			<el-button class="gz" type="warning" icon="el-icon-star-off" circle @click="myConcern"></el-button>
+			<el-button class="to-top" type="danger" icon="el-icon-arrow-up" circle @click="toTop"></el-button>
 		</div>
 		
 		<div class="sidebar-spread">
@@ -20,7 +20,7 @@
 						<div class="sidebar-gz-list" v-else v-loading="loading">
 							
 							<el-scrollbar style="height: 100%;">
-								<div class="sidebar-gz-item" v-for="o in concernList" :key="o.infoId">
+								<div class="sidebar-gz-item" v-for="(o,index) in concernList" :key="index">
 									<el-card shadow="hover" :data-hotelid="o.infoId" :body-style="{ padding: '16px 10px',borderBottom: '1px dashed gainsboro'}">
 										<a :href="'/#/hotelDetail?' + o.detailLink.split('?')[1]" target="_blank" class="sidebar-hotel-link">
 											<div class="sidebar-gz-img">
@@ -120,8 +120,10 @@
         if (!this.heartList.hasOwnProperty(key) || this.heartList[key] === 1){
           this.$api.common.syncRemoveFavorite(params).then(res => {
             if (res.returnCode === 1){
-              _this.heartList[key] = 0;
-              _this.heartList = Object.assign({}, _this.heartList)
+//              _this.heartList[key] = 0;
+//              _this.heartList = Object.assign({}, _this.heartList)
+  
+              _this.$set(_this.heartList, key, 0);
             }else{
               _this.$message.error(res.returnMsg);
             }
@@ -129,8 +131,9 @@
         }else{
           this.$api.common.syncSaveFavorite(params).then(res => {
             if (res.returnCode === 1){
-              _this.heartList[key] = 1;
-              _this.heartList = Object.assign({}, _this.heartList)
+//              _this.heartList[key] = 1;
+//              _this.heartList = Object.assign({}, _this.heartList)
+              _this.$set(_this.heartList, key, 1);
             }else{
               _this.$message.error(res.returnMsg);
             }
@@ -153,7 +156,7 @@
           _this.pageTotal = res.pageTotal;
   
           _this.loading = false;
-          
+  
           _this.getPrice();
         })
       },
@@ -176,15 +179,18 @@
             _this.$api.common.syncGetHotelPriceList(params).then(res => {
               if (res.returnCode === 1){
                 if (res.data.hasOwnProperty('priceMin') && res.data.priceMin !== 0 ){
-                  _this.priceList[v.infoId] = res.data.priceMin;
+//                  _this.priceList[v.infoId] = res.data.priceMin;
+                  _this.$set(_this.priceList, v.infoId, res.data.priceMin);
                 }else{
-                  _this.priceList[v.infoId] = '暂无价格';
+//                  _this.priceList[v.infoId] = '暂无价格';
+                  _this.$set(_this.priceList, v.infoId, '暂无价格');
                 }
               }else{
-                _this.priceList[v.infoId] = '暂无价格';
+//                _this.priceList[v.infoId] = '暂无价格';
+                _this.$set(_this.priceList, v.infoId, '暂无价格');
               }
   
-              _this.priceList = Object.assign({}, _this.priceList)
+//              _this.priceList = Object.assign({}, _this.priceList)
             })
           }
           
