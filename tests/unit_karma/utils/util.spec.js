@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { isIE, addDays, queryString, formatOne, deepCopy, throttle } from '@/utils/util'
 
 
-describe('根目录下的 util.js', () => {
+describe('测试 util.js', () => {
 
   it('isIE 方法', () => {
     expect(isIE()).to.be.false

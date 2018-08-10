@@ -1,6 +1,6 @@
 <template>
   <!-- 顶部导航栏 -->
-  <header class="index-top-nav">
+  <header class="index-top-nav" :class="{'high-zindex': showLoginDialog || showConfirmLogoutDialog}">
     <div class="i-t-n-bg"></div>
     <div class="i-t-n-wrap">
       <a href="/#/">
@@ -12,7 +12,7 @@
           <div class="i-t-n-triangle"></div>
           <div class="i-t-n-user"></div>
           <div>您好，{{user ? user.loginName : '请登录'}}</div>
-          <ul class="i-t-n-drop" v-show="user">
+          <ul class="i-t-n-drop" v-if="user">
             <li>
               <a href="/#/personalCenter">个人中心</a>
             </li>
@@ -25,7 +25,7 @@
             <li>
               <a href="#">发票索取</a>
             </li> -->
-            <li @click="showConfirmLogoutDialog = true">
+            <li class="log-out-btn" @click="showConfirmLogoutDialog = true">
               <a href="#">退出</a>
             </li>
           </ul>
@@ -123,7 +123,11 @@ export default {
 .index-top-nav {
   position: relative;
   height: 60px;
-  z-index: 9999;
+  z-index: 99;
+
+  &.high-zindex{
+    z-index: 9999;
+  }
 
   @at-root .i-t-n-bg {
     height: 100%;
