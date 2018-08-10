@@ -156,7 +156,7 @@
           _this.pageTotal = res.pageTotal;
   
           _this.loading = false;
-          
+  
           _this.getPrice();
         })
       },

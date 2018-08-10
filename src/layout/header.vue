@@ -36,7 +36,7 @@
     </div>
 
     <!-- 登录框 -->
-    <LoginBox v-if="showLoginDialog" @close="closeLoginDialog" />
+    <LoginBox v-if="showLoginDialog" @close="closeLoginDialog"></LoginBox>
 
     <!-- 退出确认框 -->
     <Confirm v-if="showConfirmLogoutDialog" @confirm="logout" @close="showConfirmLogoutDialog = false">
