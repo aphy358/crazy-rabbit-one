@@ -15,6 +15,26 @@ describe('公共组件-侧边栏', () => {
     localVue
   });
   
+  before((done) => {
+    // wrapper.vm.$nextTick().then(promise => {
+    //   console.log(promise);
+    // })
+    api.common.syncCheckcode().then(res => {
+      let params = {
+        accountCode: 'sz2747',
+        username: 'fenghan',
+        password: '1',
+        checkcode: '8998',
+        rememberMe: false
+      };
+
+      api.common.syncLogin(params).then(res => {
+        done()
+      })
+    });
+
+  });
+  
   
   it('加载关注版面', (done) => {
     expect(wrapper.vm.isShowConcern).to.equal(false);
