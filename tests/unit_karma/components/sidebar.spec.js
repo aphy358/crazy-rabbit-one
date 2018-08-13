@@ -26,7 +26,7 @@ describe('公共组件-侧边栏', () => {
       };
       
       api.common.syncLogin(params).then(res => {
-        done()
+      
       })
     });
     
@@ -40,8 +40,9 @@ describe('公共组件-侧边栏', () => {
     wrapper.find('.gz').trigger('click');
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.isShowConcern).to.equal(true);
-      done()
+      
     })
+    done()
     
     // setTimeout(() => {
     //   expect(wrapper.vm.isShowConcern).to.equal(true);
@@ -59,7 +60,7 @@ describe('公共组件-侧边栏', () => {
       
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.isShowConcern).to.equal(false);
-        done()
+        
       })
       
       done()
@@ -76,7 +77,7 @@ describe('公共组件-侧边栏', () => {
       
       wrapper.vm.$nextTick(() => {
         expect(wrapper.vm.isShowConcern).to.equal(false);
-        done()
+        
       })
       
       done()
