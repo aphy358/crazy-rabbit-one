@@ -42,6 +42,7 @@ describe('公共组件-侧边栏', () => {
       expect(wrapper.vm.isShowConcern).to.equal(true);
       done()
     })
+    done()
     
     // setTimeout(() => {
     //   expect(wrapper.vm.isShowConcern).to.equal(true);
