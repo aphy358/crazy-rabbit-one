@@ -120,9 +120,6 @@
         if (!this.heartList.hasOwnProperty(key) || this.heartList[key] === 1){
           this.$api.common.syncRemoveFavorite(params).then(res => {
             if (res.returnCode === 1){
-//              _this.heartList[key] = 0;
-//              _this.heartList = Object.assign({}, _this.heartList)
-  
               _this.$set(_this.heartList, key, 0);
             }else{
               _this.$message.error(res.returnMsg);
@@ -131,8 +128,6 @@
         }else{
           this.$api.common.syncSaveFavorite(params).then(res => {
             if (res.returnCode === 1){
-//              _this.heartList[key] = 1;
-//              _this.heartList = Object.assign({}, _this.heartList)
               _this.$set(_this.heartList, key, 1);
             }else{
               _this.$message.error(res.returnMsg);
@@ -155,15 +150,12 @@
           if (res.returnCode === -400001){
             _this.$message('用户未登录，请登录');
           }else{
-
-//          _this.concernList = _this.concernList.concat(res.dataList);
             _this.$set(_this, 'concernList', _this.concernList.concat(res.dataList));
+            _this.pageTotal = res.pageTotal;
             
             _this.getPrice();
           }
           
-          _this.pageTotal = res.pageTotal;
-  
           _this.loading = false;
   
         })
@@ -187,18 +179,13 @@
             _this.$api.common.syncGetHotelPriceList(params).then(res => {
               if (res.returnCode === 1){
                 if (res.data.hasOwnProperty('priceMin') && res.data.priceMin !== 0 ){
-//                  _this.priceList[v.infoId] = res.data.priceMin;
                   _this.$set(_this.priceList, v.infoId, res.data.priceMin);
                 }else{
-//                  _this.priceList[v.infoId] = '暂无价格';
                   _this.$set(_this.priceList, v.infoId, '暂无价格');
                 }
               }else{
-//                _this.priceList[v.infoId] = '暂无价格';
                 _this.$set(_this.priceList, v.infoId, '暂无价格');
               }
-  
-//              _this.priceList = Object.assign({}, _this.priceList)
             })
           }
           
@@ -206,7 +193,6 @@
       },
   
       toTop(){
-//        Velocity(document.querySelector('.el-scrollbar__view'), 'scroll', {container: document.querySelector('.el-scrollbar__wrap')})
         _scrollTop();
       }
     }
