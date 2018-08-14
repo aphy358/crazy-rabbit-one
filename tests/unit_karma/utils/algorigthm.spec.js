@@ -4,7 +4,8 @@ import {
   bigNumSum,
   bubbleSort,
   quickSort,
-  mergeSort
+  mergeSort,
+  lengthOfLongestSubstring,
 } from '@/utils/algorigthm'
 
 
@@ -38,6 +39,12 @@ describe('测试 algorigthm.js', () => {
   it('归并排序', () => {
     expect( mergeSort([5, 4, 9, 0, 11, 234, 100, 99, 112]) ).to.deep.equal([0, 4, 5, 9, 11, 99, 100, 112, 234])
     expect( mergeSort([5, 4, 9, 0, 11, 2.34, 99, -112]) ).to.deep.equal([-112, 0, 2.34, 4, 5, 9, 11, 99])
+  })
+
+
+  it('给定一个字符串，找出不含有重复字符的最长子串的长度。', () => {
+    expect( lengthOfLongestSubstring('dflkjksfngdg') ).to.equal(7)
+    expect( lengthOfLongestSubstring('123412') ).to.equal(4)
   })
 
 })

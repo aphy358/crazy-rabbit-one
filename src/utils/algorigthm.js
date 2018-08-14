@@ -119,3 +119,37 @@ export const mergeSort = function(nums){
 
   return merge(mergeSort(left), mergeSort(right))
 }
+
+
+/**
+ * 给定一个字符串，找出不含有重复字符的最长子串的长度。
+ * 给定 "abcabcbb" ，没有重复字符的最长子串是 "abc" ，那么长度就是3。
+ * 给定 "bbbbb" ，最长的子串就是 "b" ，长度是1。
+ * 给定 "pwwkew" ，最长子串是 "wke" ，长度是3。请注意答案必须是一个子串，"pwke" 是 子序列  而不是子串。
+ */
+export const lengthOfLongestSubstring = function(str){
+  let lengthArr = []      // 用于存储各个子串的长度
+  let subStrArr = []      // 用于存储各个字串
+
+  for (let i = 0; i < str.length; i++) {
+    let subStr = ''
+
+    for (let j = i; j < str.length; j++) {
+      if(subStr.indexOf(str[j]) === -1){
+        subStr += str[j]
+
+        if(j == str.length - 1){
+          subStrArr.push(subStr)
+          lengthArr.push(subStr.length)
+          break;
+        }
+      }else{
+        subStrArr.push(subStr)
+        lengthArr.push(subStr.length)
+        break;
+      }
+    }
+  }
+
+  return Math.max.apply(this, lengthArr)
+}
