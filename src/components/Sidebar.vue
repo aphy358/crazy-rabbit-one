@@ -8,7 +8,7 @@
 		
 		<div class="sidebar-spread">
 			<div class="sidebar-gz">
-				<div class="sidebar-gz-outer">
+				<div class="sidebar-gz-outer" ref="outer">
 					<div class="sidebar-gz-inner">
 						<div class="sidebar-gz-title">
 							<h1>我的关注</h1>
@@ -97,17 +97,17 @@
         this.heartList = {};
         this.priceList = {};
         this.pageNum = 0;
-        
+  
         this.getMyConcernList();
         
         this.isShowConcern = true;
         
-        Velocity(document.querySelector('.sidebar-gz-outer'), { right : 0 })
+        Velocity(this.$refs.outer, { right : 0 })
       },
       
       hideConcern(){
         this.isShowConcern = false;
-        Velocity(document.querySelector('.sidebar-gz-outer'), { right : '-300px' })
+        Velocity(this.$refs.outer, { right : '-300px' })
       },
       
       switchHeart(key){
