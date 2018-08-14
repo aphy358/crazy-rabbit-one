@@ -157,9 +157,6 @@
           }else{
 
 //          _this.concernList = _this.concernList.concat(res.dataList);
-  
-            console.log(_this.concernList.concat(res.dataList));
-  
             _this.$set(_this, 'concernList', _this.concernList.concat(res.dataList));
             
             _this.getPrice();
@@ -174,8 +171,6 @@
       
       getPrice(){
         let _this = this;
-  
-        console.log(this.concernList);
   
         this.concernList.forEach(function (v, i) {
           if (!v.minPrice){
