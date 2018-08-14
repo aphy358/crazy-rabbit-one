@@ -98,9 +98,9 @@
         this.priceList = {};
         this.pageNum = 0;
   
-        this.getMyConcernList();
-        
         this.isShowConcern = true;
+        
+        this.getMyConcernList();
         
         Velocity(this.$refs.outer, { right : 0 })
       },
@@ -152,18 +152,31 @@
         
         let _this = this;
         this.$api.common.syncGetFavoriteList(params).then(res => {
-          _this.concernList = _this.concernList.concat(res.dataList);
+          if (res.returnCode === -400001){
+            _this.$message('用户未登录，请登录');
+          }else{
+
+//          _this.concernList = _this.concernList.concat(res.dataList);
+  
+            console.log(_this.concernList.concat(res.dataList));
+  
+            _this.$set(_this, 'concernList', _this.concernList.concat(res.dataList));
+            
+            _this.getPrice();
+          }
+          
           _this.pageTotal = res.pageTotal;
   
           _this.loading = false;
   
-          _this.getPrice();
         })
       },
       
       getPrice(){
         let _this = this;
-        
+  
+        console.log(this.concernList);
+  
         this.concernList.forEach(function (v, i) {
           if (!v.minPrice){
             let params = {
