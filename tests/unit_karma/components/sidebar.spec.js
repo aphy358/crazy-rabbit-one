@@ -49,9 +49,9 @@ describe('公共组件-侧边栏', () => {
       _this.timeout(5000)
       api.common.syncLogin(params).then(data => {
         user = data.data.user;
-        done()
       })
     });
+    done()
   });
   
   
