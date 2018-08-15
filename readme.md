@@ -1,7 +1,9 @@
-<center>![](/src/assets/logo.png)</center>
+<div align=center>
+	<img src="/src/assets/logo.png" width="150" height="150" alt=""/>
+</div>
 
 
-<center>[![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)](https://travis-ci.org/aphy358/crazy-rabbit-one) [![Coverage Status](https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg)](https://coveralls.io/github/aphy358/crazy-rabbit-one)</center>
+[![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)](https://travis-ci.org/aphy358/crazy-rabbit-one) [![Coverage Status](https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg)](https://coveralls.io/github/aphy358/crazy-rabbit-one)
 
 
 
