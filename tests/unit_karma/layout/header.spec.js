@@ -37,7 +37,7 @@ describe('layout 目录下的 header.vue', () => {
   })
   
   
-  it('登录', () => {
+  it('登录', (done) => {
     api.common.syncCheckcode().then(res => {
       let params = {
         accountCode: 'sz2747',
@@ -50,6 +50,8 @@ describe('layout 目录下的 header.vue', () => {
       api.common.syncLogin(params).then(res => {
       })
     })
+
+    done()
   })
   
   
@@ -57,6 +59,8 @@ describe('layout 目录下的 header.vue', () => {
     let wrapper = mount(Header, { localVue, store })
     
     setTimeout(() => {
+      console.log(wrapper.vm.user);
+      
       if(wrapper.vm.user){
         expect( wrapper.vm.user.loginName ).to.equal('fenghan')
         
@@ -66,7 +70,7 @@ describe('layout 目录下的 header.vue', () => {
         confirm.$emit('close')
         expect( wrapper.vm.showConfirmLogoutDialog ).to.be.false
       }
-    }, 2000)
+    }, 1900)
   })
   
 })
