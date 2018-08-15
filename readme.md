@@ -2,14 +2,14 @@
 	<img src="/src/assets/logo.png" width="150" height="150" alt=""/>
 </div>
 
-
-<a align=center href="https://travis-ci.org/aphy358/crazy-rabbit-one">
+<div align=center>
+<a href="https://travis-ci.org/aphy358/crazy-rabbit-one">
 	<img src="https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master" alt="Build Status"/>
 </a>
-<a align=center href="https://coveralls.io/github/aphy358/crazy-rabbit-one">
+<a href="https://coveralls.io/github/aphy358/crazy-rabbit-one">
 	<img src="https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg" alt="Build Status"/>
 </a>
-
+</div>
 
 
 
