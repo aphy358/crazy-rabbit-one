@@ -53,7 +53,7 @@ The packaged files will be in the dist folder.
 
 ## Test
 ```bash
-# Unit tests run in PhantomJS with Karma + Mocha + karma-webpack
+# Unit tests run in Chrome with Karma + Mocha + karma-webpack
 npm run unit
 
 # Unit tests run in JSDOM with Jest
