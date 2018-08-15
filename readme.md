@@ -3,7 +3,14 @@
 </div>
 
 
-[<center>![Build Status](https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master)</center>](https://travis-ci.org/aphy358/crazy-rabbit-one) [<center>![Coverage Status](https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg)</center>](https://coveralls.io/github/aphy358/crazy-rabbit-one)
+<a align=center href="https://travis-ci.org/aphy358/crazy-rabbit-one">
+	<img src="https://travis-ci.org/aphy358/crazy-rabbit-one.svg?branch=master" alt="Build Status"/>
+</a>
+<a align=center href="https://coveralls.io/github/aphy358/crazy-rabbit-one">
+	<img src="https://coveralls.io/repos/github/aphy358/crazy-rabbit-one/badge.svg" alt="Build Status"/>
+</a>
+
+
 
 
 
