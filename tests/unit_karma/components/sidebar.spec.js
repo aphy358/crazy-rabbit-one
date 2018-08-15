@@ -9,13 +9,34 @@ const localVue = createLocalVue();
 localVue.use(ElementUI)
 localVue.use(api)
 
+let user = null;
+
+// beforeEach(function(done) {
+//   api.common.syncCheckcode().then(res => {
+//     let params = {
+//       accountCode: 'sz2747',
+//       username: 'fenghan',
+//       password: '1',
+//       checkcode: '8998',
+//       rememberMe: false
+//     };
+//
+//     api.common.syncLogin(params).then(res => {
+//       user = res.data.user;
+//       done()
+//     })
+//   });
+// });
+
 describe('公共组件-侧边栏', () => {
   const wrapper = mount(Sidebar,{
     // sync : true,
     localVue
   });
   
-  before((done) => {
+  
+  before(function (done) {
+    let _this = this;
     api.common.syncCheckcode().then(res => {
       let params = {
         accountCode: 'sz2747',
@@ -24,11 +45,12 @@ describe('公共组件-侧边栏', () => {
         checkcode: '8998',
         rememberMe: false
       };
-      
-      api.common.syncLogin(params).then(res => {
+    
+      _this.timeout(5000)
+      api.common.syncLogin(params).then(data => {
+        user = data.data.user;
       })
     });
-    
     done()
   });
   
