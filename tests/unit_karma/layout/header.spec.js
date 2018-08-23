@@ -55,12 +55,10 @@ describe('layout 目录下的 header.vue', () => {
   })
   
   
-  it('登录后的状态', () => {
+  it('登录后的状态', (done) => {
     let wrapper = mount(Header, { localVue, store })
     
     setTimeout(() => {
-      console.log(wrapper.vm.user);
-      
       if(wrapper.vm.user){
         expect( wrapper.vm.user.loginName ).to.equal('fenghan')
         
@@ -70,6 +68,8 @@ describe('layout 目录下的 header.vue', () => {
         confirm.$emit('close')
         expect( wrapper.vm.showConfirmLogoutDialog ).to.be.false
       }
+
+      done()
     }, 1900)
   })
   
