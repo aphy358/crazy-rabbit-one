@@ -32,7 +32,7 @@
               <div slot="content">请联系账户管理员或致电<b class="jl-phone">0755-33336999</b></div>
               <a class="find-password" href="#">忘记密码？</a>
             </el-tooltip>
-            <a href="#/registry" class="register" @click.native="visible = false">免费注册</a>
+            <a href="#/registry" class="register" @click="$emit('close')">免费注册</a>
           </div>
         </form>
       </div>
