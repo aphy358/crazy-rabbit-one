@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { isIE, addDays, queryString, formatOne, deepCopy, throttle } from '@/utils/util'
+import { isIE, addDays, queryString, formatOne, deepCopy, throttle, debounce } from '@/utils/util'
 
 
 describe('测试 util.js', () => {
@@ -73,6 +73,29 @@ describe('测试 util.js', () => {
     setTimeout(() => {
       expect(counter).to.equal(3)
       throttle(func, 5)
+
+      setTimeout(() => {
+        expect(counter).to.equal(8)
+        done()
+      }, 300)
+    }, 300)
+  })
+
+
+  it('debounce 方法', (done) => {
+    let counter = 1
+    let func = function(added){
+      added = added || 0
+      counter += added
+    }
+    
+    debounce(func)(1)
+    debounce(func)(9)
+    debounce(func)(2)
+
+    setTimeout(() => {
+      expect(counter).to.equal(3)
+      debounce(func)(5)
 
       setTimeout(() => {
         expect(counter).to.equal(8)

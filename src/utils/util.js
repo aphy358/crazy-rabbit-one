@@ -64,6 +64,26 @@ export const throttle = function (func, option, timeGap) {
   }, timeGap);
 }
 
+
+/**
+ * 防抖函数，可以使目标函数在连续的同一操作之后，最后一次操作结束之后再执行
+ * @param {*} func 表示传入的目标函数
+ * @param {*} wait 表示时间间隔，单位毫秒
+ */
+export const debounce = function(func, wait){
+  wait = wait || 300;
+
+  return function(){
+    var args = arguments
+    var context = this
+    clearTimeout(func.tid)
+    func.tid = setTimeout(() => {
+      func.apply(context, args)
+    }, wait)
+  }
+}
+
+
 // 登录
 export const login = function () {
   location.href = '/user/home.do';
@@ -76,23 +96,22 @@ export const formatOne = function (str) {
 
 // 深拷贝
 export const deepCopy = function (p) {
-  let i;
-  let c = Array.isArray(p) ? [] : {}
+  let c
 
   if(typeof p === 'object'){
-    if(Array.isArray(p)){
-      for (let i = 0; i < p.length; i++) {
-        c[i] = typeof (p[i]) === "object" 
-          ? deepCopy(p[i]) 
-          : p[i]
+    var str = Object.prototype.toString.call(p)
+
+    if(~str.indexOf('Null')){
+      c = null
+    }else if(~str.indexOf('Array')){
+      c = []
+      for (var i = 0; i < p.length; i++) {
+        c.push(deepCopy(p[i]))
       }
     }else{
-      for (i in p) {
-        if (p.hasOwnProperty(i)) {
-          c[i] = typeof (p[i]) === "object" 
-            ? deepCopy(p[i]) 
-            : p[i]
-        }
+      c = {}
+      for (var j in p) {
+        c[j] = deepCopy(p[j])
       }
     }
   }else{
@@ -101,6 +120,7 @@ export const deepCopy = function (p) {
   
   return c;
 }
+
 
 // 关闭窗口（兼容各个浏览器）
 export const CloseWebPage = function () {

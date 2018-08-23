@@ -7,7 +7,7 @@
  */
 
 
-import { throttle } from "../utils/util"
+import { debounce } from "../utils/util"
 
 /**
  * 验证器
@@ -66,7 +66,7 @@ export const validator = (_com, _key, options) => {
       if(!_com.errors.validated && !callback2)  continue;
 
       callback2
-        ? throttle(_func1, [rule(), _com, _key, msg, 'coustom', callback2])
+        ? debounce(_func1)(rule(), _com, _key, msg, 'coustom', callback2)
         : _func1(rule(), _com, _key, msg, 'coustom', callback2)
     }else{
       if(!_com.errors.validated)  continue;
