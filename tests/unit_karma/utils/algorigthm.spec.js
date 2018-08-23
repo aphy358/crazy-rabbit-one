@@ -4,6 +4,7 @@ import {
   bigNumSum,
   bubbleSort,
   quickSort,
+  quickSort2,
   mergeSort,
   lengthOfLongestSubstring,
 } from '@/utils/algorigthm'
@@ -34,6 +35,11 @@ describe('测试 algorigthm.js', () => {
   it('快速排序', () => {
     expect( quickSort([5, 4, 9, 0, 11, 234, 100, 99, 112]) ).to.deep.equal([0, 4, 5, 9, 11, 99, 100, 112, 234])
     expect( quickSort([5, 4, 9, 0, 11, 2.34, 99, -112]) ).to.deep.equal([-112, 0, 2.34, 4, 5, 9, 11, 99])
+  })
+
+  it('快速排序2', () => {
+    expect( quickSort2([5, 4, 9, 0, 11, 234, 100, 99, 112]) ).to.deep.equal([0, 4, 5, 9, 11, 99, 100, 112, 234])
+    expect( quickSort2([5, 4, 9, 0, 11, 2.34, 99, -112]) ).to.deep.equal([-112, 0, 2.34, 4, 5, 9, 11, 99])
   })
 
   it('归并排序', () => {
