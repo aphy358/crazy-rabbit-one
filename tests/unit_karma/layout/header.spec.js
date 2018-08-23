@@ -49,9 +49,10 @@ describe('layout 目录下的 header.vue', () => {
       
       api.common.syncLogin(params).then(res => {
       })
-    })
 
+    })
     done()
+
   })
   
   
@@ -59,8 +60,6 @@ describe('layout 目录下的 header.vue', () => {
     let wrapper = mount(Header, { localVue, store })
     
     setTimeout(() => {
-      console.log(wrapper.vm.user);
-      
       if(wrapper.vm.user){
         expect( wrapper.vm.user.loginName ).to.equal('fenghan')
         
