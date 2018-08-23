@@ -208,6 +208,7 @@
 </template>
 
 <script>
+import Velocity from 'velocity-animate';
 import { validator } from "../../utils/validator.js"
 import { Message } from "element-ui"
 import RegistHeader from './RegistHeader'
@@ -588,6 +589,12 @@ export default {
             });
           }
         })
+      }else{
+        setTimeout(() => {
+          let error = document.querySelector('.input-error')
+          let container = document.querySelector('.el-scrollbar__wrap')
+          Velocity(error, 'scroll', {container: container, offset: '-50px'})
+        }, 100)
       }
     },
 
