@@ -29,7 +29,7 @@ export const bigNumSum = function (num1, num2) {
     let tmpSum = (+num1[i] || 0) + (+num2[i] || 0)
     finalArr.push(tmpSum % 10 + flag)
 
-    flag = parseInt(tmpSum / 10)
+    flag = Math.floor(tmpSum / 10)
   }
 
   // 如果最后一位相加大于10，则需要在最后一位补上1
@@ -45,12 +45,8 @@ export const bigNumSum = function (num1, num2) {
 export const bubbleSort = function (nums) {
   for (let i = 0; i < nums.length - 1; i++) {
     for (let j = 0; j < nums.length - 1 - i; j++) {
-      let num1 = nums[j]
-      let num2 = nums[j + 1]
-      let tmp
-
-      if (num1 > num2) {
-        tmp = num1
+      if (nums[j] > nums[j + 1]) {
+        let tmp = nums[j]
         nums[j] = nums[j + 1]
         nums[j + 1] = tmp
       }
@@ -84,7 +80,7 @@ export const quickSort = function (nums) {
       }
 
       nums[i] = elem
-      sort(0, i - 1)
+      sort(0, i - 1)  // 注意这里第一个参数是 0，而不是 low
       sort(i + 1, high)
     }
   }
@@ -174,4 +170,28 @@ export const lengthOfLongestSubstring = function(str){
   }
 
   return Math.max.apply(this, lengthArr)
+}
+
+
+function maxTime(str){
+  var _json = {}
+  var num = 0
+  var _char = ''
+
+  for (let i = 0; i < str.length; i++) {
+    const o = str[i];
+    if(!_json[o]){
+      _json[o] = 1
+    }else{
+      _json[o] = _json[o]++
+    }
+  }
+
+  for (const key in _json) {
+    const element = object[key];
+    if(element > num){
+      num = element
+      _char = key
+    }
+  }
 }
