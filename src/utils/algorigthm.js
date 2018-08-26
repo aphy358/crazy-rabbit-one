@@ -94,18 +94,15 @@ export const quickSort = function (nums) {
 // 快速排序
 export const quickSort2 = function (nums) {
   if(nums.length <= 1)  {return nums}
-
+  
   let midIndex = Math.floor(nums.length / 2)
   let mid = nums.splice(midIndex, 1)[0]
-
-  // let leftArr = nums.filter(n => n < mid)
-  // let rightArr = nums.filter(n => n >= mid)
-
   let leftArr = [], rightArr = []
-
-  nums.forEach(n => {
+  
+  for (let i = 0; i < nums.length; i++) {
+    const n = nums[i];
     n < mid ? leftArr.push(n) : rightArr.push(n)
-  });
+  }
 
   return quickSort2(leftArr)
           .concat(mid)
@@ -131,7 +128,7 @@ export const mergeSort = function(nums){
     return nums
   }
 
-  let middle = parseInt(nums.length / 2)
+  let middle = Math.floor(nums.length / 2)
   let left = nums.slice(0, middle)
   let right = nums.slice(middle)
 
